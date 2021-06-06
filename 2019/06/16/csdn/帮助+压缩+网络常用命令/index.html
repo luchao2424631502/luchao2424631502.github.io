@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>帮助+压缩+网络常用命令 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="帮助+压缩+网络常用命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-16 14:29" pubdate>
+        2019年6月16日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      825 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">帮助+压缩+网络常用命令</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ul>
+<li><code>man :manual 手册</code> <strong>命令</strong>的帮助或者<strong>配置文件</strong>的帮助  <blockquote>
+<ol>
+<li> <code>man ls</code>   </li>
+<li><code>man services</code>   </li>
+<li><code>/ 是在文件内搜索</code><br><code>whereis passwd</code><br><code>1</code>是<strong>命令的帮助</strong><br><code>5</code>是<strong>配置文件的帮助</strong></li>
+</ol>
+<ul>
+<li>例如:<br><code>whereis passwd</code> <strong>一个是命令</strong>,<strong>一个是配置文件的名字</strong>,<br> <br><code>man passwd</code>默认打开的是命令的帮助文档 <br> <code>man 5 passwd</code> 打开的是配置文件的文档(帮助信息)</li>
+</ul>
+</blockquote>
+</li>
+<li><code>whatis ls</code>: 显示命令的名称解释</li>
+<li><code>date</code> 日期</li>
+<li><code>help</code> <strong>查看<code>shell</code>内置命令</strong><blockquote>
+<ol>
+<li><code>help umask</code></li>
+<li><code>which umask</code>找不到<code>shell</code>内置命令的绝对路径</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><ul>
+<li><code>useradd</code></li>
+<li><code>who</code>:查询登录信息 <br> <code>tty</code>: 本地终端<br> <code>pts</code>: 远程终端</li>
+<li><code>w</code>:<strong>查询详细登录信息</strong><br> <code>up time</code> 服务器持续运行时间<br><code>load average</code>服务器负载<br><code>IDLE(懒惰)</code>:未下指令持续的时间<br><code>PCUP</code>:cup占用情况<br><code>JCUP</code>:cup持续占用情况</li>
+</ul>
+<h4 id="压缩-压缩目录需要先打包在压缩"><a href="#压缩-压缩目录需要先打包在压缩" class="headerlink" title="压缩(压缩目录需要先打包在压缩)"></a>压缩(压缩目录需要先打包在压缩)</h4><ul>
+<li><p><code>gzip boduo</code>:<code>GNU zip</code><strong>文件</strong>格式(压缩文件)<code>.gz</code></p>
+</li>
+<li><p><code>gunzip boduo</code> :解压缩</p>
+</li>
+<li><p><code>tar -cvf [压缩后文件名][目录]</code><br> <code>tar :tape archive</code>(磁带档案)<br><code>-c</code>:建立压缩档案(<strong>打包</strong>)<br><code>-x</code>:解开包(<strong><em>和打包对应</em></strong>)<br><code>-v</code>:显示所有过程<br><code>-f</code>:(最后一个参数<strong>必须加</strong>):<br><code>-z</code>:压缩<br> 1. 先打包在压缩<br><code>tar -cvf Japan.tar Japan</code><br> 2.打包同时压缩<br><code>tar -zcvf Japan.tar.zip Japan</code><br>3.打包<br><code>tar -cvf Japan.tar Japan </code><br>4.解包<br><code>tar -xvf Japan.tar</code>  </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">tar –xvf file<span class="hljs-selector-class">.tar</span>         <span class="hljs-comment">// 解压 tar 包 </span><br>tar -xzvf file<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span>     <span class="hljs-comment">// 解压 tar.gz </span><br>tar -xjvf file<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>    <span class="hljs-comment">// 解压 tar.bz2 </span><br>-j 代替了 bz2 <br></code></pre></td></tr></table></figure>
+<p><code>tar.gz tar.bz2</code>都可以先转成<code>tar</code>,然后在解包</p>
+</li>
+<li><p><code>zip</code>：保留原文件,<strong>文件、目录</strong>都可以压缩,<strong>所以要先压缩后的文件名</strong><br><code>zip nihao.zip nihao</code><br><code>zip -r Japan.zip Japan</code>:<code>-r</code> 递归处理文件和子目录</p>
+</li>
+<li><p><code>unzip nihao.zip</code></p>
+</li>
+<li><p><code>bzip2 boduo</code> </p>
+<blockquote>
+<ol>
+<li>文件格式<code>.bz2</code></li>
+<li><code>bzip2 -k boduo</code> <code>:-k keep</code>压缩同时保留原文件</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>bunzip2 bodo.bz2</code></p>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3></li>
+<li><p>给其他(<strong>在线</strong>)用户发送信息</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-built_in">write</span> luchao<br>需要发送的内容<br>ctrl+D退出 ctrl+<span class="hljs-keyword">back</span> 退格<br></code></pre></td></tr></table></figure></li>
+<li><p><code>wall</code>:<code>write all</code>,给所有用户发信息</p>
+<blockquote>
+<ol>
+<li><code>wall hello</code></li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>ping 192.168.152.1</code>发送数据包,检测主机是否存在</p>
+<blockquote>
+<ol>
+<li><code>ping -c 100 192.168.152.1</code>:<code>-c</code>次数</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>ifconfig</code>:<code>interface(接口) configure(配置)</code></p>
+<blockquote>
+<ol>
+<li><code>ifconfig eth0 192.168.152.2</code> 临时更改</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>mail root </code>右面接着内容</p>
+<blockquote>
+<ol>
+<li><code>mail</code>查看邮件</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>last</code> 登录系统的用户信息</p>
+</li>
+<li><p><code>lastlog</code> 所有用户最后一次登录的信息</p>
+<blockquote>
+<ol>
+<li><code>lastlog -u luchao(或者uid)</code>,</li>
+<li><code>id luchao</code>:用户的 uid</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>traceroute www.sina.com.cn</code>显示数据包到主机的路径</p>
+</li>
+<li><p><code>setup</code>配置网络地址(redhat独有)</p>
+</li>
+<li><p><code>netstat</code></p>
+<blockquote>
+<ol>
+<li>端口：接收的服务<br><br> tcp与udp的区别<br><br> 只有接收端口固定</li>
+<li><code>netstat -tlun</code> 本机监听的端口</li>
+<li><code>netstat -an</code> 所有ip地址和端口号</li>
+<li><code>netstat -rn</code> 路由表<br><code>-t</code> tcp协议 <br> <code>-u</code>udp协议<br><code>-l</code> 监听<br><code>-r</code>路由<br><code>-n</code>显示ip地址和端口</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>mount</code></p>
+<blockquote>
+<ol>
+<li><code>scsi + rom</code>:<code>small computer system interface</code>(小型计算机系统接口),<code>sr0</code>:<code>rom</code>接口上的第一个文件</li>
+<li><code>/dev/cdrom</code> 一个软链接<br> <code>ls -l /dev/cdrom</code><br><code>lrwxrwxrwx. 1 root root 3 6月  16 03:33 /dev/cdrom -&gt; sr0</code></li>
+<li><code>mount /dev/cdrom /mnt/cdrom</code>(写成<code>/dev/sr0</code>一样)</li>
+<li><code>umount /dev/cdrom</code>(取消挂载&lt;–&gt;拔出U盘) 因为已经连接上了<code>umount /mnt/cdrom</code>也行</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="关机等"><a href="#关机等" class="headerlink" title="关机等"></a>关机等</h3><ul>
+<li><code>shutdown</code> 关机<blockquote>
+<ol>
+<li><code>shutdown -h</code>关机后停机</li>
+<li><code>shutdown -r</code> 关机后重启</li>
+<li><code>halt</code><br><code>poweroff</code><br><code>init 0</code>等</li>
+<li><code>reboot</code></li>
+</ol>
+</blockquote>
+</li>
+<li><code>init</code>的配置文件<code>/etc/inittab</code><blockquote>
+<ul>
+<li>查看以及修改系统的<code>runlevel</code></li>
+</ul>
+<ol>
+<li><code>runlevel</code>查看系统运行级别</li>
+</ol>
+</blockquote>
+</li>
+<li><code>logout</code>退出登录</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/17/csdn/Vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vim常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/15/csdn/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E5%8F%8A%E6%90%9C%E7%B4%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">文件权限及搜索常用命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

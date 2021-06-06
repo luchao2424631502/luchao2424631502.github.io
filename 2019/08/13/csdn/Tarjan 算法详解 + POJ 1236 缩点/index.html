@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Tarjan 算法详解 + POJ 1236 缩点 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Tarjan 算法详解 + POJ 1236 缩点">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-13 20:45" pubdate>
+        2019年8月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Tarjan 算法详解 + POJ 1236 缩点</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="有向图-directed-graph"><a href="#有向图-directed-graph" class="headerlink" title="有向图(directed graph)"></a>有向图(<code>directed graph</code>)</h3><ul>
+<li>强连通(<code>strongly connected</code>):有向图中的<strong>任意2个顶点</strong><code>v1 v2</code>.存在<code>v1-&gt;v2</code>的路径和<code>v2-&gt;v1</code>的路径,比如环.</li>
+<li>强连通图:有向图中<strong>任意2个顶点</strong>都存在强连通.强连通图1强连通分量(自身)</li>
+<li>强连通分量:有向图中的<strong>极大强连通子图</strong>.<strong>将所有强连通分量缩成点,则原图变成有向无环图(<code>directed acyclic(非周期性) graph</code>)</strong></li>
+</ul>
+<h3 id="Tarjan算法"><a href="#Tarjan算法" class="headerlink" title="Tarjan算法"></a>Tarjan算法</h3><ul>
+<li>有向图中查找强连通分量</li>
+<li>整个算法基于<code>dfs</code></li>
+</ul>
+<hr>
+<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><ol>
+<li>任选节点开始dfs(有向图中可能有<code>dfs</code>仍未访问到的节点,通过标记将所有点都<code>dfs</code>到)<br> 搜索到的点标记后,回溯时不再取消标记(每个点访问一次)</li>
+<li>节点按照访问顺序存入栈中.<code>dfs</code>返回每个节点时检查该点是否是强连通分量的根节点.如果是那么<strong>在栈中在该点出栈前的点就构成了该节点所在的强连通分量</strong>.</li>
+<li><code>dfn[]</code>:表示每个节点是<code>dfs</code>第几个被访问到的.用来找到判断是否有强连通分量.<br><code>low[]</code>:表示从该节点(包括该点)出发的可到达的点的最小<code>dfn[]</code>值</li>
+</ol>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; e[maxn];<br><span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; st;<br><span class="hljs-keyword">int</span> dfn[maxn],low[maxn];<br><span class="hljs-keyword">bool</span> vis[maxn],instack[maxn];<br><span class="hljs-keyword">int</span> cnt;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span> </span>&#123;<br>	dfn[u] = low[u] =  ++cnt;<br>	vis[u] = <span class="hljs-number">1</span>; <span class="hljs-comment">//访问过</span><br>	instack[u] = <span class="hljs-number">1</span>;  <span class="hljs-comment">//标记在栈中</span><br>	st.push(u); <span class="hljs-comment">// 加入栈中</span><br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;e[u].<span class="hljs-built_in">size</span>(); i++) &#123;<br>		<span class="hljs-keyword">int</span> to = e[u][i];<br>		<span class="hljs-keyword">if</span> (!vis[to]) &#123; <span class="hljs-comment">//没有被访问过</span><br>			tarjan(to);<br>			low[u] = <span class="hljs-built_in">min</span>(low[u],low[to]); <span class="hljs-comment">//回溯时 更新每个点的low[u]</span><br>		&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (instack[to]) <span class="hljs-comment">// 如果to在栈中说明下一个点访问过,更新</span><br>			low[u] = <span class="hljs-built_in">min</span>(low[u],dfn[to]); <br>	&#125;<br>	<span class="hljs-comment">// 回溯时判断每个点 是否是 强联通 的 根节点, </span><br>	<span class="hljs-comment">// 这里将有向图中 没有出边的点也记成了一个强联通分量.因为每个点默认 dfn[] = low[]</span><br>	<span class="hljs-comment">// int num = 0;// 看需求是否要记录强联通分量点的个数</span><br>	<span class="hljs-keyword">if</span> (dfn[u] == low[u]) &#123;<br>		<span class="hljs-comment">// 将根节点出栈</span><br>		<span class="hljs-keyword">int</span> cur;<br>		<span class="hljs-keyword">do</span> &#123;<br>			cur = st.top(); st.pop();<br>			instack[cur] = <span class="hljs-number">0</span>;<br>			<span class="hljs-comment">// num++;</span><br>		&#125; <span class="hljs-keyword">while</span>(cur != u); <span class="hljs-comment">//一直删除到根节点</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="http://poj.org/problem?id=1236">POJ 1236</a></p>
+<ul>
+<li>给出一个有向图.</li>
+</ul>
+<ol>
+<li>求走完整个图至少要从几个点出发</li>
+<li>添加多少条边,是的从任意点出发都能达到所有点(强连通图)<h3 id="思路"><a href="#思路" class="headerlink" title="思路:"></a>思路:</h3></li>
+<li><code>tarjan</code>求出强连通的数量,每个点标记其所属的强连通分量,</li>
+<li>然后扫描每个点及其所有出边指向的点.由所属的强连通分量判断这2个点是否属于一个强连通分量.</li>
+<li>缩点:<strong>将强联通分量看成点</strong><br><strong>如果这2个有向图的点属于同一个强连通分量,那么该强连分量缩成的点的入边和出边不变</strong><br><strong>如果这2个点属于不同的强连通分量,那么增加这2点所属的强联通分量所代表点的入边和出边个数</strong></li>
+<li>缩点后:<strong>入边<code>=0</code>的点的个数</strong>就是至少要从几个点出发才能满足走完整个图.<br><br><strong>添加多少条边</strong><code>=max(入边=0的点个数,出边=0的点的个数)</code><h4 id="缩点后变成有向无环图"><a href="#缩点后变成有向无环图" class="headerlink" title="缩点后变成有向无环图"></a>缩点后变成有向无环图</h4><h3 id="随便画个有向无环图-模拟题目的图-使得添加最少边能变成强联通图"><a href="#随便画个有向无环图-模拟题目的图-使得添加最少边能变成强联通图" class="headerlink" title="随便画个有向无环图,模拟题目的图.使得添加最少边能变成强联通图"></a>随便画个有向无环图,模拟题目的图.使得添加最少边能变成强联通图</h3></li>
+</ol>
+<ul>
+<li>找个边界起点画一个环,所添加的边恰好是<code>max()</code>的值<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stack&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">105</span>;<br><br><span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; st;<br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; e[maxn];<br><span class="hljs-keyword">int</span> cnt, index;<br><span class="hljs-keyword">int</span> dfn[maxn], low[maxn],in[maxn],out[maxn],belong[maxn];<br><span class="hljs-keyword">bool</span> vis[maxn];<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">tarjin</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span> </span>&#123;<br>	dfn[u] = low[u] = ++index;<br>	st.push(u);<br>	vis[u] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; e[u].<span class="hljs-built_in">size</span>(); i++) &#123;<br>		<span class="hljs-keyword">int</span> to = e[u][i];<br>		<span class="hljs-keyword">if</span> (!dfn[to]) &#123; <span class="hljs-comment">//dfn[] == 0 时间戳=0说明没有被访问过</span><br>			tarjin(to);<br>			low[u] = <span class="hljs-built_in">min</span>(low[to], low[u]); <span class="hljs-comment">//回溯时更新low[]数组</span><br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (vis[to] &amp;&amp; dfn[to] &lt; low[u]) <span class="hljs-comment">// (to点在栈中)存在环,更新low[u]</span><br>			low[u] = dfn[to];<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> (dfn[u] == low[u]) &#123; <span class="hljs-comment">//存在环</span><br>		cnt++; <span class="hljs-keyword">int</span> m;<br>		<span class="hljs-keyword">do</span> &#123;<br>			m = st.top(); st.pop();<br>			vis[m] = <span class="hljs-number">0</span>;<br>			belong[m] = cnt;<br>		&#125; <span class="hljs-keyword">while</span> (m!=u);<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">suodian</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">int</span> pre = belong[i]; <span class="hljs-comment">//同一强连通分量(环)上点的出入边都=1,缩成一点.也可理解为抵消了</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; e[i].<span class="hljs-built_in">size</span>(); j++) &#123;<br>			<span class="hljs-keyword">int</span> topre = belong[e[i][j]]; <span class="hljs-comment">//topre是点e[i][j]代表的强连通的编号</span><br>			<span class="hljs-keyword">if</span> (pre != topre) &#123;<br>				in[topre]++;<span class="hljs-comment">//i-&gt;j的边 且 i点和j点不在一个强连通分量上</span><br>				out[pre]++;<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-comment">//	freopen(&quot;a.txt&quot;,&quot;r&quot;,stdin);</span><br>	<span class="hljs-keyword">int</span> n; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;n);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>; i&lt;=n; i++)<br>		<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>			<span class="hljs-keyword">int</span> temp; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;temp);<br>			<span class="hljs-keyword">if</span> (!temp) <span class="hljs-keyword">break</span>;<br>			e[i].push_back(temp);<br>		&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>		<span class="hljs-keyword">if</span> (!dfn[i]) tarjin(i);<br>	suodian(n);<br>	<span class="hljs-keyword">int</span> ans1 = <span class="hljs-number">0</span>, ans2 = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= cnt; i++) &#123; <span class="hljs-comment">//强连通缩成点后,点的总数就是强联通分量的个数</span><br>		<span class="hljs-keyword">if</span> (!in[i]) ans1++; <span class="hljs-comment">//起点入边=0,ans1统计起点的数量</span><br>		<span class="hljs-keyword">if</span> (!out[i]) ans2++; <span class="hljs-comment">//终点出边=0,ans2统计终点的数量</span><br>	&#125;<br>	<span class="hljs-keyword">if</span> (ans1 &gt; ans2) ans2 = ans1;<br>	<span class="hljs-keyword">if</span> (cnt == <span class="hljs-number">1</span>) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1\n0\n&quot;</span>);<br>	<span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n%d\n&quot;</span>,ans1,ans2);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Tarjan/">Tarjan</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/14/csdn/Tarjan%E6%B1%82%E5%89%B2%E7%82%B9%E5%8E%9F%E7%90%86%20+%20UVA%20315/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Tarjan求割点原理 + UVA 315</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/13/csdn/HDU%204408%20%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E8%AE%A1%E6%95%B0%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A/">
+                        <span class="hidden-mobile">HDU 4408 最小生成树计数详细解释</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

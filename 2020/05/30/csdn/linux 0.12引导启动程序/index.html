@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>linux 0.12引导启动程序 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="linux 0.12引导启动程序">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-30 17:30" pubdate>
+        2020年5月30日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux 0.12引导启动程序</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="引导启动程序"><a href="#引导启动程序" class="headerlink" title="引导启动程序"></a>引导启动程序</h3><blockquote>
+<p>91年16bit实模式的引导代码是Minix上的as86编译器编译的,现在改为as编译,进入32bit保护模式下后就是gas(现as)编译</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200530172708251.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h4 id="bootsect-S"><a href="#bootsect-S" class="headerlink" title="bootsect.S"></a>bootsect.S</h4><p><img src="https://img-blog.csdnimg.cn/20200530172726893.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>功能:</p>
+<blockquote>
+<p>将自己从0x7c00:0移动到0x9000:0处,并且读入setup.s(4*512=2kb)到自己后面</p>
+<p>将system模块读入到0x1000:0处,然后控制转移给setup.s</p>
+</blockquote>
+<ul>
+<li>在第一个扇区的倒数第6个字节开始分别是SWAP设备号和根文件系统设备号</li>
+</ul>
+<h4 id="setup-S"><a href="#setup-S" class="headerlink" title="setup.S"></a>setup.S</h4><ol>
+<li><p>通过BIOS中断得到磁盘和内存的信息,以及设置当时的显示卡,并且将数据放在bootsect.s处(0x9000:0)</p>
+</li>
+<li><p>移动system模块到0x0000:0开始,</p>
+</li>
+<li><p>加载临时的GDT和IDT(head.s中重新设置)</p>
+</li>
+<li><p>通过键盘控制器端口开启A20地址线,</p>
+</li>
+<li><p>设置中断控制器8259A,</p>
+<p>硬件中断从0x20开始,从片接IR2引脚</p>
+<p>设置完后屏蔽所有中断,置位ISR寄存器</p>
+</li>
+<li><p>CR0,第0位置位(进入保护模式),jmp刷新流水线,并且将控制转移到system模块的head.s</p>
+<blockquote>
+<p>关于显示卡设置略过,没意义</p>
+</blockquote>
+</li>
+</ol>
+<h6 id="8259A中断控制器（设置太复杂"><a href="#8259A中断控制器（设置太复杂" class="headerlink" title="8259A中断控制器（设置太复杂"></a>8259A中断控制器（设置太复杂</h6><p>ICW1:设置成中断沿边沿触发,多片级联</p>
+<p>ICW2:设置中断0-7对应中断号0x20-0x27,从片0x28-0x2f</p>
+<p>ICW3:设置中断优先级0-&gt;(8-15)-&gt;(3-7),因为IR2连从片</p>
+<p>ICW4:设置中断非自动结束,<strong>需要中断处理过程发送EOI</strong></p>
+<ul>
+<li><p>大致原理:</p>
+<blockquote>
+<ol>
+<li>设置初始化命令字</li>
+<li>写入操作命令字</li>
+</ol>
+<p>优先级请求被选中,8259A发出INT信号给CPU,CPU发出的INTA信号响应,<strong>当CPU发出第2个INTA信号,通知8259A在数据总线上给出中断号</strong></p>
+<ol>
+<li>自动结束中断</li>
+<li>手动(发送EOI命令),来复位ISR(正在服务寄存器)对应的中断位,从片也要发</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;../include/linux/config.h&quot;</span></span><br><br>INITSEG = DEF_INITSEG<br>SYSSEG  = DEF_SYSSEG<br>SETUPSEG= DEF_SETUPSEG<br><br>.globl begtext,begdata,begbss,endtext,enddata,endbss<br>.text<br>begtext:<br>.data<br>begdata:<br>.bss<br>begbss:<br>.text<br><br>entry start<br>start:<br>	mov	ax,#INITSEG<br>	mov	ds,ax<br>	<br>!<span class="hljs-keyword">int</span> <span class="hljs-number">0x15</span>功能<span class="hljs-number">0x88</span>取得扩展内存存在<span class="hljs-number">0x90002</span>处<br>	mov	ah,#<span class="hljs-number">0x88</span><br>	<span class="hljs-keyword">int</span>	<span class="hljs-number">0x15</span><br>	mov	[<span class="hljs-number">2</span>],ax<br><br>!<span class="hljs-number">0x12</span>功能,获取EGA配置信息<br>	mov	ah,#<span class="hljs-number">0x12</span><br>	mov	bl,#<span class="hljs-number">0x10</span><br>	<span class="hljs-keyword">int</span> 	<span class="hljs-number">0x10</span><br>	mov	[<span class="hljs-number">8</span>],ax<br>	mov	[<span class="hljs-number">10</span>],bx <br>	mov	[<span class="hljs-number">12</span>],cx<br>!<br>	mov	ax,#<span class="hljs-number">0x5019</span><br>	cmp	bl,#<span class="hljs-number">0x10</span><br>	je	novga<br>	call	chsvga<br>novga:<br>	mov	[<span class="hljs-number">14</span>],ax<br>	mov	ah,#<span class="hljs-number">0x03</span><br>	<span class="hljs-keyword">xor</span>	bh,bh<br>	<span class="hljs-keyword">int</span>	<span class="hljs-number">0x10</span><br>	mov	[<span class="hljs-number">0</span>],dx<br>	<br>!取显卡当前显示模式<br>	mov 	ah,#<span class="hljs-number">0x0f</span><br>	<span class="hljs-keyword">int</span>	<span class="hljs-number">0x10</span><br>	mov	[<span class="hljs-number">4</span>],bx<br>	mov	[<span class="hljs-number">6</span>],ax<br><br>!取第一个硬盘的参数<br>	mov	ax,#<span class="hljs-number">0x0000</span><br>	mov	ds,ax<br>	lds	si,[<span class="hljs-number">4</span>*<span class="hljs-number">0x41</span>]		!中断向量表中参数表地址hd0<br>	mov 	ax,#INITSEG<br>	mov	es,ax<br>	mov 	di,#<span class="hljs-number">0x0080</span>		!存放到<span class="hljs-number">0x9000</span>:<span class="hljs-number">0080</span><br>	mov 	cx,#<span class="hljs-number">0x10</span><br>	rep<br>	movsb<br>!hd1参数表地址<br>	mov 	ax,#<span class="hljs-number">0x0000</span><br>	mov 	ds,ax<br>	lds	si,[<span class="hljs-number">4</span>*<span class="hljs-number">0x46</span>]<br>	mov 	ax,#INITSEG<br>	mov 	es,ax<br>	mov	di,#<span class="hljs-number">0x0090</span><br>	mov	cx,#<span class="hljs-number">0x10</span><br>	rep<br>	movsb<br>	<br>!检查系统是否有第<span class="hljs-number">2</span>个硬盘<br>	mov 	ax,#<span class="hljs-number">0x1500</span><br>	mov 	dl,#<span class="hljs-number">0x81</span>		!驱动器号<span class="hljs-number">0x81</span>第一个硬盘<br>	<span class="hljs-keyword">int</span> 	<span class="hljs-number">0x13</span><br>	jc	no_disk1<br>	cmp	ah,#<span class="hljs-number">3</span>			!是否是硬盘<br>	je 	is_disk1<br>no_disk1:<br>	mov 	ax,#INITSEG		!第<span class="hljs-number">2</span>个存储介质不存在,<br>	mov 	es,ax<br>	mov 	di,#<span class="hljs-number">0x0090</span><br>	mov 	cx,#<span class="hljs-number">0x10</span><br>	mov 	ax,#<span class="hljs-number">0x00</span><br>	rep<br>	stosb<br>is_disk1:<br>	cli				!禁止外部中断<br>	<br>!首先将system移动到从内存地址<span class="hljs-number">0x0000</span>开始<br>	mov 	ax,#<span class="hljs-number">0x0000</span><br>	cld<br>do_move:<br>	mov	es,ax<br>	add	ax,#<span class="hljs-number">0x1000</span><br>	cmp	ax,#<span class="hljs-number">0x9000</span><br>	jz	end_move<br>	mov	ds,ax			!初始化为<span class="hljs-number">0x1000</span>:<span class="hljs-number">0x0</span><br>	sub	di,di<br>	sub	si,si<br>	mov	cx,#<span class="hljs-number">0x8000</span>		!<br>	rep<br>	movsw<br>	jmp 	do_move<br><br>!加载段描述符<br>end_move:<br>	mov	ax,#SETUPSEG<br>	mov	ds,ax			!指向本程序<br>	lidt	idt_48			!加载IDT寄存器<br>	lgdt	gdt_48			!加载GDT寄存器<br><br>!开启A20地址线<br>	call	empty_8042		!键盘芯片,等待输入缓冲区为空<br>	mov	al,#<span class="hljs-number">0xD1</span><br>	out 	#<span class="hljs-number">0x64</span>,al		<br>	call 	empty_8042<br>	mov	al,#<span class="hljs-number">0xDF</span><br>	out	#<span class="hljs-number">0x60</span>,al<br>	call 	empty_8042		!<br><br>!主片端口<span class="hljs-number">0x20</span>,<span class="hljs-number">0x21</span>,从片端口<span class="hljs-number">0xA0</span><span class="hljs-number">-0xA1</span>,	<br>	mov	al,#<span class="hljs-number">0x11</span><br>	out	#<span class="hljs-number">0x20</span>,al		!ICW1=<span class="hljs-number">0x11</span><br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	out 	#<span class="hljs-number">0xA0</span>,al		!从片<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	<br>!Liux系统硬件中断从<span class="hljs-number">0x20</span>开始<br>	mov	al,#<span class="hljs-number">0x20</span><br>	out	#<span class="hljs-number">0x21</span>,al		!ICW2=<span class="hljs-number">0x20</span>(对应中断号从<span class="hljs-number">0x20</span>开始<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	mov	al,#<span class="hljs-number">0x28</span><br>	out	#<span class="hljs-number">0xA1</span>,al		!从片ICW2<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	mov	al,#<span class="hljs-number">0x04</span>		!主片ICW3=<span class="hljs-number">0x04</span><br>	out	#<span class="hljs-number">0x21</span>,al		!<br>	<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	mov	al,#<span class="hljs-number">0x02</span><br>	out	#<span class="hljs-number">0xA1</span>,al		!从片ICW3<br><br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	mov	al,#<span class="hljs-number">0x01</span>		<br>	out	#<span class="hljs-number">0x21</span>,al		!主片ICW4=<span class="hljs-number">0x01</span><br><br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	out	#<span class="hljs-number">0xA1</span>,al		!从片ICW4<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	mov	al,#<span class="hljs-number">0xFF</span>		!屏蔽所有的中断(主+从<br>	out	#<span class="hljs-number">0x21</span>,al<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	out	#<span class="hljs-number">0xA1</span>,al<br><br>!修改cr0,进入保护模式<br>	mov	ax,#<span class="hljs-number">0x0001</span><br>	lmsw	ax<br>	jmpi	<span class="hljs-number">0</span>,<span class="hljs-number">8</span>			!第一个段选择子=代码段描述符<br>!从上面开始机器去执行system中的代码<br>		<br>!当输入缓冲器为空时,执行写命令,(键盘控制器的端口作为与A20地址线,<br>empty_8042:<br>	.word	<span class="hljs-number">0x00eb</span>,<span class="hljs-number">0x00eb</span><br>	in	al,#<span class="hljs-number">0x64</span>		!读取AT键盘控制器状态寄存器<br>	test	al,#<span class="hljs-number">2</span>			!<br>	jnz	empty_8042<br>	ret<br>	<br>!显示卡部分未写<br><br><br>gdt:<br>	.word	<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>!内核代码段选择符<span class="hljs-number">0x08</span><br>	.word	<span class="hljs-number">0x07FF</span><br>	.word	<span class="hljs-number">0x0000</span><br>	.word	<span class="hljs-number">0x9A00</span><br>	.word	<span class="hljs-number">0x00C0</span><br>!内核数据段	<span class="hljs-number">0x10</span><br>	.word	<span class="hljs-number">0x07FF</span><br>	.word	<span class="hljs-number">0x0000</span><br>	.word	<span class="hljs-number">0x9200</span><br>	.word	<span class="hljs-number">0x00C0</span><br>idt_48:<br>	.word	<span class="hljs-number">0</span><br>	.word	<span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>gdt_48:<br>	.word	<span class="hljs-number">0x800</span><br>	.word	<span class="hljs-number">512</span>+gdt,<span class="hljs-number">0x9</span>		!<span class="hljs-number">0x9000</span>:<span class="hljs-number">512</span>+gdt<br><br>msg1:<br>	.ascii	<span class="hljs-string">&quot;Press &lt;RETURN&gt; to see SVGA-modes available or any other key to continue.&quot;</span><br>	db	<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x00</span><br>msg2:<br>	.ascii	<span class="hljs-string">&quot;Mode:	COLSxROWS:&quot;</span><br>	db	<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x00</span><br>msg3:<br>	.ascii	<span class="hljs-string">&quot;Choose mode by pressing the corresponding number.&quot;</span><br>	db	<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x00</span><br><br>!显卡特征数据串<br>idati:<br>	.ascii	<span class="hljs-string">&quot;761295520&quot;</span><br>idcandt:<br>	.byte	<span class="hljs-number">0xa5</span><br>idgenoa:<br>	.byte	<span class="hljs-number">0x77</span>,<span class="hljs-number">0x00</span>,<span class="hljs-number">0x66</span>,<span class="hljs-number">0x99</span><br>idparadise:<br>	.ascii	<span class="hljs-string">&quot;VGA=&quot;</span><br>!..................<br><br>.text<br>endtext:<br>.data<br>enddata:<br>.bss<br>endbss:<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200530172812761.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<h4 id="head-s"><a href="#head-s" class="headerlink" title="head.s"></a>head.s</h4><blockquote>
+<p>后面的都是AT&amp;T格式,采用gas编译,第6个扇区开始,</p>
+<p>重新设置IDT,IDT用简单中断处理过程填满IDT表,避免找不到中断处理历程出错,(后续在改IDT)</p>
+<p>重新设置GDT,仍是一个内核代码段一个数据段描述符,段长修改为16MB,和IDT一起放在head.s末尾</p>
+<p>内核栈定义在/kernel/sched.c中(此时我还没看main.c后面代码)</p>
+<p>初始化协处理器(浮点运算)</p>
+<p><strong>转跳到0x0540:0x0000处执行页目录和页表初始化</strong></p>
+<p>0x0000:0x0到0x0500:0作为1个页目录和4个页表的内存空间,紧跟1024个字节作为软盘缓冲区,（原来是head.s代码,现在接下来代码写覆盖了)</p>
+<p>通过设置前16MB的线性地址和物理地址是一样的(经过分页部件转换后也一样)</p>
+<p>将main参数和main地址入栈,控制转移到main中</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><code class="hljs c">.text<br>.globl _idt,_gdt,_pg_dir,_tmp_floppy_area<br>_pg_dir:<br><br>startup_32:<br>	movl	$<span class="hljs-number">0x10</span>,%eax	#数据段选择子<br>	mov	%ax,%ds<br>	mov	%ax,%es<br>	mov	%ax,%fs<br>	mov	%ax,%gs<br>#设置内核的栈,_stack_start定义在 kernel/sched.c中<br>	lss	_stack_start,%esp<br><br>#重新设置IDT和GDT<br>	call	setup_idt<br>	call	setup_gdt<br>	movl	$<span class="hljs-number">0x10</span>,%eax<br>	mov	%ax,%ds<br>	mov	%ax,%es<br>	mov	%ax,%fs<br>	mov	%ax,%gs<br>	#重新设置内核栈<br>	lss	_stack_start,%esp<br>	<br>	xorl	%eax,%eax<br><span class="hljs-number">1</span>:<br>	incl	%eax<br>	movl	%eax,<span class="hljs-number">0x000000</span>		#向<span class="hljs-number">0x0</span>地址写入eax值<br>	cmpl	%eax,<span class="hljs-number">0x100000</span>		#判断地址<span class="hljs-number">1</span>M是否也是这个值,<br>	je	<span class="hljs-number">1b</span><br>	<br>	movl	%cr0,%eax<br>	andl	$<span class="hljs-number">0x80000011</span>,%eax	#PG,PE,ET位<br>	orl	$<span class="hljs-number">2</span>,%eax			<span class="hljs-meta">#set MP位</span><br>	movl	%eax,%cr0<br>	call	check_x87<br>	jmp	after_page_tables	<br><br>	<br>#<br>check_x87:<br>	fninit				#初始化协处理器<br>	fstsw	%ax<br>	cmpb	$<span class="hljs-number">0</span>,%al<br>	je	<span class="hljs-number">1f</span><br>	movl	%cr0,%eax<br>	xorl	$<span class="hljs-number">6</span>,%eax<br>	movl	%eax,%cr0<br>	ret<br><br>.align <span class="hljs-number">2</span><br><span class="hljs-number">1</span>:	.byte	<span class="hljs-number">0xDB</span>,<span class="hljs-number">0xE4</span><br>	ret<br><br>#设置中断门描述符,然后填入IDT表中<span class="hljs-number">256</span>项<br>setup_idt:<br>	lea	ignore_int,%edx<br>	movl	$<span class="hljs-number">0x00080000</span>,%eax	#GDT代码段选择符<br>	movw	%dx,%ax			#低位是过程入口点<span class="hljs-number">0</span><span class="hljs-number">-15b</span>it<br>	movw	$<span class="hljs-number">0x8E00</span>,%dx		#中断门描述符属性<br>	lea	_idt,%edi<br>	mov	$<span class="hljs-number">256</span>,%ecx<br>rp_sidt:<br>	movl	%eax,(%edi)		#<br>	movl	%edx,<span class="hljs-number">4</span>(%edi)<br>	addl	$<span class="hljs-number">8</span>,%edi<br>	dec	%ecx<br>	jne	rp_sidt			#!=<span class="hljs-number">0</span>就转跳<br>	<br>	lidt	idt_descr		#加载IDTR<br>	ret<br>	<br>setup_gdt:<br>	lgdt	gdt_descr<br>	ret<br><br>.org	<span class="hljs-number">0x1000</span><br>pg0:<br>.org	<span class="hljs-number">0x2000</span><br>pg1:<br>.org	<span class="hljs-number">0x3000</span><br>pg2:<br>.org	<span class="hljs-number">0x4000</span><br>pg3:	<br><br>.org	<span class="hljs-number">0x5000</span><br>_tmp_floppy_area:<br>	.fill	<span class="hljs-number">1024</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span><br>	<br>after_page_tables:<br>	pushl	$<span class="hljs-number">0</span><br>	pushl	$<span class="hljs-number">0</span><br>	pushl	$<span class="hljs-number">0</span><br>	pushl	$L6<br>	pushl	$_main<br>	jmp	setup_paging<br>L6:<br>	jmp	L6<br><br>int_msg:<br>	.asciz	<span class="hljs-string">&quot;Unknown interrupt\n\r&quot;</span>	#每个字符串后面会添加<span class="hljs-literal">NULL</span>字符<br><br>.align <span class="hljs-number">2</span>	#<span class="hljs-number">2</span>^<span class="hljs-number">2</span>=<span class="hljs-number">4</span>字节对齐<br>ignore_int:<br>	pushl	%eax<br>	pushl	%ecx<br>	pushl	%edx<br>	push	%ds<br>	push	%es<br>	push	%fs<br>	movl	$<span class="hljs-number">0x10</span>,%eax	#数据段选择子<br>	mov	%ax,%ds<br>	mov	%ax,%es<br>	mov	%ax,%fs<br>	pushl	$int_msg	#int_msg地址入栈<br>	call	_printk		#此函数在/kernel/printk.c中<br>	popl	%eax		#int_msg地址给eax寄存器<br>	pop	%fs<br>	pop	%es<br>	pop	%ds<br>	popl	%edx<br>	popl	%ecx<br>	popl	%eax<br>	iret			#通用中断返回<br><br>.align <span class="hljs-number">2</span><br>setup_paging:<br>	movl	$<span class="hljs-number">1024</span>*<span class="hljs-number">5</span>,%ecx	#<span class="hljs-number">1</span>页目录+<span class="hljs-number">4</span>页表清零<br>	xorl	%eax,%eax<br>	xorl	%edi,%edi<br>	<br>	cld;rep;stosl		#将EAX填入ES:EDI中<br><br>#填写页目录前<span class="hljs-number">4</span>项,分配所有的<span class="hljs-number">16</span>Mb物理内存空间<br>	movl	$pg0+<span class="hljs-number">7</span>,_pg_dir		#+<span class="hljs-number">7</span>表示<span class="hljs-number">3</span>个<span class="hljs-number">1</span>的属性<br>	movl	$pg1+<span class="hljs-number">7</span>,_pg_dir+<span class="hljs-number">4</span><br>	movl	$pg2+<span class="hljs-number">7</span>,_pg_dir+<span class="hljs-number">8</span><br>	movl	$pg3+<span class="hljs-number">7</span>,_pg_dir+<span class="hljs-number">12</span><br>#<br>	movl	$pg3+<span class="hljs-number">4092</span>,%edi<br>	movl	$<span class="hljs-number">0xfff007</span>,%eax		#<span class="hljs-number">16</span>Mb<span class="hljs-number">-4096</span>+<span class="hljs-number">7</span><br><br>	<span class="hljs-built_in">std</span><br><span class="hljs-number">1</span>:<br>	stosl<br>	subl	$<span class="hljs-number">0x1000</span>,%eax<br>	jge <span class="hljs-number">1b</span><br><br>#设置页目录表基础地址<br>	xorl	%eax,%eax<br>	movl	%eax,%cr3		#设置CR3,页目录基地址<br>	movl	%cr0,%eax<br>	orl	$<span class="hljs-number">0x80000000</span>,%eax<br>	movl	%eax,%cr0<br>	ret				#转跳到main函数<br><br>.align <span class="hljs-number">2</span><br>	.word	<span class="hljs-number">0</span>		#<span class="hljs-number">4</span>字节对齐,和下面组合起来=<span class="hljs-number">4</span>字节<br>idt_descr:<br>	.word	<span class="hljs-number">256</span>*<span class="hljs-number">8</span><span class="hljs-number">-1</span><br>	.<span class="hljs-keyword">long</span>	_idt<br>.align <span class="hljs-number">2</span><br>	.word	<span class="hljs-number">0</span><br>gdt_descr:<br>	.word	<span class="hljs-number">256</span>*<span class="hljs-number">8</span><span class="hljs-number">-1</span><br>	.<span class="hljs-keyword">long</span>	_gdt<br>.align <span class="hljs-number">3</span><br>_idt:<br>	.fill	<span class="hljs-number">256</span>,<span class="hljs-number">8</span>,<span class="hljs-number">0</span><br>_gdt:<br>	.quad	<span class="hljs-number">0x0000000000000000</span><br>	.quad	<span class="hljs-number">0x00c09a0000000fff</span>	#修改代码段段长度=<span class="hljs-number">16</span>MB(下同<br>	.quad	<span class="hljs-number">0x00c0920000000fff</span>	<br>	.quad	<span class="hljs-number">0x0000000000000000</span><br>	.fill	<span class="hljs-number">252</span>,<span class="hljs-number">8</span>,<span class="hljs-number">0</span><br><br></code></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2020053017292573.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<hr>
+<p>关于A20地址线和8259A编程大致了解就好</p>
+<p>参考&lt;&lt;X86实模式保护模式&gt;&gt;和&lt;&lt;linux内核完全注释0.12&gt;&gt;</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cherisegege/article/details/79834476">seg指定段超越前缀</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cherisegege/article/details/79835737">BIOS磁盘服务int 0x13</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/trochiluses/article/details/19355425">汇编jXX转移指令参考</a><br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/INT_10H">BIOS int 0x10中断</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012640985/article/details/24413445">Intel 8042键盘控制器详细介绍</a><br><a target="_blank" rel="noopener" href="http://www.hgy413.com/hgydocs/IA32/">IA-32指令手册</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Orange‘s:保护模式小总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/22/csdn/Linux%200.1x%E6%89%80%E6%9C%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(bochs%E8%BF%90%E8%A1%8C0.12%E5%86%85%E6%A0%B8+%E5%92%8C0.12%E4%BC%A0%E9%80%92%E6%96%87%E4%BB%B6+%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95%E4%BE%8B%E7%A8%8B)/">
+                        <span class="hidden-mobile">Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

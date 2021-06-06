@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>移动语义 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="移动语义">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-14 18:19" pubdate>
+        2021年1月14日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">移动语义</h1>
+            
+            <div class="markdown-body">
+              <h3 id="移动语义-Move-Semantics"><a href="#移动语义-Move-Semantics" class="headerlink" title="移动语义 Move Semantics"></a>移动语义 Move Semantics</h3><blockquote>
+<p>为了减少拷贝构造函数在堆上重新分配内存的时间,并且构造函数的参数是临时值,</p>
+<p>使用右值引用来构造类,此构造函数的实现要把原来的资源指针设置为空<code>nullptr</code>,delete才不会出错</p>
+<p>在Entity初始化列表中,声明了一个类型是右值引用的左值,所以要通过<code>std::move()</code>强行转化为右值引用,</p>
+<p>也可以直接写强制类型转换<code>(String&amp;&amp;)</code></p>
+<p>然后对比测试一下执行时间</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ps(str) std::cout &lt;&lt; str; </span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Timer</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	Timer(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name)<br>		:m_Name(name), m_Stopped(<span class="hljs-literal">false</span>)<br>	&#123;<br>		m_StartTimepoint = <span class="hljs-built_in">std</span>::chrono::high_resolution_clock::now();<br>	&#125;<br>	~Timer()<br>	&#123;<br>		<span class="hljs-keyword">if</span> (!m_Stopped)<br>		&#123;<br>			Stop();<br>		&#125;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Stop</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">auto</span> endTimePoint = <span class="hljs-built_in">std</span>::chrono::high_resolution_clock::now();<br><br>		<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> start = <span class="hljs-built_in">std</span>::chrono::time_point_cast&lt;<span class="hljs-built_in">std</span>::chrono::microseconds&gt;(m_StartTimepoint).time_since_epoch().count();<br>		<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> end = <span class="hljs-built_in">std</span>::chrono::time_point_cast&lt;<span class="hljs-built_in">std</span>::chrono::microseconds&gt;(endTimePoint).time_since_epoch().count();<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;花费时间: &quot;</span> &lt;&lt; (end - start) &lt;&lt; <span class="hljs-string">&quot; ms\n&quot;</span>;<br>		m_Stopped = <span class="hljs-literal">true</span>;<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* m_Name;<br>	<span class="hljs-built_in">std</span>::chrono::time_point&lt;<span class="hljs-built_in">std</span>::chrono::steady_clock&gt; m_StartTimepoint;<br>	<span class="hljs-keyword">bool</span> m_Stopped;<br><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">//默认构造函数</span><br>	String() = <span class="hljs-keyword">default</span>;<br>	<span class="hljs-comment">//接受const char*构造函数</span><br>	String(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* <span class="hljs-built_in">string</span>)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Created!\n&quot;</span>);<br>		m_Size = <span class="hljs-built_in">strlen</span>(<span class="hljs-built_in">string</span>);<br>		m_Data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[m_Size];<br>		<span class="hljs-built_in">memcpy</span>(m_Data,<span class="hljs-built_in">string</span>,m_Size);<br>	&#125;<br><br>	<span class="hljs-comment">//90%接受Lvalue的拷贝构造函数</span><br>	String(<span class="hljs-keyword">const</span> String&amp; other)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Copied!\n&quot;</span>);<br>		m_Size = other.m_Size;<br>		m_Data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[m_Size];<br>		<span class="hljs-built_in">memcpy</span>(m_Data,other.m_Data,m_Size);<br>	&#125;<br><br>	<span class="hljs-comment">//接受Rvalue 的构造函数,注意实现要 窃取资源</span><br>	String(String&amp;&amp; other) <span class="hljs-keyword">noexcept</span><br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Moved!\n&quot;</span>);<br>		m_Size = other.m_Size;<br>		m_Data = other.m_Data;<br><br>		<span class="hljs-comment">//偷了他的资源,避免delete error,所以伪装一下</span><br>		other.m_Size = <span class="hljs-number">0</span>;<br>		other.m_Data = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	<span class="hljs-comment">//析构函数</span><br>	~String()<br>	&#123;<br>		ps(<span class="hljs-string">&quot;Destroyed!\n&quot;</span>);<br>		<span class="hljs-keyword">delete</span> m_Data;<br>	&#125;<br><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Print</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">uint32_t</span> i = <span class="hljs-number">0</span>; i &lt; m_Size; i++)<br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>,m_Data[i]);<br>		&#125;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-keyword">char</span>* m_Data;<br>	<span class="hljs-keyword">uint32_t</span> m_Size;<br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entity</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	Entity() = <span class="hljs-keyword">default</span>;<br><br>	Entity(<span class="hljs-keyword">const</span> String&amp; name)<br>		:m_Name((name)) <span class="hljs-comment">//name 既可能时L value,又可能是R value</span><br>	&#123;&#125;<br><br>	Entity(String&amp;&amp; name)<br>		:m_Name(<span class="hljs-built_in">std</span>::move(name)) <span class="hljs-comment">//**声明变量name是一个Rvalue而不是Lvalue,不然 m_Name(name) 调用的还是Lvalue构造函数</span><br>	&#123;&#125;<br><br>	~Entity() = <span class="hljs-keyword">default</span>;<br>	<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PrintName</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		m_Name.Print();<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	String m_Name;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">/* </span><br><span class="hljs-comment">		const char* -&gt; String  : String(const char *)</span><br><span class="hljs-comment">		String -&gt; String		: Entity(const String&amp; name) String(const String&amp;)</span><br><span class="hljs-comment">	*/</span><br>	&#123;<br><br>		<span class="hljs-function">Timer <span class="hljs-title">timer</span><span class="hljs-params">(<span class="hljs-string">&quot;1&quot;</span>)</span></span>;<br>		<span class="hljs-function">String <span class="hljs-title">temp</span><span class="hljs-params">(<span class="hljs-string">&quot;1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">		1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">		1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">		1234567890&quot;</span>)</span></span>;<br>		<span class="hljs-function">Entity <span class="hljs-title">entity1</span><span class="hljs-params">(temp)</span></span>;<br>	&#125;<br><br>	<span class="hljs-comment">/*</span><br><span class="hljs-comment">	* const char* -&gt; String	: String(const char *)</span><br><span class="hljs-comment">	* String-&gt; String		: Entity(String&amp;&amp; name) String(String &amp;&amp; name)</span><br><span class="hljs-comment">	*/</span><br><br>	&#123;<br>		<span class="hljs-function">Timer <span class="hljs-title">timer</span><span class="hljs-params">(<span class="hljs-string">&quot;2&quot;</span>)</span></span>;<br>		<span class="hljs-function">Entity <span class="hljs-title">entity</span><span class="hljs-params">(<span class="hljs-string">&quot;1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">1234567890\</span></span></span><br><span class="hljs-function"><span class="hljs-params"><span class="hljs-string">1234567890&quot;</span>)</span></span>;<br>	&#125;<br><br>	<span class="hljs-comment">//entity.PrintName();</span><br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>只要某个类的成员变量是在堆上分配内存的,那么就可以写接受右值引用的构造函数</strong></p>
+</blockquote>
+<h3 id="移动赋值-Move-Assignment"><a href="#移动赋值-Move-Assignment" class="headerlink" title="移动赋值 Move Assignment"></a>移动赋值 Move Assignment</h3><p>创建新变量时使用<code>=</code>赋值符号实际上调用的是构造函数,</p>
+<p><strong>而对已经存在的变量使用赋值运算符实际上是调用<code>xx&amp; operator =()</code>函数</strong></p>
+<blockquote>
+<p><strong>重载赋值函数时,因为拿到是RValue的资源,所以我们先要正确的释放自己在堆上的资源</strong></p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;../src/include/local.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ps(str) std::cout &lt;&lt; str; </span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Timer</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	Timer(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* name)<br>		:m_Name(name), m_Stopped(<span class="hljs-literal">false</span>)<br>	&#123;<br>		m_StartTimepoint = <span class="hljs-built_in">std</span>::chrono::high_resolution_clock::now();<br>	&#125;<br>	~Timer()<br>	&#123;<br>		<span class="hljs-keyword">if</span> (!m_Stopped)<br>		&#123;<br>			Stop();<br>		&#125;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Stop</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">auto</span> endTimePoint = <span class="hljs-built_in">std</span>::chrono::high_resolution_clock::now();<br><br>		<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> start = <span class="hljs-built_in">std</span>::chrono::time_point_cast&lt;<span class="hljs-built_in">std</span>::chrono::microseconds&gt;(m_StartTimepoint).time_since_epoch().count();<br>		<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> end = <span class="hljs-built_in">std</span>::chrono::time_point_cast&lt;<span class="hljs-built_in">std</span>::chrono::microseconds&gt;(endTimePoint).time_since_epoch().count();<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;花费时间: &quot;</span> &lt;&lt; (end - start) &lt;&lt; <span class="hljs-string">&quot; ms\n&quot;</span>;<br>		m_Stopped = <span class="hljs-literal">true</span>;<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* m_Name;<br>	<span class="hljs-built_in">std</span>::chrono::time_point&lt;<span class="hljs-built_in">std</span>::chrono::steady_clock&gt; m_StartTimepoint;<br>	<span class="hljs-keyword">bool</span> m_Stopped;<br><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">//默认构造函数</span><br>	String() = <span class="hljs-keyword">default</span>;<br>	<span class="hljs-comment">//接受const char*构造函数</span><br>	String(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* <span class="hljs-built_in">string</span>)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Created!\n&quot;</span>);<br>		m_Size = <span class="hljs-built_in">strlen</span>(<span class="hljs-built_in">string</span>);<br>		m_Data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[m_Size];<br>		<span class="hljs-built_in">memcpy</span>(m_Data,<span class="hljs-built_in">string</span>,m_Size);<br>	&#125;<br><br>	<span class="hljs-comment">//90接受Lvalue的拷贝构造函数</span><br>	String(<span class="hljs-keyword">const</span> String&amp; other)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Copied!\n&quot;</span>);<br>		m_Size = other.m_Size;<br>		m_Data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[m_Size];<br>		<span class="hljs-built_in">memcpy</span>(m_Data,other.m_Data,m_Size);<br>	&#125;<br><br>	<span class="hljs-comment">//接受Rvalue 的构造函数,注意实现要 窃取资源</span><br>	String(String&amp;&amp; other) <span class="hljs-keyword">noexcept</span><br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Moved! Constructor\n&quot;</span>);<br>		m_Size = other.m_Size;<br>		m_Data = other.m_Data;<br><br>		<span class="hljs-comment">//偷了他的资源,避免delete error,所以伪装一下</span><br>		other.m_Size = <span class="hljs-number">0</span>;<br>		other.m_Data = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	String&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> String&amp; other)<br>	&#123;<span class="hljs-comment">//要注意我自己已经在堆上分配了内存</span><br>		<span class="hljs-comment">//copy</span><br>		<span class="hljs-keyword">delete</span>[] m_Data;<br>		m_Size = other.m_Size;<br>		m_Data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[m_Size];<br>		<span class="hljs-built_in">memcpy</span>(m_Data, other.m_Data, m_Size);<br><br>		<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>	&#125;<br><br>	String&amp; <span class="hljs-keyword">operator</span>=(String&amp;&amp; other) <span class="hljs-keyword">noexcept</span><br>	&#123;<br>		<span class="hljs-comment">//避免自己=自己,造成资源转移死循环</span><br>		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == &amp;other)<br>		&#123;<br>			ps(<span class="hljs-string">&quot;相同\n&quot;</span>);<br>			<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>		&#125;<br><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Move assignment\n&quot;</span>);<br>		<span class="hljs-keyword">delete</span>[] m_Data;<br>	<br>		m_Size = other.m_Size;<br>		m_Data = other.m_Data;<br><br>		other.m_Size = <span class="hljs-number">0</span>;<br>		other.m_Data = <span class="hljs-literal">nullptr</span>;<br><br>		<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>	&#125;<br><br>	<span class="hljs-comment">//析构函数</span><br>	~String()<br>	&#123;<br>		ps(<span class="hljs-string">&quot;Destroyed!\n&quot;</span>);<br>		<span class="hljs-keyword">delete</span> m_Data;<br>	&#125;<br><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Print</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">uint32_t</span> i = <span class="hljs-number">0</span>; i &lt; m_Size; i++)<br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>,m_Data[i]);<br>		&#125;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-keyword">char</span>* m_Data;<br>	<span class="hljs-keyword">uint32_t</span> m_Size;<br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entity</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	Entity() = <span class="hljs-keyword">default</span>;<br><br>	Entity(<span class="hljs-keyword">const</span> String&amp; name)<br>		:m_Name((name)) <span class="hljs-comment">//name 既可能时L value,又可能是R value</span><br>	&#123;&#125;<br><br>	Entity(String&amp;&amp; name)<br>		:m_Name(<span class="hljs-built_in">std</span>::move(name)) <span class="hljs-comment">//**声明变量name是一个Rvalue而不是Lvalue,不然 m_Name(name) 调用的还是Lvalue构造函数</span><br>	&#123;&#125;<br><br>	~Entity() = <span class="hljs-keyword">default</span>;<br>	<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PrintName</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		m_Name.Print();<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	String m_Name;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	String apple = <span class="hljs-string">&quot;Apple&quot;</span>;<br>	String dest;<br>	dest = (String&amp;&amp;)(apple);<br>	dest.Print();<br>	apple.Print();<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="std-array-lt-gt"><a href="#std-array-lt-gt" class="headerlink" title="std::array&lt;,&gt;"></a>std::array&lt;,&gt;</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">size_t</span> N&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Array</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">constexpr</span> <span class="hljs-keyword">int</span> <span class="hljs-title">Size</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">return</span> N;<br>	&#125;<br>	T&amp; <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">size_t</span> index)<br>	&#123;<br>		<span class="hljs-keyword">return</span> m_Data[index];<br>	&#125;<br>	<span class="hljs-keyword">const</span> T&amp; <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">size_t</span> index)<span class="hljs-keyword">const</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> m_Data[index];<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	T m_Data[N];<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> size = <span class="hljs-number">5</span>;<br>	Array&lt;<span class="hljs-keyword">int</span>, <span class="hljs-number">5</span>&gt; data;<br><br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; arrayReference = data;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; data.Size(); i++)<br>	&#123;<br>		<span class="hljs-comment">//arrayReference[i] = 2;</span><br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; arrayReference[i] &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unordered_map&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">using</span> ScoreMap = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;;<br>	ScoreMap <span class="hljs-built_in">map</span>;<br>	<span class="hljs-built_in">map</span>[<span class="hljs-string">&quot;String&quot;</span>] = <span class="hljs-number">5</span>;<br>	<span class="hljs-built_in">map</span>[<span class="hljs-string">&quot;C++&quot;</span>] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (ScoreMap::iterator it = <span class="hljs-built_in">map</span>.begin(); it != <span class="hljs-built_in">map</span>.end(); it++)<br>	&#123;<br>		<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; key = it-&gt;first;<br>		<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; value = it-&gt;second;<br><br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; value&lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> kv : <span class="hljs-built_in">map</span>)<br>	&#123;<br>		<span class="hljs-keyword">auto</span>&amp; key = kv.first;<br>		<span class="hljs-keyword">auto</span>&amp; value = kv.second;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; value &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br><br>	<span class="hljs-comment">//c++17 struct bind</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>[key,value] : <span class="hljs-built_in">map</span>)<br>	&#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; key &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; value &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="制作Iterator"><a href="#制作Iterator" class="headerlink" title="制作Iterator"></a>制作Iterator</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Vector&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VectorIterator</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">/*告诉MSVC这是类型而不是类的成员变量*/</span><br>	<span class="hljs-keyword">using</span> ValueType = <span class="hljs-keyword">typename</span> Vector::ValueType;<br>	<span class="hljs-keyword">using</span> PointerType = ValueType*;<br>	<span class="hljs-keyword">using</span> ReferenceType = ValueType&amp;;<br><span class="hljs-keyword">public</span>:<br>	VectorIterator(PointerType ptr)<br>		:m_Ptr(ptr) &#123;&#125;<br><br>	VectorIterator&amp; <span class="hljs-keyword">operator</span>++()<br>	&#123;<br>		m_Ptr++;<br>		<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>	&#125;<br><br>	VectorIterator <span class="hljs-keyword">operator</span>++(<span class="hljs-keyword">int</span>)<br>	&#123;<br>		VectorIterator tmp = *<span class="hljs-keyword">this</span>;<br>		++(*<span class="hljs-keyword">this</span>);<span class="hljs-comment">//后置自增由前置自增实现</span><br>		<span class="hljs-keyword">return</span> tmp;<br>	&#125;<br><br>	VectorIterator&amp; <span class="hljs-keyword">operator</span>--()<br>	&#123;<br>		m_Ptr--;<br>		<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>	&#125;<br><br>	VectorIterator <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">int</span>)<br>	&#123;<br>		VectorIterator tmp = *<span class="hljs-keyword">this</span>;<br>		--(*<span class="hljs-keyword">this</span>);<span class="hljs-comment">//后置自增由前置自增实现</span><br>		<span class="hljs-keyword">return</span> tmp;<br>	&#125;<br><br>	ReferenceType <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">int</span> index)<br>	&#123;<br>		<span class="hljs-keyword">return</span> *(m_Ptr + index);<br>	&#125;<br><br>	PointerType <span class="hljs-keyword">operator</span>-&gt;()<br>	&#123;<br>		<span class="hljs-keyword">return</span> m_Ptr;<br>	&#125;<br><br>	ReferenceType <span class="hljs-keyword">operator</span>*()<br>	&#123;<br>		<span class="hljs-keyword">return</span> *m_Ptr;<br>	&#125;<br><br>	<span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>==(<span class="hljs-keyword">const</span> VectorIterator&amp; other) <span class="hljs-keyword">const</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> m_Ptr == other.m_Ptr;<br>	&#125;<br><br>	<span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>!=(<span class="hljs-keyword">const</span> VectorIterator&amp; other) <span class="hljs-keyword">const</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> !(*<span class="hljs-keyword">this</span> == other);<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	PointerType m_Ptr;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Vector</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-keyword">using</span> ValueType = T;<br>	<span class="hljs-keyword">using</span> Iterator = VectorIterator&lt;Vector&lt;T&gt;&gt;;<br><span class="hljs-keyword">public</span>:<br>	Vector()<br>	&#123;<br>		ReAlloc(<span class="hljs-number">2</span>);<br>	&#125;<br><br>	~Vector()<br>	&#123;<br>		<span class="hljs-keyword">delete</span>[] m_Data;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PushBack</span><span class="hljs-params">(<span class="hljs-keyword">const</span> T&amp; value)</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">if</span> (m_Size &gt;= m_Capacity)<br>			ReAlloc(m_Capacity + m_Capacity / <span class="hljs-number">2</span>);<br>		m_Data[m_Size++] = value;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PushBack</span><span class="hljs-params">(T&amp;&amp; value)</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">if</span> (m_Size &gt;= m_Capacity)<br>			ReAlloc(m_Capacity + m_Capacity / <span class="hljs-number">2</span>);<br>		m_Data[m_Size] = <span class="hljs-built_in">std</span>::move(value); <span class="hljs-comment">//获得Lvalue接受的Rvalue</span><br>		m_Size++;<br>	&#125;<br><br>	<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span>... Args&gt;<br>	<span class="hljs-function">T&amp; <span class="hljs-title">EmplaceBack</span><span class="hljs-params">(Args&amp;&amp;... args)</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">if</span> (m_Size &gt;= m_Capacity)<br>			ReAlloc(m_Capacity + m_Capacity / <span class="hljs-number">2</span>);<br><br>		m_Data[m_Size] = T(<span class="hljs-built_in">std</span>::forward&lt;Args&gt;(args)...);<br>		<span class="hljs-keyword">return</span> m_Data[m_Size++];<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PopBack</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">if</span> (m_Size &gt; <span class="hljs-number">0</span>)<br>		&#123;<br>			m_Size--;<br>			m_Data[m_Size].~T();<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Clear</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; m_Size; i++)<br>			m_Data[i].~T();<br>		m_Size = <span class="hljs-number">0</span>;<br>	&#125;<br><br>	T&amp; <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">size_t</span> index)<br>	&#123;<br>		<span class="hljs-comment">//索引下标超出 容器元素的个数</span><br>		<span class="hljs-keyword">if</span> (index &gt;= m_Size)<br>		&#123;<br><br>		&#125;<br>		<span class="hljs-keyword">return</span> m_Data[index];<br>	&#125;<br><br>	<span class="hljs-keyword">const</span> T&amp; <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">size_t</span> index) <span class="hljs-keyword">const</span><br>	&#123;<br>		<span class="hljs-keyword">if</span> (index &gt;= m_Size)<br>		&#123;<br><br>		&#125;<br>		<span class="hljs-keyword">return</span> m_Data[index];<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">Size</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> m_Size; &#125;<br><br>	<span class="hljs-function">Iterator <span class="hljs-title">begin</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">return</span> Iterator(m_Data);<br>	&#125;<br><br>	<span class="hljs-function">Iterator <span class="hljs-title">end</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">return</span> Iterator(m_Data + m_Size);<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ReAlloc</span><span class="hljs-params">(<span class="hljs-keyword">size_t</span> newCapacity)</span></span><br><span class="hljs-function">	</span>&#123;<br>		T* newBlock = <span class="hljs-keyword">new</span> T[newCapacity];<br><br>		<span class="hljs-comment">//如果newCapacity值小于当前元素个数</span><br>		<span class="hljs-keyword">if</span> (newCapacity &lt; m_Size)<br>			m_Size = newCapacity;<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; m_Size; i++)<br>			newBlock[i] = <span class="hljs-built_in">std</span>::move(m_Data[i]); <span class="hljs-comment">//</span><br><br>		<span class="hljs-keyword">delete</span>[] m_Data;<br>		m_Data = newBlock;<br>		m_Capacity = newCapacity;<br>	&#125;<br><span class="hljs-keyword">private</span>:<br>	T* m_Data = <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">size_t</span> m_Size = <span class="hljs-number">0</span>;		<span class="hljs-comment">//元素的个数</span><br>	<span class="hljs-keyword">size_t</span> m_Capacity = <span class="hljs-number">0</span>;<span class="hljs-comment">//容器的容量</span><br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	Vector&lt;<span class="hljs-keyword">int</span>&gt; values;<br>	values.EmplaceBack(<span class="hljs-number">1</span>);<br>	values.EmplaceBack(<span class="hljs-number">2</span>);<br>	values.EmplaceBack(<span class="hljs-number">9</span>);<br>	values.EmplaceBack(<span class="hljs-number">8</span>);<br>	values.EmplaceBack(<span class="hljs-number">76</span>);<br>	values.EmplaceBack(<span class="hljs-number">7</span>);<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Not using iterator:\n&quot;</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; values.Size(); i++)<br>	&#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; values[i] &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Range-based for loop:\n&quot;</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> value : values)<br>	&#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; value &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c++</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/14/Emacs%E6%89%80%E6%9C%89%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Emacs第一部分:所有基础知识</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/11/c-%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90-%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E6%B1%82%E5%80%BC%E9%A1%BA%E5%BA%8F%E6%9C%AA%E5%AE%9A%E4%B9%89%E7%AD%89/">
+                        <span class="hidden-mobile">c++静态代码分析_函数参数求值顺序未定义等</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

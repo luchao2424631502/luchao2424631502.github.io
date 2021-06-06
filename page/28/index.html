@@ -1,0 +1,851 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/20/csdn/leetcode_042/">leetcode_042</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/20/csdn/leetcode_042/">
+          
+          
+            
+          
+          
+
+题目思路：先找到最大值，分别从两边开始遍历，遍历时用head记录当前最高的，遇到height[i]&lt; height[head]就算入面积中
+1234567891011121314151617181920212223242526272829303132333435363738394041424344#include &lt;iostream&gt;using namespace std;c
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-20 19:32" pubdate>
+              2019-04-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/20/csdn/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%AE%B5%E5%92%8C%EF%BC%883%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%89/">最大连续子段和（3种情况）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/20/csdn/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%AE%B5%E5%92%8C%EF%BC%883%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%89/">
+          
+          
+            
+          
+          
+
+
+非常经典的dp问题题目   
+
+如何理解 当前子序碰到 a[i]&lt;0 加不加到子序中
+如果将a[i]加入到sum中，sum仍然&gt;0,那么加入是有意义的，否则没有意义，即是加入a[i] a[i]&lt;0使得sum减小，但我们已经记录上一个sum作为最大的自序和，并且加入a[i]后，a[i+1]更大，成为新的最大子序和。
+因为求最大子序的和，当 $sum[i-1]+a[i]&lt;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-20 00:11" pubdate>
+              2019-04-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%AD%90%E5%BA%8F%E5%92%8C/">子序和</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/19/csdn/%E5%8D%95%E8%B0%83%E6%A0%88/">单调栈</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/19/csdn/%E5%8D%95%E8%B0%83%E6%A0%88/">
+          
+          
+            
+          
+          
+
+单调栈下一个更大的元素  
+
+直接用单调递增的栈来求出每一个点最近大于该点的值
+用k-y来存该点下一个更大的值，遍历询问就行。123456789101112131415161718192021222324252627282930313233343536#include &lt;iostream&gt;#include &lt;unordered_map&gt;#include &lt;stac
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-19 22:39" pubdate>
+              2019-04-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/19/csdn/%E5%85%94%E5%AD%90%E7%9A%84%E5%85%94%E5%AD%90(%E5%AD%97%E7%AC%A6%E4%B8%B2hash)/">兔子的兔子(字符串hash)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/19/csdn/%E5%85%94%E5%AD%90%E7%9A%84%E5%85%94%E5%AD%90(%E5%AD%97%E7%AC%A6%E4%B8%B2hash)/">
+          
+          
+            
+          
+          
+
+把我坑惨了（1个小时） 将cin换成scanf cout 换成printf就过了，思路：询问区间值就用前缀和来做，将字符串通过一个hash函数映射在几乎不会重复的集合内，能够快速判断是否子字符串是否重复出现过，
+
+用unsigned long long存hash值相当于自动对$2^{64}$mod  
+把字符串看成P进制下的数，如S=&quot;abc&quot; $h(S)=1p^2+2p^
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-19 00:24" pubdate>
+              2019-04-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/17/csdn/%E5%AE%9E%E6%95%B0%E5%9F%9F%E4%B8%8A%E7%9A%84%E4%BA%8C%E5%88%86(poj%202018)/">实数域上的二分(poj 2018)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/17/csdn/%E5%AE%9E%E6%95%B0%E5%9F%9F%E4%B8%8A%E7%9A%84%E4%BA%8C%E5%88%86(poj%202018)/">
+          
+          
+            
+          
+          
+
+
+设置精度epspoj 2018求平均数的最大值，那么平均数在一个区间内肯定具有一个点，满足该点右边都不成立，左边都成立但不是最大，所以可以在这个区间内进行二分
+技巧：将a[i]转化为b[i]=a[i]-averge，那么只要b[i]的最大子段和&gt;0该average成立，证明: $\Sigma^{n} _{i=1}a[i] = n * average$把$\Sigma$展开，ave移到左
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-17 23:36" pubdate>
+              2019-04-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/16/csdn/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D%EF%BC%88+%E5%8F%98%E5%BD%A2%20dp%EF%BC%89/">打家劫舍（+变形 dp）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/16/csdn/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D%EF%BC%88+%E5%8F%98%E5%BD%A2%20dp%EF%BC%89/">
+          
+          
+            
+          
+          
+
+dp题目  
+
+题目给出n个，我们从1个开始分析1个房子 dp[1]=nums[1];2—-   dp[2]=max(nums[1],nums[2]); 不能偷相邻的，所以2选13—-   dp[3]=max(dp[3-2]+nums[3],dp[2]); 偷1,3号房子，否则偷2号房子即使d[2]=nums[1],也没关系，dp[3]取max后代表的还是偷1,3的值得到dp方程  $dp[i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-16 00:09" pubdate>
+              2019-04-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dp/">dp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/15/csdn/%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%88leetcode_070%20dp%EF%BC%89/">爬楼梯（leetcode_070 dp）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/15/csdn/%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%88leetcode_070%20dp%EF%BC%89/">
+          
+          
+            
+          
+          
+
+题目非常简单容易理解的线性dp，有n阶台阶，一次爬1或2个，爬到n阶有多少种方法，有1阶 dp[1]=1有2阶 dp[2]=2 (1+1 0+2)依次类推  
+
+dp[i]:代表到第i阶台阶的方法， 第i阶台阶可以分别由 i-2 走2步 和 i-1走1步到达  dp方程 dp[i]=dp[i-1]+dp[i-2]
+
+最小花费爬楼梯在上一题原理上+每层台阶的花费
+
+需要注意爬到最高层有2种情况
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-15 23:00" pubdate>
+              2019-04-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dp/">dp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/15/csdn/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88dp%20leetcode_300%EF%BC%89/">最长上升子序列（dp leetcode_300）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/15/csdn/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88dp%20leetcode_300%EF%BC%89/">
+          
+          
+            
+          
+          
+
+最长上升子序列题目给定一个无序的整数数组，找到其中最长上升子序列的长度。样例输入：  
+123输入: [10,9,2,5,3,7,101,18]  输出: 4   解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+
+思路用一个数组来维护上升的子序列，扫描原数组的数时，用二分在新数组中找到并且加入，但是要替换掉原来的，因为要按照原数组的顺序加入，如果新数组的数都小于该数，直接
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-15 22:57" pubdate>
+              2019-04-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dp/">dp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/15/csdn/leetcode_53%20%E6%9C%80%E5%A4%A7%E8%87%AA%E5%BA%8F%E5%92%8C(%E7%B1%BB%E4%BC%BCLIS,dp)/">leetcode_53 最大自序和(类似LIS,dp)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/15/csdn/leetcode_53%20%E6%9C%80%E5%A4%A7%E8%87%AA%E5%BA%8F%E5%92%8C(%E7%B1%BB%E4%BC%BCLIS,dp)/">
+          
+          
+            
+          
+          
+
+dp简单题题目   
+
+如何理解 当前子序碰到 a[i]&lt;0 加不加到子序中
+ 如果将a[i]加入到sum中，sum仍然&gt;0,那么加入是有意义的，否则没有意义，即是加入a[i]  a[i]&lt;0使得sum减小，但我们已经记录上一个sum作为最大的自序和，并且加入a[i]后，a[i+1]更大，成为新的最大子序和。
+因为求最大子序的和，当$sum[i-1]+a[i]&lt;=a[i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-15 22:49" pubdate>
+              2019-04-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dp/">dp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/14/csdn/%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E9%92%A5%E5%8C%99%E7%9A%84%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%EF%BC%88%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9%EF%BC%89/">获取所有钥匙的最短路径（二进制状态压缩）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/14/csdn/%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E9%92%A5%E5%8C%99%E7%9A%84%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%EF%BC%88%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9%EF%BC%89/">
+          
+          
+            
+          
+          
+
+description给定一个二维网格 grid。“.” 代表一个空房间， “#” 代表一堵墙， “@” 是起点，（”a”, “b”, …）代表钥匙，（”A”, “B”, …）代表锁。
+我们从起点开始出发，一次移动是指向四个基本方向之一行走一个单位空间。我们不能在网格外面行走，也无法穿过一堵墙。
+如果途经一个钥匙，我们就把它捡起来。除非我们手里有对应的钥匙，否则无法通过锁。
+假设 K 为钥匙/
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-14 20:31" pubdate>
+              2019-04-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/">二进制状态压缩</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/27/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/29/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

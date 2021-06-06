@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>磁盘与文件系统管理1 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="磁盘与文件系统管理1">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-23 17:35" pubdate>
+        2019年7月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">磁盘与文件系统管理1</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ol>
+<li>物理机磁盘文件名<code>/dev/sd[a-p]</code>  </li>
+<li>虚拟机<code>/dev/vd[a-p]</code>(加速作用)  </li>
+<li>磁盘第一个扇区(512字节)包括:  <blockquote>
+<p><code>MBR(master boot record)</code>:主引导记录 446字节<br>分区表:记录硬盘分区状态,64字节<br>磁盘有效标志2字节 </p>
+</blockquote>
+</li>
+</ol>
+<p>分区最小单位: 同一磁道<br>划分信息称为:<code>primary</code><strong>主要分区</strong>和<code>extended</code><strong>扩展分区</strong>  </p>
+<ul>
+<li>扩展分区最多只能有一个</li>
+<li>扩展分区不能格式化</li>
+<li>扩展分区目的是使用额外信息来记录分区,继续划分的分区称为<strong>逻辑分区</strong></li>
+<li>但是逻辑分区的设备名称从5开始<code>/dev/sda5</code>,前4个留给主要分区,主要分区和逻辑分区不能整合在一起</li>
+</ul>
+<h4 id="GPT-GUID-partition-table-磁盘分区表"><a href="#GPT-GUID-partition-table-磁盘分区表" class="headerlink" title="GPT(GUID partition table) 磁盘分区表"></a>GPT(GUID partition table) 磁盘分区表</h4><p>解决了操作系统使用磁盘的容量问题</p>
+<ul>
+<li>BIOS(basic input output system):是一个写入到主板上的固件.<strong>是操作系统启动后的第一个程序</strong></li>
+<li>固件:嵌入在硬件设备中的软件</li>
+<li>根据用户配置去读取硬盘<code>MBR</code>位置的<strong>启动引导程序(boot loader)</strong></li>
+<li>启动引导程序的目的是<strong>加载(load)内核文件</strong></li>
+<li>通过内核文件启动操作系统</li>
+</ul>
+<ol start="4">
+<li><code>boot loader</code>是<code>BIOS</code>上的一个软件（主要任务）:</li>
+</ol>
+<ul>
+<li>提供不同的启动选项(多重引导)</li>
+<li>加载内核文件</li>
+<li>转交给<strong>其他启动引导程序</strong></li>
+</ul>
+<hr>
+<ul>
+<li>转交给其他<strong>启动引导程序</strong>:硬盘不止一个<code>MBR</code>,它还可以安装在<strong>每个分区的启动扇区(boot sector)</strong>,这是多重引导功能的原因</li>
+</ul>
+<hr>
+<h4 id="BIOS总结"><a href="#BIOS总结" class="headerlink" title="BIOS总结"></a>BIOS总结</h4><ol>
+<li>每个分区都拥有自己的启动扇区(<code>boot sector</code>)</li>
+<li>实际可启动的内核文件是放在<strong>各分区中</strong></li>
+<li>启动引导程序只认识自己分区的内核文件</li>
+<li>启动引导程序可以<strong>将工作交个下一个分区的启动引导程序</strong></li>
+</ol>
+<h4 id="Linux下所有数据都是以文件的形式来展现"><a href="#Linux下所有数据都是以文件的形式来展现" class="headerlink" title="Linux下所有数据都是以文件的形式来展现"></a>Linux下所有数据都是以文件的形式来展现</h4><ul>
+<li>Linux系统使用:<code>directory tree</code>目录树架构,但文件数据放在磁盘分区.</li>
+</ul>
+<ul>
+<li><strong>挂载</strong>就是结合了目录树的架构与磁盘内的数据</li>
+<li><strong>挂载</strong>:将<strong>目录</strong>作为<strong>磁盘分区的进入点</strong>,也就是:<strong>进入该目录就能访问到磁盘数据</strong> 进入点目录称为<strong>挂载点</strong></li>
+<li>目录根据自己需求挂载到不同的分区,重要数据单独挂载到别的分区</li>
+<li>个人理解:挂载是目录依托在磁盘上</li>
+<li>交换分区：用硬盘来模拟内存,加快速度</li>
+</ul>
+<hr>
+<p>简单分区:</p>
+<ol>
+<li><code>/ + swap + 预留磁盘空间</code></li>
+<li><code>centos</code>中<strong>容量大且读写频繁</strong>的目录:<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">/boot</span><br>/<br><span class="hljs-string">/home</span><br><span class="hljs-string">/var</span><br>swap<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<ul>
+<li>分区后进行格式化,这样操作系统才能使用<strong>文件系统</strong><h3 id="高级格式化-由用户文件系统在磁盘的特定区域写入特定数据-已达到初始化磁盘或磁盘分区的"><a href="#高级格式化-由用户文件系统在磁盘的特定区域写入特定数据-已达到初始化磁盘或磁盘分区的" class="headerlink" title="高级格式化:由用户文件系统在磁盘的特定区域写入特定数据,已达到初始化磁盘或磁盘分区的"></a>高级格式化:由用户文件系统在磁盘的特定区域写入特定数据,已达到初始化磁盘或磁盘分区的</h3></li>
+</ul>
+<ol>
+<li><code>window</code>:<code>FAT</code>文件系统</li>
+<li><code>Linux</code>:<code>ext2 (Linux second extended file system)</code></li>
+</ol>
+<ul>
+<li>文件系统将数据存放到不同的区块中</li>
+<li><code>inode</code>:记录文件属性,一个文件一个<code>inode</code>,以及记录文件数据所在区块号码</li>
+<li>数据区块:文件实际内容</li>
+<li><code>super block</code>:记录文件系统整体信息,<code>inode</code>与数据区块的总量及消耗</li>
+</ul>
+<hr>
+<h3 id="dumpe2fs-h-dev-sda1-查看ext文件系统superbolck信息"><a href="#dumpe2fs-h-dev-sda1-查看ext文件系统superbolck信息" class="headerlink" title="dumpe2fs -h /dev/sda1 //查看ext文件系统superbolck信息"></a><code>dumpe2fs -h /dev/sda1</code> //查看ext文件系统superbolck信息</h3><h3 id="blkid-显示被格式化的设备"><a href="#blkid-显示被格式化的设备" class="headerlink" title="blkid//显示被格式化的设备"></a><code>blkid</code>//显示被格式化的设备</h3><hr>
+<ul>
+<li><code>inode</code>存放所有数据区块的号码能让系统一次性读取出来</li>
+<li>而<code>FAT</code>文件系统,<strong>每个区块号码都在上一个区块</strong>,相当于<strong>链式读取数据</strong>,导致文件读取速度慢,且<strong>数据碎片多</strong></li>
+<li>碎片整理:区块过于离散,**整理碎片:**将同一个文件的所属区块都集合在一起</li>
+</ul>
+<h4 id="ext2文件系统-inode"><a href="#ext2文件系统-inode" class="headerlink" title="ext2文件系统(inode)"></a>ext2文件系统(inode)</h4><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA3LzIzL2VrQ0lEeC5wbmc" srcset="/img/loading.gif" alt="ekCIDx.png"></p>
+<ol>
+<li><code>Boot sector</code>:每个分区的<strong>引导程序</strong>,剩下的就是<strong>文件系统</strong></li>
+<li><code>ext2</code>格式化的时候<strong>区分为多个区块群组(block group)</strong></li>
+</ol>
+<ul>
+<li>每个区块只能放一个文件的数据</li>
+<li><strong>一个文件一个inode</strong>,<strong>一个Inode</strong>可以指向多个<code>block</code><h4 id="inode-Table记录了"><a href="#inode-Table记录了" class="headerlink" title="inode Table记录了:"></a><code>inode Table</code>记录了:</h4></li>
+</ul>
+<ol>
+<li><code>rwx</code></li>
+<li><code>owner</code> <code>group</code></li>
+<li>修改时间,特性标识</li>
+<li>所指向的<code>block</code></li>
+</ol>
+<ul>
+<li>当文件太大时,一个<code>inode</code>记录不下所有的<code>block</code>的号码,就会<strong>间接</strong>的将所指<code>block</code>来存储其他<code>block</code>的号码.<strong>间接指向</strong>所有<code>block</code></li>
+<li><code>inode bitmap</code>和<code>block bitmap</code>,记录已经使用的<code>inode</code>号码/<code>block</code>的号码,以及未使用的</li>
+</ul>
+<h3 id="ls-l-lib-modules-uname-r-kernel-fs-查看linux支持的文件系统"><a href="#ls-l-lib-modules-uname-r-kernel-fs-查看linux支持的文件系统" class="headerlink" title="ls -l /lib/modules/$(uname -r)/kernel/fs    查看linux支持的文件系统"></a><code>ls -l /lib/modules/$(uname -r)/kernel/fs</code>    查看linux支持的文件系统</h3><h3 id="cat-proc-filesystems-查看系统目前加载到内存中支持的文件系统"><a href="#cat-proc-filesystems-查看系统目前加载到内存中支持的文件系统" class="headerlink" title="cat /proc/filesystems   查看系统目前加载到内存中支持的文件系统"></a><code>cat /proc/filesystems</code>   查看系统目前加载到内存中支持的文件系统</h3><h3 id="df-列出文件系统的整体磁盘使用量"><a href="#df-列出文件系统的整体磁盘使用量" class="headerlink" title="df:列出文件系统的整体磁盘使用量"></a><code>df</code>:列出文件系统的整体磁盘使用量</h3><ul>
+<li><code>df</code>读取的是<code>super block</code>中信息,速度快<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">-a 列出所有文件系统<br>-h 自动调整格式<br></code></pre></td></tr></table></figure></li>
+<li><code>/proc</code>: Linux系统加载系统需要的系统数据挂载在<strong>内存中</strong>,所以磁盘占用为0</li>
+<li><code>/dev/shm</code>:利用内存虚拟出来的磁盘空间,<strong>占物理内存的一半</strong>,访问速度快</li>
+</ul>
+<h3 id="du-到文件系统查所有的文件数据-列出所有文件的容量-但是只显示目录的容量"><a href="#du-到文件系统查所有的文件数据-列出所有文件的容量-但是只显示目录的容量" class="headerlink" title="du:到文件系统查所有的文件数据.列出所有文件的容量,但是只显示目录的容量,"></a><code>du</code>:到文件系统查所有的文件数据.<strong>列出所有文件的容量,但是只显示目录的容量</strong>,</h3><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-a 文件和目录都显示</span><br><span class="hljs-deletion">-s 仅列出所有容量</span><br><span class="hljs-deletion">-h 自动调整格式</span><br></code></pre></td></tr></table></figure>
+<p>文件访问顺序: <code>ls -l /etc/passwd</code></p>
+<ol>
+<li>先访问<code>/</code>的<code>inode</code>后,通过权限了在访问其<code>block</code></li>
+<li>得到<code>/etc</code>的<code>inode</code>,通过权限后再 访问其<code>block</code></li>
+<li>得到<code>passwd</code>的<code>inode</code>,根据权限判断是否能访问</li>
+</ol>
+<h3 id="日志式文件系统的功能"><a href="#日志式文件系统的功能" class="headerlink" title="日志式文件系统的功能"></a>日志式文件系统的功能</h3><ul>
+<li>将<code>block</code> <code>inode</code>表称为数据存储区,超级区块\inode对照表\区块对照表称为<strong>元数据</strong><h5 id="新增文件步骤"><a href="#新增文件步骤" class="headerlink" title="新增文件步骤:"></a>新增文件步骤:</h5></li>
+</ul>
+<ol>
+<li>判断目录权限,然后创建文件.</li>
+<li>根据<code>inode</code>对照表找到没使用的<code>inode</code>号码,并来写入文件<strong>权限</strong></li>
+<li>根据区块对照表找到未使用的<code>区块号码</code>,写入<strong>实际数据</strong>到区块中,更新<code>inode</code>指向的区块</li>
+</ol>
+<hr>
+<ol>
+<li>专门记录写入或修改文件时的步骤</li>
+<li>当断电时,系统检查日志来修复文件系统,而不是对整个文件系统进行检查</li>
+</ol>
+<h3 id="文件系统运行"><a href="#文件系统运行" class="headerlink" title="文件系统运行"></a>文件系统运行</h3><ul>
+<li>数据都要<strong>加载到内存经由CPU处理</strong>,由于磁盘与内存速度差距.不能同时处理</li>
+</ul>
+<ol>
+<li>linux中异步处理方式:</li>
+</ol>
+<ul>
+<li>内存区段中文件<strong>未修改</strong>设置为<code>clean</code>,被修改设置为<code>dirty</code>,系统定时将内存中设置为<code>dirty</code>的数据写回到<strong>磁盘</strong>中.(此时所有操作还在内存中)</li>
+</ul>
+<h3 id="VFS-virtual-filesystem-switch-虚拟文件系统交换"><a href="#VFS-virtual-filesystem-switch-虚拟文件系统交换" class="headerlink" title="VFS(virtual filesystem switch) 虚拟文件系统交换"></a>VFS(<code>virtual filesystem switch</code>) 虚拟文件系统交换</h3><ul>
+<li>每个目录都可能作为文件系统(磁盘分区)的挂载点,所以系统上运行着多种文件系统,</li>
+<li>每个文件系统都有独立的<code>inode</code>,区块,超级区块,要挂载到目录上才能使用</li>
+<li><code>Linux 内核</code>通过<code>VFS</code>管理这些文件系统</li>
+<li>当我们切换到不同目录下,可能属于不同的文件系统,此时由<code>VFS</code>帮助我们调用不同文件系统模块</li>
+</ul>
+<h3 id="XFS文件系统-日志文件系统"><a href="#XFS文件系统-日志文件系统" class="headerlink" title="XFS文件系统(日志文件系统)"></a>XFS文件系统(日志文件系统)</h3><ul>
+<li><code>centos 7</code>将此日志文件系统作为默认文件系统,被用于高容量磁盘的文件系统</li>
+<li><code>ext4</code>缺点:格式化慢，<strong>ext4 一开始就将<code>inode</code>与数据区块 给 固定好了</strong></li>
+<li><code>XFS</code>:格式化块,<code>inode</code>和数据区块都是<strong>动态分配</strong></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/25/csdn/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络基础知识</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/22/csdn/%E8%BF%9B%E7%A8%8B.%E5%B7%A5%E4%BD%9C.%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1./">
+                        <span class="hidden-mobile">进程.工作.定时任务.</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>网络基础知识 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="网络基础知识">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-25 15:56" pubdate>
+        2019年7月25日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      994 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">网络基础知识</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ol>
+<li>网络地址(ip地址):互联网协议地址. 为互联网上每一个网络或主机分配一个逻辑地址,ip地址工作在网络层</li>
+<li>物理地址(mac地址):为每一个设备固定的硬件地址,工作在链路层<h3 id="Tcp-IP-5层常见协议"><a href="#Tcp-IP-5层常见协议" class="headerlink" title="Tcp/IP 5层常见协议"></a>Tcp/IP 5层常见协议</h3>应用层:<code>FTP</code> <code>HTTP</code> <code>SMTP</code> <code>Telnet</code> <code>DNS</code>等<br>传输层:<code>TCP</code>(可靠,面向连接).<code>UDP</code>(不可靠,直接传)<br>网络层:<code>IP</code> <code>ICMP</code> <code>ARP</code><br>数据链路层:<code>PPP</code><br>物理层:  </li>
+</ol>
+<h4 id="端口配置文件-etc-service"><a href="#端口配置文件-etc-service" class="headerlink" title="端口配置文件:/etc/service"></a>端口配置文件:<code>/etc/service</code></h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-number">20</span>/<span class="hljs-number">21</span> ftp服务 文件共享  <br><span class="hljs-symbol">22 </span>   ssh服务  安全远程管理<br><span class="hljs-symbol">23 </span>   Telnet服务 不加密远程管理<br><span class="hljs-symbol">25 </span>   SMTP:简单邮件传输协议 发信<br><span class="hljs-symbol">465 </span>  smtp(ssl)<br><span class="hljs-symbol">110 </span>  pop3:邮局协议   收信<br><span class="hljs-symbol">143 </span>  imap4   收信<br><span class="hljs-symbol">993 </span>  imap4(ssl) 收信<br><span class="hljs-symbol">80 </span>   www服务(http://)  网页访问<br><span class="hljs-symbol">443 </span>  www服务(https://)  加密网页<br><span class="hljs-symbol">3306 </span> mysql端口  数据库连接端口<br><span class="hljs-symbol">53 </span>   DNS端口   域名解析端口<br></code></pre></td></tr></table></figure>
+<ul>
+<li>路由器2个网卡</li>
+</ul>
+<ol>
+<li>外网网卡:局域网私有IP通过<code>NAT</code>转换为申请的共有IP访问公网(包一层地址).收到访问时拆地址,资源问题.优点:局域网内许多IP通过<strong>一个公网IP上网</strong></li>
+<li></li>
+</ol>
+<ul>
+<li>路由器2个功能</li>
+</ul>
+<ol>
+<li>跨网段通信</li>
+<li>路由选择 a.动态路由 b.静态路由</li>
+</ol>
+<ul>
+<li>网关(必须是路由)(路由 或虚拟路由):</li>
+</ul>
+<ol>
+<li>默认路由:处理不了的ip给默认路由处理，发给默认的ip</li>
+<li>NAT转换:私有IP转为<h4 id="查看系统中路由表信息route-n"><a href="#查看系统中路由表信息route-n" class="headerlink" title="查看系统中路由表信息route -n"></a>查看系统中路由表信息<code>route -n</code></h4><h4 id="域名解析测试-将域名转化成ip"><a href="#域名解析测试-将域名转化成ip" class="headerlink" title="域名解析测试(将域名转化成ip)"></a>域名解析测试(将域名转化成ip)</h4><code>nslookup www.baidu.com</code>  <h4 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a><code>netstat</code></h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-a 所有活动</span><br><span class="hljs-deletion">-n 数字显示</span><br><span class="hljs-deletion">-t tcp协议相关信息</span><br><span class="hljs-deletion">-u udp协议相关</span><br><span class="hljs-deletion">-p pid</span><br><span class="hljs-deletion">-l listen 监听</span><br></code></pre></td></tr></table></figure>
+<h4 id="traceroute-路由跟踪"><a href="#traceroute-路由跟踪" class="headerlink" title="traceroute 路由跟踪"></a><code>traceroute</code> 路由跟踪</h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-q n 测试发送几个数据包</span><br></code></pre></td></tr></table></figure>
+<h4 id="ping-域名-测试网络联通性"><a href="#ping-域名-测试网络联通性" class="headerlink" title="ping 域名 测试网络联通性"></a><code>ping 域名</code> 测试网络联通性</h4><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs haml">-<span class="ruby">c ping的次数</span><br><span class="ruby">-s 数据包大小</span><br><span class="ruby">-i 间隔时间</span><br></code></pre></td></tr></table></figure>
+<h4 id="arp-将ip转化为MAC-物理-地址"><a href="#arp-将ip转化为MAC-物理-地址" class="headerlink" title="arp:将ip转化为MAC(物理)地址"></a><code>arp</code>:将ip转化为MAC(物理)地址</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">arp</span> -a 查看所有对应的MAC地址<br><span class="hljs-symbol">arp</span> -d <span class="hljs-built_in">ip</span> <span class="hljs-comment">//删除arp记录</span><br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h3 id="FTP文件共享服务-file-transfer-rotocol"><a href="#FTP文件共享服务-file-transfer-rotocol" class="headerlink" title="FTP文件共享服务(file transfer rotocol)"></a><code>FTP</code>文件共享服务(<code>file transfer rotocol</code>)</h3><p><code>vsfptd</code>(<code>very secure</code>)</p>
+<h4 id="2个端口"><a href="#2个端口" class="headerlink" title="2个端口"></a>2个端口</h4><ol>
+<li><code>command</code>控制端口 21/tcp</li>
+<li><code>date</code> 数据端口 20/tcp(主动模式) </li>
+</ol>
+<hr>
+<ol>
+<li><code>yum -y install vsftpd</code>  </li>
+<li>开启防火墙<br><code>systemctl start firewalld</code></li>
+<li><code>firewall-cmd --permanent --add-service=ftp</code>:加入<code>ftp</code>服务</li>
+<li><code>firewall-cmd --reload</code></li>
+<li><code>firewall-cmd --permanent --list-all</code>查看firewall永久服务</li>
+<li></li>
+</ol>
+<h2 id="虚拟机-centos-6下-ftp服务器搭建"><a href="#虚拟机-centos-6下-ftp服务器搭建" class="headerlink" title="虚拟机:centos 6下 ftp服务器搭建"></a>虚拟机:centos 6下 ftp服务器搭建</h2><ol>
+<li>下载<code>vsfpt</code> <code>yum -y install vsftpd</code>  </li>
+<li>开启<code>ftp</code>服务 <code>service vsftpd start</code>  </li>
+<li>修改为开机启动<code>chkconfig vsftpd on</code></li>
+<li>关闭<code>selinux(安全模式)</code>   </li>
+</ol>
+<p><code>sed -ri &#39;/^SELINUX=/cSELINUX=disabled&#39; /etc/selinux/config</code><br>5. 关闭防火墙:<code>iptables -F</code><br><code>service iptables save</code></p>
+<ul>
+<li><p>文件放到了<code>/var/ftp</code></p>
+<h4 id="lftp使用"><a href="#lftp使用" class="headerlink" title="lftp使用:"></a><code>lftp</code>使用:</h4><p><code>lftp ip</code><br><code>ls</code><br><code>get test.txt</code> //下载<code>ftp</code>目录下的文件<br><code>mirror pub/</code> // 镜像文件<br><code>lcd locate</code>//本地cd</p>
+</li>
+<li><p><code>wget URL</code>(<code>world wide web get</code>)</p>
+</li>
+</ul>
+<ol>
+<li><code>wget ftp://192.168.1.105 -O  /home/lc/Documents/a.txt</code> 指定下载位置(重命名)</li>
+<li><code>-q quiet</code>安静</li>
+<li><code>wget ftp://192.168.1.105 -o /home/lc/Documents/downlog</code> 将下载日志记录到指定文件夹</li>
+<li><code>wget URL</code>:居然直接把别人网站源码下载了</li>
+</ol>
+<ul>
+<li>ftp 配置文件<code>/etc/vsftpd/vsftpd.conf</code></li>
+</ul>
+<h3 id="NFS-network-file-system-网络文件系统"><a href="#NFS-network-file-system-网络文件系统" class="headerlink" title="NFS (network file system)网络文件系统:"></a>NFS (<code>network file system</code>)网络文件系统:</h3><p>环境:<br><code>nas ip 192.168.44.132</code><br><code>nfs 服务端 ip 192.168.44.131 和 其他出现的</code></p>
+<ul>
+<li>一种分布式文件系统协议</li>
+</ul>
+<ol>
+<li><code>nfs</code>的<code>nas</code>(<code>network attached storage 网络附属存储</code>):存储端</li>
+</ol>
+<ul>
+<li>让服务器的网站数据都更新来自存储端(数据存储服务器)<h3 id="nas端操作"><a href="#nas端操作" class="headerlink" title="nas端操作"></a><code>nas</code>端操作</h3></li>
+<li>关闭<code>selinux</code>和<code>防火墙</code></li>
+<li><code>yum -y install nfs-utils</code>  </li>
+<li><code>mkdir /webdata</code></li>
+<li><code>echo &quot;测试&quot; &gt; /webdata/index.html</code>  </li>
+<li>修改<code>nfs</code>配置文件<code>vim /etc/exports</code>  <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-regexp">/webdata 192.168.44.0/</span><span class="hljs-number">24</span>(rw,sync,no_root_squash) <br>rw:主机(nas)端对该目录的权限<br>no_root_sqush 客户端以root登入不改变客户端权限<br></code></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h4 id="mount-挂载-umount取消挂载"><a href="#mount-挂载-umount取消挂载" class="headerlink" title="mount 挂载 umount取消挂载"></a><code>mount</code> 挂载 <code>umount</code>取消挂载</h4><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-a 将/etc/fstab定义的文件系统挂载</span><br><span class="hljs-deletion">-t 指定文件系统</span><br></code></pre></td></tr></table></figure>
+<hr>
+<p><code>yum -y install nas-utils</code><br><code>mkdir /webdate</code><br><code>echo &quot;nas test&quot; &gt; /webdate/index.html</code>  </p>
+<ol>
+<li>查看<code>nas</code>端共享<code>showmount -e ip</code></li>
+<li>将<code>nas</code>端文件内容挂载到<code>nfs</code>服务端<br><code>mount -t nfs 192.168.44.132:/webdata /var/www/html</code><br><code>umount /var/www/html</code></li>
+<li>自动挂载<br><code>vim /etc/fstab</code><br><code>192.168.44.132:/webdata /var/www/html nfs defaults 0 0 </code><br><code>mount -a</code></li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/26/csdn/DNS%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE+samba%E9%85%8D%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DNS本地服务器配置+samba配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/23/csdn/%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%861/">
+                        <span class="hidden-mobile">磁盘与文件系统管理1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

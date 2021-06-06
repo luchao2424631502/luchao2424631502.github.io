@@ -1,0 +1,954 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/28/csdn/Luogu%20P2234+P2286%20(Splay%E6%80%A7%E8%B4%A8/">Luogu P2234+P2286 (Splay性质</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/28/csdn/Luogu%20P2234+P2286%20(Splay%E6%80%A7%E8%B4%A8/">
+          
+          
+            
+          
+          
+
+Luogu P2234
+
+记住性质才能更好利用: Splay的查询前驱和后继操作
+$tree.ins(val)$插入后会$Splay$到根节点
+
+
+
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-28 22:40" pubdate>
+              2019-11-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Splay%E6%80%A7%E8%B4%A8/">Splay性质</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/26/csdn/Splay/">Splay</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/26/csdn/Splay/">
+          
+          
+            
+          
+          
+
+从oi-wiki学来及自己总结Splay树
+用$Splay$维护二叉查找树
+
+节点维护的信息
+
+
+root
+tot
+fa[i]
+ch[i][0/1]
+val[i]
+cnt[i]
+size[i]
+
+
+
+根节点编号
+节点个数
+节点i的父亲节点
+节点i的左右儿子编号
+节点i存的值
+节点i存的值出现的次数
+节点i子树的大小
+
+
+旋转操作
+本质: 将树上某个节点上移一个位置
+
+旋转总结:
+
+以节点$x$
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-26 13:43" pubdate>
+              2019-11-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/splay%E6%93%8D%E4%BD%9C/">splay操作</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">Splay 区间翻转（文艺平衡树）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">
+          
+          
+            
+          
+          
+
+Splay树 区间翻转 操作
+将数组的下标存到树中, 题目给出逆转的区间下标,那么在树中操作下标
+
+利用子树都是存的是数组中连续的一段,(类似线段树)
+
+
+
+
+翻转区间[l,r]
+
+
+在二叉查找树中对 数组区间翻转 只需要 更改子树中每一个节点左右的左右子树
+
+如何将整个区间(搬离到根节点附近去) ?  利用$Splay$的性质: rotate后中序遍历保持不变
+
+将$l-1$节点通过$Spl
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-26 12:35" pubdate>
+              2019-11-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">区间翻转</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/24/csdn/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/">笛卡尔树</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/24/csdn/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/">
+          
+          
+            
+          
+          
+
+笛卡尔树一种二叉树,每个节点由 键值二元组 (k,w) 组成
+性质
+数列中每个元素对应树中某个唯一节点,树节点也对应于数列中某个唯一元素
+
+中序遍历笛卡尔树得到原数列
+
+任意树节点的左子树中的节点对应的数组元素下标小于该节点对应数组元素下标
+同理, 右子树中的节点对应的数组元素下标大于该节点对应数组的元素下标
+
+
+由于具有堆的性质, 任意节点对应的数值 大于or小于  左or右子树内任意节点对
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-24 13:07" pubdate>
+              2019-11-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/24/csdn/POJ%202887%20%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">POJ 2887 块状链表</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/24/csdn/POJ%202887%20%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">
+          
+          
+            
+          
+          
+
+块状链表练手POJ 2887
+查询且需要插入
+
+第一个字符串长度不超过 1000000
+分成 $\sqrt(1000000) = 1000$个块
+
+
+
+
+忘记初始化,
+注意插入的位置，和题目要求的位置
+每次记得维护插入或者删除后 接触块 的大小防止退化
+
+1234567891011121314151617181920212223242526272829303132333435363738394
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-24 01:34" pubdate>
+              2019-11-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/21/csdn/%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">块状链表</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/21/csdn/%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">
+          
+          
+            
+          
+          
+
+块状链表
+原理很好理解,实现要注意细节
+转载博客   图示
+
+
+
+数组来模拟链表
+注意 块的编号和块中数组的下标
+belong[]保证编号不重复
+
+
+例题 Luogu 本文编辑器 
+belong[]的作用其实相当于记录块的编号 当块 (消失or合并) 时,下一次生成的块就用上一次消失块的编号,首次初始化为不同的就行了
+避免块状链表退化,在删除或者插入后维护2端的块，根据块的大小来决定是 合并还
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-21 17:53" pubdate>
+              2019-11-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">Luogu P2057 最小割</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">
+          
+          
+            
+          
+          
+
+熟练一下 Luogu P2057问题转化为最小割建图
+同意睡觉和反对睡觉恰好为2部分,
+
+
+同意睡觉的点和$S$部分的源点连边, 同理, 反对睡觉的点和$T$部分的汇点连边, 边权都为1
+朋友之间连边 因为都可以违背自己的意愿, 所以建双向边且边权为1
+
+
+最后每个人只有一个决定(每个点都只能属于一个部分),为了使得冲突最小,,割掉最少的边将图分成2部分,即求最小割
+
+123456789101
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-18 21:28" pubdate>
+              2019-11-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2-%E5%BB%BA%E5%9B%BE/">最小割 建图</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/18/csdn/Dinic%E7%AE%97%E6%B3%95%20(%E4%BC%98%E5%8C%96)/">Dinic算法 (优化)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/18/csdn/Dinic%E7%AE%97%E6%B3%95%20(%E4%BC%98%E5%8C%96)/">
+          
+          
+            
+          
+          
+
+Dinic 算法(优化)前言:  (个人而言)
+dfs_test()是 我以前学然后写Dinic中的dfs用来增广
+
+新的dfs()速度比原来快很多
+
+判断 向下增广返回的流是否为0
+
+返回的流不为0代表增广成功 维护边后直接回溯
+
+原来的dfs_test处于一个点时 : 只要所有出边遍历结束才回溯, 
+
+
+
+
+
+优化
+当前弧优化 :
+
+
+
+ 原来的dfs都是从每个点的第一条边开始遍历,导致已
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-18 20:11" pubdate>
+              2019-11-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81-%E6%9C%80%E5%B0%8F%E5%89%B2/">最大流 最小割</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/18/csdn/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/18/csdn/%E6%9C%80%E5%B0%8F%E5%89%B2/">
+          
+          
+            
+          
+          
+
+最小割定义
+这篇文章解释的挺好! 
+
+
+
+割 : 点的划分方式, 将图中的所有点划分成2个集合,源点s,汇点t, $s\in S,t \in T$.
+割的容量 ： 表示所有从S到T的边的容量之和,$c(S,T) = \Sigma_{u \in S,v \in T}c(u,v)$
+最小割问题: 求一个割的方法使得割的容量最小 
+
+最大流 = 最小割
+求最小割和最大流可以看做是一个问题
+
+
+最小割
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-18 00:38" pubdate>
+              2019-11-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/17/csdn/Floyd%E6%B1%82%E6%9C%80%E5%B0%8F%E7%8E%AF/">Floyd求最小环</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/17/csdn/Floyd%E6%B1%82%E6%9C%80%E5%B0%8F%E7%8E%AF/">
+          
+          
+            
+          
+          
+
+Floyd求最小环原理:
+ 当第三层循环到点k时, 所有点之间的最短路只通过[1,k)更新, 记$dis_{u,v}$是从u到v且仅经过编号在区间$[1,k)$中的点的最短路。 
+最小环至少要有3个顶点,  最小环通过一条最短路和枚举一个点的2条边来更新 $ans=min(ans,dis_{u,v}+g[u][k]+g[k][v])$
+
+算法的疑问?
+如果g[u][k]+g[k][v]改为di
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-17 17:36" pubdate>
+              2019-11-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E7%8E%AF/">最小环</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/8/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/10/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

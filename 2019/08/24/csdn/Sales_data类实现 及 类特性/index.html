@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Sales_data类实现 及 类特性 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Sales_data类实现 及 类特性">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-24 22:16" pubdate>
+        2019年8月24日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Sales_data类实现 及 类特性</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+
+<p>实现<code>Sales_data</code>类</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sales_data</span> &#123;</span><br>	<span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::istream&amp; <span class="hljs-keyword">operator</span> &gt;&gt; (<span class="hljs-built_in">std</span>::istream&amp;, Sales_data&amp;);<br>	<span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span> &lt;&lt; (<span class="hljs-built_in">std</span>::ostream&amp;,<span class="hljs-keyword">const</span> Sales_data&amp;);<br>	<span class="hljs-keyword">friend</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span> == (<span class="hljs-keyword">const</span> Sales_data&amp;, <span class="hljs-keyword">const</span> Sales_data&amp;);<br>	<span class="hljs-keyword">public</span>: <span class="hljs-comment">//重载类的+=运算符</span><br>		Sales_data&amp; <span class="hljs-keyword">operator</span> += (<span class="hljs-keyword">const</span> Sales_data&amp;);<br>		<span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> <span class="hljs-title">isbn</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> bookNo; &#125;<br>	<span class="hljs-keyword">public</span>:<br>		Sales_data() = <span class="hljs-keyword">default</span>; <span class="hljs-comment">//显式声明默认构造函数</span><br>		Sales_data(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; book) :bookNo(book)&#123;&#125;<br>		Sales_data(<span class="hljs-built_in">std</span>::istream&amp; is) &#123; is &gt;&gt; *<span class="hljs-keyword">this</span>; &#125;<br>	<span class="hljs-keyword">private</span>:<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> bookNo;<br>		<span class="hljs-keyword">unsigned</span> units_sold = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">double</span> sellingprice = <span class="hljs-number">0.0</span>;<br>		<span class="hljs-keyword">double</span> saleprice = <span class="hljs-number">0.0</span>;<br>		<span class="hljs-keyword">double</span> discount = <span class="hljs-number">0.0</span>;<br>&#125;;<br><span class="hljs-comment">//好习惯: 现将友元函数声明</span><br><span class="hljs-built_in">std</span>::istream&amp; <span class="hljs-keyword">operator</span> &gt;&gt; (<span class="hljs-built_in">std</span>::istream&amp;, Sales_data&amp;);<br><span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span> &lt;&lt; (<span class="hljs-built_in">std</span>::ostream&amp;, <span class="hljs-keyword">const</span> Sales_data&amp;);<br><span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span> == (<span class="hljs-keyword">const</span> Sales_data&amp;, <span class="hljs-keyword">const</span> Sales_data&amp;);<br><span class="hljs-comment">//全局函数.</span><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">bool</span> <span class="hljs-title">compareIsbn</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Sales_data&amp; lhs, <span class="hljs-keyword">const</span> Sales_data&amp; rhs)</span> </span>&#123;<br>	<span class="hljs-keyword">return</span> lhs.isbn() == rhs.isbn();<br>&#125;<br><span class="hljs-keyword">inline</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span> == (<span class="hljs-keyword">const</span> Sales_data&amp; lhs, <span class="hljs-keyword">const</span> Sales_data&amp; rhs) &#123;<br>	<span class="hljs-keyword">return</span> lhs.units_sold == rhs.units_sold &amp;&amp;<br>		lhs.sellingprice == rhs.sellingprice &amp;&amp;<br>		lhs.saleprice == rhs.saleprice &amp;&amp;<br>		lhs.isbn() == rhs.isbn();<br>&#125;<br><span class="hljs-keyword">inline</span> <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span> != (<span class="hljs-keyword">const</span> Sales_data&amp; lhs, <span class="hljs-keyword">const</span> Sales_data&amp; rhs) &#123;<br>	<span class="hljs-keyword">return</span> !(lhs == rhs);<br>&#125;<br>Sales_data&amp; Sales_data::<span class="hljs-keyword">operator</span> += (<span class="hljs-keyword">const</span> Sales_data&amp; rhs) &#123;<br>	units_sold += rhs.units_sold;<br>	saleprice = (rhs.saleprice * rhs.units_sold + saleprice * units_sold) / (rhs.units_sold + units_sold);<br>	<span class="hljs-keyword">if</span> (sellingprice != <span class="hljs-number">0</span>)<br>		discount = saleprice / sellingprice;<br>	<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br>Sales_data <span class="hljs-keyword">operator</span> + (<span class="hljs-keyword">const</span> Sales_data&amp; lhs, <span class="hljs-keyword">const</span> Sales_data&amp; rhs) &#123;<br>	<span class="hljs-function">Sales_data <span class="hljs-title">ret</span><span class="hljs-params">(lhs)</span></span>;<br>	ret += rhs;<br>	<span class="hljs-keyword">return</span> ret; <span class="hljs-comment">//如果返回引用,临时对象内存被销毁,引用没意义,只能返回临时对象的拷贝</span><br>&#125;<br><span class="hljs-built_in">std</span>::istream&amp; <span class="hljs-keyword">operator</span> &gt;&gt; (<span class="hljs-built_in">std</span>::istream&amp; in, Sales_data&amp; s) &#123;<br>	in &gt;&gt; s.bookNo &gt;&gt; s.units_sold &gt;&gt; s.sellingprice &gt;&gt; s.saleprice;<br>	<span class="hljs-keyword">if</span> (in &amp;&amp; s.sellingprice != <span class="hljs-number">0</span>)<br>		s.discount = s.saleprice / s.sellingprice;<br>	<span class="hljs-keyword">else</span><br>		s = Sales_data();<span class="hljs-comment">//默认构造</span><br>	<span class="hljs-keyword">return</span> in;<br>&#125;<br><span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span> &lt;&lt; (<span class="hljs-built_in">std</span>::ostream&amp; out,<span class="hljs-keyword">const</span> Sales_data&amp; s) &#123;<br>	out &lt;&lt; s.isbn() &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; s.units_sold &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; s.sellingprice &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; s.saleprice &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; s.discount;<br>	<span class="hljs-keyword">return</span> out;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	Sales_data trans1, trans2;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;输入2条相同的ISBN销售记录: &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; trans1 &gt;&gt; trans2;<br>	<span class="hljs-keyword">if</span> (compareIsbn(trans1, trans2))<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;汇总信息: ISBN,售出本数,原始价格,实际价格,折扣:&quot;</span> &lt;&lt; trans1 + trans2 &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	<span class="hljs-keyword">else</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;2条销售记录ISBN不相同 &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	Sales_data total, trans;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; 请输入几条ISBN相同的销售记录: &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; total) &#123;<br>		<span class="hljs-keyword">while</span> (<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span> &gt;&gt; trans) &#123;<br>			<span class="hljs-keyword">if</span> (compareIsbn(total, trans))<br>				total += trans;<br>			<span class="hljs-keyword">else</span> &#123;<br>				<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; 当前书的ISBN不同 &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>				<span class="hljs-keyword">break</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;有效汇总信息: ISBN,售出书本,原始价格,实际价格,折扣:&quot;</span> &lt;&lt; total &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot; 没有数据 &quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="构造函数初始值列表"><a href="#构造函数初始值列表" class="headerlink" title="构造函数初始值列表"></a>构造函数初始值列表</h2><ul>
+<li>为数据成员赋初值,赋值的顺序根据数据成员定义的顺序<h2 id="default要求编译器生成默认构造函数"><a href="#default要求编译器生成默认构造函数" class="headerlink" title="=default要求编译器生成默认构造函数"></a><code>=default</code>要求编译器生成默认构造函数</h2><code>Sales_data() = default;</code><h2 id="this的引入"><a href="#this的引入" class="headerlink" title="this的引入"></a><code>this</code>的引入</h2></li>
+<li><code>obj.isbn() //成员函数的调用</code>,<strong>成员函数通过名为<code>this</code>的额外隐式参数来访问调用它的对象,调用一个成员函数时,用请求该函数的对象地址初始化<code>this</code></strong></li>
+<li>从编译器角度等价于<code>Sales_data::isbn(&amp;obj);</code>.</li>
+<li>我们能在<strong>成员函数内部直接调用该函数对象的成员就是通过<code>this</code>实现的,被看做是<code>this</code>的隐式引用,</strong><h3 id="this本身是一个常量指针-不要和指向常量的指针混淆"><a href="#this本身是一个常量指针-不要和指向常量的指针混淆" class="headerlink" title="this本身是一个常量指针 (不要和指向常量的指针混淆)."></a><code>this</code>本身是一个常量指针 (不要和指向常量的指针混淆).</h3></li>
+<li><strong>常量指针</strong>即:指针存的地址是不变的,</li>
+<li><strong>指向常量的指针</strong>即:指向的对象是不变的</li>
+<li>所以不能改变<code>this</code>保存的地址<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a><code>const</code>成员函数</h2><code>std::string isbn() const &#123; return bookNo; &#125;</code></li>
+<li>相当于隐式修改<code>this</code>的类型,本来是常量指针<code>Sales_data * const</code></li>
+<li>现在是<code>const Sales_data * const</code>,<strong>指向常量的常量指针,意味着指向的对象是常量,如果该函数不需要修改对象的数据成员,那么<code>const</code>成员函数很有必要</strong>,<h2 id="类的作用域Sales-data-全局作用域"><a href="#类的作用域Sales-data-全局作用域" class="headerlink" title="类的作用域Sales_data::, 全局作用域::"></a>类的作用域<code>Sales_data::</code>, 全局作用域<code>::</code></h2></li>
+<li>如果<code>isbn()</code>定义在类的外部.<code>std::string Sales_data::isbn() const &#123; return bookNo; &#125;</code></li>
+<li>那么在<code>Sales_data::</code>之后都属于类的作用域内,如果<code>isbn()</code>要返回<strong>类中定义的变量类型</strong>,那么返回值要声明作用域</li>
+</ul>
+<h2 id="定义返回this对象的函数"><a href="#定义返回this对象的函数" class="headerlink" title="定义返回this对象的函数"></a>定义返回<code>this</code>对象的函数</h2><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">Sales_data&amp; operator += (const Sales_data&amp;)<span class="hljs-comment">;</span><br>//用一个函数代替重载+=的效果<br><span class="hljs-title">Sales_data&amp; Sales_data::</span>combine(const Sales_data &amp;rhs) &#123;<br>    units_sold += rhs.units_sold<span class="hljs-comment">;</span><br>    <span class="hljs-keyword">return</span> *this<span class="hljs-comment">; //解引用返回this绑定对象本身</span><br>&#125;<br>//使用combine时,total绑定到this上,trans 绑定到 rhs上,<br>total.combine(trans)<span class="hljs-comment">;</span><br><br>````<br>* 结果都加到`total`中,因为定义的函数类似`+=`运算符,**左边的运算对象作为左值返回**,**必须与左值返回保持一致**,所以**要返回total对象本身**<br>* 如果返回类型是`Sales_data`,**相当于通过拷贝创建了一个临时对象然后返回**.<br><br>## 访问控制符 `access specifiers`<br>* `class`与`struct`的区别在于 **第一个访问控制符出现之前**  `class`的默认权限是`private`,而`struct`的权限是`public`<br>* `private`的数据成员**只能被类的成员函数访问**,而使用该类的代码不能访问,需要在`public`中提供**接口**,`private`相当于封装了类的实现细节<br><br>## 友元<br>* 其他类或者函数访问它的**非公有成员**,方法是声明**其他类或函数**成为**该类的友元(`friend`)**<br>* 友元函数的声明,仅仅是声明了友元的关系,并不是函数声明.<br>## 类成员<br><span class="hljs-number">1</span>. 定义类型成员,别名(`alias`)作用范围从定义开始<br></code></pre></td></tr></table></figure>
+<p>class Screen {<br>    public:<br>        typedef std::string::size_type pos;<br>        // using pos=std::string::size_type;<br>};</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs clean">* 在类外使用类的类型成员要说明作用域<br>## <span class="hljs-keyword">inline</span>是否展开取决于编译器<br><br>## 构造函数的默认实参<br></code></pre></td></tr></table></figure>
+<p>Sales_data(std::string s = “”):bookNo(s) {}</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">*</span> 使用实参来初始化<span class="hljs-code">`bookNo`</span>,不接受参数就默认<span class="hljs-code">`string`</span>初始化<br><br><span class="hljs-section">## 委托构造函数</span><br><span class="hljs-bullet">*</span> 委托构造函数使用所属类的其他构造函数来执行自己的初始化过程,<br><span class="hljs-bullet">*</span> 先执行所委托给的构造函数,然后再来执行自己函数体的内容<br></code></pre></td></tr></table></figure>
+<p>Sales_data(std::string s,unsigned cnt,double sellp,double salep) : bookNo(s),units_sold(cnt),sellingprice(sellp),saleprice(salep){}<br>Sales_data() : Sales_data(“”, 0, 0.0, 0.0) {}<br>Sales_data(std::istream&amp; is) :Sales_data() { is &gt;&gt; *this; }</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs clean">* 委托构造函数能够多层委托,可以委托给一个已经是委托构造函数的函数,从受委托的构造函数开始依次执行代码.最后才返回到委托者自身函数体<br><br>## 使用默认构造函数<br></code></pre></td></tr></table></figure>
+<p>Sales_data obj(); //错误,声明了一个返回值是Sales_data的函数<br>Sales_data obj; //调用默认构造</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs clean"><br>## 隐式类型转换规则 (关键字:`explicit`)<br>* 只存在于 **接收一个实参的构造函数,默认就定义了为此类类型的隐式转换机制**<br>#### 在需要使用`Sales_data`的地方,**使用接收一个参数的构造函数的参数类型作为替代,能隐式转化成Sales_data类型**<br></code></pre></td></tr></table></figure>
+<p>//如果:<br>Class Sales_data {<br>    public:<br>        Sales_data&amp; combine(Sales_data&amp;);<br>};</p>
+<p>string ss = “aaa”;<br>total.combine(ss); //combine另一个Sales_data的对象,这里用string对象替代<br>//编译器用string对象创建了一个Sales_data对象,这个生成的Sales_data临时对象作为参数传给combine</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>只能从*<span class="hljs-strong">*一个参数的构造函数的参数类型转换到Sales_data*</span><span class="hljs-strong">*</span><br></code></pre></td></tr></table></figure>
+<p>total.combine(“dads”); //“dads”是c风格的字符串 char[],不是string对象<br>total.combine(string(“abc”)); //转化成string<br>total.combine(Sales_data(“abc”)); //直接转化成Sales_data对象</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### 抑制构造函数定义的隐式类型转换 explicit :明白的<br>* 只在接收一个参数的构造函数中定义了隐式类型转换,即使对于多个参数构造函数声明了也没意义<br></code></pre></td></tr></table></figure>
+<p>class Sales_data {<br>  public:<br>    Sales_data() = default;<br>    Sales_data(const std::string &amp;s,unsigned n,double p1,double p2):<br>        bookNo(s),units_sold(n),sellingprice(p1),saleprice(p2) {}<br>    explicit Sales_data(const std::string &amp;s) : bookNo(s) {}<br>    explicit Sales_data(std::istream&amp;);<br>};</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">*</span> 函数在类外部定义时不需要再次声明explicit<br><span class="hljs-bullet">*</span> 拷贝初始化<br></code></pre></td></tr></table></figure>
+<p>std::string temp = “acx”;<br>Sales_data item(temp);<br>Sales_data item = temp; //拷贝形式,隐式转换成Sales_data</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>强制类型转换<br></code></pre></td></tr></table></figure>
+<p>item.combine(Sales_data(temp));<br>item.combine(static_cast<Sales_data>(cin));<br>item.combine(static_cast<Sales_data>(temp));</Sales_data></Sales_data></p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean"><br>## 友元部分的理解,(最好在友元函数实现前,声明一次,有点编译器需要声明)<br></code></pre></td></tr></table></figure>
+<p>friend std::istream&amp; operator &gt;&gt; (std::istream&amp;, Sales_data&amp;);<br>friend std::ostream&amp; operator &lt;&lt; (std::ostream&amp;,const Sales_data&amp;);<br>friend bool operator == (const Sales_data&amp;, const Sales_data&amp;);</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">* 在全局作用域内重载`&gt;&gt;` 和 `&lt;&lt;`运算符,友元的目的是访问到Sales_data对象的private成员<br>## `istream` `ostream`输入输出流的使用<br>* `cin`和`cout`分别是`iostream`类和`ostream`的对象<br>* 接收流的引用,**特别要注意返回流的引用**<br></code></pre></td></tr></table></figure>
+<p>std::istream&amp; operator &gt;&gt; (std::istream&amp; in, Sales_data&amp; s) {<br>    in &gt;&gt; s.bookNo &gt;&gt; s.units_sold &gt;&gt; s.sellingprice &gt;&gt; s.saleprice;<br>    if (in &amp;&amp; s.sellingprice != 0)<br>        s.discount = s.saleprice / s.sellingprice;<br>    else<br>        s = Sales_data();//默认构造<br>    return in;<br>}<br>std::ostream&amp; operator &lt;&lt; (std::ostream&amp; out,const Sales_data&amp; s) {<br>    out &lt;&lt; s.isbn() &lt;&lt; “ “ &lt;&lt; s.units_sold &lt;&lt; “ “ &lt;&lt; s.sellingprice &lt;&lt; “ “ &lt;&lt; s.saleprice &lt;&lt; “ “ &lt;&lt; s.discount;<br>    return out;<br>}</p>
+<pre><code>* 构造函数接收的输入流对象参数,那么想要通过流来初始化对象一定要重载`&gt;&gt;`  
+`Sales_data(std::istream&amp; is) &#123; is &gt;&gt; *this; &#125;`
+
+
+
+
+</code></pre>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%B1%BB/">类</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/31/csdn/StrBlob%E7%B1%BB%E7%9A%84%E5%AE%9E%E7%8E%B0(shared_ptr%E4%B8%8Eweak_ptr%E7%9A%84%E6%B7%B7%E7%94%A8)/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">StrBlob类的实现(shared_ptr与weak_ptr的混用)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/14/csdn/BZOJ%201123%20%E6%97%A0%E5%90%91%E5%9B%BE%E5%89%B2%E7%82%B9_Tarjan/">
+                        <span class="hidden-mobile">BZOJ 1123 无向图割点_Tarjan</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

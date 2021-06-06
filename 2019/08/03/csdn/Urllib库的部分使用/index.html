@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Urllib库的部分使用 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Urllib库的部分使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-03 22:38" pubdate>
+        2019年8月3日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      494 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Urllib库的部分使用</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="Urllib-HTTP请求库"><a href="#Urllib-HTTP请求库" class="headerlink" title="Urllib:HTTP请求库"></a><code>Urllib</code>:<code>HTTP</code>请求库</h3><p>4个模块</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">urllib</span><span class="hljs-selector-class">.request</span> 请求<br><span class="hljs-selector-tag">urllib</span><span class="hljs-selector-class">.error</span> 异常处理<br><span class="hljs-selector-tag">urllib</span><span class="hljs-selector-class">.parse</span> <span class="hljs-selector-tag">url</span>解析<br><span class="hljs-selector-tag">urllib</span><span class="hljs-selector-class">.robotparser</span> <span class="hljs-selector-tag">rebot</span><span class="hljs-selector-class">.txt</span>解析<br></code></pre></td></tr></table></figure>
+<h4 id="urlopen"><a href="#urlopen" class="headerlink" title="urlopen()"></a><code>urlopen()</code></h4><p><code>urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=None,cadefault=False,context=None)</code></p>
+<ol>
+<li>将网页请求下来(<code>get请求,url里带参数</code>):<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-keyword">import</span> urllib.request<br>response = urllib.request.urlopen(<span class="hljs-string">&quot;http://www.baidu.com&quot;</span>)<br>print(response.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br><span class="hljs-string">``</span><span class="hljs-string">`  </span><br><span class="hljs-string"></span><br><span class="hljs-string">2. 以`</span>post<span class="hljs-string">`形式发送,`</span><span class="hljs-built_in">url</span><span class="hljs-string">`里不含参数,参数形成单独的字节发送</span><br></code></pre></td></tr></table></figure>
+import urllib.parse<br>import urllib.request<br>source = bytes(urllib.parse.urlencode({‘word’:’hello’},encoding=’utf-8’))<br>response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org/post&#39;,source">http://httpbin.org/post&#39;,source</a>)<br>print (response.read())<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-number">3</span>. 请求超时设置`timeout= `  <br></code></pre></td></tr></table></figure>
+import urllib.requset<br>response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org/get&#39;,timeout=1">http://httpbin.org/get&#39;,timeout=1</a>)<br>print(response.read())<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-number">4</span>. 超时错误原因`socket.timeout` <br></code></pre></td></tr></table></figure>
+import socket<br>import urllib.request<br>import urllib.error<br>try:<br> response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org/get&#39;,timeout=0.1">http://httpbin.org/get&#39;,timeout=0.1</a>)<br>except urllib.error.URLError as e :<br>if isinstance(e.reason,socket.timeout):<br> print(“time out”)</li>
+</ol>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">#### `response` 响应<br><span class="hljs-number">1.</span> 响应类型  <br></code></pre></td></tr></table></figure>
+<p>import urllib.request<br>response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org&/#39;">http://httpbin.org&#39;</a>)<br>print(type(response))</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-number">2</span>. 状态码,响应头(`response headers`)<br></code></pre></td></tr></table></figure>
+<p>import urllib.request<br>response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org&/#39;">http://httpbin.org&#39;</a>)<br>print (response.status)<br>print (response.getheaders())<br>print (response.getheader(‘Server’))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">直接得到响应体内容,解码查看<br></code></pre></td></tr></table></figure>
+<p>import request<br>response = urllib.request.urlopen(‘<a target="_blank" rel="noopener" href="http://httpbin.org&/#39;">http://httpbin.org&#39;</a>)<br>print(response.read().decode(‘utf-8’)</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">也可以先得到`Request`请求体.将`Request`通过`urlopen()`发送,得到响应体<br></code></pre></td></tr></table></figure>
+<p>import urllib.request<br>request = urllib.request.Request(‘<a target="_blank" rel="noopener" href="http://python.org&/#39;">http://python.org&#39;</a>)<br>response = urllib.request.urlopen(request)<br>print(response.read().decode(‘utf-8’))</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">#### `request`(请求)<br>通过`request`对象的传入参数来构造`get`/`post`类请求<br></code></pre></td></tr></table></figure>
+<p>from urllib import request,parse<br>url = ‘<a target="_blank" rel="noopener" href="http://httpbin.org/post&#39;">http://httpbin.org/post&#39;</a><br>dict = {<br>    ‘name’:’Germey’<br>}<br>data=bytes(parse.urlencode(dict),encoding=”utf8”)<br>req=request.Request(url=url,data=data,method=’POST’)<br>response=request.urlopen(req)<br>print(response.read().encode(‘utf-8’))</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs oxygene">```<br><span class="hljs-keyword">from</span> urllib import request,parse<br>url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span><br>dict = <span class="hljs-comment">&#123;</span><br><span class="hljs-comment">    &#x27;name&#x27;:&#x27;Germey&#x27;</span><br><span class="hljs-comment">&#125;</span><br>data=bytes(parse.urlencode(dict),encoding=<span class="hljs-string">&#x27;utf8&#x27;</span>)<br>req=request.Request(url=url,data=data,<span class="hljs-function"><span class="hljs-keyword">method</span>=&#x27;<span class="hljs-title">POST</span>&#x27;)</span><br><span class="hljs-function"><span class="hljs-title">req</span>.<span class="hljs-title">add_header</span><span class="hljs-params">(<span class="hljs-string">&#x27;User-Agent&#x27;</span>,<span class="hljs-string">&#x27;Mozilla/4.0 (compatible;MSIE 5.5; Window NT)&#x27;</span>)</span></span><br><span class="hljs-function"><span class="hljs-title">response</span> = <span class="hljs-title">request</span>.<span class="hljs-title">urlopen</span><span class="hljs-params">(req)</span></span><br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(response.<span class="hljs-keyword">read</span>()</span>.<span class="hljs-title">decode</span><span class="hljs-params">(<span class="hljs-string">&#x27;utf-8&#x27;</span>)</span>)</span><br><span class="hljs-function"></span><br></code></pre></td></tr></table></figure>
+
+<h4 id="Handler-代理-通过连接到代理服务器-用来隐藏自己的ip"><a href="#Handler-代理-通过连接到代理服务器-用来隐藏自己的ip" class="headerlink" title="Handler(代理,通过连接到代理服务器,用来隐藏自己的ip)"></a><code>Handler</code>(代理,通过连接到代理服务器,用来隐藏自己的ip)</h4><h4 id="cookie-网站用来辨识用户身份存储在本地终端上的数据"><a href="#cookie-网站用来辨识用户身份存储在本地终端上的数据" class="headerlink" title="cookie:网站用来辨识用户身份存储在本地终端上的数据"></a><code>cookie</code>:网站用来辨识用户身份存储在本地终端上的数据</h4>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/04/csdn/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%E5%AD%98%E5%B0%8F%E5%AF%BC%E8%87%B4mysql%E6%9C%8D%E5%8A%A1%E5%81%9C%E6%AD%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88+wordpress%E6%90%AD%E5%BB%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">服务器内存小导致mysql服务停止解决方案+wordpress搭建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/03/csdn/HDU_1540_%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E8%BF%9E%E7%BB%AD%E7%BB%B4%E6%8A%A4/">
+                        <span class="hidden-mobile">HDU_1540_线段树区间连续维护</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

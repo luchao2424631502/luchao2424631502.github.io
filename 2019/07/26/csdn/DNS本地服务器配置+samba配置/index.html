@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>DNS本地服务器配置+samba配置 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="DNS本地服务器配置+samba配置">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-26 21:21" pubdate>
+        2019年7月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DNS本地服务器配置+samba配置</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ul>
+<li>一种<code>DNS</code>配置文件<code>/etc/resolv.conf</code><h2 id="CIFS-common-internet-file-system-又称网络文件共享系统"><a href="#CIFS-common-internet-file-system-又称网络文件共享系统" class="headerlink" title="CIFS (common internet file system )又称网络文件共享系统"></a><code>CIFS (common internet file system )</code>又称网络文件共享系统</h2></li>
+<li>是一种<strong>应用层网络传输协议</strong></li>
+</ul>
+<ol>
+<li><code>cifs</code>也称<strong>服务器消息块</strong><code>Server Message Block</code>,</li>
+</ol>
+<ul>
+<li><code>cifs</code>一般面向<code>windows</code>端 <h3 id="samba"><a href="#samba" class="headerlink" title="samba"></a><code>samba</code></h3></li>
+<li>配置文件<code>/etc/samba/smb.conf</code></li>
+</ul>
+<hr>
+<ol>
+<li><code>yum -y install samba</code>安装samba<br><code>useradd alice -s /sbin/nologin</code><br><code>useradd jack -s /sbin/nologin</code><br><code>smbpasswd -a alice</code> 添加samba用户<br><code>smbpasswd -a jack</code></li>
+</ol>
+<hr>
+<blockquote>
+<p><code>-a</code> 将linux系统用户添加为samba用户<br><code>-d</code> 冻结用户<br><code>-e</code> 恢复用户<br><code>-x</code> 删除用户  </p>
+</blockquote>
+<hr>
+<p>启动<code>samba</code>的2个服务<code>nmb</code>,且修改配置文件<br>和<code>smb</code><br><code>centos 6</code><br><code>service nmb start;chkconfig nmb on</code><br><code>service smb start;chkconfig smb on</code></p>
+<ul>
+<li>配置文件修改<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">vim <span class="hljs-string">/etc/samba/smb.conf</span><br>[data]<br>    path = <span class="hljs-string">/data</span><br>    writable = yes <span class="hljs-comment">#都有写的权限</span><br>    <span class="hljs-comment"># valid user = alice jack</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="windows客户端"><a href="#windows客户端" class="headerlink" title="windows客户端"></a><code>windows</code>客户端</h3><ol>
+<li><code>windows + R</code>   </li>
+<li><code>\\ip</code>(<code>ip</code>是<code>samba</code>服务器地址)  输入<code>samba</code>账号  </li>
+<li><strong>映射网络服务器</strong>相当于将<strong>共享文件夹(磁盘) 挂载到 windows的目录下</strong><h3 id="Linux客户端"><a href="#Linux客户端" class="headerlink" title="Linux客户端"></a><code>Linux</code>客户端</h3></li>
+</ol>
+<ul>
+<li><code>yum -y install samba-client cifs-utils</code>  <code>samba 客户端</code></li>
+</ul>
+<ol>
+<li>查看存储端共享<br><code>smbclient -L ip --user=alcie</code></li>
+<li>手动挂载<br><code>mount -t cifs -o user=alice,pass=1 //192.168.44.132/data /mnt/cifs</code></li>
+<li><code>vim /etc/fstab</code><br>添加<br><code>//192.168.44.132/data /mnt/cifs cifs defaults,user=alice,pass=1 0 0</code><br><code>mount -a</code><h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2></li>
+</ol>
+<ul>
+<li> 以前是<code>Netbios 网络输入输出系统</code>名:<code>baidu</code>.由<code>wins</code>服务提供解析</li>
+<li><code>FQND (fully qualified domain name) 完全合格的域名</code> ：<code>www.baidu.com</code>.由2中方法解析</li>
+</ul>
+<ol>
+<li><code>hosts</code>文件<br>作用:实现名字解析.主要为本地主机名.集群节点提供快速解析</li>
+<li><code>DNS</code>服务器解析(将主机名解析成ip)</li>
+</ol>
+<hr>
+<ol>
+<li>命名空间: 互联网主机命名机制</li>
+<li><code>DNS</code>数据库<code>Datebase</code>: 分布式数据库</li>
+<li>根域</li>
+</ol>
+<hr>
+<h3 id="DNS服务器基本配置-cache-only惟缓存DNS服务器-可称为dns转发"><a href="#DNS服务器基本配置-cache-only惟缓存DNS服务器-可称为dns转发" class="headerlink" title="DNS服务器基本配置(cache only惟缓存DNS服务器:可称为dns转发)"></a>DNS服务器基本配置(<code>cache only</code>惟缓存DNS服务器:可称为<code>dns转发</code>)</h3><ul>
+<li>此<code>dns</code>是:非域内权威服务器,也是向上访问寻求解析<br>环境:2个虚拟机ip<br><code>dns服务器端</code>:<code>192.168.44.132</code><br><code>dns客户端</code>:<code>192.168.44.133</code>  </li>
+<li><code>tianyun.me</code>:自己随便起的局域网内的域名(且<code>http</code>搭载到<code>192.168.44.133</code>这个虚拟机上,让<code>192.168.44.132</code>服务器上的<code>DNS</code>服务器帮我们解析域名)</li>
+</ul>
+<ol>
+<li>修改客户端<code>dns服务器ip地址</code>.<br>先让没装<code>dns服务器的虚拟机来解析</code>.<br><code>vim /etc/resolv.conf</code><br><code>nameserver 192.168.44.132</code></li>
+</ol>
+<ul>
+<li><code>dns</code>通信时使用<code>udp</code>协议</li>
+</ul>
+<ol start="2">
+<li><code>yum -y install tcpdump</code><br>抓客户端的包看一下<br>服务器端抓(<code>53</code>端口的包):<br><code>tcpdump -i eth0 -nn port 53</code><br>同时客户端<br><code>ping www.baidu.com</code><br>抓到包,但是由于还没配<code>dns服务器环境</code>所以无法解析  </li>
+</ol>
+<p>具体一点抓包<br><code>tcpdump -i eth0 -nn host 192.168.44.133</code>  </p>
+<ol start="3">
+<li>使用<code>bind</code>搭建<code>dns</code>域名解析服务器<br><code>yum -y install bind bind-chroot</code> </li>
+</ol>
+<ul>
+<li><code>bind</code>服务器配置文件<code>/etc/namd.conf</code>     </li>
+<li>域的数据:<code>/var/lib/named</code></li>
+</ul>
+<blockquote>
+<ol>
+<li>将配置文件<code>/etc/named.conf</code>中     </li>
+</ol>
+<p><strong>端口53(<code>dns端口</code>)访问改成任何人可以访问<code>listen-on port 53 &#123; any; &#125;;</code></strong>   </p>
+<p><strong>或者删除</strong><br>2. 开启<code>dns</code>服务<br><code>centos 6</code>: <code>service named start</code><br>3. 开防火墙<br><code>service iptables restart</code><br>4. 服务端再次<code>ping www.baidu,com</code>成功</p>
+</blockquote>
+<hr>
+<h2 id="DNS正区向解析设置"><a href="#DNS正区向解析设置" class="headerlink" title="DNS正区向解析设置"></a><code>DNS</code>正区向解析设置</h2><ul>
+<li>正向解析:<code>域名</code>解析为<code>ip</code></li>
+<li>反向解析: <code>ip</code>解析为<code>域名</code></li>
+</ul>
+<ol>
+<li>修改主配置文件<code>vim /etc/named.conf/</code>.添加域</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment">#directory &quot;/var/named&quot;; 表示数据存放的目录</span><br><span class="hljs-attribute">zone</span> <span class="hljs-string">&quot;tianyun.me&quot;</span> &#123;<br>    <span class="hljs-attribute">type</span> master;<br>    <span class="hljs-attribute">file</span> <span class="hljs-string">&quot;tianyun.me.zone&quot;</span><span class="hljs-comment">#数据存放文件名</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>创建数据库文件<code>vim /var/named/名字相同</code> <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dns">#www.tianyun.com. = www<br>tianyun.me. <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">SOA</span> dns.tianyun.me  root.tianyun.me.    ( <span class="hljs-number">2019072600</span> <span class="hljs-number">1</span>H <span class="hljs-number">15</span>M <span class="hljs-number">1</span>W <span class="hljs-number">1</span>D )<br>tianyun.me  <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">NS</span>  dns<br>dns <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">A</span>   <span class="hljs-number">192.168.44.132</span> #dns服务器ip地址(本机)<br>www <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">A</span>   <span class="hljs-number">192.168.44.133</span>  #客户端(需要域名解析)的ip地址,将www.tianyun.me 解析为这个Ip<br>#ftp    <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">A</span>   <span class="hljs-number">192.168.44.1</span> 将ftp.tianyun.me 解析为<span class="hljs-number">192.168.44.1</span>,<br># @代表域名 .  直接对域名进行解析<br>@   <span class="hljs-keyword">IN</span>  <span class="hljs-keyword">A</span>   <span class="hljs-number">192.168.44.133</span> # 即ping tianyun.me 也能通<br><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<p>第一行()内容意义:  </p>
+<ol>
+<li><code>20190700</code>(自定义的<strong>版本号</strong>).辅助<code>dns</code>服务器通过这个判断是否与主<code>dns</code>服务器同步</li>
+<li><code>1H</code>.每隔<code>1h</code>.辅助<code>dns</code>服务器开始同步</li>
+<li><code>15M</code>.若连接不上主<code>dns</code>服务器.<code>15分钟</code>代表尝试连接的时间</li>
+<li><code>1W</code>.若尝试连接时间超过<code>1周</code>就过期</li>
+<li><code>1D</code>缓存时间<code>TTL(Time to live)</code>,<strong>域名解析在DNS服务器中保留的时间</strong>   </li>
+</ol>
+<ul>
+<li>都可以写成以<code>3600</code>(秒)为单位,也可以带单位</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-attribute">SOA </span>: 起始授权记录 (必须)<br><span class="hljs-attribute">NS </span>: DNS服务器记录  (必须)<br><span class="hljs-attribute">A </span>: 主机记录<br><span class="hljs-attribute">CNAME </span>: 别名记录<br>@：域名<br></code></pre></td></tr></table></figure>
+<hr>
+<ol start="3">
+<li><code>service named restart</code></li>
+<li>客户端<code>ping tianyum.me</code>或者<code>ping www.tianyun.me</code> 都行</li>
+</ol>
+<h4 id="客户端查询解析"><a href="#客户端查询解析" class="headerlink" title="客户端查询解析"></a>客户端查询解析</h4><ul>
+<li>权威名称服务器:存储提供<code>某个区域的实际数据</code></li>
+<li>非权威名称服务器:仅缓存<code>DNS</code>服务器.不存储实际数据</li>
+</ul>
+<ol>
+<li><code>nslookup baidu.com</code></li>
+<li><code>host www.baidu.com</code><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs excel">-<span class="hljs-built_in">t</span> //指定查询域名信息类型<br>host -<span class="hljs-built_in">t</span> A luchaocloud.com<br>host -<span class="hljs-built_in">t</span> SOA tianyun.me<br><br></code></pre></td></tr></table></figure></li>
+<li><code>dig ip</code> //使用配置文件的<code>DNS</code>解析<br><code>dig @8.8.8.8 baidu.com</code> //使用指定<code>DNS</code>服务器解析  <h4 id="DNS解析流程"><a href="#DNS解析流程" class="headerlink" title="DNS解析流程"></a><code>DNS</code>解析流程</h4></li>
+<li>查询自己缓存(<code>windows</code>下缓存包含<code>hosts记录</code>,<code>linux</code>下不包括),没有就发送给设置的<code>DNS</code>服务器</li>
+<li>如果本地<code>DNS</code>服务器具有权威答案,则发送到客户端</li>
+<li>否则(不具有权威性),如果本地<code>DNS</code>服务器查看缓存是否有请求的信息.若有(非权威答案)发送到客户端</li>
+<li>如果缓存没有.该<code>DNS</code>将搜索权威<code>DNS</code>服务器已查找信息<br>a. 从跟区域开始,按照<code>DNS</code>层次结构向下搜索.找到后在自己的缓存中保留<br>b. 转发给其他<code>DNS</code>服务器</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/DNS%E5%AD%A6%E4%B9%A0/">DNS学习</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/29/csdn/py_%EF%BC%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">py_１</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/25/csdn/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+                        <span class="hidden-mobile">网络基础知识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

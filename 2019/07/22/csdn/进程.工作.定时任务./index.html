@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>进程.工作.定时任务. - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="进程.工作.定时任务.">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-22 20:16" pubdate>
+        2019年7月22日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      819 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">进程.工作.定时任务.</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ol>
+<li>查看总进程<code>ps aux</code></li>
+<li>系统主要进程(健康状态)<code>top</code><br><code>-d n</code>,n代表top更新秒数,默认每3秒更新<br><code>top</code>界面交互:<br><code>P</code> CPU使用率排序(默认)<br><code>M</code>内存使用率<br><code>N</code>PID排序  </li>
+</ol>
+<ol start="3">
+<li><code>pstree (process tree)</code></li>
+</ol>
+<ul>
+<li><code>kill -1 pid</code>,结束进程,重启<br><code>kill -9 pid</code>,完全关闭进程<br><code>pkill -9 -t ttyn</code>:<code>-t</code>通过终端号t出用户</li>
+</ul>
+<h3 id="ctrl-z放到后台暂停执行"><a href="#ctrl-z放到后台暂停执行" class="headerlink" title="ctrl+z放到后台暂停执行"></a>ctrl+z放到后台暂停执行</h3><h3 id="amp-放到后台继续执行"><a href="#amp-放到后台继续执行" class="headerlink" title="&amp; 放到后台继续执行"></a>&amp; 放到后台继续执行</h3><h3 id="fg-n-n是jobs的工作号-后台暂停工作放到前台继续执行"><a href="#fg-n-n是jobs的工作号-后台暂停工作放到前台继续执行" class="headerlink" title="fg n: n是jobs的工作号,后台暂停工作放到前台继续执行"></a>fg n: n是jobs的工作号,后台暂停工作放到前台继续执行</h3><h3 id="bg-n-后台暂停工作放到后天继续执行"><a href="#bg-n-后台暂停工作放到后天继续执行" class="headerlink" title="bg n:后台暂停工作放到后天继续执行"></a>bg n:后台暂停工作放到后天继续执行</h3><ul>
+<li>前台交互的工作不能放到后台继续执行(如<code>top</code>)</li>
+</ul>
+<ol start="4">
+<li><code>jobs -l</code>,查看后台程序</li>
+</ol>
+<ul>
+<li><code>+</code>最后一个放入,<code>-</code>倒数第二个放入</li>
+<li><code>systemctl</code>看服务,<code>jobs</code>看后台进程</li>
+</ul>
+<ol start="4">
+<li><code>vmstat</code>(ps+top) :<code>virtual memory statistics</code>虚拟内存统计<br><code>vmstat 刷新时间间隔 刷新次数</code></li>
+<li><code>dmesg</code> : (<code>display message or driver message</code>)<br>用来:<code>print or control the kernel ring buffer</code>:打印或控制内核环形缓冲  </li>
+</ol>
+<p><code>dmesg | grep CPU</code><br>6. <code>free</code>:查看内存使用情况</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs haml">-<span class="ruby">b <span class="hljs-symbol">:byte</span></span><br><span class="ruby">-k <span class="hljs-symbol">:kb</span></span><br><span class="ruby">-m <span class="hljs-symbol">:mb</span></span><br><span class="ruby">-g <span class="hljs-symbol">:gb</span></span><br><span class="ruby">-s n <span class="hljs-symbol">:</span>刷新间隔秒数</span><br></code></pre></td></tr></table></figure>
+<h4 id="cache"><a href="#cache" class="headerlink" title="cache"></a>cache</h4><ol>
+<li><code>cache</code>是硬件或软件的组件用来存储将来会<strong>请求到的数据</strong>,而且让数据获取的更快.</li>
+<li><code>Cache</code>:现在有<br><code>cpu与内存之间的cache</code><br><code>内存与硬盘的cache(磁盘缓存)</code><br><code>硬盘与网络(internet临时文件夹)</code></li>
+<li>凡是位于速度相差较大的两种硬件之间,用于<strong>协调2着数据传输速度差异的结构</strong>,均可称为<code>cache</code></li>
+</ol>
+<ul>
+<li><code>w</code>：显示当前登入系统用户信息</li>
+<li><code>uptime</code>:<code>w或top</code>的第一行</li>
+</ul>
+<ul>
+<li><code>uname :unix name</code><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs haml">-<span class="ruby">a <span class="hljs-symbol">:all</span></span><br><span class="ruby">-r : release 发行编号</span><br><span class="ruby">-m : machine 电脑类型</span><br><span class="ruby">-n : nodename 主机名称</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="系统定时任务"><a href="#系统定时任务" class="headerlink" title="系统定时任务"></a>系统定时任务</h3><p><code>crond</code>是一个系统服务<br><code>crontab</code>:定时任务命令</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">crontab</span> -e <span class="hljs-comment">#编辑定时任务</span><br>crontab -l <span class="hljs-comment">#显示所有的定时任务</span><br>crontab -r <span class="hljs-comment">#删除所有定时任务(不用)</span><br></code></pre></td></tr></table></figure>
+<h3 id="在时间格式-中"><a href="#在时间格式-中" class="headerlink" title="在时间格式* * * * *中,"></a>在时间格式<code>* * * * *</code>中,</h3><h3 id="依次按照分钟-0-59-小时-0-59-天-1-30-月-1-12-星期-0-7-排列"><a href="#依次按照分钟-0-59-小时-0-59-天-1-30-月-1-12-星期-0-7-排列" class="headerlink" title="依次按照分钟(0-59) 小时(0-59) 天(1-30) 月(1-12) 星期(0-7)排列"></a>依次按照<code>分钟(0-59) 小时(0-59) 天(1-30) 月(1-12) 星期(0-7)</code>排列</h3><p><code>0 5 * * * ls / &gt;&gt; /tmp/auto.log</code>:每天凌晨5点执行  <br><br><br><code>0 5 1,2 * *</code>:每月1、2号执行<br><code>*/10 * * * *</code>:每间隔10分钟执行<br><code>0 5 * * 1-5</code>:周一到周五下午5点执行<br><code>0 6-12/3 * 12 *</code>12月6-12点每隔3小时执行一次  </p>
+<h4 id="日志文件格式"><a href="#日志文件格式" class="headerlink" title="日志文件格式"></a>日志文件格式</h4><ol>
+<li>事件时间</li>
+<li>服务器主机名</li>
+<li>服务名或者程序名</li>
+<li>事件具体的信息</li>
+</ol>
+<p><code>/etc/rsyslog.conf</code>配置文件<br><code>authpriv.*         /var/log/secure</code>  表示任何等级</p>
+<p>[服务名称][连接符][日志等级]</p>
+<ol>
+<li><code>*</code> 任何等级</li>
+<li><code>.</code>  <code>cron.info</code>表示<code>cron</code>服务产生的日志等级<strong>大于等于</strong><code>info</code>就记录</li>
+<li><code>.=</code> 同等级</li>
+<li><code>.!</code>除了该等级都记录</li>
+</ol>
+<p>日志等级:  </p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">debug</span>:等级最低,信息量多<br><span class="hljs-keyword">info</span><br><span class="hljs-keyword">notice</span><br><span class="hljs-built_in">warning</span><br>err<br>crit (critial:危急的)<br>alert<br></code></pre></td></tr></table></figure>
+
+<h4 id="日志文件命名"><a href="#日志文件命名" class="headerlink" title="日志文件命名"></a>日志文件命名</h4><ol>
+<li>日志文件有<code>dateext</code>参数,系统创建新的日志文件来替换昨天日志,并且昨天日志用日期来命名,<br>如:<code>secure</code>-&gt;<code>secure.20190101</code>,再新建今天日志命名为<code>secure</code></li>
+<li>(没有<code>dateext</code>参数)轮换.<code>secure</code>改名-&gt;<code>secure.1</code>(同时新建<code>secure</code>).<code>secure1</code>改名-&gt;<code>secure2</code>.</li>
+</ol>
+<p><strong>日志轮替工具</strong><code>logrotate</code>   </p>
+<ul>
+<li>配置文件:<code>/etc/logrotate.conf</code>  </li>
+<li>加入日志轮替就修改<code>/etc/logrotate</code>文件  </li>
+<li><code>rpm</code>安装的软件自动加入<strong>日志轮替</strong></li>
+<li>源码包安装文件要手动加入日志轮替</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/23/csdn/%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%861/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">磁盘与文件系统管理1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/21/csdn/%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E5%88%86%E7%B1%BB/">
+                        <span class="hidden-mobile">系统服务分类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

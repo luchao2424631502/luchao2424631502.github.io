@@ -1,0 +1,867 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/06/csdn/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F(%E8%99%9A%E5%81%87%E5%94%A4%E9%86%92)/">深入理解条件变量(虚假唤醒)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/03/06/csdn/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F(%E8%99%9A%E5%81%87%E5%94%A4%E9%86%92)/">
+          
+          
+            
+          
+          
+
+深入条件变量pthread_cond_wait()和pthread_cond_signal()的伪实现
+1234567891011121314151617181920212223242526272829303132333435pthread_cond_wait(mutex,cond) &#123;	// 保存条件变量的值	value = cond-&gt;value;	// 解锁传入的已经锁住
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-06 17:05" pubdate>
+              2020-03-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/03/06/csdn/%E4%BD%BF%E7%94%A8mutex%E5%92%8C%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E5%AF%B9%E6%AF%94/">使用mutex和条件变量对比</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/03/06/csdn/%E4%BD%BF%E7%94%A8mutex%E5%92%8C%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E5%AF%B9%E6%AF%94/">
+          
+          
+            
+          
+          
+
+使用mutex和条件变量对比
+问题
+ 学生线程写作业，老师线程检查作业。要求：只有学生线程写完作业了，老师线程才能检查作业。
+
+
+使用mutex
+
+123456789101112131415161718192021222324252627282930313233343536373839404142#include &quot;apue.h&quot; #include &lt;pthread.
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-03-06 12:02" pubdate>
+              2020-03-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/pthread/">pthread</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/28/csdn/Linux%E4%B8%8B%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95/">Linux下基本的线程同步方法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/28/csdn/Linux%E4%B8%8B%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95/">
+          
+          
+            
+          
+          
+
+线程同步问题引入:
+２个线程同时修改一个变量x = 1时,如果不进行同步会怎么样?
+假设进行增加操作,增量操作通常分解为３步
+
+
+从内存将变量读入寄存器(cpu)
+在寄存器中对变量做增量操作
+写回内存
+
+
+那么在线程A对x进行增量操作时,如果不加锁,那么最终结果取决与线程B开始增量操作时获取的值,
+
+比如:
+线程A中cpu对寄存器中变量做完增量操作还没有写回内存,此时线程B获取到的值还是1,最
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-28 16:30" pubdate>
+              2020-02-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">APUE习题8.7</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">
+          
+          
+            
+          
+          
+
+exec在执行前会关闭所有打开的目录流(DIR)
+检查文件描述符状态标志,
+
+dirfd(DIR *)得到目录的文件描述符
+
+重要的fcntl()函数,得到文件描述符状态
+
+忽略了exec族函数的第一个参数的作用导致调用exec一直成功
+exec的第一个参数一般是可执行文件的文件名,    
+The  first argument,  by convention, should point t
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-08 22:09" pubdate>
+              2020-02-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/02/05/csdn/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%AE%9E%E7%8E%B0%E6%8E%92%E5%BA%8F/">编译期实现排序</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/05/csdn/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%AE%9E%E7%8E%B0%E6%8E%92%E5%BA%8F/">
+          
+          
+            
+          
+          
+
+编译期间实现排序
+在b站上看到的,凭借一点c++ 的知识勉强读懂
+
+
+思路
+Values实现将基类对象类型放在(展开在)tuple中,std::tuple&lt;&gt;是个聚合类,能将参数包中不同元素类型糅合成一种类型,排序就是在tuple上进行的
+
+
+模板类实现判断, template&lt;bool,typename Then,typename Else&gt; If
+
+封装成Compa
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-05 21:04" pubdate>
+              2020-02-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/29/csdn/%E5%AF%B9C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86IO%E7%9A%84%E7%90%86%E8%A7%A3/">对C语言标准IO的理解</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/29/csdn/%E5%AF%B9C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86IO%E7%9A%84%E7%90%86%E8%A7%A3/">
+          
+          
+            
+          
+          
+
+
+对标准IO的理解:
+个人理解,如果有错误请指出
+
+
+c语言标准IO通过一个FILE结构来封装了read和write系统调用,并且标准IO缓冲区的分配也是通过修改FILE的元素来改变,
+由于常用stdin,stdout,就认为缓冲区是分为输入缓冲区和输出缓冲区的,这只是因为缓冲区承担一项工作(输入or输出)
+
+如果用文件流以O_RDWR状态打开一个文件,那么缓冲区将会同时作为输入和输出的缓冲区
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-29 23:56" pubdate>
+              2020-01-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/28/csdn/APUE%E7%AC%AC%E5%9B%9B%E7%AB%A0%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95/">APUE第四章文件和目录</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/28/csdn/APUE%E7%AC%AC%E5%9B%9B%E7%AB%A0%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95/">
+          
+          
+            
+          
+          
+
+与进程相关联的ID
+1.实际用户ID＋实际组ID2.有效用户ID＋有效组ID＋附属组ID3.保存的设置用户ID+保存的设置组ID  
+
+
+执行一个程序文件时,进程的有效用户ID=实际用户ID,有效组ID=实际组ID,
+当我执行./a.out文件时,如果a.out此文件权限是root root,但是我以非root用户来执行的(实际用户是非root用户,此时进程的有效用户id变成实际用户id,那么
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-28 17:39" pubdate>
+              2020-01-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/23/csdn/APUE%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%96%87%E4%BB%B6IO%E7%AC%94%E8%AE%B0+%E4%B9%A0%E9%A2%98/">APUE第三章文件IO笔记+习题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/23/csdn/APUE%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%96%87%E4%BB%B6IO%E7%AC%94%E8%AE%B0+%E4%B9%A0%E9%A2%98/">
+          
+          
+            
+          
+          
+
+3 文件IO
+非缓冲IO,属于POSIX,非IOS C标准  
+
+stdin stdou stderr与STDIN_FILENO STDOUT_FILENO STDERR_FILENO的关系  
+stdin等属于FILE *类型,在&lt;stdio.h&gt;中
+STDIN_FILENO等是无符号整数，表示描述符,在&lt;unistd.h&gt;中
+
+
+
+
+3.1 常用函数
+open123
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-23 17:22" pubdate>
+              2020-01-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/16/csdn/KMP/">KMP</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/16/csdn/KMP/">
+          
+          
+            
+          
+          
+
+前缀表 + kmp
+求前缀表的核心就是 知道在 字符串‘’A B …. C D‘’中
+
+求 最长公共前后缀长度
+已知 A B互相相同,C D 互相相同, (A + B)和(C+D)互相相同
+得到A和D互相相同
+
+
+prefix_table右移一下,
+
+扫描文本串时,pattern串,根据prefix_table的下标位置来改变指向pattern串的指针
+
+
+123456789101112131
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-16 20:20" pubdate>
+              2020-01-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/01/16/csdn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">计算机网络概述</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/16/csdn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+          
+          
+            
+          
+          
+
+
+持续更新一、网络概述
+
+OSI参考模型（数据通信
+应用层: 所有能产生网络流量的程序
+
+表示层: 传输之前是否进行加密or压缩处理
+
+会话层: 区分来的数据是属于哪一个窗口的(会话),访问网站建立会话
+*   查看是否存在木马: netstat -n -b
+
+传输层: 可靠传输 流量控制
+
+可靠传输：在网络中丢包了,只要server没有收到client的包,则server一直发包,直到确定
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-16 20:08" pubdate>
+              2020-01-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/6/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/8/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

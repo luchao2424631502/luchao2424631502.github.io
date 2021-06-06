@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>IO多路复用-select实现简单回声服务 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IO多路复用-select实现简单回声服务">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-09-04 18:00" pubdate>
+        2020年9月4日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IO多路复用-select实现简单回声服务</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="I-O多路复用-select函数"><a href="#I-O多路复用-select函数" class="headerlink" title="I/O多路复用-select函数"></a>I/O多路复用-select函数</h3><p>功能:将多个文件描述符统一监视,描述符是否能读写,以及是否发生异常?</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">select</span><span class="hljs-params">(<span class="hljs-keyword">int</span> maxfd,fd_set* readfds,fd_set* writefds,fd_set* exceptfds,timeval* timeout)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>fs_set注册使用由系列宏来完成,将fd_set看成bit map</p>
+<blockquote>
+<p>FD_ZERO(fd_set* fdset); //所有位置位成0</p>
+<p>FD_SET(int fd,fd_set* fdset);//fd对应bit置位为1</p>
+<p>FD_CLR(int fd,fd_set* fdset);//fd对应Bit置位为0</p>
+<p>FD_ISSET(int fd,fd_set* fdset);//判断对应位是否置位</p>
+</blockquote>
+</li>
+<li><p>参数</p>
+<blockquote>
+<p> maxfd是 <strong>最大描述符编号+1</strong></p>
+<p>参数2-4分别表示监听要 读 / 写 / 异常 的描述符fd_set,</p>
+<p>timeout指定超时时间 (可以避免无限阻塞)</p>
+<p>返回值&gt;0:表示3个描述符集合中准备好的描述符的个数和</p>
+<p>​            =0:指定时间过了,并且无描述符准备好</p>
+<p>​            &lt;0:错误</p>
+<p><strong>函数返回后对应fd_set中的bit仍为1表示准备好了,=0则未准备好</strong></p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h4 id="select实现服务端"><a href="#select实现服务端" class="headerlink" title="select实现服务端"></a>select实现服务端</h4><blockquote>
+<p>相比最初的多进程服务器,IO多路复用减少了进程开销</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;me.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUF_SIZE 100</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">int</span> serv_sock,clnt_sock;<br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>,<span class="hljs-title">clnt_adr</span>;</span><br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">timeout</span>;</span><br>  fd_set reads,cpy_reads;<br><br>  <span class="hljs-keyword">socklen_t</span> adr_sz;<br>  <span class="hljs-keyword">int</span> fd_max,str_len,fd_num,i;<br>  <span class="hljs-keyword">char</span> buf[BUF_SIZE];<br>  <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>  &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage : %s &lt;port&gt;\n&quot;</span>,argv[<span class="hljs-number">0</span>]);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>  &#125;<br><br>  serv_sock = socket(AF_INET,SOCK_STREAM,<span class="hljs-number">0</span>);<br>  <span class="hljs-built_in">memset</span>(&amp;serv_adr,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(serv_adr));<br>  serv_adr.sin_family = AF_INET;<br>  serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);<br>  serv_adr.sin_port = htons(atoi(argv[<span class="hljs-number">1</span>]));<br>  <br>  <span class="hljs-keyword">if</span> (bind(serv_sock,(struct sockaddr*)&amp;serv_adr,<span class="hljs-keyword">sizeof</span>(serv_adr)) == <span class="hljs-number">-1</span>)<br>    error_handle(<span class="hljs-string">&quot;bind() error&quot;</span>)<br>  <br>  <span class="hljs-keyword">if</span> (listen(serv_sock,<span class="hljs-number">5</span>) == <span class="hljs-number">-1</span>)<br>    error_handle(<span class="hljs-string">&quot;listen() error&quot;</span>)<br><br>  FD_ZERO(&amp;reads);<span class="hljs-comment">//</span><br>  FD_SET(serv_sock,&amp;reads);<br>  fd_max = serv_sock;<br><br>  <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>  &#123;<br>    cpy_reads = reads;<br>    timeout.tv_sec = <span class="hljs-number">5</span>;<br>    timeout.tv_usec = <span class="hljs-number">5000</span>;<br>    <br>    <span class="hljs-keyword">if</span> ((fd_num = select(fd_max+<span class="hljs-number">1</span>,&amp;cpy_reads,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,&amp;timeout)) == <span class="hljs-number">-1</span>)<span class="hljs-comment">//监听读描述符</span><br>      <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">if</span> (fd_num == <span class="hljs-number">0</span>)<span class="hljs-comment">//serv_sock无反应 </span><br>      <span class="hljs-keyword">continue</span>;<br><br>    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;fd_max+<span class="hljs-number">1</span>; i++)<br>    &#123;<br>      <span class="hljs-keyword">if</span> (FD_ISSET(i,&amp;cpy_reads))<br>      &#123;<br>        <span class="hljs-keyword">if</span>(serv_sock == i)<br>        &#123;<br>          <span class="hljs-comment">//说明有客户端请求到来 </span><br>          adr_sz = <span class="hljs-keyword">sizeof</span>(clnt_adr);<br>          <span class="hljs-comment">//接受请求 </span><br>          clnt_sock = accept(serv_sock,(struct sockaddr*)&amp;clnt_adr,&amp;adr_sz);<br>          FD_SET(clnt_sock,&amp;reads);<span class="hljs-comment">//加入到下一次要监听的读描述符中 </span><br>          <span class="hljs-keyword">if</span> (fd_max &lt; clnt_sock)<br>            fd_max = clnt_sock;<br>          <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;connected client: %d \n&quot;</span>,clnt_sock);<br>        &#125;<span class="hljs-keyword">else</span><span class="hljs-comment">//通过serv_sock加入到fd_set监听队列中的已连接客户端socket </span><br>        &#123;<br>          <span class="hljs-comment">// while((str_len = read(i,buf,BUF_SIZE)) != 0)</span><br>            <span class="hljs-comment">// write(i,buf,str_len);</span><br>          <span class="hljs-comment">// FD_CLR(i,&amp;reads);</span><br>          <span class="hljs-comment">// close(i);</span><br>          <span class="hljs-comment">// printf(&quot;closed client: %d \n&quot;,i);</span><br><br>          str_len = read(i,buf,BUF_SIZE);<span class="hljs-comment">//这里仅仅回声一条消息(最大BUF_SIZE,但是while每次都会处理到此连接,因此直到处理完成</span><br>          <span class="hljs-keyword">if</span> (str_len == <span class="hljs-number">0</span>)<br>          &#123;<br>            FD_CLR(i,&amp;reads);<span class="hljs-comment">//从监听队列中去掉</span><br>            close(i);<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;closed client: %d \n&quot;</span>,i);<br>          &#125;<span class="hljs-keyword">else</span><br>          &#123;<br>            write(i,buf,str_len);<br>          &#125;<br>        &#125;<br>      &#125;<br>    &#125;<br>  &#125;<br>  close(serv_sock);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只监听了读fd_set,并且区分serv_sock,和clnt_sock,当serv_sock准备好后,说明有新的连接请求到来,那么accept()后加入到下次监听队列</p>
+<p>如果是clnt_sock准备好,说明客户端传来了消息,echo回去,因为是while()不断处理,所以不需要一次性等待客户端数据都传送过来并且处理</p>
+</blockquote>
+<p>原始客户端</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;me.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUF_SIZE 1024</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">int</span> sock;<br>  <span class="hljs-keyword">char</span> message[BUF_SIZE];<br>  <span class="hljs-keyword">int</span> str_len;<br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">serv_adr</span>;</span><br>  <br>  <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">3</span>)<br>  &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage : %s &lt;IP&gt; &lt;port&gt;\n&quot;</span>,argv[<span class="hljs-number">0</span>]);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>  &#125;<br><br>  sock = socket(AF_INET,SOCK_STREAM,<span class="hljs-number">0</span>);<br>  <span class="hljs-keyword">if</span> (sock == <span class="hljs-number">-1</span>)<br>    error_handle(<span class="hljs-string">&quot;socket() error&quot;</span>);<br>  <br>  <span class="hljs-built_in">memset</span>(&amp;serv_adr,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(serv_adr));<br>  serv_adr.sin_family       = AF_INET;<br>  serv_adr.sin_addr.s_addr  = inet_addr(argv[<span class="hljs-number">1</span>]);<br>  serv_adr.sin_port         = htons(atoi(argv[<span class="hljs-number">2</span>]));<br><br>  <span class="hljs-keyword">if</span> (connect(sock,(struct sockaddr*)&amp;serv_adr,<span class="hljs-keyword">sizeof</span>(serv_adr)) == <span class="hljs-number">-1</span>)<br>    error_handle(<span class="hljs-string">&quot;connect() error&quot;</span>)<br>  <span class="hljs-keyword">else</span> <br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;connected...&quot;</span>);<br><br>  <span class="hljs-comment">//已经连接上了服务器</span><br>  <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>  &#123;<br>    <span class="hljs-built_in">fputs</span>(<span class="hljs-string">&quot;Input message(Q to quit): &quot;</span>,<span class="hljs-built_in">stdout</span>);<br>    fgets(message,BUF_SIZE,<span class="hljs-built_in">stdin</span>);<br><br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(message,<span class="hljs-string">&quot;q\n&quot;</span>) || !<span class="hljs-built_in">strcmp</span>(message,<span class="hljs-string">&quot;Q\n&quot;</span>))<br>      <span class="hljs-keyword">break</span>;<br><br>    write(sock,message,<span class="hljs-built_in">strlen</span>(message));<br>    str_len = read(sock,message,BUF_SIZE<span class="hljs-number">-1</span>);<br>    message[str_len] = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Message from server: %s&quot;</span>,message);<br>  &#125;<br>  close(sock);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Windows上实现"><a href="#Windows上实现" class="headerlink" title="Windows上实现"></a>Windows上实现</h4><p>select第一个参数无意义(因为fd-&gt;句柄),那么fd_set也无顺序可言</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;WinSock2.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUF_SIZE 1024</span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ErrorHandling</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *message)</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>	WSADATA wsaData;<br>	SOCKET hServSock, hClntSock;<br>	SOCKADDR_IN servAdr, clntAdr;<br>	TIMEVAL timeout;<br>	fd_set reads, cpyReads; <br><br>	<span class="hljs-keyword">int</span> adrSz;<br>	<span class="hljs-keyword">int</span> strLen, fdNum;<br>	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">char</span> buf[BUF_SIZE];<br><br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage : %s &lt;port&gt;\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> (WSAStartup(MAKEWORD(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>), &amp;wsaData) != <span class="hljs-number">0</span>)<br>		ErrorHandling(<span class="hljs-string">&quot;WSAStartup() error&quot;</span>);<br><br>	hServSock = socket(PF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);<br>	<span class="hljs-built_in">memset</span>(&amp;servAdr, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(servAdr));<br>	servAdr.sin_family = AF_INET;<br>	servAdr.sin_addr.s_addr = htonl(INADDR_ANY);<br>	servAdr.sin_port = htons(atoi(argv[<span class="hljs-number">1</span>]));<br><br>	<span class="hljs-keyword">if</span> (bind(hServSock, (SOCKADDR*)&amp;servAdr, <span class="hljs-keyword">sizeof</span>(servAdr)) == SOCKET_ERROR)<br>		ErrorHandling(<span class="hljs-string">&quot;bind() error&quot;</span>);<br>	<span class="hljs-keyword">if</span> (listen(hServSock, <span class="hljs-number">5</span>) == SOCKET_ERROR)<br>		ErrorHandling(<span class="hljs-string">&quot;listen() error&quot;</span>);<br><br>	FD_ZERO(&amp;reads);<br>	FD_SET(hServSock, &amp;reads);<br><br>	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>	&#123;<br>		cpyReads = reads;<br>		timeout.tv_sec = <span class="hljs-number">5</span>;<br>		timeout.tv_usec = <span class="hljs-number">5000</span>;<br>		<br>		<span class="hljs-keyword">if</span> ((fdNum = select(<span class="hljs-number">0</span>, &amp;cpyReads, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, &amp;timeout)) == SOCKET_ERROR)<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-keyword">if</span> (fdNum == <span class="hljs-number">0</span>)<br>			<span class="hljs-keyword">continue</span>;<br>		<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;reads.fd_count; i++)<br>		&#123;<br>			<br>			<span class="hljs-keyword">if</span> (FD_ISSET(reads.fd_array[i], &amp;cpyReads))<br>			&#123;<br>				<br>				<span class="hljs-keyword">if</span> (reads.fd_array[i] == hServSock)<br>				&#123;<br>					adrSz = <span class="hljs-keyword">sizeof</span>(clntAdr);<br>					hClntSock = accept(hServSock,(SOCKADDR*)&amp;clntAdr,&amp;adrSz);<br>					<br>					FD_SET(hClntSock,&amp;reads);<br>					<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;connected client: %d \n&quot;</span>,hClntSock);<br>				&#125;<br>				<span class="hljs-keyword">else</span><br>				&#123;<br>					strLen = recv(reads.fd_array[i],buf,BUF_SIZE<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>);<br>					<span class="hljs-keyword">if</span> (strLen == <span class="hljs-number">0</span>)<br>					&#123;<br>						FD_CLR(reads.fd_array[i],&amp;reads);<br>						closesocket(cpyReads.fd_array[i]);<br>						<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;closed client: %d \n&quot;</span>,cpyReads.fd_array[i]);<br>					&#125;<br>					<span class="hljs-keyword">else</span><br>					&#123;<br>						send(reads.fd_array[i],buf,strLen,<span class="hljs-number">0</span>);<span class="hljs-comment">//echo</span><br>					&#125;<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>	closesocket(hServSock);<br>	WSACleanup();<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ErrorHandling</span><span class="hljs-params">(<span class="hljs-keyword">char</span>* message)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">fputs</span>(message,<span class="hljs-built_in">stderr</span>);<br>	fputc(<span class="hljs-string">&#x27;\n&#x27;</span>,<span class="hljs-built_in">stderr</span>);<br>	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>客户端</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//#define _CRT_SECURE_NO_WARNINGS</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;WinSock2.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;Ws2tcpip.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUF_SIZE 1024</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ErrorHandling</span><span class="hljs-params">(<span class="hljs-keyword">char</span>* message)</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span>* argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>	WSADATA wsaData;<br>	SOCKET hSocket;<br>	<span class="hljs-keyword">char</span> message[BUF_SIZE];<br>	<span class="hljs-keyword">int</span> strLen;<br>	SOCKADDR_IN servAdr;<br><br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">3</span>)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage : %s &lt;IP&gt; &lt;port&gt;\n&quot;</span>,argv[<span class="hljs-number">0</span>]);<br>		<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> (WSAStartup(MAKEWORD(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>), &amp;wsaData) != <span class="hljs-number">0</span>)<br>		ErrorHandling(<span class="hljs-string">&quot;WSAStartup() error!&quot;</span>);<br>	<br>	hSocket = socket(PF_INET,SOCK_STREAM,<span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">if</span> (hSocket == INVALID_SOCKET)<br>		ErrorHandling(<span class="hljs-string">&quot;socket() error&quot;</span>);<br><br>	<span class="hljs-built_in">memset</span>(&amp;servAdr,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(servAdr));<br>	servAdr.sin_family = AF_INET;<br>	inet_pton(AF_INET, argv[<span class="hljs-number">1</span>], &amp;servAdr.sin_addr);<br>	servAdr.sin_port = htons(atoi(argv[<span class="hljs-number">2</span>]));<br><br>	<span class="hljs-keyword">if</span> (connect(hSocket, (SOCKADDR*)&amp;servAdr, <span class="hljs-keyword">sizeof</span>(servAdr)) == SOCKET_ERROR)<br>		ErrorHandling(<span class="hljs-string">&quot;connect() error!&quot;</span>);<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Connected...&quot;</span>);<br><br>	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)<br>	&#123;<br>		<span class="hljs-built_in">fputs</span>(<span class="hljs-string">&quot;Input message(Q to quit): &quot;</span>,<span class="hljs-built_in">stdout</span>);<br>		fgets(message,BUF_SIZE,<span class="hljs-built_in">stdin</span>);<br><br>		<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">strcmp</span>(message,<span class="hljs-string">&quot;Q\n&quot;</span>) || !<span class="hljs-built_in">strcmp</span>(message,<span class="hljs-string">&quot;q\n&quot;</span>))<br>			<span class="hljs-keyword">break</span>;<br>		<br>		send(hSocket,message,<span class="hljs-built_in">strlen</span>(message),<span class="hljs-number">0</span>); <span class="hljs-comment">//������Ϣ</span><br>		strLen = recv(hSocket,message,BUF_SIZE<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>);<br>		message[strLen] = <span class="hljs-number">0</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Message from server: %s&quot;</span>,message);<br>	&#125;<br>	closesocket(hSocket);<br>	WSACleanup();<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ErrorHandling</span><span class="hljs-params">(<span class="hljs-keyword">char</span>* message)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">fputs</span>(message,<span class="hljs-built_in">stderr</span>);<br>	fputc(<span class="hljs-string">&#x27;\n&#x27;</span>,<span class="hljs-built_in">stderr</span>);<br>	<span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>来自&lt;&lt;TCP/IP 网络编程 尹圣雨&gt;&gt;</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/socket/">socket</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/05/csdn/recv%E5%87%BD%E6%95%B0MSG_PEEK!MSG_DONTWAIT!MSG_OOB%E9%80%89%E9%A1%B9/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">recv函数MSG_PEEK|MSG_DONTWAIT|MSG_OOB选项</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/29/csdn/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/">
+                        <span class="hidden-mobile">多进程服务器端</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

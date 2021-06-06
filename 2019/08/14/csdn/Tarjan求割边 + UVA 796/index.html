@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Tarjan求割边 + UVA 796 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Tarjan求割边 + UVA 796">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-14 15:48" pubdate>
+        2019年8月14日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      731 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Tarjan求割边 + UVA 796</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ul>
+<li>割点去除后生成<code>&gt;=2</code>的子图</li>
+<li><code>dfs</code>遍历的无向图每个点一次所组成的树就是搜索树<h3 id="割边"><a href="#割边" class="headerlink" title="割边"></a>割边</h3>从无向图删除边<code>e</code>之后,<code>G</code>分裂成2个不相连的子图.称<code>e</code>是图<code>G</code>的<strong>桥</strong>或者<strong>割边</strong></li>
+<li>割去除后生成<code>2</code>个子图<h3 id="割边判定法则"><a href="#割边判定法则" class="headerlink" title="割边判定法则"></a>割边判定法则</h3></li>
+</ul>
+<ol>
+<li>当且仅当搜索树存在<code>x</code>的一个子节点<code>y</code>,<strong>满足<code>dfn[x] &lt; low[y]</code></strong><blockquote>
+<p><code>low[y] &gt; dfn[x]</code>说明:<code>y</code>点及其子树的所有点 <strong>能访问到的搜索树中最早的点比<code>x</code>点还晚</strong>,那么就是<strong>不能通过<code>(x,y)</code>这条边</strong>,如果<strong>删除(x,y)这条边</strong>,<code>y</code>点这部分必然是一个独立的子图或者(<code>y</code>一个点也算图)</p>
+</blockquote>
+</li>
+<li>由于无向图是<code>2</code>条有向边.在<code>Tarjan()</code>更新<code>low[]与dfn[]</code>关系时,要去掉<strong>父节点</strong><h4 id="但是可能2点之间存在重边-它们中只有一条在搜索树上-这些不在搜索树上的2点间的重边-仍可以用来更新low-与dfn-的关系"><a href="#但是可能2点之间存在重边-它们中只有一条在搜索树上-这些不在搜索树上的2点间的重边-仍可以用来更新low-与dfn-的关系" class="headerlink" title="但是可能2点之间存在重边,它们中只有一条在搜索树上.这些不在搜索树上的2点间的重边,仍可以用来更新low[]与dfn[]的关系"></a>但是可能2点之间存在重边,它们中只有一条在搜索树上.这些不在搜索树上的<code>2</code>点间的重边,仍可以用来更新<code>low[]与dfn[]</code>的关系</h4></li>
+</ol>
+<ul>
+<li>需要用一个方法既能<strong>解决重边,也能标记父亲节点</strong><h3 id="记录递归进入每个节点的边的编号-编号处理成邻接表的下标"><a href="#记录递归进入每个节点的边的编号-编号处理成邻接表的下标" class="headerlink" title="记录递归进入每个节点的边的编号.编号处理成邻接表的下标"></a>记录递归进入每个节点的边的编号.编号处理成邻接表的下标</h3></li>
+<li>运用<strong>成对变换</strong>的技巧.即双向边按照下标<code>2</code>和<code>3</code>. <code>4</code>和<code>5</code>存入邻接表</li>
+<li>通过异或直接找到反向边:<code>2^1=3</code> 并且 <code>3^1=2</code>.这样就能除去与父节点连接的边而不影响与父节点之间的重边</li>
+</ul>
+<p>例题:<a target="_blank" rel="noopener" href="https://cn.vjudge.net/problem/UVA-796">UVA 796</a></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br>	<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">1e5</span> + <span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> head[maxn], next1[maxn &lt;&lt; <span class="hljs-number">1</span>], ver[maxn &lt;&lt; <span class="hljs-number">1</span>];<br><span class="hljs-keyword">int</span> dfn[maxn], low[maxn];<br><span class="hljs-keyword">int</span> n,tot,num;<br><span class="hljs-keyword">bool</span> bridge[maxn &lt;&lt; <span class="hljs-number">1</span>];<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">edgeadd</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span> </span>&#123;<br>	ver[++tot] = y; next1[tot] = head[x]; head[x] = tot;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> in_edge)</span> </span>&#123;<br>	dfn[x] = low[x] = ++num;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = head[x]; i; i = next1[i]) &#123;<br>		<span class="hljs-keyword">int</span> y = ver[i];<br>		<span class="hljs-keyword">if</span> (!dfn[y]) &#123;<br>			tarjan(y, i);<br>			low[x] = <span class="hljs-built_in">min</span>(low[x], low[y]);<br><br>			<span class="hljs-keyword">if</span> (low[y] &gt; dfn[x]) &#123;<br>				bridge[i] = bridge[i ^ <span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i != (in_edge ^ <span class="hljs-number">1</span>))<br>			low[x] = <span class="hljs-built_in">min</span>(dfn[y],low[x]);<br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;<br>	tot = <span class="hljs-number">1</span>; num = <span class="hljs-number">0</span>;<br><br>	<span class="hljs-built_in">memset</span>(low,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> low);<br>	<span class="hljs-built_in">memset</span>(dfn,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> dfn);<br><br>	<span class="hljs-built_in">memset</span>(head, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> head); <br>	<span class="hljs-built_in">memset</span>(next1, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> next1);<br>	<span class="hljs-built_in">memset</span>(ver,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> ver);<br><br>	<span class="hljs-built_in">memset</span>(bridge,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> bridge);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br><span class="hljs-comment">//	freopen(&quot;a.txt&quot;,&quot;r&quot;,stdin);</span><br>	<span class="hljs-keyword">while</span> (~<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;n)) &#123;<br>		init();<br>		<span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0 critical links\n\n&quot;</span>);<br>			<span class="hljs-keyword">continue</span>;<br>		&#125; <br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>			<span class="hljs-keyword">int</span> cur, cnt;<br>			<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d (%d)&quot;</span>,&amp;cur,&amp;cnt); <br>			cur++;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt; j++) &#123;<br>				<span class="hljs-keyword">int</span> to; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;to); <br>				to++;<br>				<span class="hljs-keyword">if</span> (to &lt;= cur) <span class="hljs-keyword">continue</span>;<br>				edgeadd(cur, to); <br>				edgeadd(to,cur);<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)<br>			<span class="hljs-keyword">if</span> (!dfn[i]) tarjan(i,<span class="hljs-number">0</span>);<br>		<span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt; tot; i+=<span class="hljs-number">2</span>) <span class="hljs-comment">//邻接表存边从2开始</span><br>			<span class="hljs-keyword">if</span> (bridge[i]) ans++;<br>	<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d critical links\n&quot;</span>,ans);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt; tot; i += <span class="hljs-number">2</span>) <br>			<span class="hljs-keyword">if</span> (bridge[i]) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d - %d\n&quot;</span>,ver[i^<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>,ver[i] - <span class="hljs-number">1</span>);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/14/csdn/BZOJ%201123%20%E6%97%A0%E5%90%91%E5%9B%BE%E5%89%B2%E7%82%B9_Tarjan/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BZOJ 1123 无向图割点_Tarjan</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/14/csdn/Tarjan%E6%B1%82%E5%89%B2%E7%82%B9%E5%8E%9F%E7%90%86%20+%20UVA%20315/">
+                        <span class="hidden-mobile">Tarjan求割点原理 + UVA 315</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

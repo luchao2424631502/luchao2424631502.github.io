@@ -1,0 +1,717 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Emacs第一部分:所有基础知识 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Emacs第一部分:所有基础知识">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-14 18:40" pubdate>
+        2021年1月14日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Emacs第一部分:所有基础知识</h1>
+            
+            <div class="markdown-body">
+              <ol>
+<li><p>一个用来调用特定命令的Emacs组合键被称为一个键绑定,可自定义,Emacs有缺省的绑定</p>
+</li>
+<li><p>Emacs命令分为2大类,</p>
+<ol>
+<li>Ctrl</li>
+<li>Meta(Alt)</li>
+</ol>
+</li>
+<li><p>Emacs符号中<code>Ctrl</code>写成<code>C-</code>后面是第二个按键对应的字符,例如<code>Ctrl-X</code>组合键写成<code>C-X</code></p>
+</li>
+<li><p><code>Meta</code>按键被表示为<code>M-</code></p>
+<p>Meta键常被帮顶到<code>Alt</code>键,<strong>通常可以使用<code>Esc</code>键完成一个<code>Meta</code>按键序列,与输入Ctrl按键序列不同,按下Esc,然后松开,再按第2个键</strong></p>
+</li>
+<li><p>每一个Emacs命令都是一个函数,由<code>Emacs Lisp</code>定义,并有一个函数名.</p>
+<p>例如: 用上下方向键将光标向上移动一行也是一个函数<code>previous-line</code>,使用<code>M-x</code>命令,然后输入函数名,可运行任意一个函数.</p>
+<p><code>M-x previous-line</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="缓冲区和文件"><a href="#缓冲区和文件" class="headerlink" title="缓冲区和文件"></a>缓冲区和文件</h3><blockquote>
+<p>普通方式启动Emacs,默认是<code>scratch</code>(乱,挠)缓冲区,<strong>如果是Emacs自动创建的特殊缓冲区,名称两边有星号</strong></p>
+</blockquote>
+<p>缓冲区中有未保存到磁盘的文本时,模式行左侧出现两个星号,</p>
+<h4 id="创建新文件的方法"><a href="#创建新文件的方法" class="headerlink" title="创建新文件的方法"></a>创建新文件的方法</h4><blockquote>
+<p>当前的buffer没有和特定文件相关联时,Emacs将提示你指定用来保存缓冲区的文件的名字,已关联则直接写入</p>
+</blockquote>
+<p><code>C-x C-s</code>运行<code>save-buffer</code>命令,将缓冲区内容保存到某个文件</p>
+<h5 id="如果Emacs中没有打开其他的buffer-scratch缓冲区会一直存在-当它是唯一buffer时-scratch是无法被关闭的"><a href="#如果Emacs中没有打开其他的buffer-scratch缓冲区会一直存在-当它是唯一buffer时-scratch是无法被关闭的" class="headerlink" title="如果Emacs中没有打开其他的buffer,scratch缓冲区会一直存在,当它是唯一buffer时,scratch是无法被关闭的"></a>如果Emacs中没有打开其他的buffer,<code>scratch</code>缓冲区会一直存在,当它是唯一buffer时,<code>scratch</code>是无法被关闭的</h5><hr>
+<h4 id="利用文件名启动Emacs"><a href="#利用文件名启动Emacs" class="headerlink" title="利用文件名启动Emacs"></a>利用文件名启动Emacs</h4><blockquote>
+<p>Emacs启动某个特定的文件的内容放进一个新的缓冲区中以便编辑,提供多个文件则每个文件都在属于自己的缓冲区中打开.</p>
+</blockquote>
+<hr>
+<h4 id="打开一个文件"><a href="#打开一个文件" class="headerlink" title="打开一个文件"></a>打开一个文件</h4><p><code>C-x C-f</code>:<code>find-file</code>()命令,用文件的内容打开一个缓冲区</p>
+<h4 id="访问缓冲区"><a href="#访问缓冲区" class="headerlink" title="访问缓冲区"></a>访问缓冲区</h4><p><code>C-x b</code>从当前缓冲区切换到指定的缓冲区中,直接键入<code>Enter</code>(没有指定缓冲区的名称)则会切换到上一次访问的缓冲区,缺省值是<code>scratch</code>缓冲区</p>
+<h4 id="新建缓冲区"><a href="#新建缓冲区" class="headerlink" title="新建缓冲区"></a>新建缓冲区</h4><p>利用切换缓冲区<code>C-x b</code>,键入新缓冲区命名就可以,</p>
+<blockquote>
+<p><code>C-x C-s</code>保存缓冲区内容到磁盘中,指定的文件名不需要和缓冲区名称相同,Emacs会自动改变buffer的名称和使与新文件相符</p>
+</blockquote>
+<h4 id="kill-buffer"><a href="#kill-buffer" class="headerlink" title="kill buffer"></a>kill buffer</h4><p><code>C-x k</code>命令杀死某个缓冲区,键入Enter则是当前缓冲区(缺省),</p>
+<h4 id="将缓冲区保存到磁盘"><a href="#将缓冲区保存到磁盘" class="headerlink" title="将缓冲区保存到磁盘"></a>将缓冲区保存到磁盘</h4><p><code>C-x C-s</code> 命令,</p>
+<p>Emacs备份文件:<strong>当在Emacs中编辑一个已经存在的文件时,然后将编辑内容保存到文件时,Emacs会将编辑前的内容写到新文件中进行备份</strong>,此新文件的名称与原来的文件相同,<strong>只是多了一个波浪符号</strong></p>
+<hr>
+<h3 id="在Emacs中编辑文本"><a href="#在Emacs中编辑文本" class="headerlink" title="在Emacs中编辑文本"></a>在Emacs中编辑文本</h3><h4 id="在插入点插入文本"><a href="#在插入点插入文本" class="headerlink" title="在插入点插入文本"></a>在插入点插入文本</h4><h5 id="插入点"><a href="#插入点" class="headerlink" title="插入点:"></a>插入点:</h5><blockquote>
+<p>表示字符的插入位置,<strong>位于光标所在字符和前一个字符之间</strong></p>
+</blockquote>
+<p><code>C-p</code> (previous上): 光标移动到上一行</p>
+<p><code>C-n</code>(next 下): 光标移动到下一行</p>
+<p><code>C-f</code>(front 前): 光标移动到下一个字符</p>
+<p><code>C-n</code>(next 后): 光标移动到上一个字符</p>
+<p>PageDown替代:<code>C-V</code></p>
+<p>PageUp 替代:<code>M-v</code></p>
+<p><code>C-a</code> :光标转移到行的开始处</p>
+<p><code>C-e</code>:光标转移到行的结尾</p>
+<p><code>M-a</code>:转移到当前句子的开头</p>
+<p><code>M-e</code>:转移到当前句子的结尾</p>
+<p><code>M-f</code>:光标向后移动一个单词 (<strong>注意<code>C</code>是移动一个字符</strong>)</p>
+<p><code>M-b</code>:光标向前移动一个单词 </p>
+<h4 id="改写模式"><a href="#改写模式" class="headerlink" title="改写模式"></a>改写模式</h4><p>[Ins]键</p>
+<h4 id="删除-撤销和重复"><a href="#删除-撤销和重复" class="headerlink" title="删除,撤销和重复"></a>删除,撤销和重复</h4><h5 id="1-删除"><a href="#1-删除" class="headerlink" title="1. 删除"></a>1. 删除</h5><p><code>Del</code>:删除当前光标的字符</p>
+<p><code>BackSpace</code>:删除插入点左边的字符</p>
+<p><code>C-d</code> = <code>Del</code>:删除当前光标的字符</p>
+<p><code>M-d</code>:删除光标后直到单词末尾</p>
+<p><code>M-BackSpace</code>或<code>C-BackSpace</code>或者<code>M-Del</code>都可以从插入点一直删除到单词的开头</p>
+<h5 id="2-撤销和重复"><a href="#2-撤销和重复" class="headerlink" title="2.撤销和重复"></a>2.撤销和重复</h5><p>运行<code>undo()</code>函数,撤销不想执行的操作,此函数绑定到<code>C-_</code>,也就是<code>Ctrl+Shift+-</code></p>
+<p>如果对<code>undo()</code>操作感到后悔,键入<code>C-g</code>,取消所有的撤销操作,再次键入<code>C-_</code>执行<code>redo()</code>操作</p>
+<p><code>C-u 2 e</code>表示写入2个e字符,在没有数字参数下,假定数字为4,<code>C-u</code>本身作为参数则自乘4,</p>
+<p>例如:<code>C-u C-u C-u a</code>,则是64个a</p>
+<p>例:快速移动向后光标:<code>C-u 100 C-f</code></p>
+<h4 id="标记-移除"><a href="#标记-移除" class="headerlink" title="标记,移除"></a>标记,移除</h4><h5 id="标记一个区域"><a href="#标记一个区域" class="headerlink" title="标记一个区域"></a>标记一个区域</h5><p><code>C-space</code>在当前插入点处设置一个标记,<strong>插入点和设置标记之间的部分被称为区域</strong></p>
+<h5 id="删除和恢复文本"><a href="#删除和恢复文本" class="headerlink" title="删除和恢复文本"></a>删除和恢复文本</h5><p><code>C-w</code>,删除定义的区域,删除的文本保存在<strong>Emacs的kill ring</strong>中, (<strong>作用类似剪切</strong>)</p>
+<p><code>C-y</code>把它们恢复到插入点,<strong>多个删除命令连续进行删除,会叠加在一起,只返回一个移除内容</strong></p>
+<p><code>C-k</code>删除从插入点到行末的所有文本</p>
+<h5 id="复制文本"><a href="#复制文本" class="headerlink" title="复制文本"></a>复制文本</h5><p><code>M-w</code>:和<code>C-w</code>的剪切对比记忆,<code>M-w</code>是复制区域内容到<code>kill ring</code></p>
+<hr>
+<h2 id="常用快捷键-函数总结"><a href="#常用快捷键-函数总结" class="headerlink" title="常用快捷键(函数总结)"></a>常用快捷键(函数总结)</h2><h4 id="C-x-文件和缓冲区命令"><a href="#C-x-文件和缓冲区命令" class="headerlink" title="C-x 文件和缓冲区命令"></a>C-x 文件和缓冲区命令</h4><table>
+<thead>
+<tr>
+<th align="center">C-x</th>
+<th align="center">文件和缓冲区命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">C-x C-c</td>
+<td align="center">将所有未保存的缓冲区保存到磁盘,并退出Emacs:save-buffers-kill-emacs()</td>
+</tr>
+<tr>
+<td align="center">C-x C-s</td>
+<td align="center">将当前buffer写入磁盘文件:save-buffer()</td>
+</tr>
+<tr>
+<td align="center">* C-x s</td>
+<td align="center">将所有未保存的缓冲区保存到磁盘:save-some-buffers()</td>
+</tr>
+<tr>
+<td align="center">C-x C-f</td>
+<td align="center">打开一个文件:find-file()</td>
+</tr>
+<tr>
+<td align="center">* C-x b</td>
+<td align="center">从当前缓冲区切换到指定的另一个缓冲区</td>
+</tr>
+<tr>
+<td align="center">C-x C-b</td>
+<td align="center">列出所有缓冲区:list-buffers()</td>
+</tr>
+<tr>
+<td align="center">* C-x k</td>
+<td align="center">杀死一个缓冲区,缺省为当前:kill-buffer()</td>
+</tr>
+<tr>
+<td align="center">C-x C-q</td>
+<td align="center">切换当前缓冲区的可读状态:vc-toggle-read-only()</td>
+</tr>
+<tr>
+<td align="center">* C-x i</td>
+<td align="center">在光标处插入某个文件的内容:insert-file()</td>
+</tr>
+<tr>
+<td align="center">C-g</td>
+<td align="center">终止命令</td>
+</tr>
+</tbody></table>
+<h4 id="M-x-进入命令行"><a href="#M-x-进入命令行" class="headerlink" title="M-x 进入命令行"></a>M-x 进入命令行</h4><h4 id="C-键盘移动和导航"><a href="#C-键盘移动和导航" class="headerlink" title="C- 键盘移动和导航"></a>C- 键盘移动和导航</h4><table>
+<thead>
+<tr>
+<th align="center">C-p</th>
+<th align="center">光标移动到上一行:previous-line()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">C-n</td>
+<td align="center">光标移动到下一行:next-line()</td>
+</tr>
+<tr>
+<td align="center">C-f</td>
+<td align="center">光标移动到下一个字符:forward-char()</td>
+</tr>
+<tr>
+<td align="center">C-b</td>
+<td align="center">光标移动到上一个字符:back-char()</td>
+</tr>
+<tr>
+<td align="center">C-a</td>
+<td align="center">光标移动到行首:beginning-of-line()</td>
+</tr>
+<tr>
+<td align="center">C-e</td>
+<td align="center">光标移动到行尾:end-of-line()</td>
+</tr>
+<tr>
+<td align="center">M-f</td>
+<td align="center">光标移动到下一个单词:forward-word()</td>
+</tr>
+<tr>
+<td align="center">M-b</td>
+<td align="center">光标移动到上一个单词:backward-word()</td>
+</tr>
+<tr>
+<td align="center">C-v [PgDn]</td>
+<td align="center">将文本向上滚屏:scroll-up()</td>
+</tr>
+<tr>
+<td align="center">M-v [PgUp]</td>
+<td align="center">将文本向下滚屏:scroll-down()</td>
+</tr>
+<tr>
+<td align="center">[Home]</td>
+<td align="center">将光标移动到行首(可能是buffer开头):beginning-of-buffer()</td>
+</tr>
+<tr>
+<td align="center">[End]</td>
+<td align="center">将光标移动到行末(可能是buffer末尾):end-of-buffer()</td>
+</tr>
+<tr>
+<td align="center">M-a</td>
+<td align="center">将光标移动到句子的开始处:beginning-of-sentence()</td>
+</tr>
+<tr>
+<td align="center">M-e</td>
+<td align="center">将光标移动到句子的结尾处:end-of-sentence()</td>
+</tr>
+</tbody></table>
+<h4 id="C-Emacs编辑命令"><a href="#C-Emacs编辑命令" class="headerlink" title="C-Emacs编辑命令"></a>C-Emacs编辑命令</h4><table>
+<thead>
+<tr>
+<th align="center">Ins</th>
+<th align="center">切换改写模式:overwrite-mode()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">BackSpace</td>
+<td align="center">删除插入点前的字符:delete-backward-char()</td>
+</tr>
+<tr>
+<td align="center">C-d</td>
+<td align="center">删除插入点处的字符:delete-char()</td>
+</tr>
+<tr>
+<td align="center">M-d</td>
+<td align="center">从插入点开始删除直到末尾:kill-word()</td>
+</tr>
+<tr>
+<td align="center">M-BackSpace</td>
+<td align="center">从插入点开始删除直到单词开始:backward-kill-word()</td>
+</tr>
+<tr>
+<td align="center">C-_</td>
+<td align="center">撤销操作:undo()</td>
+</tr>
+<tr>
+<td align="center">C-q</td>
+<td align="center">在插入点插入按键本身代表的字符:quoted-insert()</td>
+</tr>
+<tr>
+<td align="center">C-u</td>
+<td align="center">重复指令:universal-argument()</td>
+</tr>
+</tbody></table>
+<h4 id="标记和删除文本的Emacs函数"><a href="#标记和删除文本的Emacs函数" class="headerlink" title="标记和删除文本的Emacs函数"></a>标记和删除文本的Emacs函数</h4><table>
+<thead>
+<tr>
+<th align="center">C-space</th>
+<th align="center">在插入点设置标记:set-mark-command()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">C-k</td>
+<td align="center">删除从插入点到行末的所有文本:kill-line()</td>
+</tr>
+<tr>
+<td align="center">C-w</td>
+<td align="center">删除区域: kill-region()       <strong>类似剪切</strong></td>
+</tr>
+<tr>
+<td align="center">M-w</td>
+<td align="center">将区域保存在kill ring中,但是不删除:kill-ring-save()      <strong>类似复制</strong></td>
+</tr>
+<tr>
+<td align="center">C-y</td>
+<td align="center">恢复来自kill ring的文本: yank()</td>
+</tr>
+</tbody></table>
+<h4 id="Emacs的鼠标操作"><a href="#Emacs的鼠标操作" class="headerlink" title="Emacs的鼠标操作"></a>Emacs的鼠标操作</h4><blockquote>
+<p>B1表示鼠标左键,B2表示鼠标右键,B3表示鼠标中键</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">B1</th>
+<th align="center">设置插入点位置,按住不懂拖动鼠标设置区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">B1-B1</td>
+<td align="center">标记一个单词</td>
+</tr>
+<tr>
+<td align="center">B1-B1-B1</td>
+<td align="center">标记一行</td>
+</tr>
+<tr>
+<td align="center">B2</td>
+<td align="center">将区域插入kill ring中,并把光标移动到插入内容的末尾</td>
+</tr>
+<tr>
+<td align="center">B3</td>
+<td align="center">将kill ring的内容插入到光标处</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Emacs/">Emacs</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Emacs/">Emacs</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/16/Emacs%E7%AC%AC2%E9%83%A8%E5%88%86%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%BC%96%E8%BE%91%E7%89%B9%E6%80%A7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Emacs第二部分:基本模式和编辑特性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/14/%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/">
+                        <span class="hidden-mobile">移动语义</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>前缀和与差分 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="前缀和与差分">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-04-10 22:01" pubdate>
+        2019年4月10日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">前缀和与差分</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+<h3 id="一维前缀和"><a href="#一维前缀和" class="headerlink" title="一维前缀和"></a>一维前缀和</h3><blockquote>
+<p>从数组第一个开始累加</p>
+</blockquote>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">s<span class="hljs-comment">[i]</span>=s<span class="hljs-comment">[i-1]</span>+a<span class="hljs-comment">[i]</span><br></code></pre></td></tr></table></figure>
+<p>求区间<code>[l,r]</code>的和，<code>O(1)</code>复杂度 <code>sum=s[r]-s[l-1]</code>  </p>
+<h3 id="二维前缀和"><a href="#二维前缀和" class="headerlink" title="二维前缀和"></a>二维前缀和</h3><blockquote>
+<p>递推 <code>s[i][j]=s[i][j]-s[i-1][j]-s[i][j-1]+s[i-1][j-1]</code></p>
+</blockquote>
+<h5 id="例题：激光炸弹"><a href="#例题：激光炸弹" class="headerlink" title="例题：激光炸弹"></a>例题：激光炸弹</h5><blockquote>
+<p>一种新型的激光炸弹，可以摧毁一个边长为R的正方形内的所有的目标。现在地图上有n（n≤10000）个目标，用整数xi,yi（0≤xi,yi≤5000）表示目标在地图上的位置，每个目标都有一个价值0＜vi＜100。激光炸弹的投放是通过卫星定位的，但其有一个缺点，就是其爆破范围，即那个边长为R的正方形的边必须和x，y轴平行。**<em>若目标位于爆破正方形的边上，该目标将不会被摧毁**</em>。</p>
+</blockquote>
+<hr>
+<h6 id="将点向右下移动一次就可解决边界不包括的点"><a href="#将点向右下移动一次就可解决边界不包括的点" class="headerlink" title="将点向右下移动一次就可解决边界不包括的点"></a>将点向右下移动一次就可解决边界不包括的点</h6><h6 id="给出一个5000×5000的矩阵，每个格子上都有权值，求用一个n×n的框最多能框住多少？"><a href="#给出一个5000×5000的矩阵，每个格子上都有权值，求用一个n×n的框最多能框住多少？" class="headerlink" title="给出一个5000×5000的矩阵，每个格子上都有权值，求用一个n×n的框最多能框住多少？"></a>给出一个5000×5000的矩阵，每个格子上都有权值，求用一个n×n的框最多能框住多少？</h6><p>用前缀和来求<code>n*n</code>的框的价值<br><code>value=s[i][j]+s[i-r][j]+s[i][j-r]-s[i-r][j-r]);</code> </p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn=<span class="hljs-number">5005</span>;<br><span class="hljs-keyword">int</span> s[maxn][maxn];<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n,r;<br> <span class="hljs-comment">//   memset(s,0,sizeof s);</span><br>    freopen(<span class="hljs-string">&quot;a.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,<span class="hljs-built_in">stdin</span>);<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n&gt;&gt;r;<span class="hljs-comment">//n个数，正方形半径为r</span><br><span class="hljs-comment">// 没有注意到相同点会出现多次</span><br><span class="hljs-comment">//    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="hljs-comment">//        int a,b;</span><br><span class="hljs-comment">//        cin&gt;&gt;a&gt;&gt;b;</span><br><span class="hljs-comment">//        cin&gt;&gt;s[a+1][b+1];//向右下方移动1位</span><br><span class="hljs-comment">//    &#125;</span><br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>		<span class="hljs-keyword">int</span> a,b,v;<br>		<span class="hljs-built_in">cin</span>&gt;&gt;a&gt;&gt;b&gt;&gt;v;<br>		sum[a+<span class="hljs-number">1</span>][b+<span class="hljs-number">1</span>]+=v;<br>	&#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5001</span>;i++)&#123;<span class="hljs-comment">//第0默认为0</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">5001</span>;j++)&#123;<br>            s[i][j]=s[i][j]+s[i<span class="hljs-number">-1</span>][j]+s[i][j<span class="hljs-number">-1</span>]-s[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>];<span class="hljs-comment">//二维前缀和</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=r;i&lt;=<span class="hljs-number">5001</span>;i++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=r;j&lt;=<span class="hljs-number">5001</span>;j++)&#123;<br>            ans=<span class="hljs-built_in">max</span>(ans,s[i][j]-s[i-r][j]-s[i][j-r]+s[i-r][j-r]);<span class="hljs-comment">//遍历所有存在的子区域</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="差分"><a href="#差分" class="headerlink" title="差分"></a>差分</h3><blockquote>
+<p>差分与前缀和是一种互逆的运算</p>
+</blockquote>
+<p> 数组| 2 |1   | 4   |6    |5<br>|— |—|— | — | — | — |<br> 前缀和| 2| 3 |7 | 13 | 18<br>  差分 |2| -1 |3 |2   | -1</p>
+<ul>
+<li>差分前缀和是原数组</li>
+<li>前缀和差分也是原数组<blockquote>
+<p><strong><em>结论题</em></strong></p>
+</blockquote>
+<h4 id="IncDec-sequence-inc序列"><a href="#IncDec-sequence-inc序列" class="headerlink" title="IncDec sequence(inc序列)"></a>IncDec sequence(inc序列)</h4>给定一个长度为n（n&lt;=$10^5$）的数列，每次选择区间 [l,r],使区间内的数加1或减1.<br>求最少需要多少次操作使的数列中所有的数都一样，并且数列可能有几种？  <blockquote>
+<p>区间操作放在差分数组中就是改变2个数组的值，目标是,差分数组$b_2$~$b_n$都为0，且数列最终由n个$b_1$组成的，那么不同的$b_1$出现的次数代表了不同的数列    </p>
+</blockquote>
+<h5 id="四种操作"><a href="#四种操作" class="headerlink" title="四种操作"></a>四种操作</h5></li>
+<li>从$b_2$~$b_n$中选两个分别+1，-1,或者-1,+1，减少正负数，使差分数组向0移动， （更快接近结果） </li>
+<li>选 $b_1$和$b_j$ (2&lt;=j&lt;=n),改变差分数组中某一个数（$b_1$改变影响最终不同数列的次数，不影响操作的次数），</li>
+<li>同理，选$b_j$和$b_{n+1}$,$b_{n+1}$代表一直改变到原数列的最后一个，所以还是改变了差分数组的一个值</li>
+<li>改变$b_1$和$b_{n+1}$，原数组全部+,- 1,没有实际意义</li>
+</ul>
+<ol>
+<li>设$b_2$~$b_n$正数总和p,负数绝对值总和q,（原则是走最少），第一步走min(q,p)，剩下|q-p|个正数或者负数，</li>
+<li>剩下的|p-q|执行2,3操作，那么恰好为|p-q|次<h5 id="操作次数"><a href="#操作次数" class="headerlink" title="操作次数"></a>操作次数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs math">ans&#x3D;min(q,p)+|q-p|<br></code></pre></td></tr></table></figure>
+而<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs math">min(p,q)+|q-p|&#x3D;max(q,p)<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>证明</p>
+</blockquote>
+</li>
+<li><code>p&gt;q</code> 则<code>min(p,q)=q</code> <code>|q-p|=p-q </code> 得到<code>ans=q+p-q=p</code><br>而 <code>p=max(p,q)</code></li>
+<li>同理 <code>p&lt;q</code><h5 id="数列个数"><a href="#数列个数" class="headerlink" title="数列个数"></a>数列个数</h5>$b_1$一开始为1种，若2,3操作都为2操作，最多可能有<code>|p-q|+1</code>种  <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cmath&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn=<span class="hljs-built_in">pow</span>(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>)+<span class="hljs-number">1</span>;<br><span class="hljs-keyword">int</span> a[maxn];<br><span class="hljs-keyword">int</span> b[maxn];<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;a[i];<br>        b[i]=a[i];<br>        b[i]-=b[i<span class="hljs-number">-1</span>];<br>    &#125;<br><span class="hljs-comment">//    for(int i=1;i&lt;=n;i++)</span><br><span class="hljs-comment">//        cout&lt;&lt;b[i]&lt;&lt; &#x27; &#x27;;</span><br>    <span class="hljs-keyword">int</span> sum_1=<span class="hljs-number">0</span>,sum_2=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)&#123;<span class="hljs-comment">//b2开始统计正负</span><br>        <span class="hljs-keyword">if</span>(b[i]&gt;<span class="hljs-number">0</span>)  sum_1+=b[i];<br>        <span class="hljs-keyword">else</span> sum_2+=b[i];<span class="hljs-comment">//0无所谓</span><br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;操作次数&quot;</span>&lt;&lt;<span class="hljs-built_in">max</span>(sum_1,sum_2);<br>    <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;\n可能的不同数列个数&quot;</span>&lt;&lt;<span class="hljs-number">1</span>+<span class="hljs-built_in">abs</span>(sum_1-sum_2);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p><strong><em>Tallest Cow 最高奶牛</em></strong> POJ3263  </p>
+</blockquote>
+</li>
+</ol>
+<p>大意：N头牛站成一行，当且仅当2头牛之间所有牛都比它们矮，2头牛能相互看见，一直第p头牛最高，高为H，剩余N-1头牛不知道，给出m对关系（2头牛能够相互看见）,<strong>求每头牛的最大可能身高？</strong>  (1&lt;=n,m&lt;=$10^4$,1&lt;=h&lt;=$10^6$)</p>
+<p>思路：因为i,j，两头牛能够相互看见，那么<code>(i-1)~(j-1)</code>之间的所有牛的身高比他们小，假设所有牛的身高为0,那么<code>(i-1)~(j-1)</code>之间牛的身高都-1，即<code>b[i+1]-=1  b[j]+=1</code> 最后通过前缀和求出原数组，每头牛可能的最高身高=<code>H+a[i]</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;map&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn=<span class="hljs-number">10005</span>;<br><span class="hljs-keyword">int</span> a[maxn];<br><span class="hljs-keyword">int</span> b[maxn];<br><span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;,<span class="hljs-keyword">bool</span>&gt; e;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n,p,h,m;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n&gt;&gt;p&gt;&gt;h&gt;&gt;m;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)&#123;<br>        <span class="hljs-keyword">int</span> k1,k2;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;k1&gt;&gt;k2;<br>        <span class="hljs-keyword">if</span>(k1&gt;k2)   swap(k1,k2);<br>        <span class="hljs-keyword">if</span>( e[<span class="hljs-built_in">make_pair</span>(k1,k2)] == <span class="hljs-literal">true</span> )    <span class="hljs-keyword">continue</span>;<br>        <span class="hljs-keyword">else</span>&#123;<br>            e[<span class="hljs-built_in">make_pair</span>(k1,k2)]=<span class="hljs-literal">true</span>;<br>            b[k1+<span class="hljs-number">1</span>]--;<br>            b[k2]++;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        a[i]=a[i<span class="hljs-number">-1</span>]+b[i];<br>        <span class="hljs-built_in">cout</span>&lt;&lt;a[i]+h&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/">前缀和与差分</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/04/11/csdn/%E4%BA%8C%E5%88%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">二分</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/04/09/csdn/%E6%9C%80%E7%9F%ADHamilton%E8%B7%AF%EF%BC%88%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9%EF%BC%89/">
+                        <span class="hidden-mobile">最短Hamilton路（二进制状态压缩）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

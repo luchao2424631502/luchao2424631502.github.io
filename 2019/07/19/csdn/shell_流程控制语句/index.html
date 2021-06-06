@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>shell_流程控制语句 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="shell_流程控制语句">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-19 17:21" pubdate>
+        2019年7月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      772 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">shell_流程控制语句</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><ul>
+<li><code>if</code>开头,<code>fi</code>结尾</li>
+<li> 单分支<code>if</code>语句  </li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">if</span> [ 判断 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>fi<br></code></pre></td></tr></table></figure>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">if</span> [ 判断 ]<br>    <span class="hljs-keyword">then</span><br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>fi<br></code></pre></td></tr></table></figure>
+<p>统计根分区使用率写提醒脚本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>rate=$(df -h | grep <span class="hljs-string">&quot;/dev/vda1&quot;</span> | awk <span class="hljs-string">&#x27;print $5&#x27;</span> | cut -d <span class="hljs-string">&quot;%&quot;</span> -f 1)<br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$rate</span> -lt 80]<br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;/dev/vda1 is lower than 80%&quot;</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>rate=$(df -h | grep /dev/vda1 | awk <span class="hljs-string">&#x27;&#123;print $5&#125;&#x27;</span> | awk <span class="hljs-string">&#x27;BEGIN&#123;FS=&quot;%&quot;&#125;&#123;print $1&#125;&#x27;</span>)<br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$rate</span> -lt 80 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;/dev/vda1 &#x27;s capacity lower than 80&quot;</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+<p>注意:</p>
+<ol>
+<li>用awk也行<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">rate=<span class="hljs-constructor">$(<span class="hljs-params">df</span> -<span class="hljs-params">h</span> | <span class="hljs-params">grep</span> <span class="hljs-operator">/</span><span class="hljs-params">dev</span><span class="hljs-operator">/</span><span class="hljs-params">vda1</span> | <span class="hljs-params">awk</span> &#x27;&#123;<span class="hljs-params">print</span> $5&#125;&#x27; | <span class="hljs-params">awk</span> &#x27;BEGIN&#123;FS=<span class="hljs-string">&quot;%&quot;</span>&#125;&#123;<span class="hljs-params">print</span> $1&#125;&#x27;)</span><br></code></pre></td></tr></table></figure></li>
+<li>比较中,<code>$rate</code>前面加<code>\$</code>引用变量</li>
+</ol>
+<ul>
+<li>多分支<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">if</span> [ 判断 ]<br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>    <span class="hljs-keyword">else</span> <br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>fi<br></code></pre></td></tr></table></figure>
+打包备份<code>/etc</code>目录:<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs gradle">#!<span class="hljs-regexp">/bin/</span>bash<br>date=$(date +%y%m%d)<br><span class="hljs-keyword">size</span>=$(du -sh /etc)<br><span class="hljs-keyword">if</span> [ -d <span class="hljs-regexp">/tmp/</span>dbback ]<br>    then<br>        echo <span class="hljs-string">&quot;Date is:$date&quot;</span>&gt;<span class="hljs-regexp">/tmp/</span>dbback/db.txt<br>        cd <span class="hljs-regexp">/tmp/</span>dbback<br>        tar -zcf etc_$date.tar.gz <span class="hljs-regexp">/etc db.txt &amp;&gt; /</span>dev/<span class="hljs-keyword">null</span><br>        rm -rf <span class="hljs-regexp">/tmp/</span>dbback/db.txt<br>    <span class="hljs-keyword">else</span> <br>        mkdir <span class="hljs-regexp">/tmp/</span>dbback<br>        echo <span class="hljs-string">&quot;Date is:$date&quot;</span> &gt; <span class="hljs-regexp">/tmp/</span>dbback/db.txt<br>        cd <span class="hljs-regexp">/tmp/</span>dbback<br>        tar -zcf etc_$date.tar.gz <span class="hljs-regexp">/etc db.txt &amp;&gt; /</span>dev/<span class="hljs-keyword">null</span><br>        rm -rf <span class="hljs-regexp">/tmp/</span>dbback/db.txt<br>fi<br></code></pre></td></tr></table></figure>
+解释:</li>
+</ul>
+<ol>
+<li>判断是否存在<code>/tmp/dbback</code>这个目录</li>
+<li>有就备份,没有就创建</li>
+<li>进入这个目录作为相对路径</li>
+<li>打包后 删除原来的文件<br>一个</li>
+</ol>
+<ul>
+<li> <code>yum -y install nmap</code>安装远程扫描命令</li>
+<li> <code>yum -y install httpd</code>安装<code>apache</code></li>
+<li> <code>nmap -sT ip地址</code> 看80端口开了没<br><code>nmap -sT ip | grep &#39;http$&#39; | awk &#39;&#123;print $2&#125;&#39;</code>,截取端口状态<br>写一个脚本<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>port=$(nmap -sT ip | grep <span class="hljs-string">&#x27;http$&#x27;</span> | awk <span class="hljs-string">&#x27;&#123;print $2&#125;&#x27;</span>)<br><span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$port</span>&quot;</span> == <span class="hljs-string">&quot;open&quot;</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date)</span> httpd is open!&quot;</span> &gt;&gt; /tmp/autostart.acc.log<br>    <span class="hljs-keyword">else</span> <br>        <span class="hljs-comment">#没有启动则重启</span><br>        /etc/rc.d/init.d/httpd start &amp;&gt; /dev/null<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(date)</span> restart httpd &quot;</span>&gt;&gt; /tmp/autostart.err.log<br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+<h4 id="if-elseif-else"><a href="#if-elseif-else" class="headerlink" title="if elseif else"></a>if elseif else</h4><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">if</span> [ 判断 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>elif <br>    <span class="hljs-keyword">then</span><br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br><span class="hljs-keyword">else</span> <br>    <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>fi<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs fortran"><span class="hljs-keyword">if</span> [ 判断 ]<br>    <span class="hljs-keyword">then</span><br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>elif<br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br><span class="hljs-keyword">else</span> <br>    <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>fi<br></code></pre></td></tr></table></figure>
+<h5 id="判断文件类型脚本"><a href="#判断文件类型脚本" class="headerlink" title="判断文件类型脚本"></a>判断文件类型脚本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;Please input a filename:&quot;</span> file<br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> ] <br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Error,please input a filename&quot;</span><br>        <span class="hljs-built_in">exit</span> 1<br><span class="hljs-keyword">elif</span> [ ! -e <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> ] <br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Your input is not a file&quot;</span><br>        <span class="hljs-built_in">exit</span> 2<br><span class="hljs-keyword">elif</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> ] <br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$file</span> is a regular file&quot;</span><br><span class="hljs-keyword">elif</span> [ -d <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> ]<br>    <span class="hljs-keyword">then</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$file</span> is a directory&quot;</span><br><span class="hljs-keyword">else</span> <br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$file</span> is an other file&quot;</span><br><span class="hljs-keyword">fi</span>  <br><br></code></pre></td></tr></table></figure>
+
+
+<h4 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h4><ol>
+<li>和<code>if</code>一样,结束语都要导致</li>
+<li><code>program</code>语句要以<code>;;</code>结尾<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">case</span> <span class="hljs-variable">$val</span> <span class="hljs-keyword">in</span><br>    1)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;1&quot;</span>;;<br>    2)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;2&quot;</span>;;<br>    3) <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;3&quot;</span>;;<br>    4)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;other&quot;</span>;;<br><span class="hljs-keyword">esac</span><br></code></pre></td></tr></table></figure>
+例如:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -t 30 -p <span class="hljs-string">&quot;Please input you choose&quot;</span> choose<br><span class="hljs-keyword">case</span> <span class="hljs-variable">$choose</span> <span class="hljs-keyword">in</span><br>    1)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;1&quot;</span>;;<br>    2) <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;2&quot;</span>;;<br>    3)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;3&quot;</span>;;<br>    *)<br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;other&quot;</span>;;<br><span class="hljs-keyword">esac</span><br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><ol>
+<li>在文件中操作 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs fortran">for 变量 <span class="hljs-keyword">in</span> value1 v2 v3...<br>    <span class="hljs-keyword">do</span><br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>    done<br>    <br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> 1 2 3 4 5<br>    <span class="hljs-keyword">do</span> <br>        <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span><br>    <span class="hljs-keyword">done</span> <br></code></pre></td></tr></table></figure>
+<ul>
+<li>例:统计当前文件夹下<code>.sh</code>文件数量<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">cd</span> /tmp/sh/<br>cnt=0<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $(ls *.sh)<br>    <span class="hljs-keyword">do</span> <br>        cnt=$(( <span class="hljs-variable">$cnt</span> + <span class="hljs-number">1</span> )) <br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$i</span>&quot;</span><br>    <span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;文件数量=<span class="hljs-variable">$cnt</span>&quot;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>c语法,在<code>(( ))</code>数值运算符内<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs fortran">for ((i=<span class="hljs-number">1</span>; i&lt;=<span class="hljs-number">100</span>; i++))<br>    <span class="hljs-keyword">do</span><br>        <span class="hljs-function"><span class="hljs-keyword">program</span></span><br>    done <br><br></code></pre></td></tr></table></figure>
+例:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>cnt=0<br><span class="hljs-keyword">for</span> ((i=1; i&lt;=100; i++))<br>    <span class="hljs-keyword">do</span><br>        cnt=$(( <span class="hljs-variable">$cnt</span> + <span class="hljs-variable">$i</span> )) <br>    <span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$cnt</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="while-until"><a href="#while-until" class="headerlink" title="while / until"></a>while / until</h4><ol>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>i=100<br><span class="hljs-keyword">while</span> [ <span class="hljs-variable">$i</span> -ge 10 ]<br>    <span class="hljs-keyword">do</span><br>        <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$i</span>&quot;</span><br>        i=$(( <span class="hljs-variable">$i</span> - <span class="hljs-number">1</span> ))<br>    <span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure></li>
+<li><code>until</code>:直到 条件成立 就 终止<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>sum=0; i=1<br>until [ <span class="hljs-variable">$i</span> -gt 100 ]<br>    <span class="hljs-keyword">do</span><br>        <span class="hljs-variable">$sum</span>=$(( <span class="hljs-variable">$sum</span> + <span class="hljs-variable">$i</span> ))<br>        <span class="hljs-variable">$i</span>=$((<span class="hljs-variable">$i</span>+<span class="hljs-number">1</span>))<br>    <span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$sum</span><br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/20/csdn/using+auto+decltype/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">using+auto+decltype</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/17/csdn/const%E9%99%90%E5%AE%9A%E7%AC%A6%E8%A7%A3%E6%9E%90/">
+                        <span class="hidden-mobile">const限定符解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

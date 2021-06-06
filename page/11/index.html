@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/27/csdn/HDU%201421/">HDU 1421</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/27/csdn/HDU%201421/">
+          
+          
+            
+          
+          
+
+HDU 1421
+
+刚开始的思路: 想到将所有物品重量的差求出来排序然后直接取出前m对最小的
+忽略了 一个差代表2个个物品被取走了,那么其他包含这2个物品的差就应该消失,实现标记很困难
+
+
+DP思路
+先将所以重量排个序（那么每个物品的前后2个物品与此物品的差最小,注意到差值和物品重量大小无关）
+
+状态dp[i][j]表遍历到到第i件物品, j 代表已经选了j对物品,dp[i][j]代表n件物品
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-27 13:26" pubdate>
+              2019-10-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/19/csdn/php%E7%95%99%E8%A8%80%E6%9D%BF%E5%B0%8Fdemo/">php留言板小demo</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/19/csdn/php%E7%95%99%E8%A8%80%E6%9D%BF%E5%B0%8Fdemo/">
+          
+          
+            
+          
+          
+
+测试环境
+本地数据库名:php10  user:root,passwd: ,
+表:msg,4个字段id,content,user, intime
+
+一些简单sql语句
+增: INSERT INTO msg () VALUES ();
+
+删: DELETE FROM msg WHERE id = 10;     DELETE FROM msg
+
+改: UPDATE msg SET content
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-19 11:46" pubdate>
+              2019-10-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/php/">php</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%95%99%E8%A8%80%E6%9D%BF/">留言板</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">EK + Dinic 最大流算法理解</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">
+          
+          
+            
+          
+          
+
+网络流常见问题 最大流:我对残留网的理解：
+原本网络中不存在流,为了求出最大流.人为的给出一条任意大小流从 源点出发经过一些边到达汇点.且流的大小最后被限制成 经过的边中 容量最小的边,但是流具有守恒性,不可能凭空产生？？？,所以又要从汇点流回去,所以形成了残留网
+
+最大流算法的图解.以及残留网的图,
+Ford-Fulkerson (方法)
+是一类计算网络流的最大流的贪心算法。 之所以称之为“
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-06 00:09" pubdate>
+              2019-10-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Edmonds-Karp%E7%AE%97%E6%B3%95-Dinic%E7%AE%97%E6%B3%95/">Edmonds-Karp算法 Dinic算法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/04/csdn/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E4%B8%AA%E6%95%B0%E6%A8%A1%E6%9D%BF%20+%20%E6%9C%80%E5%A4%A7%E5%9B%A2%E8%AE%A1%E6%95%B0%E6%A8%A1%E6%9D%BF/">最大独立集个数模板 + 最大团计数模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/04/csdn/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E4%B8%AA%E6%95%B0%E6%A8%A1%E6%9D%BF%20+%20%E6%9C%80%E5%A4%A7%E5%9B%A2%E8%AE%A1%E6%95%B0%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+并没有看懂求最大团个数的算法原理???,已知看到最好的解释最大团blog
+POJ  2989
+最大团计数模板
+R集合是 最大团已经加入的点
+P集合是 可能加入的点,且与R集合所有的点存在边(????)
+还是不太明白X集合的作用
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-04 17:35" pubdate>
+              2019-10-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A8%A1%E6%9D%BF-%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98/">模板 遗留问题</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/03/csdn/POJ%202400%20KM+%E5%BB%BA%E5%9B%BE/">POJ 2400 KM+建图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/03/csdn/POJ%202400%20KM+%E5%BB%BA%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ 2400
+题意
+n个部门n个员工,每个部门雇佣一个员工,部门希望雇佣每个员工的希望值不同,员工希望被雇佣的部门的希望值也不同, 求使得所有人希望值之和最大,输出最优匹配结果,若有多种,输出所有
+
+思路(借鉴大佬)
+题目数据与描述不一样,先给出的每个员工的对部门的希望值,然后才是每个部门的首选项,
+
+将左部分作为部门,右部分作为员工,边权为各自希望值之和, 用KM求出最大的希望值之和
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-03 18:48" pubdate>
+              2019-10-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/KM/">KM</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/03/csdn/POJ%202516%20KM+%E5%BB%BA%E5%9B%BE/">POJ 2516 KM+建图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/03/csdn/POJ%202516%20KM+%E5%BB%BA%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ 2516
+题意:
+n个店主,m个供货商(仓库),k种商品
+给出n个店主的k种商品的需求,m个仓库存放k种商品的个数,和对于每种商品$k_i$来说从$m_i$运送到$n_i$的运费
+求最小花费, 如果商品不足则输出-1
+
+思路:
+分k次计算：每个商品分别求最小花费,然后加和，建立二分图后首先判断商品数量是否足够给店主.**然后裸KM()**
+
+存数据+建图
+shop[i][k]存第i个店
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-03 15:19" pubdate>
+              2019-10-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/KM/">KM</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">POJ 3686 KM+建图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ 3686
+题意
+n个订单,m个工厂,第i 个订单在第j个工厂生产时间为g[i][j],工厂同一时间只能生产一个订单,但可以连续处理不同订单,如果都在一个工厂生产.即订单a生产完后才能生产b订单，b订单要等待a订单生产
+求处理所有订单的最少时间？输出平均时间
+
+思路(借鉴大神)
+将每个工厂分为n个点,每个点代表第k个处理的商品,T=t1+(t1+t2)+(t1+t2+t3)+...等价于
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-03 13:27" pubdate>
+              2019-10-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/KM%E7%AE%97%E6%B3%95/">KM算法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/02/csdn/KM%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%20(%E4%BA%8C%E5%88%86%E5%9B%BE%E5%B8%A6%E6%9D%83%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D)/">KM算法学习 (二分图带权最大匹配)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/02/csdn/KM%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%20(%E4%BA%8C%E5%88%86%E5%9B%BE%E5%B8%A6%E6%9D%83%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D)/">
+          
+          
+            
+          
+          
+
+计算 二分图带权最大匹配的2种方法: 费用流 / KMKM算法学习
+使用局限性:只能在带权最大匹配是完备匹配的图中使用
+
+完备匹配: G=&lt;V1,V2,E&gt;为二分图,$|V_1| &lt; |V_2|$,$M$为$G$中的一个最大匹配数,且$|M|= |V_1|$,则称$M$为$V_1$到$V_2$的完备匹配
+完美匹配:当$|V_1| = |V_2|$,若$|V_1|&lt;|V_
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-02 23:06" pubdate>
+              2019-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/KM%E7%AE%97%E6%B3%95/">KM算法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/02/csdn/POJ%202226%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">POJ 2226 思维二分图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/02/csdn/POJ%202226%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ 2226
+背景： 此题在 POJ 3041基础上 需要将连续的点看做一个点
+建议先做POJ 3041
+
+题意
+给出nxm的网格.有空地.和泥泞*.*求最少要用多少 (宽度为1的可伸长的木板) 覆盖所有的点**
+
+思路
+因为木板长度可以任意伸长.所以无论是 行还是列,只要*连续就可以看成一个二分图中的点
+还是将行作为二分图的左部.列作为二分图的右部分.先求出原图每个点分别在左部分的编号和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-02 15:07" pubdate>
+              2019-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/02/csdn/POJ%203041%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">POJ 3041 思维二分图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/02/csdn/POJ%203041%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ  3041
+题意
+给出nxn的图有m个行星(点).弹药每次能消灭一行或一列上的所有行星(点).问最少需要几次能消灭所有的行星(点)?
+
+思路
+将样例数据横坐标x作为二分图左部分的一个点.纵坐标y作为二分图右部分的一个点.坐标(x,y)表示为二分图左部分的x点到右部分的y点的边.画出这样的一个二分图:
+
+
+求消灭所有行星也就是 画出来的二分图的所有点需要被覆盖.
+每次消灭一行或一列  等
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-02 11:39" pubdate>
+              2019-10-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/10/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/12/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

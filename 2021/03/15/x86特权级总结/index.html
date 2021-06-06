@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>x86特权级总结 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="x86特权级总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-15 00:14" pubdate>
+        2021年3月15日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      41
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">x86特权级总结</h1>
+            
+            <div class="markdown-body">
+              <h3 id="特权级变换时栈如何变化"><a href="#特权级变换时栈如何变化" class="headerlink" title="特权级变换时栈如何变化"></a>特权级变换时栈如何变化</h3><p>cpu从低特权级代码段转移到高特权级代码段 栈从tss中读取到,</p>
+<p>从高特权级代码段转移到低特权级代码段, 低特权级的栈指针可以从当前栈底部拿到(低-&gt;高转移时保存的)</p>
+<h2 id="CPL和DPL"><a href="#CPL和DPL" class="headerlink" title="CPL和DPL"></a>CPL和DPL</h2><p>对于受访问为数据段来说:</p>
+<p>只要CPL&lt;=DPL就可以访问到此数据段的内容</p>
+<p>对于受访问为代码段来说:</p>
+<p><strong>只有相同特权级别才能访问,(高特权级代码段-&gt;低特权级代码段只有中断能做到,低-&gt;高从数据段的角度来说都不行)</strong></p>
+<blockquote>
+<p>如果当前cpl=2,只能转移到dpl=2的代码段上去执行</p>
+</blockquote>
+<h3 id="唯一一种处理器从-高特权级降低到低特权级运行的情况"><a href="#唯一一种处理器从-高特权级降低到低特权级运行的情况" class="headerlink" title="唯一一种处理器从 高特权级降低到低特权级运行的情况:"></a>唯一一种处理器从 高特权级降低到低特权级运行的情况:</h3><blockquote>
+<p>处理器从中断处理程序中返回到用户态的时候</p>
+<p>，高特权级代码段能做到 低特权级所有能做到的,所以没有必要</p>
+<p>除了中断返回,否则不会从高特权级的代码段返回到低特权级的代码段</p>
+<p><strong>中断处理程序中有某些特权指令需要执行,所以中断只能在0特权级别</strong></p>
+</blockquote>
+<hr>
+<h3 id="cpu如果仅仅只能平权访问代码段的话-其它特权级代码段访问不了-那么没意义-所以提供了-手段-来转移到高特权级代码"><a href="#cpu如果仅仅只能平权访问代码段的话-其它特权级代码段访问不了-那么没意义-所以提供了-手段-来转移到高特权级代码" class="headerlink" title="cpu如果仅仅只能平权访问代码段的话,其它特权级代码段访问不了,那么没意义,所以提供了 手段 来转移到高特权级代码"></a>cpu如果仅仅只能平权访问代码段的话,其它特权级代码段访问不了,那么没意义,所以提供了 手段 来转移到高特权级代码</h3><h3 id="另一种好办法是-既执行高特权级代码段上的指令-又不提升特权级"><a href="#另一种好办法是-既执行高特权级代码段上的指令-又不提升特权级" class="headerlink" title="另一种好办法是: 既执行高特权级代码段上的指令,又不提升特权级"></a>另一种好办法是: 既执行高特权级代码段上的指令,又不提升特权级</h3><blockquote>
+<p>利用<strong>一致性代码段</strong>,</p>
+<p>描述符为非系统段(存储段 S=0)时,type字段中 Cbit 表示代码段是否有一致性,</p>
+<p>非一致性代码段只能平级转移</p>
+</blockquote>
+<h3 id="一致性代码段-依从代码段-检查过程"><a href="#一致性代码段-依从代码段-检查过程" class="headerlink" title="一致性代码段\依从代码段 检查过程"></a>一致性代码段\依从代码段 检查过程</h3><p>从低特权级代码段转移到依从代码段,要求自己的特权级要比转移前的CPL高,</p>
+<p>数值上: DPL&lt;=CPL</p>
+<p>这也表示了依从代码段的DPL就是 权限的上限</p>
+<p>在此上限之下的特权级代码段都可以转移到此代码段中执行</p>
+<p>特点是: 转移后的特权级仍保持不变</p>
+<h2 id="4种门结构"><a href="#4种门结构" class="headerlink" title="4种门结构"></a>4种门结构</h2><blockquote>
+<p>都用来实现从低特权级别向高特权级别转移</p>
+</blockquote>
+<ol>
+<li><p>任务门:</p>
+<p>任务以任务状态段TSS为单位,实现任务切换,可以借助中断发起(在IDT中),<strong>在中断发起时,如果对应中断向量号是任务门,则发起任务切换</strong></p>
+<p>也可像调用门一样,call jmp指令后接任务门选择子或tss的选择子</p>
+</li>
+<li><p>中断门:</p>
+<p>以int指令主动发起中断的形式从低特权级向高特权级转移</p>
+</li>
+<li><p>陷阱门:</p>
+<p>以int3指令主动发起中断的形式, 一般编译器用</p>
+</li>
+<li><p>调用门:</p>
+<p>call和jmp指令后接门选择子为参数,(可用来实现系统调用),<strong>call指令使用调用门可以提权转移,而jmp指令使用调用门只能向平级代码转移</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>任务门可以放在GDT,LDT,IDT中</p>
+<p>调用门可以放在GDT,LDT中</p>
+<p>中断门,陷阱门只能放在IDT中</p>
+</blockquote>
+<p><strong>任务门和调用门可以直接用call和jmp指令调用,后面接描述符的选择子就行</strong></p>
+<p>陷阱门和中断门只存在与IDT中,<strong>不能主动调用,只能由中断信号来调用触发</strong></p>
+<blockquote>
+<p>因为这些描述符中可以确定具体地址,所以调用指令的偏移量会被忽略</p>
+</blockquote>
+<hr>
+<h3 id="调用门特权级检查过程"><a href="#调用门特权级检查过程" class="headerlink" title="调用门特权级检查过程"></a>调用门特权级检查过程</h3><p>门有门槛和门框,</p>
+<p>门槛: 是访问者特权级的下限,访问者特权级必须大于门描述符的DPL,否则连门都进不去,数值上: CPL&lt;=门的DPL, <strong>此时门描述符相当于数据段描述符一样,只能允许比自己特权级高或者相同特权级的程序访问</strong></p>
+<p>门框: 是访问者特权级的上限,<strong>访问者特权级再高也不能比描述符中目标程序所在代码段的DPL高,否则本身特权级比目标代码特权级高,那怎么还是向高特权级转移呢???</strong>,</p>
+<p>所以 门中目标程序所在段的特权级DPL &lt;= CPL</p>
+<blockquote>
+<p>最后,进门之后,处理器将以目标代码段DPL作为当前特权级CPL</p>
+</blockquote>
+<h3 id="cpu除了检查DPL和CPL-参与的还有RPL"><a href="#cpu除了检查DPL和CPL-参与的还有RPL" class="headerlink" title="cpu除了检查DPL和CPL,参与的还有RPL"></a>cpu除了检查DPL和CPL,参与的还有RPL</h3><p>[查看下面的调用门特权检查过程]</p>
+<h2 id="调用门的工作流程"><a href="#调用门的工作流程" class="headerlink" title="调用门的工作流程"></a>调用门的工作流程</h2><p>已知调用门描述符存的是程序代码段选择子+程序在代码段内的偏移,</p>
+<p>所以call调用门首先在GDT/LDT中找到门描述符,然后根据描述符中的目标代码段选择子来找到目标代码段的描述符,从此描述符中拿到目标代码的基地址,加上门描述符中的偏移地址就得到了调用门对应的例程</p>
+<p>(未开启分页)</p>
+<h3 id="通过调用门调用例程-参数如何传递"><a href="#通过调用门调用例程-参数如何传递" class="headerlink" title="通过调用门调用例程,参数如何传递?"></a>通过调用门调用例程,参数如何传递?</h3><p>当通过调用门从特权级3转移到特权级0时,栈从3切换到0,</p>
+<p><strong>在call调用门前,参数已经在3特权级的栈中准备好了,当转移到0特权级时,cpu会将参数自动复制到0特权级的栈中</strong></p>
+<blockquote>
+<p>注意调用门的描述符高32bit中 参数个数 选项,5 bit,最多复制(传递)2^5-1=31个参数</p>
+</blockquote>
+<h3 id="调用门的使用"><a href="#调用门的使用" class="headerlink" title="调用门的使用"></a>调用门的使用</h3><p>例如:<code>call selector_gate:offset</code>,因为描述符中已经有偏移地址,所以<code>offset</code>会被忽略</p>
+<p><code>jmp 调用门</code>不能回头,</p>
+<p><code>call 调用门</code>,cs和eip的值在栈中,可以通过<code>retf</code>返回</p>
+<h2 id="调用门的过程保护"><a href="#调用门的过程保护" class="headerlink" title="调用门的过程保护"></a>调用门的过程保护</h2><h4 id="调用的过程"><a href="#调用的过程" class="headerlink" title="调用的过程"></a>调用的过程</h4><ol>
+<li>提供调用门函数例程的参数入栈</li>
+<li>根据call/jmp调用的”调用门”描述符确定转移后的CPL,根据CPL判断是否需要切换栈,从TSS中找到ss:esp</li>
+<li>检查ss的属性</li>
+<li>cpu先临时保存原栈的ss和esp,-&gt;将新ss:esp加载到寄存器中-&gt;将临时保存的old ss 和 esp入新栈</li>
+<li>将参数从原来的栈复制到新栈中,(个数由描述符来决定)</li>
+<li>cs选择子要重新加载,(那么 段描述符缓冲寄存器会被刷新),将当前cs:eip压入新栈</li>
+<li>将目标代码段的选择子和eip加载到寄存器中</li>
+</ol>
+<h4 id="调用门如何返回-retf指令从调用门返回过程"><a href="#调用门如何返回-retf指令从调用门返回过程" class="headerlink" title="调用门如何返回?(retf指令从调用门返回过程"></a>调用门如何返回?(retf指令从调用门返回过程</h4><p>目前经过调用门后的栈(假设有2个参数)的情况:</p>
+<table>
+<thead>
+<tr>
+<th align="center">32bit宽度</th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ss</td>
+<td align="center">栈底部(高地址)</td>
+</tr>
+<tr>
+<td align="center">esp</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">参数1</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">参数2</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">cs</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">eip</td>
+<td align="center">&lt;—–ss:esp  (低地址)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>cpu只直到执行指令,并不知道现在刚刚从低特权级通过了调用门过来的,<strong>所以我们要给cpu发出指令人为的回到低特权级</strong></p>
+</blockquote>
+<p>retf指令返回过程:</p>
+<ol>
+<li>检查特权级,根据栈中cs的选择子的RPL和选择子指向的描述符的DPL来判断是否要改变特权级,</li>
+<li>检查通过,则将栈中cs和eip出栈恢复寄存器的值</li>
+<li>retf后的参数=参数个数*参数大小,根据此参数的值增加栈指针esp,<strong>目的是跳过从低特权级栈复制到高特权级栈中的参数( 我们直到传递了几个参数)</strong></li>
+<li>将当前esp处的原来的esp和ss恢复到寄存器中,于是恢复了旧栈.</li>
+</ol>
+<p>回到了低特权级程序中</p>
+<h2 id="调用门的例程使用了自己的数据段怎么办"><a href="#调用门的例程使用了自己的数据段怎么办" class="headerlink" title="调用门的例程使用了自己的数据段怎么办?"></a>调用门的例程使用了自己的数据段怎么办?</h2><p>接上</p>
+<p>当通过调用门后进入内核代码(高特权级代码,CPL=0),内核会使用自己的数据段,则数据段描述符的DPL=0,那么此时数据段选择子ds.RPL必须=0才能够访问到内核数据段(描述符),</p>
+<p><strong>从此之后,ds寄存器一直都是指向内核数据段的选择子,当调用reft返回到低特权级代码后,cpu只恢复了ss,esp,cs,eip寄存器,像ds,fs,gs等寄存器不会被还原</strong></p>
+<p><strong>此时在低特权级仍然可以直接访问到内核数据段 ((( !!!注意,尽管当前特权级不够,但是特权级检查只发生在 像寄存器中加载选择子的时候  )))</strong></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法:"></a>解决方法:</h3><ol>
+<li>人为在调用门例程中的内核代码中 <strong>使用数据段寄存器,将其入栈,然后更新选择子,退出前恢复就行</strong></li>
+<li>Linux不使用调用门,用中断门来完成系统调用</li>
+</ol>
+<p>以上是通过代码解决,但CPU解决了,并没有交给软件层来解决,</p>
+<p><strong>在返回时,如果改变了特权级,CPU会检查所有的数据段选择子,若DS,ES,FS,GS中的选择子指向的描述符的DPL高于当前特权级(CS.RPL),会将此寄存器全填充0,也就是指向GDT的第0个</strong></p>
+<p>并没解决问题,但是再次访问数据会引发异常(GDT表中第0项为空)</p>
+<h2 id="RPL"><a href="#RPL" class="headerlink" title="RPL"></a>RPL</h2><h3 id="为什么需要RPL"><a href="#为什么需要RPL" class="headerlink" title="为什么需要RPL?"></a>为什么需要RPL?</h3><p>例如调用门提供一个从硬盘读取扇区到指定内存地址的例程,接收参数(硬盘LBA,数据段选择子,段偏移地址)</p>
+<p>一般情况下我们会老实给出特权级3的数据段,<strong>但是如果参数给的是内核的数据段怎么办??</strong></p>
+<p>在执行例程时(只检查CPL和DPL),此时CPL=0可以通过任何检查,那么就会破坏内核的数据,</p>
+<p>传递内核数据段选择子,调用门例程以为请求者是操作系统(因为选择子对应的描述符的DPL=0),但是实际的请求者是用户(3),</p>
+<h3 id="RPL的作用就是代表真正的访问者的身份"><a href="#RPL的作用就是代表真正的访问者的身份" class="headerlink" title="RPL的作用就是代表真正的访问者的身份"></a>RPL的作用就是代表真正的访问者的身份</h3><p>当用户使用系统调用陷入内核,选择子是由OS构建,并且由OS提供,<strong>当用户提交自己的选择子时,OS会将用户提交选择子的RPL修改为3</strong></p>
+<p>RPL的目的是: <strong>避免低特权级程序访问高特权级的资源</strong>,</p>
+<p>用来检查当前请求者和真正的资源需求方是否都具有访问受访者的资格,原因是请求者和资源需求方不是一个人,请求者可能是代理人</p>
+<h3 id="特权级要求"><a href="#特权级要求" class="headerlink" title="特权级要求"></a>特权级要求</h3><p>例程在访问数据时会进行特权级检查:需满足如下条件</p>
+<p>CPL&lt;=DPL,RPL&lt;=DPL</p>
+<hr>
+<p>即使用户提交的是内核选择子,RPL=0,但是OS直到是用户进程的参数,会将RPL修改为3</p>
+<p>那么执行例程时: CPL=0,RPL=3,数据段描述符的DPL=0</p>
+<p>CPL&lt;=DPL,RPL&lt;=DPL不满足,</p>
+<hr>
+<h3 id="修改RPL指令"><a href="#修改RPL指令" class="headerlink" title="修改RPL指令"></a>修改RPL指令</h3><p><code>arpl 通用寄存器/16bit内存,16bit通用寄存器(cs寄存器的值)</code></p>
+<p>rpl都被会置为cs.rpl的值</p>
+<h2 id="直接访问一般数据和代码时的特权检查规则"><a href="#直接访问一般数据和代码时的特权检查规则" class="headerlink" title="直接访问一般数据和代码时的特权检查规则"></a>直接访问一般数据和代码时的特权检查规则</h2><h4 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h4><ol>
+<li><p>受访者为 非一致性代码段:</p>
+<p>CPL=DPL=目标代码段DPL</p>
+</li>
+<li><p>受访者为 一致性代码段</p>
+<p>CPL&gt;=DPL &amp;&amp; RPL&gt;=DPL (低特权级不提权执访问高特权级代码)</p>
+</li>
+</ol>
+<p>特权检查发生时间:改变cs,eip的指令,(既发生特权级转移时),如:call,jmp,int,ret,sysexit</p>
+<h4 id="数据段"><a href="#数据段" class="headerlink" title="数据段"></a>数据段</h4><ol>
+<li><p>受访者为数据段</p>
+<p>CPL &lt;= DPL &amp;&amp; RPL &lt;= DPL</p>
+</li>
+<li><p>栈段的特权级检查:</p>
+<p>栈的特权级=CPL,(各个特权级有相应的栈),修改ss时,选择子对应的描述符的DPL要等于当前CPL,</p>
+<p>既CPL=RPL=ss对应的描述符的DPL</p>
+</li>
+</ol>
+<p>特权级检查发生在: 向ds,es,gs,fs中加载选择子时</p>
+<hr>
+<h2 id="调用门特权检查过程"><a href="#调用门特权检查过程" class="headerlink" title="调用门特权检查过程"></a>调用门特权检查过程</h2><p>出现的特权级:调用门的选择子RPL_GATE,调用门描述符中的选择子RPL_CODE</p>
+<pre><code>                    调用门描述符的DPL_GATE,调用门描述符中的选择子对应的代码段描述符DPL_CODE</code></pre>
+<ol>
+<li><p>上面提到过门框和门槛,要求 <code>DPL_CODE &lt;= CPL &lt;= DPL_GATE</code></p>
+</li>
+<li><p><code>RPL_GATE &lt;= DPL_GATE</code>:</p>
+<ol>
+<li>为什么<code>RPL_CODE</code>不参加特权级检查?</li>
+</ol>
+<p>因为门描述符中的选择子不代表真正的请求者,真正的请求者是<code>RPL_GATE</code></p>
+<ol start="2">
+<li>为什么<code>RPL_GATE</code>只和<code>DPL_GATE</code>比较?</li>
+</ol>
+<p>因为<code>RPL_GATE</code>(选择子)只用来索引调用门,不用来引用内存,过了调用门后不需要了</p>
+</li>
+</ol>
+<hr>
+<p>调用门是通过call和jmp调用的,</p>
+<p>当调用门对应的代码段是一致性代码段时,jmp 和 call都是上面的检查规则</p>
+<p>当对应的代码段是非一致性代码段时,call和上面检查规则一样,</p>
+<p><strong>因为jmp只能平级跳转,所以用jmp指令调用 “调用门“的规则是:</strong></p>
+<ol>
+<li><code>DPL_CODE = CPL &lt;= DPL_GATE</code></li>
+<li><code>RPL_GATE &lt;= DPL_GATE</code></li>
+</ol>
+<hr>
+<h1 id="IO-特权级"><a href="#IO-特权级" class="headerlink" title="IO 特权级"></a>IO 特权级</h1><p>特权级不仅体现在数据和代码中,特权级也体现在指令中</p>
+<ol>
+<li><p>对计算机执行有严重影响的指令：</p>
+<p>只有在0特权级才能执行的指令称为”特权指令(Privilege Instruction)”,如 hlt,ltr,lidt</p>
+</li>
+<li><p>体现在IO读写上,<code>eflags</code>的<code>IOPL</code>bit和TSS中的<code>IO bit map</code>决定<strong>执行IO操作的最小特权级</strong>,</p>
+<p>IO相关指令只有在CPL &lt;= IOPL才能执行,称为IO敏感指令</p>
+<p>权限不够,触发CPU异常,如:<code>in,out,cli,sti</code></p>
+</li>
+</ol>
+<h3 id="IOPL-bit"><a href="#IOPL-bit" class="headerlink" title="IOPL bit"></a>IOPL bit</h3><p>eflags中12-13bit是IOPL位(I/O privilege level),</p>
+<p>作用:</p>
+<ol>
+<li>限制当前任务进行IO的敏感指令的最低特权级,</li>
+<li>用来决定任务是否允许操作所有的IO端口,IOPL是打开所有IO端口的开关</li>
+</ol>
+<p>每个任务(内核 或 用户进程)都有自己的eflags寄存器的值,所以每个任务都有自己的IOPL.</p>
+<p>当任务的当前特权级 CPL &lt;= IOPL <strong>则允许执行全部IO指令</strong></p>
+<h4 id="如何修改eflags中的IOPL"><a href="#如何修改eflags中的IOPL" class="headerlink" title="如何修改eflags中的IOPL"></a>如何修改eflags中的IOPL</h4><ol>
+<li>pushf / popf </li>
+<li>iretf</li>
+</ol>
+<h4 id="TSS的IO-bit-map"><a href="#TSS的IO-bit-map" class="headerlink" title="TSS的IO bit map"></a>TSS的IO bit map</h4><p>当CPL &lt;= IOPL,可以访问64k个端口,</p>
+<p>当CPL &gt; IOPL,并不是不能进行任何IO操作,<strong>可通过io bit map设置部分端口的访问权限 (整体关闭,局部打开)</strong></p>
+<p>位图中的每一个bit代表一个端口,0表示相应端口可以访问,1不能访问,(bit map只有在CPL &gt; IOPL才有效)</p>
+<p>bit map在TSS中既可以存在,也可以不存在,不存在表示禁止访问所有的端口,tss不包括bit map的大小是104字节</p>
+<p>如果CPL &gt; IOPL并且根据Tss界限得知bit map不存在则cpu异常</p>
+<h3 id="为什么IO-bit-map结尾是0xff"><a href="#为什么IO-bit-map结尾是0xff" class="headerlink" title="为什么IO bit map结尾是0xff"></a>为什么IO bit map结尾是0xff</h3><blockquote>
+<p><strong>IO端口按照字节编址,一个端口只能读写1个字节的数据,如果对一个端口连续读取多个字节,是以该端口号为起始的多个端口一并读入</strong></p>
+</blockquote>
+<p><code>in ax,0x234 ;从0x234端口读取2byte数据</code></p>
+<p>等价与:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs axm">in al,0x234<br>in ah,0x235<br></code></pre></td></tr></table></figure>
+
+
+
+<p>如果0x234端口对应的bit是前一个字节的最后一位,则0x235对应后一个字节的第0bit,则cpu要读取2字节来检查.</p>
+<p>如果前一个字节已经是bit map中最后一个字节了,那么下一个bit对应的字节越界了.<strong>cpu允许IObit map不映射所有端口,既IO bit map的长度可以&lt;8192byte,</strong></p>
+<ol>
+<li>在范围外的端口,cpu禁止访问,0xff正好表示bit=1禁止访问</li>
+<li>0xff作为bit map的边界标记</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/x86/">x86</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">att汇编格式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/18/%E5%BC%BA-%E5%BC%B1-%E7%AC%A6%E5%8F%B7-%E5%BC%95%E7%94%A8/">
+                        <span class="hidden-mobile">gcc强引用弱引用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

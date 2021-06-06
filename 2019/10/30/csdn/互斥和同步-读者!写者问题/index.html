@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>互斥和同步-读者/写者问题 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="互斥和同步-读者/写者问题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-30 01:47" pubdate>
+        2019年10月30日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">互斥和同步-读者/写者问题</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+<h1 id="读者-写者问题"><a href="#读者-写者问题" class="headerlink" title="读者/写者问题"></a>读者/写者问题</h1><h3 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义:"></a>问题定义:</h3><blockquote>
+<p>存在一个<strong>多进程共享的</strong>数据区,该数据区可以是 <strong>一个文件</strong>或者<strong>一块内存</strong>或者<strong>一组寄存器</strong>, 有些进程<code>reader</code>只读取该数据区中的数据, 有些进程<code>writer</code>只往数据区写数据</p>
+</blockquote>
+<ul>
+<li><p>满足条件</p>
+<blockquote>
+<ol>
+<li>任意数量的读进程可以同时读该文件</li>
+<li>一次只有一个<strong>写进程</strong>可以写文件</li>
+<li>若一个<strong>写进程</strong>正在写文件,则禁止<strong>任何进程读文件</strong></li>
+</ol>
+</blockquote>
+</li>
+<li><p>综上即: <strong>读进程</strong>不需要排斥其他进程,而<strong>写进程</strong>需要排斥其他所有进程</p>
+</li>
+</ul>
+<h3 id="一般互斥解决方案"><a href="#一般互斥解决方案" class="headerlink" title="一般互斥解决方案"></a>一般互斥解决方案</h3><ol>
+<li> 因为<strong>读进程</strong> 和 <strong>写进程</strong> 都要访问 数据区,那么将 <strong>进程</strong>访问 <strong>数据区的部分</strong>声明为一个<strong>临界区</strong>，</li>
+</ol>
+<ul>
+<li><p>缺点:</p>
+<blockquote>
+<ul>
+<li>假设<strong>共享区</strong>是一个图书馆目录,普通用户访问目录查找书,管理员可以修改目录,</li>
+</ul>
+<ol>
+<li>一般情况下,每次<strong>访问目录</strong>都相当于<strong>访问临界区</strong>，且用户每次又只能访问一个目录, 导致延迟过高,</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="读者优先-的解决方案"><a href="#读者优先-的解决方案" class="headerlink" title="读者优先 的解决方案"></a>读者优先 的解决方案</h3><ul>
+<li>思路:</li>
+</ul>
+<ol>
+<li><p>信号量 <code>wsem</code> 用于实施互斥(<code>writesemaphore</code>), 当写进程正在访问共享数据区时,其他进程不能访问,</p>
+</li>
+<li><p>同时<strong>读进程</strong>也通过<code>wsem</code>实施互斥，</p>
+<ul>
+<li><p>读者优先:</p>
+<ol>
+<li><p>没有一个<strong>读进程</strong>在执行时, 第一个试图读的读进程在<code>wsem</code>上等待</p>
+</li>
+<li><p>当<strong>已经存在至少一个读进程时</strong>, 随后的<strong>读进程无需等待</strong>,可直接进入</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><code>readcount</code>用于记录<strong>读进程</strong>的数量</p>
+</li>
+<li><p>信号量<code>x</code>用于确保<code>readcount</code>被正确更新</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*program readers and writers*/</span><br><span class="hljs-keyword">int</span> readcount;<br>semaphore x = <span class="hljs-number">1</span>,wsem = <span class="hljs-number">1</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">reader</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>        semWait(x); <span class="hljs-comment">//信号量x 保证readcount 操作安全</span><br>       	readcount++;<br>        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">1</span>)<br>            semWait(wsem); <span class="hljs-comment">// 第一个试图读的进程需要等待 wsem (写进程可能在执行)</span><br>        semSignal(x);   <span class="hljs-comment">//更行x</span><br>        <br>        READUNIT();   <span class="hljs-comment">//读操作</span><br>        <br>        semWait(x); <span class="hljs-comment">//再次修改readcount</span><br>        readcount--;<br>        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">0</span>)<br>            semSignal(wsem); <span class="hljs-comment">// 此时没有读进程了, 增加信号量wsem </span><br>        semSignal(x);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">writer</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">//写进程互斥只由 信号量wsem决定</span><br>    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>        semWait(wsem);<br>        WRITEUNIT();<br>        semSignal(wsem);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    readcount = <span class="hljs-number">0</span>; <span class="hljs-comment">//更新读进程的个数</span><br>    parbegin(reader,writer);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="写者优先-的解决方案"><a href="#写者优先-的解决方案" class="headerlink" title="写者优先 的解决方案"></a>写者优先 的解决方案</h3><ul>
+<li><p>读者优先的问题:</p>
+<p><strong>当一个读进程开始访问数据区时</strong>，只要至少有一个<strong>读进程正在读</strong>，那么为<strong>该进入的读进程 保留 数据区的控制权</strong>, 导致<strong>写进程</strong>可能处于<strong>饥饿</strong>状态</p>
+</li>
+<li><p>目的是解决 <strong>写进程可能处于饥饿的状态</strong></p>
+</li>
+<li><p>思路</p>
+<ul>
+<li>信号量<code>rsem</code>: 至少有一个写进程<strong>准备访问数据区时</strong>，用于禁止所有的读进程.<pre><code>*  0 : 有写进程,即 **写进程准备访问数据区**
+*  1 : 无准备访问数据区的 写进程,</code></pre>
+</li>
+<li>变量 <code>writecount</code>: 控制<code>rsem</code>的设置</li>
+<li>信号量<code>y</code>:类似<code>x</code>: 控制<code>writecount</code>的修改</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*program readers and writers*/</span><br><span class="hljs-keyword">int</span> readcount,writecount;<br>semaphore x=<span class="hljs-number">1</span>,y=<span class="hljs-number">1</span>,z=<span class="hljs-number">1</span>,wsem=<span class="hljs-number">1</span>,rsem=<span class="hljs-number">1</span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">reader</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>) &#123;<br>        semWait(z);<br>        <span class="hljs-comment">//rsem信号决定 1. rsem=0 新的读进程不能访问数据区 2. rsem=1 读进程可以访问数据区</span><br>        semWait(rsem); <span class="hljs-comment">//由rsem信号决定 新的读进程 能不能访问数据区</span><br>        semWait(x);<br><br>        readcount++;<br>        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">1</span>)<br>            semWait(wsem);<br><br>        semSignal(x);<br>        semSignal(rsem);<br>        semSignal(z);<br><br>        READUNIT();<br><br>        semWait(x);<br><br>        readcount--;<br>        <span class="hljs-keyword">if</span> (readcount == <span class="hljs-number">0</span>)<br>            semSignal(wsem);<br><br>        semSignal(x);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">writer</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>) &#123;<br>        semWait(y);<br>        <br>        writecount++;<br>        <span class="hljs-keyword">if</span> (writecount == <span class="hljs-number">1</span>)<br>            semWait(rsem); <span class="hljs-comment">//检测rsem情况 告诉读进程 写进程即将访问数据区</span><br>        <span class="hljs-comment">// rsem=0 等待读进程执行完后 写进程开始访问数据区 rsem=1 此时数据区无进程</span><br>      <br>        semSignal(y);<br>        semWait(wsem); <span class="hljs-comment">// wsem信号量控制读/写进程间的互斥</span><br>        WRITEUNIT();<br>        semSignal(wsem);<br>        semWait(y);<br>        writecount--;<br>        <span class="hljs-keyword">if</span> (writecount == <span class="hljs-number">0</span>)<br>            semSignal(rsem); <span class="hljs-comment">//</span><br>        semSignal(y);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    readcount = writecount = <span class="hljs-number">0</span>;<br>    parbegin(reader,writer);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><code>rsem</code>的作用(个人理解)<ol>
+<li><code>rsem</code>是为写进程而定义的, 在<code>wsem</code>提供 读/写进程互斥的基础上 .又通过<code>rsem</code>信号量提供: 当一个<strong>写进程</strong>准备进入数据区时, <strong>保证新的读进程阻塞(不能进入数据区)</strong> <strong>且写进程 等待已有的读进程退出数据区</strong></li>
+</ol>
+</li>
+</ul>
+<h5 id="信号量z的作用"><a href="#信号量z的作用" class="headerlink" title="信号量z的作用"></a>信号量z的作用</h5><ul>
+<li> 由于<strong>可能有多个读进程</strong>都在等待<code>rsem</code>信号量,通过信号量<code>z</code>使得<strong>等待<code>rsem</code>信号量的队列</strong>改成<strong>在信号量<code>z</code>上排队</strong>，那么<strong>每次只有一个只读进程在<code>rsem</code>上排队</strong></li>
+</ul>
+<h3 id="消息传递实现写进程的优先权-的解决方案"><a href="#消息传递实现写进程的优先权-的解决方案" class="headerlink" title="消息传递实现写进程的优先权 的解决方案"></a>消息传递实现写进程的优先权 的解决方案</h3><ul>
+<li><p>流程:</p>
+<blockquote>
+<ul>
+<li>一个访问共享数据区的<strong>控制进程</strong>,其他访问该数据区的进程给<strong>控制进程</strong>发送消息请求,</li>
+</ul>
+<ol>
+<li>若请求同意,会<strong>接收到控制进程发送的应答消息<code>OK</code></strong>,并通过<code>finished</code>消息表示访问完成.</li>
+<li><strong>控制进程</strong>有3个信箱,接收对应的消息,<code>finished</code>,<code>writerequest</code>,<code>readrequest</code></li>
+</ol>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">reader</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;<br>	message rmsg;<br>	<span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>		rmsg = i;<br>		send(readrequest,rmsg); <span class="hljs-comment">//发送地址:readrequest</span><br>		receive(mbox[i],rmsg); <span class="hljs-comment">//来源地址:mbox[i],</span><br>		READUNIT();<br>		rmsg = i;<br>		send(finished,rmsg); <span class="hljs-comment">//发送写完成的消息</span><br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">writer</span><span class="hljs-params">(<span class="hljs-keyword">int</span> j)</span> </span>&#123;<br>	message rmsg;<br>	<span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>		rmsg = j;<br>		send(writerequest,rmsg); <span class="hljs-comment">// 第一次请求写的消息</span><br>		receive(mbox[j],rmsg); <span class="hljs-comment">//接收控制进程的同意消息</span><br>		WRITEUNIT();<br>		rmsg = j;<br>		send(finished,rmsg); <span class="hljs-comment">//发送 写操作 完成消息</span><br>	&#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">controller</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>        <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// 在处理 写 消息之前, 先处理所有的finished请求</span><br>            <span class="hljs-keyword">if</span> (!empty(finished)) &#123;<br>               	receive();<br>                count++;<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!empty(writerequest)) &#123;<br>				receive(writerequest,msg);<br>                writer id = msg.id;<br>                count  = count - <span class="hljs-number">100</span>;<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!empty(readrequest)) &#123;<br>				receive(readrequest,msg);<br>                count--;<br>                send(msg.id,<span class="hljs-string">&quot;OK&quot;</span>);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (count == <span class="hljs-number">0</span>) &#123;<br>        	send(writer id,<span class="hljs-string">&quot;OK&quot;</span>);<br>            receive(finished,msg);<br>            count = <span class="hljs-number">100</span>;<br>    	&#125;<br>    	wihle (count &lt; <span class="hljs-number">0</span>) &#123;<br>        	receive(finished,msg);<br>            count++;<br>    	&#125; <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>流程分析</p>
+<ol>
+<li><code>count</code>初始化为大于<strong>可能的读进程数</strong>的最大值.假设为100, 对<strong>读请求消息操作数为1</strong>,<strong>对写请求操作数为-100</strong></li>
+</ol>
+<ul>
+<li><code>count &gt; 0</code>说明<strong>没有读进程在等待,且可能有读进程发出的<code>finished</code>消息未处理</strong>,然后再处理<strong>写请求的消息</strong>,最后处理<strong>读请求的消息</strong></li>
+<li><code>count == 0</code>，<strong>写进程发送给控制进程请求消息后</strong>收到<code>OK</code>，并且又发送<code>finished</code>给控制进程表示完成,然后控制进程恢复<code>count = 100</code></li>
+<li><code>count &lt; 0</code> , <strong>写进程发出一个请求消息</strong>,那么要<strong>消除所有读进程</strong>,提供<code>receive(finished,msg)</code>.</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B9%B6%E5%8F%91-%E5%90%8C%E6%AD%A5/">并发 同步</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/30/csdn/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84%20or%20%E7%BA%BF%E6%AE%B5%E6%A0%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">差分数组 or 线段树</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/29/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E6%B6%88%E8%B4%B9%E8%80%85!%E7%94%9F%E4%BA%A7%E8%80%85%20(%E7%AE%A1%E7%A8%8B+%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)/">
+                        <span class="hidden-mobile">互斥和同步-消费者/生产者 (管程+消息传递)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

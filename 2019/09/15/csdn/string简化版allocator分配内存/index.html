@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>string简化版allocator分配内存 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="string简化版allocator分配内存">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-09-15 13:55" pubdate>
+        2019年9月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">string简化版allocator分配内存</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h2 id="通过allocator类来分配内存实现简化版string"><a href="#通过allocator类来分配内存实现简化版string" class="headerlink" title="通过allocator类来分配内存实现简化版string"></a>通过allocator类来分配内存实现简化版string</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能:"></a>功能:</h3><ul>
+<li><code>String(const char*)</code>和<code>String(const std::string)</code>接受隐式类型转换</li>
+<li>重载<code>string</code>的多种运算符:<code>[]</code>,<code>+</code>,<code>+=</code>,<code>&lt;&lt;</code>,<code>&gt;&gt;</code></li>
+<li>实现<code>string</code>多个成员函数<code>size()</code>,等</li>
+<li>构造函数和析构函数对原始内存的分配和释放,</li>
+</ul>
+<h3 id="内存分配问题"><a href="#内存分配问题" class="headerlink" title="内存分配问题"></a>内存分配问题</h3><ol>
+<li><code>allocator&lt;&gt;</code>类分配的是原始内存,结合<code>construct()</code>来构造对象(此处是<code>char</code>内置类型)</li>
+<li><code>for_each()</code>+<code>lambda</code>实现对象的<code>destroy</code><h3 id="拷贝控制操作"><a href="#拷贝控制操作" class="headerlink" title="拷贝控制操作"></a>拷贝控制操作</h3></li>
+<li><code>String(const String&amp;)</code> 拷贝构造函数</li>
+<li><code>String&amp; operator=(const String&amp;)</code>拷贝复制运算符vim </li>
+<li><code>reallocate()</code>中通过<code>std::move()</code>返回右值引用.</li>
+</ol>
+<h3 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h3><ol>
+<li>通过下标<code>[]</code>访问返回<code>char&amp;</code>,赋值给<code>char*</code>或者<code>char&amp;</code>都能修改<code>String</code>的单个字符(未定义成<code>const</code>)</li>
+</ol>
+<ul>
+<li>在<code>.h</code>文件中声明了<code>char _temp_arr[size]</code>全局变量,即使重载<code>+</code>返回<code>char*</code>(使得不必声明<code>const char*</code>变量来接收),但它隐式的为<code>const char*</code>,原因如下:<h3 id="关于c-字符串常量"><a href="#关于c-字符串常量" class="headerlink" title="关于c++ 字符串常量"></a>关于c++ 字符串常量</h3></li>
+<li>字符串常量<code>c++</code>标准看做为一个<code>const char*</code>的地址,存储在静态内存区(但它并不是静态变量,只是行为上相似,字符串常量很少需要被修改,放在静态内存区提高效率),它是常量.</li>
+</ul>
+<ol>
+<li><code>char* p = &quot;example&quot;</code></li>
+</ol>
+<ul>
+<li><code>g++编译时的警告</code>:<br><code>warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]    char* p = &quot;test&quot; ;</code></li>
+<li><code>c</code>程序可以这样声明</li>
+<li>字符串常量<strong>是无法被修改的</strong>.</li>
+</ul>
+<p><code>String.h</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> STRING_H</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRING_H</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;memory&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> size = <span class="hljs-number">1000</span>;<br><span class="hljs-keyword">char</span> _temp_arr[size];<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span> &#123;</span><br>    <span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span> &lt;&lt; (<span class="hljs-built_in">std</span>::ostream&amp;,<span class="hljs-keyword">const</span> String&amp;);<br>    <span class="hljs-keyword">friend</span> <span class="hljs-built_in">std</span>::istream&amp; <span class="hljs-keyword">operator</span> &gt;&gt; (<span class="hljs-built_in">std</span>::istream&amp;,String&amp;);<br><br>    <span class="hljs-keyword">friend</span> String&amp; <span class="hljs-keyword">operator</span> += (String&amp; lhs,<span class="hljs-keyword">const</span> String&amp; rhs);<br>    <span class="hljs-keyword">friend</span> <span class="hljs-keyword">char</span>* <span class="hljs-keyword">operator</span> + (String&amp; lhs,String&amp; rhs);<br><br><span class="hljs-keyword">public</span>:<br>    String():_begin(<span class="hljs-literal">nullptr</span>),_first_free(<span class="hljs-literal">nullptr</span>),_end(<span class="hljs-literal">nullptr</span>) &#123;&#125;<br>    String(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*);<br>    String(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp;);<br>    String&amp; <span class="hljs-keyword">operator</span>= (<span class="hljs-keyword">const</span> String&amp;);<br>    ~String();<br><br>    <span class="hljs-keyword">char</span>&amp; <span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span>&amp;); <span class="hljs-comment">//返回的char&amp; 在内存未被回收的情况下可以通过[]改变</span><br>    <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* <span class="hljs-title">c_str</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _begin; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">size</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _first_free-_begin; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _first_free-_begin?<span class="hljs-number">0</span>:<span class="hljs-number">1</span>; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">begin</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _begin; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">end</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _end; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">capacity</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _end-_begin; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">remain</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span> </span>&#123; <span class="hljs-keyword">return</span> _end-_first_free; &#125;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">static</span> <span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">char</span>&gt; alloc;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">free</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">reallocate</span><span class="hljs-params">()</span></span>;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">char</span>*,<span class="hljs-keyword">char</span>*&gt;<br>        alloc_n_copy(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*);<br><br>    <span class="hljs-keyword">char</span>* _begin;<br>    <span class="hljs-keyword">char</span>* _first_free;<br>    <span class="hljs-keyword">char</span>* _end;<br>&#125;;<br><span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span>&lt;&lt;(<span class="hljs-built_in">std</span>::ostream&amp; out,<span class="hljs-keyword">const</span> String&amp; rhs) &#123;<br>    out &lt;&lt; rhs._begin;<br>    <span class="hljs-keyword">return</span> out;<br>&#125;<br><span class="hljs-built_in">std</span>::istream&amp; <span class="hljs-keyword">operator</span>&gt;&gt;(<span class="hljs-built_in">std</span>::istream&amp; in,String&amp; rhs) &#123;<br>    <span class="hljs-keyword">char</span> p[size];<br>    in &gt;&gt; p;<br>    rhs = p;<br>    <span class="hljs-keyword">return</span> in;<br>&#125;<br><br>String&amp; <span class="hljs-keyword">operator</span>+=(String&amp; lhs,<span class="hljs-keyword">const</span> String&amp; rhs) &#123;<br>    <span class="hljs-keyword">if</span> (lhs.remain() &gt; rhs.size()) &#123;<br>        <span class="hljs-keyword">auto</span> dest = rhs._begin;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i=<span class="hljs-number">0</span>; i&lt;rhs.size(); ++i)<br>            lhs.alloc.construct(lhs._first_free++,*dest++);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        lhs.reallocate();<br>        <span class="hljs-keyword">auto</span> dest = rhs._begin;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i=<span class="hljs-number">0</span>; i&lt;rhs.size(); ++i)<br>            lhs.alloc.construct(lhs._first_free++,*dest++);<br>    &#125;<br>    <span class="hljs-keyword">return</span> lhs;<br>&#125;<br><br><span class="hljs-keyword">char</span>* <span class="hljs-keyword">operator</span>+(String&amp; lhs,String&amp; rhs) &#123;<br>    <span class="hljs-built_in">strcpy</span>(_temp_arr,lhs._begin);<br>    <span class="hljs-keyword">auto</span> temp_ptr = _temp_arr + <span class="hljs-built_in">strlen</span>(_temp_arr);<br>    <span class="hljs-built_in">strcpy</span>(temp_ptr,rhs._begin);<br>    <span class="hljs-keyword">return</span> _temp_arr;<br>&#125;<br><br><span class="hljs-keyword">char</span>&amp; String::<span class="hljs-keyword">operator</span>[](<span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span>&amp; index) &#123;<br>    <span class="hljs-keyword">if</span> (index &lt; size())<br>        <span class="hljs-keyword">return</span> *(_begin + index);<br>&#125;<br><br><span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">char</span>*,<span class="hljs-keyword">char</span>*&gt;<br>String::alloc_n_copy(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* b,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* c) &#123;<br>    <span class="hljs-keyword">auto</span> newdata = alloc.allocate(c-b);<br>    <span class="hljs-keyword">return</span> &#123;newdata,<span class="hljs-built_in">std</span>::uninitialized_copy(b,c,newdata)&#125;;<br>&#125;<br>String::String(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* p) &#123;<br>    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(p);<br>    <span class="hljs-keyword">auto</span> newdata = alloc_n_copy(p,p+len);<br>    _begin = newdata.first;<br>    _end = _first_free = newdata.second;<br>&#125;<br>String::String(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&amp; s) &#123;<br>    <span class="hljs-keyword">int</span> len = s.size();<br>    <span class="hljs-keyword">auto</span> newdata = alloc_n_copy(&amp;s[<span class="hljs-number">0</span>],&amp;s[len]);<br>    _begin = newdata.first;<br>    _end = _first_free = newdata.second;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">String::free</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">std</span>::for_each(_begin,_end,<br>            [](<span class="hljs-keyword">char</span>&amp; p)&#123; alloc.destroy(&amp;p); &#125;);<br>    alloc.deallocate(_begin,_end-_begin);<br>&#125;<br>String::~String() &#123; <span class="hljs-built_in">free</span>(); &#125;<br><br>String&amp; String::<span class="hljs-keyword">operator</span>= (<span class="hljs-keyword">const</span> String&amp; rhs) &#123;<br>    <span class="hljs-keyword">auto</span> newdata = alloc_n_copy(rhs.begin(),rhs.end());<br>    <span class="hljs-built_in">free</span>();<br>    _begin = newdata.first;<br>    _end = _first_free = newdata.second;<br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">String::reallocate</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">auto</span> newcapacity = size() ? <span class="hljs-number">2</span>*size() : <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">auto</span> newdata = alloc.allocate(newcapacity);<br><br>    <span class="hljs-keyword">auto</span> dest = newdata;<br>    <span class="hljs-keyword">auto</span> elem = _begin;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i=<span class="hljs-number">0</span>; i&lt;size(); ++i)<br>        alloc.construct(dest++,<span class="hljs-built_in">std</span>::move(*elem++));<br>    <span class="hljs-built_in">free</span>();<br>    _begin = newdata;<br>    _first_free = dest;<br>    _end = _begin + newcapacity;<br>&#125;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+
+
+<p><code>test.cpp</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;String.h&quot;</span></span><br><span class="hljs-built_in">std</span>::allocator&lt;<span class="hljs-keyword">char</span>&gt; String::alloc;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-function">String <span class="hljs-title">temp1</span><span class="hljs-params">(<span class="hljs-string">&quot;luchao |&quot;</span>)</span></span>;<br>    String temp2 = <span class="hljs-string">&quot;is a boy&quot;</span>;<br>    String temp3 = temp2 + temp1;<br><br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;temp3=&quot;</span> &lt;&lt; temp3 &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    temp3 = <span class="hljs-string">&quot; new string X&quot;</span>;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;temp3=&quot;</span> &lt;&lt; temp3 &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br><br>    <span class="hljs-keyword">char</span>* p = temp2 + temp1;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;p=&quot;</span> &lt;&lt; p &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br><br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;[]=&quot;</span> &lt;&lt; temp2[<span class="hljs-number">2</span>] &lt;&lt; <span class="hljs-string">&quot;|&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">char</span>* pp = &amp;temp2[<span class="hljs-number">3</span>];<br>    *pp = <span class="hljs-string">&#x27;X&#x27;</span>;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;*pp=&quot;</span> &lt;&lt; *pp &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;temp2=&quot;</span> &lt;&lt; temp2 &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/09/22/csdn/%E6%96%87%E6%9C%AC%E6%9F%A5%E8%AF%A2%E7%A8%8B%E5%BA%8F(%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB)/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文本查询程序(类的继承体系)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/09/14/csdn/%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%B1%BBStrVec%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+                        <span class="hidden-mobile">动态内存管理类StrVec的实现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

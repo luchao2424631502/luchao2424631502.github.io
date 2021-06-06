@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>计算机网络概述 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="计算机网络概述">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-01-16 20:08" pubdate>
+        2020年1月16日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">计算机网络概述</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ul>
+<li>持续更新<h1 id="一、网络概述"><a href="#一、网络概述" class="headerlink" title="一、网络概述"></a>一、网络概述</h1></li>
+</ul>
+<h2 id="OSI参考模型（数据通信"><a href="#OSI参考模型（数据通信" class="headerlink" title="OSI参考模型（数据通信"></a>OSI参考模型（数据通信</h2><ol>
+<li><p>应用层: 所有能产生网络流量的程序</p>
+</li>
+<li><p>表示层: 传输之前是否进行加密or压缩处理</p>
+</li>
+<li><p>会话层: 区分来的数据是属于哪一个窗口的(会话),访问网站建立会话</p>
+<pre><code>*   查看是否存在木马: netstat -n -b</code></pre>
+</li>
+<li><p>传输层: 可靠传输 流量控制</p>
+<ul>
+<li>可靠传输：在网络中丢包了,只要server没有收到client的包,则server一直发包,直到确定</li>
+<li>流量控制: </li>
+<li>不可靠传输: 一个包可以搞定的事情不需要建立会话(DNS)</li>
+</ul>
+</li>
+<li><p>网络层:</p>
+<pre><code>*  选择最佳路径(可以指定路径：静态路由)
+   *  规划IP地址</code></pre>
+</li>
+<li><p>数据链路层 （ 如 交换机</p>
+<ul>
+<li><p>帧的开始和结束</p>
+</li>
+<li><p> 透明传输</p>
+</li>
+<li><p>差错校验</p>
+</li>
+</ul>
+</li>
+<li><p>物理层</p>
+<ul>
+<li>网络设备接口标准</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="排错"><a href="#排错" class="headerlink" title="排错:"></a>排错:</h2><ol>
+<li><p>物理层: 网线2口,一口收,1口发,查看收发的字节数,判断是否是传输介质的问题</p>
+</li>
+<li><p>数据链路层: </p>
+<ol>
+<li>MAC地址冲突</li>
+<li><del>欠费</del></li>
+<li>交换机和服务器的网卡接口 传输速度 不统一 </li>
+<li>计算机连接到错误的vlan(<code>virtual local area network</code>:虚拟局域网)</li>
+</ol>
+</li>
+<li><p>网络层:</p>
+<ol>
+<li>网段配置错误</li>
+<li>网关配置错误 (路由器地址),所以无法访问其他网段</li>
+<li>路由器不知道数据包要到达的地址(网段),导致丢包</li>
+</ol>
+</li>
+<li><p>上面的就是程序员的问题了…</p>
+</li>
+</ol>
+<hr>
+<h2 id="数据封装过程"><a href="#数据封装过程" class="headerlink" title="数据封装过程"></a>数据封装过程</h2><ol>
+<li>应用层 :  原始数据</li>
+<li>传输层：TCP头 + （原始数据）= 数据段/消息</li>
+<li>网络层： IP头 + （TCP头 + 原始数据）= 数据包</li>
+<li>数据链路层：MAC头 + （IP 头 + TCP头 + 原始数据）+ 校验值 = 数据帧</li>
+<li>物理层 1010100101… = Bit</li>
+</ol>
+<ul>
+<li><code>client</code>收到数据包后解包就行了</li>
+</ul>
+<hr>
+<h2 id="网络性能"><a href="#网络性能" class="headerlink" title="网络性能"></a>网络性能</h2><ol>
+<li><p>速率</p>
+<p>连接在计算机网络上的主机在<strong>数字信道</strong>上传送**数据位数(bit)**的速率：<code>data rate / bit rate</code></p>
+<p><code>b/s kb/s Mb/s Gb/s</code></p>
+</li>
+<li><p>带宽</p>
+<p><strong>数字信道</strong>所能传送的最高数据率</p>
+<ul>
+<li>带宽影响的是<strong>数据从计算机发送到信道上的速率</strong></li>
+<li>传播速度由<strong>信道的介质决定</strong></li>
+</ul>
+</li>
+<li><p>吞吐量</p>
+<p>吞吐量</p>
+<p>单位时间内通过某网络的数据量</p>
+</li>
+<li><p>时延</p>
+<ol>
+<li>发送时延 = 数据块长度 / <strong>信道带宽</strong></li>
+</ol>
+</li>
+</ol>
+<h1 id="二、物理层"><a href="#二、物理层" class="headerlink" title="二、物理层"></a>二、物理层</h1><h2 id="2-1-物理层基本概念"><a href="#2-1-物理层基本概念" class="headerlink" title="2.1 物理层基本概念"></a>2.1 物理层基本概念</h2><ol>
+<li><p>主要任务:</p>
+<ul>
+<li>确定 传输媒体接口 的特性:</li>
+</ul>
+<blockquote>
+<ol>
+<li>机械特性: 形状,大小,引线数</li>
+<li>电气: 确定电压范围</li>
+<li>功能特性：5v为1 0v为0</li>
+<li>过程特性：建立连接时各个部分的工作步骤</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h2 id="2-2-数据通信的基础知识"><a href="#2-2-数据通信的基础知识" class="headerlink" title="2.2 数据通信的基础知识"></a>2.2 数据通信的基础知识</h2><ol>
+<li><p>调制解调器：将<strong>数字信号（离散的01010)翻译成可沿着电话线传送的模拟信号（连续的）</strong></p>
+<pre><code>&gt; 数据：运送消息的实体</code></pre>
+<blockquote>
+<p>信号：数据的电气或电磁上的表现</p>
+<p>模拟信号：取值连续</p>
+<p>数字信号：取值离散</p>
+<p><strong>码元</strong>： 使用<strong>波形表示数字信号时</strong>，<strong>代表不同的离散数值的基本波形</strong>称为码元</p>
+<p>例如: <code>^</code>的波形代表十进制数字<code>3</code>,那么二进制为<code>011</code>,<strong>该码元携带了3bit的信息</strong></p>
+<ul>
+<li>1码元可以携带<code>n bit</code>的信息量</li>
+</ul>
+</blockquote>
+</li>
+<li><p>信道的概念</p>
+<blockquote>
+<ol>
+<li>一般表示向一个方向传送信息的媒体<ul>
+<li>单项通信（单工通信）：只能有一个方向的通信而没有反方向的交互</li>
+<li>双向交替通信（半双工通信）双方都可以收发,但不说同时收或者同时发</li>
+<li>双向同时通信（全双工通信）：通信的双方可以同时发送和接收信息</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p>基带信号 和 带通信号</p>
+<ol>
+<li><p>基带信号（<strong>基本频带信号</strong>）</p>
+<blockquote>
+<p>计算机<strong>输出的代表各种文字或者图像文件的数据信号</strong>都属于基带信号,</p>
+<p>因为传输距离近，所以基带信号的衰减不大，信号内容不会发生变化，所以距离近传输采用基带信号</p>
+<p>计算机发出的都是基带信号：</p>
+<p>例如：计算机到显示器，打印机等外设的信号</p>
+</blockquote>
+</li>
+<li><p>带通信号</p>
+<p>把<strong>基带信号</strong>经过载波调制后,把信号的频率范围搬移到较高的频段。以便在信道中传输</p>
+<blockquote>
+<p>调制方法:</p>
+<ol>
+<li>调幅 </li>
+<li>调频</li>
+<li>调相</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>奈氏准则</p>
+<blockquote>
+<p>在信道无干扰的条件下（理想条件下），<strong>为了避免码间串扰,码元的传输速率有上限值</strong></p>
+</blockquote>
+<blockquote>
+<p>理解：光纤的带宽高，则单位时间上传的数据密集比铜线密集,如果可能导致接收方无法识别码元（<code>n bit</code>）</p>
+</blockquote>
+</li>
+<li><p>信噪比</p>
+<p>信道的极限信息传输速率<code>C</code>表示为：</p>
+<p>$C=W *log_{2}(1+S/N)$</p>
+<blockquote>
+<ul>
+<li>$W$:信道带宽</li>
+<li>$S$:信道内所传信号的平均功率</li>
+<li>$N$: 信道内部的高斯噪声功率</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h2 id="2-3-物理层下的传输媒体"><a href="#2-3-物理层下的传输媒体" class="headerlink" title="2.3 物理层下的传输媒体"></a>2.3 物理层下的传输媒体</h2><ol>
+<li><p>导向传输媒体</p>
+<p>​    有线传输</p>
+</li>
+<li><p>非导向传输媒体</p>
+<p>​    无限传输</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li><p>集线器（现在都用交换机）:</p>
+<p>广播信号,只起到信号方法和重发的作用,目的是扩大网络的传输范围,和集线器连接的计算机中2台通讯会占线，    </p>
+</li>
+</ol>
+</blockquote>
+<h2 id="2-4-信道复用-复用-gt-信道-gt-分用-技术"><a href="#2-4-信道复用-复用-gt-信道-gt-分用-技术" class="headerlink" title="2.4 信道复用 (复用-&gt;信道-&gt;分用)技术"></a>2.4 信道复用 (复用-&gt;信道-&gt;分用)技术</h2><ol>
+<li><p>频分复用</p>
+<p>信道上用户的信号频率不同,接 收端通过频率来区分</p>
+<p>例如: 打电话</p>
+</li>
+<li><p>时分复用</p>
+<p><strong>按时间来将传送数据排序</strong></p>
+<p>某时刻:所有人要传送的数据的一块按顺序在信道中排列成一帧,所有数据按照顺序组成n帧,接收端按照顺序收信号,</p>
+</li>
+<li><p>(统计时分复用): 同一时间随便去数据组成一帧,,给数据帧中的每个人的数据加标记,接收端过滤 </p>
+</li>
+<li><p>波分复用 (按照光的频率复用:光的频分复用)</p>
+</li>
+</ol>
+<h2 id="2-5-数字传输系统"><a href="#2-5-数字传输系统" class="headerlink" title="2.5 数字传输系统"></a>2.5 数字传输系统</h2><ol>
+<li>e1 和  t1标准</li>
+</ol>
+<h2 id="2-6-宽带接入技术（接入internet"><a href="#2-6-宽带接入技术（接入internet" class="headerlink" title="2.6 宽带接入技术（接入internet"></a>2.6 宽带接入技术（接入internet</h2><ol>
+<li><p>ADSL（<code>Asymmertric digital subscriber line</code>:非对称数字用户线路)</p>
+<blockquote>
+<ol>
+<li><p><strong>利用DMT技术</strong>，低频留给传统电话用,高频给上网用,</p>
+<p>所以在电话线接入家里之前还有 <strong>电话分离器</strong> 把 电话信号接家里电话，其他信号分给家里电脑网卡,<strong>远端同理</strong></p>
+</li>
+<li><p><strong>DMT技术</strong>:</p>
+<p>高端频谱<strong>划分为许多的子信道,25个上行,249个下行信道</strong>,（人为调制频谱,应该能实现上下信道个数相同）<strong>每个信道的频率都不相同（频分复用）</strong></p>
+<hr>
+<p><strong>多信道是怎么传串行的数据流的呢？</strong>，</p>
+<p>有转换器能实现<strong>并行和串行的数据转换，从而把数据分摊到多个信道上</strong></p>
+</li>
+<li><p>电话线能通过的频率有限,</p>
+</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h1 id="三、数据链路层"><a href="#三、数据链路层" class="headerlink" title="三、数据链路层"></a>三、数据链路层</h1><ol>
+<li><p>信道类型:</p>
+<p><strong>点对点信道</strong>： 一对一的点对点通信方式</p>
+<p><strong>广播信道</strong>：一对多的广播通信方式</p>
+</li>
+<li><p>链路与数据链路：</p>
+<p>链路: 一条点对点的物理线路段,（<strong>如交换机和电脑相连的线就是链路</strong>）</p>
+<hr>
+<p>数据链路：<strong>物理路线 + 通信协议</strong>来控制<strong>数据的传输</strong>，<strong>如果链路上有实现这些协议的硬件和软件,那么这条链路称为数据链路</strong></p>
+<p>一般使用<strong>适配器</strong>（网卡）来实现协议的（硬件和软件）,一般的适配器都包括了<strong>数据链路层和物理层</strong>这2层的功能</p>
+</li>
+<li><p><strong>帧</strong></p>
+<p>网络层将<strong>来自传输层的数据段</strong>加上IP头封装成<strong>数据包</strong>，由数据链路层加上<strong>帧头+校验值+帧尾</strong></p>
+</li>
+</ol>
+<h2 id="3-1-封装成帧"><a href="#3-1-封装成帧" class="headerlink" title="3.1 封装成帧"></a>3.1 封装成帧</h2><h2 id="3-2-透明传输"><a href="#3-2-透明传输" class="headerlink" title="3.2 透明传输"></a>3.2 透明传输</h2><ul>
+<li>例如加上转义字符解决中间出现结束标记</li>
+</ul>
+<h2 id="3-3-差错控制-差错检测"><a href="#3-3-差错控制-差错检测" class="headerlink" title="3.3 差错控制(差错检测)"></a>3.3 差错控制(差错检测)</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/16/csdn/KMP/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">KMP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/18/csdn/const%20int!%20%E5%92%8C%20const%20int%20!%20const%20%E5%92%8C%20int%20const%20!%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                        <span class="hidden-mobile">const int* 和 const int * const 和 int const * 的区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

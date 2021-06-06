@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/10/csdn/POJ_3169_%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E8%BD%AC%E6%9C%80%E7%9F%AD%E8%B7%AF/">POJ_3169_差分约束转最短路</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/10/csdn/POJ_3169_%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E8%BD%AC%E6%9C%80%E7%9F%AD%E8%B7%AF/">
+          
+          
+            
+          
+          
+
+POJ 3169
+
+差分约束问题转化为最短路
+由最短路三角形关系得到dist[u] + w &gt;= dist[v]-&gt;dist[v] &lt;= dist[u] + w,则说明dist[]已经是源点到个点之间的距离了.w是u指向v这条有向边的权值.
+将牛的关系表达为不等式,然后建图,
+
+
+dist[j] - dist[i] &lt;= k -&gt; dist[j] &lt;= di
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-10 09:32" pubdate>
+              2019-07-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/09/csdn/POJ_2502_%E5%BB%BA%E5%9B%BE+%E6%9C%80%E7%9F%AD%E8%B7%AF/">POJ_2502_建图+最短路</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/09/csdn/POJ_2502_%E5%BB%BA%E5%9B%BE+%E6%9C%80%E7%9F%AD%E8%B7%AF/">
+          
+          
+            
+          
+          
+
+POJ 2502
+
+感觉题目意思不清晰,主要是建图,然后是最短路.
+首先将速度换算成分钟,将所有输入的点都离散一下,然后处理-1  -1与一条地铁路线之间的时间(双向).
+然后处理不同地铁路线之间点的距离 grid[i][j] = grid[j][i] = min(grid[i][j],dis(point[i],point[j])/v1) 
+
+1234567891011121314151617
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-09 19:16" pubdate>
+              2019-07-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/09/csdn/POJ_3159_(%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%82%BB%E6%8E%A5%E8%A1%A8)/">POJ_3159_(数组模拟邻接表)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/09/csdn/POJ_3159_(%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F%E9%82%BB%E6%8E%A5%E8%A1%A8)/">
+          
+          
+            
+          
+          
+
+POJ 3159
+
+题意：题目告诉我们求点1和点n之间在满足约束条件dist[a]+c&gt;=dist[b]时的最大差值,
+假设三角形abc,起点是a,a-&gt;b(2) a-&gt;c(4) b-&gt;c(3),当a点糖果数是0时,如果走a-&gt;b-&gt;c得到c糖果数为5,不满足a-&gt;c(4)的要求,所以转换为有向图,求最短路
+vector邻接表不行,用数组模拟邻接表12
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-09 15:30" pubdate>
+              2019-07-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/09/csdn/POJ_1511_(dij!bellmanford)/">POJ_1511_(dij/bellmanford)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/09/csdn/POJ_1511_(dij!bellmanford)/">
+          
+          
+            
+          
+          
+
+ POJ 1511
+
+题意：求每个点去1点的时间和回来时间的最小值,回来的最短时间就是点1到每一个点的最短路径,那么每个点去点1的时间呢？单独求每个点到点1时间肯定超时
+将所有有向边都反向,在求点1到每个点的最短路径就相当于去点1的时间
+主要是数据量太大,只能用邻接表存图,关键在于邻接表的构建
+
+
+bellmanford1234567891011121314151617181920212223
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-09 10:37" pubdate>
+              2019-07-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/08/csdn/POJ_2240_(bellmanford+floyd)!hash/">POJ_2240_(bellmanford+floyd)/hash</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/08/csdn/POJ_2240_(bellmanford+floyd)!hash/">
+          
+          
+            
+          
+          
+
+POJ 2240
+
+与POJ 1860 一样, 判断是否存在 正权环
+将字符串hash成[1,30]之内的顶点,
+bellmanford通过松弛次数来判断是否存在环,
+floyd通过比较2次货币流通后的任意一点(点就是货币)的值是否增加,增加了就说明存在正环
+
+
+bellmanford1234567891011121314151617181920212223242526272829303132
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-08 21:19" pubdate>
+              2019-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/08/csdn/POJ_3660_floyd/">POJ_3660_floyd</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/08/csdn/POJ_3660_floyd/">
+          
+          
+            
+          
+          
+
+POJ 3660
+
+题意：告诉所有奶牛的关系,让你确定奶牛的排名(只有当该奶牛与其他所有奶牛的关系确定了才能确定该奶牛的排名)
+通过floyd确定一个点是否能到另一个点.12345678910111213141516171819202122232425262728293031323334353637 #include &lt;iostream&gt;using namespace std;co
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-08 19:56" pubdate>
+              2019-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/08/csdn/POJ_1502_%E6%9C%80%E7%9F%AD%E8%B7%AF%E6%A8%A1%E6%9D%BF/">POJ_1502_最短路模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/08/csdn/POJ_1502_%E6%9C%80%E7%9F%AD%E8%B7%AF%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+ POJ 1502  
+
+题意:求最短路中的 最大值 ，模板题
+
+
+dij12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758 #include &lt;iostream&gt;#include &lt;string.h&gt;#in
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-08 18:48" pubdate>
+              2019-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/08/csdn/POJ_3259_spfa/">POJ_3259_spfa</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/08/csdn/POJ_3259_spfa/">
+          
+          
+            
+          
+          
+
+6 POJ 3259 
+
+题意：能否通过负边回到过去，意思是求是否存在负权环.
+
+开一个cnt[]记录每一个点访问的次数,如果存在负权环那么一定能一直松弛
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-08 17:08" pubdate>
+              2019-07-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spfa/">spfa</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/07/csdn/POJ_1860_%E5%88%A4%E6%96%AD%E6%AD%A3%E6%9D%83%E7%8E%AF(bellmanford%E5%92%8Cfloyd)/">POJ_1860_判断正权环(bellmanford和floyd)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/07/csdn/POJ_1860_%E5%88%A4%E6%96%AD%E6%AD%A3%E6%9D%83%E7%8E%AF(bellmanford%E5%92%8Cfloyd)/">
+          
+          
+            
+          
+          
+
+5POJ 1860题意：货币种类是点,货币交换是边,能否在交换回来使得金钱变多,意思就是是否存在正环
+
+两层循环 模拟一次流通后 每一个点 的金钱数
+将第一次多次循环和第二次比较，若有任意一个点钱数变多则说明存在正环123456789101112131415161718192021222324252627282930313233343536#include &lt;iostream&gt;us
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-07 21:01" pubdate>
+              2019-07-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/07/07/csdn/HDU_1874_SPFA%E6%A8%A1%E6%9D%BF/">HDU_1874_SPFA模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/07/csdn/HDU_1874_SPFA%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+原理：
+
+在有向图中,对于某个边(u,v,w),若存在dist[v] &lt; dist[u]+w,满足三角关系，
+若所有边都满足此不等式,说明一个点已经无法通过任意联通点来松弛它,则所有的dist就是最短路    
+
+来源：
+
+与 dij不同的是,bellman-ford基于迭代思想
+spfa是队列优化的bellman-ford
+
+流程：
+
+将源点加入队列,
+取出队头,扫描所有出边(u,v,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-07 16:57" pubdate>
+              2019-07-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spfa/">spfa</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/19/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/21/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

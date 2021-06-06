@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Matlab_基本操作和矩阵输入 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Matlab_基本操作和矩阵输入">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-08 11:34" pubdate>
+        2019年6月8日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      827 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Matlab_基本操作和矩阵输入</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<blockquote>
+<p>1.输出格式  </p>
+</blockquote>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-built_in">format</span> <span class="hljs-keyword">short</span>  <br><span class="hljs-built_in">format</span> <span class="hljs-keyword">long</span>  <br><span class="hljs-built_in">format</span> shortE  <br><span class="hljs-built_in">format</span> longE  <br><span class="hljs-built_in">format</span> bank  (小数点后两位)  <br><span class="hljs-built_in">format</span> hex  (<span class="hljs-number">16</span>进制)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2.terminal command </p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">clc</span> 清屏<br><span class="hljs-built_in">clear</span> x 清除变量  <br><span class="hljs-built_in">clear</span> 清除所有变量  <br>who 显示所有变量名字  <br>whos 显示所有变量的信息<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>3.Array index(矩阵索引) </p>
+<blockquote>
+<h2 id="1-index从上到下按列计数"><a href="#1-index从上到下按列计数" class="headerlink" title="1.index从上到下按列计数  "></a>1.index从上到下按列计数  </h2><h2 id="a-index-index按列数从上往下数"><a href="#a-index-index按列数从上往下数" class="headerlink" title="a(index) index按列数从上往下数  "></a><code>a(index)</code> index按列数从上往下数  </h2><h2 id="a-i1-i2-i3-取出a-i1-a-i2-a-i3-…-取出后按向量初始化的方式排序"><a href="#a-i1-i2-i3-取出a-i1-a-i2-a-i3-…-取出后按向量初始化的方式排序" class="headerlink" title="a([i1 i2 i3...]) 取出a(i1) a(i2) a(i3)…  取出后按向量初始化的方式排序  "></a><code>a([i1 i2 i3...])</code> 取出a(i1) a(i2) a(i3)…  <strong>取出后按向量初始化的方式排序</strong>  </h2><h2 id="a-i1-i2-i1-i3-形成ans-a-i1-a-i2-a-i1-a-i3-的新矩阵"><a href="#a-i1-i2-i1-i3-形成ans-a-i1-a-i2-a-i1-a-i3-的新矩阵" class="headerlink" title="a([i1 i2;i1 i3]) 形成ans = [a(i1) a(i2);a(i1) a(i3)]的新矩阵  "></a><code>a([i1 i2;i1 i3])</code> <strong>形成ans = [a(i1) a(i2);a(i1) a(i3)]的新矩阵</strong>  </h2><h2 id="2-按-行-列-取"><a href="#2-按-行-列-取" class="headerlink" title="2.按 行 , 列 取   "></a>2.按 行 , 列 取   </h2><p>syntax:<br>j:k -&gt; [j,j+1,j+2,..,j+m]<br>j:i:k -&gt; [j,j+i,j+2i;j+3i;j+ki]<br>–<br><code>a(1,2)</code> 第一行第二个<br>–<br><code>a([i1 i2],[i3 i4])  </code> <strong>行取i1,i2行,列取i3,i4列</strong><br>–  </p>
+</blockquote>
+</blockquote>
+<blockquote>
+<h2 id="4-colon-operator-冒号操作"><a href="#4-colon-operator-冒号操作" class="headerlink" title="4.colon operator (冒号操作)  "></a>4.colon operator (冒号操作)  </h2><h2 id="m-begin-step-end-生成行向量-中间是步数"><a href="#m-begin-step-end-生成行向量-中间是步数" class="headerlink" title="m = begin : step : end   (生成行向量,中间是步数) "></a><code>m = begin : step : end </code>  (生成行向量,中间是步数) </h2><h2 id="m-1-1-5-2-1-6-冒号生成矩阵"><a href="#m-1-1-5-2-1-6-冒号生成矩阵" class="headerlink" title="m = [1:1:5;2:1:6;....]   (冒号生成矩阵)   "></a><code>m = [1:1:5;2:1:6;....] </code>  (冒号生成矩阵)   </h2><h2 id="str-39-a-39-1-39-z-39"><a href="#str-39-a-39-1-39-z-39" class="headerlink" title="str = &#39;a&#39; : 1 : &#39;z&#39;  "></a><code>str = &#39;a&#39; : 1 : &#39;z&#39;  </code></h2></blockquote>
+<h4 id="小练习"><a href="#小练习" class="headerlink" title="小练习"></a>小练习</h4><p>将 a = [1 0 0;5 0 0;31 0 7] 转化为a = [1 0 0;5 0 0]<br>即消掉第三行  </p>
+<blockquote>
+<p>solution1(重新赋值).<br> <code>a = a([1:2],[1:3]) (索引访问)</code><br>solution2(赋成<code>[]</code>空向量)<br><code>a(3,:) = []</code><br>syntax:<code>A() = [] delete rows or columns of A,从A中删除行或者列</code></p>
+</blockquote>
+<blockquote>
+<p>5.矩阵拼接<br><code>a = [a b]</code> 增广矩阵<br><code>a = [a;b]</code>   换到下一行拼接的矩阵<br><code>a = [a:b]</code> 矩阵<code>a</code>起始坐标作为开始点,<code>b</code>起始坐标 作为结束点 的<strong>行向量</strong></p>
+</blockquote>
+<blockquote>
+<h2 id="6-矩阵运算"><a href="#6-矩阵运算" class="headerlink" title="6.矩阵运算  "></a>6.矩阵运算  </h2><p><code>k = 2(常数) a = [1:3;2:4] b = [3:5;7:9]</code><br><code>a = a + k 每个元素加</code><br><code>a = a / k 每个元素除</code><br><code>a = a./ k 还是每个元素除</code><br><code>a = a^2 等价于 a*a 矩阵乘法</code><br><code>a = a.^2 矩阵每个元素2次幂</code><br><code>a&#39;  a的逆矩阵</code><br><code>a+b 对应位置每个元素相加</code><br><code>a * b 对应维数相同的矩阵 做乘法</code><br><code>a .* b 对应位置元素做乘法</code><br><code>a./b 对应位置元素除法</code><br><code>a / b 近似等价于 a * b&#39; </code> </p>
+</blockquote>
+<blockquote>
+<ol start="7">
+<li>some special matrix function  <blockquote>
+<p>1.<code>eye(n) nxn的单位阵</code>  </p>
+</blockquote>
+</li>
+</ol>
+<p>–<br>2.<code>zeros(n1,n2) n1xn2元素全为0的矩阵</code><br>–<br>3.<code>ones(n1,n2) n1xn2元素全部为1的矩阵</code><br>–<br>4.<code>x = rand() 随机数小数</code><br><code>x = rand(n) nxn的数组</code><br><code>x = rand(x,y,z,...) x*y*z*...的数组</code><br><code>x = rand([a b]) 等价于 x = rand(a,b) [a b]为大小向量</code><br>–<br>5.<code>x = randi([a b],n,m)</code><br><code>x = randi([a b],[n m])</code>     生成a<del>b之间的nxm大小的随机整数矩阵<br>–<br>6.<code>diagonal 对角的</code><br>由矩阵作为参数返回第k个对角线上的元素<code>diag(a)</code>  <code>diag(a,k)</code><br>–<br>由向量作为参数创建对角阵<br><code>diag(a)</code> <code>diag(a,k)</code><br>向量a作为第k条对角线<br>–<br>7.<code>linspace(x1,x2) 缺省是100个点</code><br>`linspace(x1,x2,num) 生成线性间距向量,num是x1</del>x2中生成num个点`</p>
+</blockquote>
+<blockquote>
+<p>8.some matrix related function</p>
+<blockquote>
+<p>1.<code>max(a)</code> 每一列最大值<br>2.<code>max(max(a))</code>无论是行向量还是列向量返回最大值<br>3.<code>min(a)</code> 每一列最小值<br>4.<code>sum(a)</code> 每一列加和<br>5.<code>mean(a)</code> 每一列的平均值<br>–<br>1.<code>sort(a)</code> 每一列都重新排序<br>2.<code>sortrows(a,k)</code>每行的顺序按照第k列(<strong>每一行的第k个</strong>)来排,只有行变换<br>3.<code>size(a)</code>返回行向量,包括每一维度的长度<br><code>size(a,k)</code>返回第k维的长度<br>4.<code>length(a)</code>返回矩阵最大维度的长度 等价于<code>max(size(a))</code></p>
+</blockquote>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/09/csdn/Matlab_%E7%BB%93%E6%9E%84%E5%8C%96%E7%A8%8B%E5%BA%8F%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Matlab_结构化程序及自定义函数</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/01/csdn/POJ_2253_floyd/">
+                        <span class="hidden-mobile">POJ_2253_floyd</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

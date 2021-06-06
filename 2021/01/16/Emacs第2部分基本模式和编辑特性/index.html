@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Emacs第二部分:基本模式和编辑特性 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Emacs第二部分:基本模式和编辑特性">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-16 20:43" pubdate>
+        2021年1月16日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Emacs第二部分:基本模式和编辑特性</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Emacs第二部分-基本模式和编辑特性"><a href="#Emacs第二部分-基本模式和编辑特性" class="headerlink" title="Emacs第二部分:基本模式和编辑特性"></a>Emacs第二部分:基本模式和编辑特性</h2><h3 id="编辑模式"><a href="#编辑模式" class="headerlink" title="编辑模式"></a>编辑模式</h3><p>模式可以划分为主要模式和次要模式.</p>
+<p>主要模式规定了主要的编辑行为,并且仅应用于当前编辑会话中的缓冲区.在任何时刻,每个缓冲区都有且仅有一个活动的主要模式.</p>
+<p>次要模式通常提供了一些与任何特定的主要模式无关的特性或功能.可以把它们看作用于控制这些特性的切换:<strong>使用其函数名来调用一个次要模式可以开启或关闭该模式,任何时候都可以开启多个次要模式</strong></p>
+<h4 id="查看哪些模式是活动的"><a href="#查看哪些模式是活动的" class="headerlink" title="查看哪些模式是活动的"></a>查看哪些模式是活动的</h4><p>在Emacs的状态行可以查看到模式的变化,例如<code>INS</code>键开启的<code>OverWrite</code>模式,(<code>Ins</code>键绑定了<code>overwrite-mode</code>函数)</p>
+<p>次要模式通常跟随在主要模式后面,并且都不是所有的次要模式都会显示出来</p>
+<h4 id="获得当前模式的描述"><a href="#获得当前模式的描述" class="headerlink" title="获得当前模式的描述"></a>获得当前模式的描述</h4><p><code>C-h m</code></p>
+<h4 id="缺省模式"><a href="#缺省模式" class="headerlink" title="缺省模式"></a>缺省模式</h4><p>暂存缓冲区通常设置为<code>Lisp Interaction</code>模式,</p>
+<p>新建Buffer就能看到Emacs的缺省模式<code>Fundamental</code>模式</p>
+<h4 id="常用Emacs模式"><a href="#常用Emacs模式" class="headerlink" title="常用Emacs模式"></a>常用Emacs模式</h4><table>
+<thead>
+<tr>
+<th align="center">Fundamental模式</th>
+<th align="center">fundamental-mode()</th>
+<th align="center">主要模式</th>
+<th align="center">Emacs的缺省模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Text模式</td>
+<td align="center">text-mode()</td>
+<td align="center">主要模式</td>
+<td align="center">编辑文本的基本模式</td>
+</tr>
+<tr>
+<td align="center">Abbrev</td>
+<td align="center">abbrev-mode()</td>
+<td align="center">次要模式</td>
+<td align="center">用于生成和使用缩写</td>
+</tr>
+<tr>
+<td align="center">OverWrite模式</td>
+<td align="center">overwrite-mode()</td>
+<td align="center">次要模式</td>
+<td align="center">覆盖buffer中的任何现有文本</td>
+</tr>
+<tr>
+<td align="center">C</td>
+<td align="center">c-mode()</td>
+<td align="center">主要模式</td>
+<td align="center">编写C代码</td>
+</tr>
+<tr>
+<td align="center">Line Number</td>
+<td align="center">line-number-mode()</td>
+<td align="center">次要模式</td>
+<td align="center">用于显示当前行号</td>
+</tr>
+</tbody></table>
+<h4 id="设置模式"><a href="#设置模式" class="headerlink" title="设置模式"></a>设置模式</h4><p>Emacs模式是一些函数.要调用其中某个函数,输入<code>M-x</code>然后给出模式名,就行</p>
+<h3 id="文本操作"><a href="#文本操作" class="headerlink" title="文本操作"></a>文本操作</h3><h4 id="区域缩进"><a href="#区域缩进" class="headerlink" title="区域缩进"></a>区域缩进</h4><p><code>C-space</code>选中区域后,<code>c-x c-i</code>+左右方向键进行缩进</p>
+<p><code>c-x c-i</code>运行<code>indent-rigidly</code>函数</p>
+<h4 id="添加垂直间距而不移动光标"><a href="#添加垂直间距而不移动光标" class="headerlink" title="添加垂直间距而不移动光标"></a>添加垂直间距而不移动光标</h4><p><code>c-o</code>运行<code>open-line</code>函数</p>
+<h4 id="文本调换"><a href="#文本调换" class="headerlink" title="文本调换"></a>文本调换</h4><h5 id="调换光标前后的单个字符"><a href="#调换光标前后的单个字符" class="headerlink" title="调换光标前后的单个字符"></a>调换光标前后的单个字符</h5><p><code>C-t</code>:transpose-chars函数,</p>
+<h5 id="调换光标前后的单个单词"><a href="#调换光标前后的单个单词" class="headerlink" title="调换光标前后的单个单词"></a>调换光标前后的单个单词</h5><p><code>M-t</code>:transpose-words函数,</p>
+<h5 id="调换光标所在的行和光标前面的行"><a href="#调换光标所在的行和光标前面的行" class="headerlink" title="调换光标所在的行和光标前面的行"></a>调换光标所在的行和光标前面的行</h5><p><code>C-x C-t</code>:transpose-lines函数</p>
+<h5 id="将光标所在的行与前面的行连接起来"><a href="#将光标所在的行与前面的行连接起来" class="headerlink" title="将光标所在的行与前面的行连接起来"></a>将光标所在的行与前面的行连接起来</h5><p><code>M-^</code>:delete-indentation函数(删除缩进函数)</p>
+<h5 id="转换大小写"><a href="#转换大小写" class="headerlink" title="转换大小写"></a>转换大小写</h5><ol>
+<li><p>将光标处到光标所在词的词尾之间的所有文本转化为大写字母</p>
+<p><code>M-u</code>:uppercase-word函数</p>
+</li>
+<li><p>将光标处到光标所在词的词尾之间的所有文本转化为小写字母</p>
+<p><code>M-l</code>:downcase-word函数</p>
+</li>
+<li><p>单词首字母大写</p>
+<p><code>M-c</code></p>
+</li>
+</ol>
+<h3 id="搜索和替换文本"><a href="#搜索和替换文本" class="headerlink" title="搜索和替换文本"></a>搜索和替换文本</h3><blockquote>
+<p>最基本最常用的搜索方式是<strong>增量搜索</strong>,即<strong>输入每一个字符时都会将光标移动到第一个匹配的实例处</strong></p>
+</blockquote>
+<h4 id="向前增量搜索-应该指的是字符向前-光标向后"><a href="#向前增量搜索-应该指的是字符向前-光标向后" class="headerlink" title="向前增量搜索(应该指的是字符向前,光标向后)"></a>向前增量搜索(应该指的是字符向前,光标向后)</h4><p><code>C-s</code>:<code>isearch-forward</code>函数,<strong>重复搜索或者移动到下一个匹配项,再次输入<code>C-s</code>即可</strong></p>
+<h4 id="向后增量搜索"><a href="#向后增量搜索" class="headerlink" title="向后增量搜索"></a>向后增量搜索</h4><p><code>C-r</code>: <code>isearch-backward</code>函数</p>
+<h4 id="非增量搜索"><a href="#非增量搜索" class="headerlink" title="非增量搜索"></a>非增量搜索</h4><p>输入<code>C-s</code>或者<code>C-r</code>然后下按<code>Enter</code>以指定非增量搜索</p>
+<h4 id="单词搜索"><a href="#单词搜索" class="headerlink" title="单词搜索"></a>单词搜索</h4><p><code>C-s</code>或<code>C-r</code>进入增量搜索</p>
+<p><code>Enter</code>,进入简单搜索</p>
+<p><code>C-w</code>指定单词搜索</p>
+<p>输入搜索内容后<code>Enter</code></p>
+<h4 id="正则表达式搜索"><a href="#正则表达式搜索" class="headerlink" title="正则表达式搜索"></a>正则表达式搜索</h4><p><code>C-M-s</code></p>
+<p><code>C-M-r</code></p>
+<blockquote>
+<p>Ctrl Alt 一起按下去</p>
+</blockquote>
+<h4 id="替换文本"><a href="#替换文本" class="headerlink" title="替换文本"></a>替换文本</h4><p><code>M-x</code>,执行函数<code>replace-string</code>,输入源字符串,输入要替换的字符串.然后<code>Enter</code></p>
+<blockquote>
+<p>如果想在整个buffer中删除某个单词,替换成<code>空</code>就行了</p>
+</blockquote>
+<p><code>query-replace</code>函数可以做到对每一个需要替换的实例提出询问</p>
+<h3 id="使用拼写检查器"><a href="#使用拼写检查器" class="headerlink" title="使用拼写检查器"></a>使用拼写检查器</h3><h4 id="单词拼写检查"><a href="#单词拼写检查" class="headerlink" title="单词拼写检查"></a>单词拼写检查</h4><p><code>M-$</code>: <code>ispell-word</code>函数,检查光标处单词的拼写</p>
+<h4 id="检查区域中的拼写"><a href="#检查区域中的拼写" class="headerlink" title="检查区域中的拼写"></a>检查区域中的拼写</h4><p><code>ispell-region</code>检查区域中的拼写</p>
+<h4 id="检查buffer中的拼写"><a href="#检查buffer中的拼写" class="headerlink" title="检查buffer中的拼写"></a>检查buffer中的拼写</h4><p><code>ispell-buffer</code></p>
+<h4 id="在发生拼写错误时进行捕获"><a href="#在发生拼写错误时进行捕获" class="headerlink" title="在发生拼写错误时进行捕获"></a>在发生拼写错误时进行捕获</h4><blockquote>
+<p><code>FlySpell</code>模式是次要模式,在输入拼写错误的单词时,突出显示错误,原理是在后台运行<code>Ispell</code></p>
+</blockquote>
+<p><code>M-x flyspell-mode</code>开启和关闭</p>
+<p>鼠标中键或者<code>M-$</code>可以纠正拼写错误的单词</p>
+<h2 id="快捷键汇总"><a href="#快捷键汇总" class="headerlink" title="快捷键汇总"></a>快捷键汇总</h2><h3 id="文本操作命令汇总"><a href="#文本操作命令汇总" class="headerlink" title="文本操作命令汇总"></a>文本操作命令汇总</h3><table>
+<thead>
+<tr>
+<th align="center">C-x C-i</th>
+<th align="center">ident-rigidly</th>
+<th align="center">对区域中的的行进行缩进</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">M-q</td>
+<td align="center">fill-paragraph</td>
+<td align="center">填充光标所在的单个段落</td>
+</tr>
+<tr>
+<td align="center">C-o</td>
+<td align="center">open-line</td>
+<td align="center">以垂直间距在光标下方打开一个新行,而不移动光标</td>
+</tr>
+<tr>
+<td align="center">C-t</td>
+<td align="center">transpose-chars</td>
+<td align="center">调换光标左右的单个字符</td>
+</tr>
+<tr>
+<td align="center">M-t</td>
+<td align="center">transpose-words</td>
+<td align="center">调换光标左右的单个单词</td>
+</tr>
+<tr>
+<td align="center">C-x C-t</td>
+<td align="center">transpose-lines</td>
+<td align="center">调换光标所在的行与光标前面的行</td>
+</tr>
+<tr>
+<td align="center">M-^</td>
+<td align="center">delete-indentation</td>
+<td align="center">将光标所在的行和前面的行连接起来</td>
+</tr>
+<tr>
+<td align="center">M-u</td>
+<td align="center">uppercase-word</td>
+<td align="center"><strong>将光标处到单词结尾的文本转化为大写字母</strong></td>
+</tr>
+<tr>
+<td align="center">M-l</td>
+<td align="center">downcase-word</td>
+<td align="center"><strong>将光标处到单词结尾的文本转化为小写字母</strong></td>
+</tr>
+<tr>
+<td align="center">C-x C-l</td>
+<td align="center">downcase-region</td>
+<td align="center"><strong>将区域中的内容转化为小写字母</strong></td>
+</tr>
+<tr>
+<td align="center">C-x C-u</td>
+<td align="center">upcase-region</td>
+<td align="center"><strong>将区域中的内容转化为大写字母</strong></td>
+</tr>
+</tbody></table>
+<h3 id="搜索和替换命令汇总"><a href="#搜索和替换命令汇总" class="headerlink" title="搜索和替换命令汇总"></a>搜索和替换命令汇总</h3><table>
+<thead>
+<tr>
+<th align="center">C-s [字符串]</th>
+<th align="center">isearch-forward</th>
+<th align="center">在光标后面的区域增量搜索字符串</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">C-r [字符串]</td>
+<td align="center">isearch-backward</td>
+<td align="center">在光标前面的区域增量搜索字符串</td>
+</tr>
+<tr>
+<td align="center">C-s Enter C-w</td>
+<td align="center">word-search-forward</td>
+<td align="center">在整个buffer中搜索光标后面的<strong>单词</strong></td>
+</tr>
+<tr>
+<td align="center">C-r Enter C-w</td>
+<td align="center">word-search-backward</td>
+<td align="center">在整个buffer中搜索光标前面的<strong>单词</strong></td>
+</tr>
+<tr>
+<td align="center">C-M-s</td>
+<td align="center">isearch-forward-regexp</td>
+<td align="center">在整个buffer中搜索光标后的给定的正则表达式</td>
+</tr>
+<tr>
+<td align="center">C-M-r</td>
+<td align="center">isearch-backward-regexp</td>
+<td align="center">在整个buffer中搜索光标前的给定的正则表达式</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">replace-string</td>
+<td align="center">从光标处开始,替换buffer中所有给定的字符串</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">replace-regexp</td>
+<td align="center">从光标处开始,替换buffer中所有匹配的正则表达式</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">query-replace</td>
+<td align="center">从光标处开始,替换buffer中所有给定的字符串,<strong>但是每一次替换都会询问</strong></td>
+</tr>
+</tbody></table>
+<h3 id="拼写纠正"><a href="#拼写纠正" class="headerlink" title="拼写纠正"></a>拼写纠正</h3><table>
+<thead>
+<tr>
+<th align="center">M-$</th>
+<th align="center">ispell-word</th>
+<th align="center">调用Ispell检查光标处单词的拼写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">ispell-region</td>
+<td align="center">调用Ispell检查某一区域中的拼写</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">ispell-buffer</td>
+<td align="center">调用Ispell检查光标到buffer结尾的所有单词的拼写</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">flyspell-mode</td>
+<td align="center">次要模式,后台运行ispell检查buffer中的所有单词的拼写</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Emacs/">Emacs</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Emacs/">Emacs</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/18/%E5%BC%BA-%E5%BC%B1-%E7%AC%A6%E5%8F%B7-%E5%BC%95%E7%94%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">gcc强引用弱引用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/14/Emacs%E6%89%80%E6%9C%89%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">
+                        <span class="hidden-mobile">Emacs第一部分:所有基础知识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

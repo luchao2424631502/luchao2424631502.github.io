@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多) - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-19 11:12" pubdate>
+        2020年7月19日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h4 id="从kernel-bin中根据elf文件格式执行内核"><a href="#从kernel-bin中根据elf文件格式执行内核" class="headerlink" title="从kernel.bin中根据elf文件格式执行内核"></a>从kernel.bin中根据elf文件格式执行内核</h4><p>加载kernel.bin步骤和加载loader.bin步骤一样,将kernel.bin加载到内存后,</p>
+<p>因为kernel的编译参数<code>-Ttext 0x30400</code>指定了程序入口(可以在<code>/boot/include/load.inc</code>中修改,并且修改kernel编译参数<code>-Ttext</code>就能加载到自己指定的内存地址处).</p>
+<p>因为**kernel被编译成elf格式,而非纯二进制,那么根据elf格式在把kernel程序段加载到内存中(program header中指定了,本书并未选择作内存映射,而是直接根据编译结果),**如果是纯二进制的话,也是应该加载到内存并且找到kernel执行入口处,控制转移就行了</p>
+<hr>
+<p>此时esp和GDT还在loader中</p>
+<p>把IDT和GDT以及一些全局变量定义在<code>global.c</code>中</p>
+<hr>
+<h3 id="gcc编译除去内建函数"><a href="#gcc编译除去内建函数" class="headerlink" title="gcc编译除去内建函数"></a>gcc编译除去内建函数</h3><p>就是自己写的函数和printf这种函数重名,指定编译参数来避免冲突,不包含内建函数（内）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">printf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">printf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> i;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">printf</span>(<span class="hljs-number">10</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>gcc默认选项是<code>built-in function</code>,指定<code>-fno-builtin</code>或者只需要指定某个函数名<code>-fno-builtin-printf</code>,解决冲突<code>gcc -fno-builtin test.c -o test</code></p>
+<hr>
+<p>kernel的主要作用就是和c一起设置GDT和IDT,</p>
+<hr>
+<h4 id="内核-添加中断"><a href="#内核-添加中断" class="headerlink" title="内核-添加中断:"></a>内核-添加中断:</h4><p>整体思路:<strong>在kernel.asm中编写每个中断处理例(因为 门描述符 需要偏移地址,),其他的函数通过c编写,添加cpu中断异常(每个单独写) -&gt; 8259A15个硬件中断(nasm宏实现) -&gt; 向8259A写OCW开启键盘中断测试</strong></p>
+<p>在内核完善中断时,因为门描述符填充处理例程的物理地址(平坦模式),在kernel/kernel.asm中写基本中断能够确定中断函数所在位置(kernel开头处),填IDT中例程偏移地址和disp交给c来做</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luchao2424631502/os/tree/master/kernel">kernel/</a></p>
+<h4 id="从kernel-bin中根据elf文件格式执行内核-1"><a href="#从kernel-bin中根据elf文件格式执行内核-1" class="headerlink" title="从kernel.bin中根据elf文件格式执行内核"></a>从kernel.bin中根据elf文件格式执行内核</h4><p>加载kernel.bin步骤和加载loader.bin步骤一样,将kernel.bin加载到内存后,</p>
+<p>因为kernel的编译参数<code>-Ttext 0x30400</code>指定了程序入口(可以在<code>/boot/include/load.inc</code>中修改,并且修改kernel编译参数<code>-Ttext</code>就能加载到自己指定的内存地址处).</p>
+<p>因为**kernel被编译成elf格式,而非纯二进制,那么根据elf格式在把kernel程序段加载到内存中(program header中指定了,本书并未选择作内存映射,而是直接根据编译结果),**如果是纯二进制的话,也是应该加载到内存并且找到kernel执行入口处,控制转移就行了</p>
+<hr>
+<p>此时esp和GDT还在loader中</p>
+<p>把IDT和GDT以及一些全局变量定义在<code>global.c</code>中</p>
+<hr>
+<h3 id="gcc编译除去内建函数-1"><a href="#gcc编译除去内建函数-1" class="headerlink" title="gcc编译除去内建函数"></a>gcc编译除去内建函数</h3><p>就是自己写的函数和printf这种函数重名,指定编译参数来避免冲突,不包含内建函数（内）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">printf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">printf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> i;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">printf</span>(<span class="hljs-number">10</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>gcc默认选项是<code>built-in function</code>,指定<code>-fno-builtin</code>或者只需要指定某个函数名<code>-fno-builtin-printf</code>,解决冲突<code>gcc -fno-builtin test.c -o test</code></p>
+<hr>
+<p>kernel的主要作用就是和c一起设置GDT和IDT,</p>
+<hr>
+<h4 id="内核-添加中断-1"><a href="#内核-添加中断-1" class="headerlink" title="内核-添加中断:"></a>内核-添加中断:</h4><p>整体思路:<strong>在kernel.asm中编写每个中断处理例(因为 门描述符 需要偏移地址,),其他的函数通过c编写,添加cpu中断异常(每个单独写) -&gt; 8259A15个硬件中断(nasm宏实现) -&gt; 向8259A写OCW开启键盘中断测试</strong></p>
+<p>在内核完善中断时,因为门描述符填充处理例程的物理地址(平坦模式),在kernel/kernel.asm中写基本中断能够确定中断函数所在位置(kernel开头处),填IDT中例程偏移地址和disp交给c来做</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luchao2424631502/os/tree/master/kernel">kernel/</a></p>
+<h4 id="OS的第一个进程"><a href="#OS的第一个进程" class="headerlink" title="OS的第一个进程:"></a>OS的第一个进程:</h4><p>​    由kernel进程提前填好进程表信息以及TSS和进程的LDT,通过iret实现r0-&gt;r1的转移,并且在打开栈中eflags的IF标志,r0-&gt;r1也开启了中断(kernel中设置8259A打开了时钟中断)</p>
+<p>​    中断重入: 如果在中断过程中发送EOI后,中断过程执行时间长,导致中断重入问题:(目前采取 全局变量暴力维护只允许一个中断存在,另一个进入后判断存在个数后退出)</p>
+<p>​    <strong>位于中断例程时,根据TSS的esp0此时位于进程表栈,如果通过中断来调度进程那么首先要切换到内核栈中</strong></p>
+<p>​    <strong>多进程</strong>下中断退出前设置好TSS的esp0,给下次r1-&gt;r0使用</p>
+<h4 id="添加进程-通过中断进行进程切换"><a href="#添加进程-通过中断进行进程切换" class="headerlink" title="添加进程,通过中断进行进程切换()"></a>添加进程,通过中断进行进程切换()</h4><pre><code>1. 通过`task_table`填写进程表信息(自动化添加进程,并且选择子权限),根据NR_TASKS提前在int_prot中初始化LDT描述符
+ 2. 目前的进程切换很简单:中断一次切换到下一个进程:</code></pre>
+<ol start="3">
+<li><p>添加进程暂时通过修改</p>
+<blockquote>
+<ol>
+<li>在global.c中task_table添加一项</li>
+<li>proc.h修改nr_tasks,定义堆栈大小,修改stack_size_total</li>
+<li>proto.h添加函数声明</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<ol start="4">
+<li>修改中断,定义成宏,让所有中断解决重入和栈切换的问题,把设置中路处理例程封装起来,引入<code>irq_table</code></li>
+</ol>
+<hr>
+<p>到目前的思路:</p>
+<p>|———-引导扇区中加载loader</p>
+<p>|———-控制权给loader,加载kernel</p>
+<p>|———-控制权跳到kernel,将loader中的GDT移动到kernel中</p>
+<p>|———-init_prot()</p>
+<p>​                    |———-初始化8259A</p>
+<p>​                    |———-初始化IDT</p>
+<p>​                    |———-初始化唯一TSS以及其描述符, 和(开始时第一个进程)多进程的LDT描述符</p>
+<p>|———-kernel_main()</p>
+<p>​                    |———-根据task_table[]初始化进程表,(regs,寄存器选择子以及权限等)</p>
+<p>​                    |———-开启时钟中断,指定时钟中断处理程序</p>
+<p>​                    |———-restart():正式从kernel进入到第一个进程(本质上时r0 -&gt; r1的转换)</p>
+<p>|———-多进程开始运转(目前3个,并且通过时钟中断进行调度,(简单的顺序调度),并且中断重入已解决)</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luchao2424631502/os">整体</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/19/csdn/%E7%BC%96%E8%AF%91%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89.c/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编译当前目录所有.c</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">
+                        <span class="hidden-mobile">Orange‘s:disp_str()字符串函数第二次调用乱码原因</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-01 17:13" pubdate>
+        2020年5月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="IA-32架构-Intel-Architecture-32-bit-概览-和-8086小总结"><a href="#IA-32架构-Intel-Architecture-32-bit-概览-和-8086小总结" class="headerlink" title="IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结"></a>IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结</h3><h4 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h4><h5 id="8086"><a href="#8086" class="headerlink" title="8086"></a>8086</h5><blockquote>
+<ol>
+<li>8个通用寄存器</li>
+</ol>
+<blockquote>
+<p><code>AX BX CX DX SI DI BP SP</code></p>
+</blockquote>
+<p>32bit处理器在此通用寄存器扩展到32bit</p>
+<p><code>EAX EBX ECX EDX ESI EDI EBP ESP</code></p>
+<p>实模式下也可以使用,<strong>但是<code>32bit</code>寄存器的高<code>16</code>位不可独立使用</strong></p>
+<p>32bit处理器拥有自己的工作模式:<strong>保护模式(使用32跟地址线,寻址范围4GB)</strong></p>
+</blockquote>
+<h5 id="32bit"><a href="#32bit" class="headerlink" title="32bit"></a>32bit</h5><p><code>EIP</code>扩展到32位那么可以访问到所以的内存地址,不在需要像8086一样分段访问,但是IA-32也是基于分段模型,依旧以段为段位访问内存</p>
+<h5 id="平坦模式-Flat-Mode"><a href="#平坦模式-Flat-Mode" class="headerlink" title="平坦模式(Flat Mode)"></a>平坦模式(<code>Flat Mode</code>)</h5><p>因为<code>EIP</code>可以访问到所有内存地址,可不分段,段基址=<code>0x00000000</code>,长度=<code>4GB</code></p>
+<hr>
+<h5 id="段"><a href="#段" class="headerlink" title="段"></a>段</h5><p>8086下程序可以访问和修改不属于自己的内存地址,32bit下,加载程序要求:</p>
+<p><strong>定义程序拥有的段,特权级别,类型的属性</strong>,程序访问一个段时,处理器检查防止对内存的违规访问</p>
+<p>8086的段寄存器<code>CS,SS,DS,ES</code>在32Bit下变成—&gt;段选择器(选择要访问的段),段寄存器还包括一个不可见部分(即<strong>描述符高速缓存器</strong>)，给cpu提供了段的基地址+各种访问属性</p>
+<p>32bit下新增2个段寄存器<code>FS</code>和<code>GS</code></p>
+<hr>
+<h5 id="基本工作模式"><a href="#基本工作模式" class="headerlink" title="基本工作模式"></a>基本工作模式</h5><ul>
+<li>1982年处理器<code>80286</code>,16bit,但是又24根地址线(寻址16MB)，<strong>首次提出保护模式概念</strong></li>
+</ul>
+<ol>
+<li><p>段寄存器不在是段地址(实际段地址位于描述符高速缓存器中,24bit) ,所以段可以位于内存中的任何地址，而8086中因为段地址转成实际内存地址要左移4位置(乘以16进制的10),所以段地址和16字节对齐</p>
+</li>
+<li><p>偏移地址仍是16位,所以一个段最长不能超过64KB</p>
+</li>
+</ol>
+<hr>
+<ol start="3">
+<li>因为段长度的限制16位的保护模式很少人知道</li>
+</ol>
+<ul>
+<li>1985年80386处理器,32跟地址线</li>
+</ul>
+<ol>
+<li><p>刚刚加电,处理器处于实模式,-&gt;经过设置才到保护模式</p>
+</li>
+<li><p>除了保护模式,32bit处理器还提供 <strong>虚拟8086模式(V86)</strong>:</p>
+<p>IA-32处理器模拟成多个8086处理器并行工作,<code>V86</code>模式属于保护模式的一种,意义:当时兼容8086程序多有用,现在意义不大</p>
+</li>
+</ol>
+<h5 id="现代处理器结构特点"><a href="#现代处理器结构特点" class="headerlink" title="现代处理器结构特点"></a>现代处理器结构特点</h5><ol>
+<li><p>多级流水线细分子任务</p>
+</li>
+<li><p>已知寄存器由SRAM(静态),内存DRAM(通电刷新),在内存和处理器之间添加SRAM的高速缓存（<strong>程序的局部性原理</strong>）</p>
+<p>在高速缓存未命中的情况下,处理器在取得数据前必须重新装载高速缓存,<strong>这段额外的时间等待从内存载入高速缓存 称为 不中惩罚</strong></p>
+<p>每款处理器的缓存可能核心共享的不一样,并且有多级高速缓存</p>
+</li>
+<li><p>乱序执行</p>
+<p>指令拆成微指令同时执行</p>
+</li>
+<li><p>寄存器重命名</p>
+<p>通用寄存器个数有限但是在cpu内部临时寄存器个数较多,多个指令中用到某寄存器且可以乱序执行,则用临时寄存器代替,最后临时寄存器的内容写回,<strong>称为引退</strong></p>
+</li>
+<li><p>分支目标预测</p>
+<p>当流水线中遇到一条转移指令,则后面的指令都无效,此时需要<strong>清空流水线，转跳到目标地址重新开始流水线的执行</strong>,流水线越长,用错误的分支填充流水线导致浪费的时间越多</p>
+<p>1996年Pentium Pro引入分支预测(<code>Branch prediction</code>):</p>
+<p>例如<code>loop</code>,第一次转跳时,在分支目标缓存器(<code>Branch target buffer</code>)记录当前指令的地址、分支目标地址、本次分支预测结果，下次执行时查看BTB，如果预测失败,清空流水线和BTB</p>
+</li>
+</ol>
+<hr>
+<h4 id="8086总结"><a href="#8086总结" class="headerlink" title="8086总结"></a>8086总结</h4><ul>
+<li><p>分段内存管理机制:</p>
+<p>20根地址线,寻址能力<code>1MB</code>,16位寄存器不能满足,才有内存地址 = 段地址*16+偏移地址.16位的偏移地址决定了一个段最大为64K,</p>
+</li>
+</ul>
+<blockquote>
+<p>外围设备的地址直接映射到内存中,读写IO端口=访问内存</p>
+</blockquote>
+<hr>
+<p>理解书中通过写一个加载器理解内存机制</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs c">app_lba_start equ <span class="hljs-number">100</span> ;逻辑扇区号=<span class="hljs-number">100</span><br><br>SECTION mbr align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0x7c00</span><br><br>    mov ax,<span class="hljs-number">0</span><br>    mov ss,ax<br>    mov sp,ax<br><br>    mov ax,[cs:phy_base]<br>    mov dx,[cs:phy_base+<span class="hljs-number">0x02</span>]<br>    mov bx,<span class="hljs-number">16</span><br>    div bx          ;求出加载程序的段基址<br>    mov ds,ax<br>    mov es,ax<br><br>    <span class="hljs-keyword">xor</span> di,di<br>    mov si,app_lba_start    ;ds:si扇区地址<br>    <span class="hljs-keyword">xor</span> bx,bx               ;ds:bx 内存地址<br>    call read_hard_disk_0       ;先读取第一个扇区到<br><br>    mov dx,[<span class="hljs-number">2</span>]<br>    mov ax,[<span class="hljs-number">0</span>]<br>    mov bx,<span class="hljs-number">512</span><br>    div bx<br>    cmp dx,<span class="hljs-number">0</span><br>    jnz @<span class="hljs-number">1</span><br>    dec ax<br>@<span class="hljs-number">1</span>:<br>    cmp ax,<span class="hljs-number">0</span><br>    jz direct<br><br>    push ds<br>    mov cx,ax<br>@<span class="hljs-number">2</span>:<br>    mov ax,ds<br>    add ax,<span class="hljs-number">0x20</span><br>    mov ds,ax<br><br>    <span class="hljs-keyword">xor</span> bx,bx<br>    inc si<br>    call read_hard_disk_0<br>    loop @<span class="hljs-number">2</span><br><br>    pop ds<br><br>direct:<br>    mov dx,[<span class="hljs-number">0x08</span>]<br>    mov ax,[<span class="hljs-number">0x06</span>]<br>    call calc_segment_base<br>    mov [<span class="hljs-number">0x06</span>],ax   ;实际段地址写回去<br><br>    mov cx,[<span class="hljs-number">0x0a</span>]<br>    mov bx,<span class="hljs-number">0x0c</span><br><span class="hljs-built_in">realloc</span>:<br>    mov dx,[bx+<span class="hljs-number">0x02</span>]<br>    mov ax,[bx]<br>    call calc_segment_base<br>    mov [bx],ax<br>    add bx,<span class="hljs-number">4</span><br>    loop <span class="hljs-built_in">realloc</span><br><br>    jmp far [<span class="hljs-number">0x04</span>]<br>calc_segment_base:;由实际的内存地址计算段的基地址<br>    push dx<br><br>    add ax,[cs:phy_base]<br>    adc dx,[cs:phy_base+<span class="hljs-number">0x02</span>]<br>    shr ax,<span class="hljs-number">4</span><br>    ror dx,<span class="hljs-number">4</span><br>    <span class="hljs-keyword">and</span> dx,<span class="hljs-number">0xf000</span><br>    <span class="hljs-keyword">or</span> ax,dx<br><br>    pop dx<br>    ret<br><br>read_hard_disk_0:<br><br>    push ax<br>    push bx<br>    push cx<br>    push dx<br><br>    mov dx,<span class="hljs-number">0x1f2</span><br>    mov al,<span class="hljs-number">1</span><br>    out dx,al           ;读写的扇区数量<br><br>    inc dx<br>    mov ax,si<br>    out dx,al           ;扇区号的低位<br><br>    inc dx<br>    mov al,ah<br>    out dx,al           ;扇区的高位<br><br>    inc dx<br>    mov ax,di<br>    out dx,al<br>    <br>    inc dx<br>    mov al,<span class="hljs-number">0xe0</span>         ;LBA模式+主盘<br>    <span class="hljs-keyword">or</span> al,ah<br>    out dx,al<br><br>    inc dx<br>    mov al,<span class="hljs-number">0x20</span><br>    out dx,al<br><br>.waits:;读取io接口的状态<br>    in al,dx<br>    <span class="hljs-keyword">and</span> al,<span class="hljs-number">0x88</span><br>    cmp al,<span class="hljs-number">0x08</span><br>    jnz .waits<br><br>    mov cx,<span class="hljs-number">256</span><br>    mov dx,<span class="hljs-number">0x1f0</span><br><br>.readw:<br>    in ax,dx<br>    mov [bx],ax<br>    add bx,<span class="hljs-number">2</span><br>    loop .readw<br><br>    pop dx<br>    pop cx<br>    pop bx<br>    pop ax<br><br>    ret<br>    <br>phy_base dd <span class="hljs-number">0x10000</span><br><br>times <span class="hljs-number">510</span>-($-$$) db <span class="hljs-number">0</span><br>db <span class="hljs-number">0x55</span>,<span class="hljs-number">0xaa</span><br></code></pre></td></tr></table></figure>
+
+<p>程序:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><code class="hljs c">SECTION header vstart=<span class="hljs-number">0</span><br>    program_length  dd program_end<br><br>    code_entry      dw start<br>                    dd section.code_1.start<br>    realloc_tbl_len dw (header_end-code_1_segment)/<span class="hljs-number">4</span><br>    <br>    code_1_segment  dd section.code_1.start<br>    code_2_segment  dd section.code_2.start<br>    data_1_segment  dd section.data_1.start<br>    data_2_segment  dd section.data_2.start<br>    stack_segment   dd section.<span class="hljs-built_in">stack</span>.start<br><br>    header_end:<br>SECTION code_1 align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0</span><br>put_string:<br>    mov cl,[bx]<br>    <span class="hljs-keyword">or</span> cl,cl<br>    jz .<span class="hljs-built_in">exit</span><br>    call put_char<br>    inc bx<br>    jmp put_string<br>.<span class="hljs-built_in">exit</span>:<br>    ret<br>put_char:<br>    push ax<br>    push bx<br>    push cx<br>    push dx<br>    push ds<br>    push es<br>;从索引寄存器中取出当前<span class="hljs-number">25</span>*<span class="hljs-number">80</span>字符模式的光标位置<br>    mov dx,<span class="hljs-number">0x3d4</span><br>    mov al,<span class="hljs-number">0x0e</span>     ;索引寄存器偏移地址<br>    out dx,al<br>    <br>    mov dx,<span class="hljs-number">0x3d5</span><br>    in al,dx        ;光标 高 <span class="hljs-number">8</span>位数据<br>    mov ah,al<br><br>    mov dx,<span class="hljs-number">0x3d4</span><br>    mov al,<span class="hljs-number">0x0f</span><br>    out dx,al<br>    mov dx,<span class="hljs-number">0x3d5</span><br>    in al,dx        ;ax中<span class="hljs-number">16</span>位光标凑齐<br>    mov bx,ax<br><br>    cmp cl,<span class="hljs-number">0x0d</span>     ;回车符号？<br>    jnz .put_0a     ;不是<br>    mov ax,bx       ;重定位到行首<br>    mov bl,<span class="hljs-number">80</span><br>    div bl<br>    mul bl<br>    mov bx,ax<br>    jmp .set_cursor<br><br>.put_0a:<br>    cmp cl,<span class="hljs-number">0x0a</span>     ;换行符?<br>    jnz .put_other  ;不是,<br>    add bx,<span class="hljs-number">80</span><br>    jmp .roll_screen<br>.put_other:<br>    mov ax,<span class="hljs-number">0xb800</span><br>    mov es,ax<br>    shl bx,<span class="hljs-number">1</span><br>    mov [es:bx],cl<br><br>    shr bx,<span class="hljs-number">1</span><br>    add bx,<span class="hljs-number">1</span><br>.roll_screen:<br>    cmp bx,<span class="hljs-number">2000</span><br>    jl .set_cursor<br><br>    mov ax,<span class="hljs-number">0xb800</span><br>    mov ds,ax<br>    mov es,ax<br>    cld <br>    mov si,<span class="hljs-number">0xa0</span><br>    mov di,<span class="hljs-number">0x00</span><br>    mov cx,<span class="hljs-number">1920</span><br>    rep movsw<br>    mov bx,<span class="hljs-number">3840</span><br>    mov cx,<span class="hljs-number">80</span><br>.cls:<br>    mov word [es:bx],<span class="hljs-number">0x0720</span><br>    add bx,<span class="hljs-number">2</span><br>    loop .cls<br><br>    mov bx,<span class="hljs-number">1920</span><br>.set_cursor:<br>    mov dx,<span class="hljs-number">0x3d4</span><br>    mov al,<span class="hljs-number">0x0e</span>     ;偏移寄存器<br>    out dx,al<br><br>    mov dx,<span class="hljs-number">0x3d5</span><br>    mov al,bh       <br>    out dx,al       ;设置高位<br><br>    mov dx,<span class="hljs-number">0x3d4</span><br>    mov al,<span class="hljs-number">0x0f</span>     ;偏移寄存器<br>    out dx,al<br><br>    mov dx,<span class="hljs-number">0x3d5</span><br>    mov al,bl<br>    out dx,al       ;设置低位<br><br>    pop es<br>    pop ds<br>    pop dx<br>    pop cx<br>    pop bx<br>    pop ax<br><br>    ret<br><br>    start:<br>        mov ax,[stack_segment]<br>        mov ss,ax<br>        mov sp,stack_end<br><br>        mov ax,[data_1_segment]<br>        mov ds,ax<br>        <br>        mov bx,msg0<br>        call put_string<br><br>        push word [es:code_2_segment]<br>        mov ax,begin<br>        push ax<br><br>        retf<br>    <span class="hljs-keyword">continue</span>:<br>        mov ax,[es:data_2_segment]<br>        mov ds,ax<br><br>        mov bx,msg1<br>        call put_string<br><br>        jmp $<br><br>SECTION code_2 align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0</span><br>    begin:<br>    push word [es:code_1_segment]<br>    mov ax,<span class="hljs-keyword">continue</span><br>    push ax<br><br>    retf<br>SECTION data_1 align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0</span><br>    msg0 db &#x27;  This is NASM - the famous Netwide Assembler. &#x27;<br>            db &#x27;Back at SourceForge and in intensive development! &#x27;<br>            db &#x27;Get the current versions from http://www.nasm.us/.&#x27;<br>            db <span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span><br>            db &#x27;  Example code for calculate 1+2+...+1000:&#x27;,0x0d,0x0a,0x0d,0x0a<br>            db &#x27;     xor dx,dx&#x27;,0x0d,0x0a<br>            db &#x27;     xor ax,ax&#x27;,0x0d,0x0a<br>            db &#x27;     xor cx,cx&#x27;,0x0d,0x0a<br>            db &#x27;  @@:&#x27;,0x0d,0x0a<br>            db &#x27;     inc cx&#x27;,0x0d,0x0a<br>            db &#x27;     add ax,cx&#x27;,0x0d,0x0a<br>            db &#x27;     adc dx,0&#x27;,0x0d,0x0a<br>            db &#x27;     inc cx&#x27;,0x0d,0x0a<br>            db &#x27;     cmp cx,1000&#x27;,0x0d,0x0a<br>            db &#x27;     jle @@&#x27;,0x0d,0x0a<br>            db &#x27;     ... ...(Some other codes)&#x27;,0x0d,0x0a,0x0d,0x0a<br>            db <span class="hljs-number">0</span><br>SECTION data_2 align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0</span><br>    msg1 db &#x27;  The above contents is written by LeeChung. &#x27;<br>            db &#x27;2011-05-06&#x27;<br>            db <span class="hljs-number">0</span><br>SECTION <span class="hljs-built_in">stack</span> align=<span class="hljs-number">16</span> vstart=<span class="hljs-number">0</span><br>    resb <span class="hljs-number">256</span><br>stack_end:<br><br>SECTION trail align=<span class="hljs-number">16</span><br>program_end:<br><br></code></pre></td></tr></table></figure>
+
+<p>加载器放在主引导记录中,开机载入内存<code>0x7c00:0</code>,加载位于磁盘逻辑扇区100的程序到内存<code>0x10000</code>处执行</p>
+<ul>
+<li>无论用masm或者nasm编译,注意程序编译出来的地址从0开始,在nasm中用vstart指定段内数据标号的偏移地址起始地址</li>
+</ul>
+<hr>
+<p>参考：<br>《X86实模式到保护模式》<br>《汇编语言》</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/04/csdn/%E7%AC%AC11%E7%AB%A0!%E8%BF%9B%E5%85%A5%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第11章:进入保护模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/04/27/csdn/vhd%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98bochsdebug%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99!ata0-0!%20could%20not%20open%20hard%20drive%20image%20file/">
+                        <span class="hidden-mobile">.vhd虚拟磁盘bochsdebug启动报错:ata0-0: could not open hard drive image file</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

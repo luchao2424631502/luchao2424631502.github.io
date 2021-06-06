@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Linux下基本的线程同步方法 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux下基本的线程同步方法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-28 16:30" pubdate>
+        2020年2月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      65
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux下基本的线程同步方法</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><h4 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入:"></a>问题引入:</h4><blockquote>
+<p>２个线程同时修改一个变量<code>x = 1</code>时,如果不进行<strong>同步</strong>会怎么样?</p>
+<p>假设进行增加操作,增量操作通常分解为３步</p>
+<blockquote>
+<ol>
+<li>从内存将变量读入寄存器(cpu)</li>
+<li>在寄存器中对变量做增量操作</li>
+<li>写回内存</li>
+</ol>
+</blockquote>
+<p>那么在线程A对<code>x</code>进行增量操作时,如果<strong>不加锁</strong>,那么最终结果取决与线程B开始增量操作时获取的值,</p>
+<ul>
+<li><p>比如:</p>
+<p>线程A中<code>cpu</code>对寄存器中变量做完增量操作还没有写回内存,此时线程B获取到的值还是<code>1</code>,最终2线程执行完后值是<code>2</code>,</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="互斥量"><a href="#互斥量" class="headerlink" title="互斥量"></a>互斥量</h4><ol>
+<li>函数</li>
+</ol>
+<blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 初始化互斥量</span><br>pthread_mutex_init(<span class="hljs-keyword">pthread_mutex_t</span> *<span class="hljs-keyword">restrict</span> mutex,<br>				<span class="hljs-keyword">const</span> <span class="hljs-keyword">pthread_mutexattr_t</span> *<span class="hljs-keyword">restrict</span> attr);<br><span class="hljs-comment">// 若动态分配的互斥量,在内存回收前,先摧毁mutex</span><br>pthread_mutex_destroy(<span class="hljs-keyword">pthread_mutex_t</span> *mutex);<br><br><span class="hljs-comment">// 给互斥量加锁</span><br>pthread_mutex_lock(<span class="hljs-keyword">pthread_mutex_t</span> *mutex);<br><br><span class="hljs-comment">// 解锁</span><br>pthread_mutex_unlock(<span class="hljs-keyword">pthread_mutex_t</span> *mutex);<br><br><span class="hljs-comment">// 尝试加锁,此时mutex未锁住,则锁住(不阻塞)返回0,否则返回EBUSY</span><br>pthread_mutex_trylock(<span class="hljs-keyword">pthread_mutex_t</span> *mutex);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>先了解os就比较好理解</li>
+</ul>
+</blockquote>
+<ul>
+<li>实例:多线程环境下访问动态分配的对象中,嵌入引用计数,避免对象内存空间不会被释放,</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> &#123;</span><br>	<span class="hljs-keyword">int</span> f_count;<br>	<span class="hljs-keyword">pthread_mutex_t</span> f_lock;<br>	<span class="hljs-keyword">int</span> f_id;<br>	<span class="hljs-keyword">int</span> f_use;<br>&#125;;<br> <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *</span><br><span class="hljs-class"><span class="hljs-title">foo_alloc</span>(<span class="hljs-title">int</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fp</span>;</span><br><br>	<span class="hljs-keyword">if</span> ((fp = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(struct foo))) != <span class="hljs-literal">NULL</span>) &#123;<br>		fp-&gt;f_count = <span class="hljs-number">1</span>;<br>		fp-&gt;f_id = id;<br>		<span class="hljs-keyword">if</span> (pthread_mutex_init(&amp;fp-&gt;f_lock,<span class="hljs-literal">NULL</span>) != <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-built_in">free</span>(fp);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">return</span> fp;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_hold(struct foo *fp)<br>&#123;<br>	pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>	fp-&gt;f_count++;<br>	pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_rele(struct foo *fp)<br>&#123;<br>	pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>	<span class="hljs-keyword">if</span> (--fp-&gt;f_count == <span class="hljs-number">0</span>) &#123;<br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>		<span class="hljs-comment">// 如果互斥量是动态分配的,在回收内存前要destroy(互斥量)</span><br>		pthread_mutex_destroy(&amp;fp-&gt;f_lock);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;end\n&quot;</span>);<br>		<span class="hljs-built_in">free</span>(fp);<br>	&#125;<br><br>	pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>&#125;<br><br><span class="hljs-keyword">void</span> *<br>func(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>   	<span class="hljs-comment">// 使用对象的话</span><br>    <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">pthread_t</span> tid[maxn]; <br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">p</span> =</span> foo_alloc(<span class="hljs-number">99</span>);<br>	<span class="hljs-comment">// 3个线程的线程池</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++) <br>		pthread_create(&amp;tid[i],<span class="hljs-literal">NULL</span>,func,(<span class="hljs-keyword">void</span> *)p);<br><br>	<span class="hljs-comment">// ３个元素的数组,元素是void *</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++) &#123;<br>		pthread_join(tid[i],<span class="hljs-literal">NULL</span>);<br>	&#125;<br>	<br>	<span class="hljs-built_in">free</span>(p);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>类似<code>c++</code>类的构造和析构,且要在临界区中更新计数,但此段程序仍有问题: <strong>还剩2个线程时,如果线程A进入<code>foo_rele</code>此时引用计数- 1 等于 0 且线程B因为<code>mutex</code>被锁住而被阻塞,那么内存被释放是不对的</strong></p>
+</blockquote>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><ol>
+<li>线程对同一<code>mutex</code>加锁２次,</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-keyword">pthread_mutex_t</span> mutex;<br> <br><span class="hljs-comment">// 同一mutex加锁２此死锁</span><br><span class="hljs-keyword">void</span> *<br>func(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	<span class="hljs-comment">// 尝试２次对mutex进行加锁</span><br>	pthread_mutex_lock(&amp;mutex);<br>	<br>	<span class="hljs-comment">// 尝试加锁,但是mutex已经被加锁,于是阻塞,但是又是自己加的锁,自己被阻塞不能解开造成死锁</span><br>	pthread_mutex_lock(&amp;mutex);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">pthread_t</span> tid;<br>	<span class="hljs-keyword">void</span> *ret;<br><br>	pthread_create(&amp;tid,<span class="hljs-literal">NULL</span>,func,<span class="hljs-literal">NULL</span>);<br>	<br>	<span class="hljs-comment">// 主线程等待线程返回,不然可能主线程return了子线程还没开始执行</span><br>	pthread_join(tid,&amp;ret);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>线程A给<code>mutex_A</code>加锁后试图给<code>mutex_B</code>加锁,但线程B已经给<code>mutex_B</code>加锁且想占有<code>mutex_A</code>,<strong>２线程都想请求对方的资源,导致死锁</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-keyword">pthread_mutex_t</span> mutex1,mutex2;<br><br><span class="hljs-keyword">void</span> *<br>func1(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	pthread_mutex_lock(&amp;mutex1);<br><br>	sleep(<span class="hljs-number">2</span>);<br><br>	pthread_mutex_lock(&amp;mutex2);<br>&#125;<br><br><span class="hljs-comment">// sleep的目的是想让另一个线程开始执行</span><br><br><span class="hljs-keyword">void</span> *<br>func2(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	pthread_mutex_lock(&amp;mutex2);<br>	<br>	sleep(<span class="hljs-number">1.5</span>);<br>	<br>	pthread_mutex_lock(&amp;mutex1);<br>&#125;<br> <br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">pthread_t</span> tid1,tid2;<br>	<br>	<span class="hljs-comment">//创建线程</span><br>	pthread_create(&amp;tid1,<span class="hljs-literal">NULL</span>,func1,<span class="hljs-literal">NULL</span>);<br>	pthread_create(&amp;tid2,<span class="hljs-literal">NULL</span>,func2,<span class="hljs-literal">NULL</span>);<br><br><br><br>	pthread_join(tid1,<span class="hljs-literal">NULL</span>);<br>	pthread_join(tid2,<span class="hljs-literal">NULL</span>);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="防止死锁规律"><a href="#防止死锁规律" class="headerlink" title="防止死锁规律"></a>防止死锁规律</h5><ul>
+<li><strong>多线程按照相同的顺序对互斥量进行加锁就不会死锁(可能其他资源导致死锁,不讨论</strong></li>
+<li><strong>如果一个线程加锁的顺序和另一个线程加锁的顺序相反那么一定会导致死锁</strong></li>
+</ul>
+<blockquote>
+<p>tips:<strong>结构体中的互斥量能够保护整个结构的成员</strong></p>
+</blockquote>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NHASH 29</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> HASH(id) (((unsigned long)id)%NHASH)</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fh</span>[<span class="hljs-title">NHASH</span>];</span><br><br><span class="hljs-comment">// 只适合静态分配的mutex进行初始化or init (记住mutex使用之前必须初始化)</span><br><span class="hljs-keyword">pthread_mutex_t</span> hashlock = PTHREAD_MUTEX_INITIALIZER;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> &#123;</span><br>	<span class="hljs-keyword">int</span> f_count;<br>	<span class="hljs-keyword">int</span> f_id;<br>	<span class="hljs-keyword">pthread_mutex_t</span> f_lock;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">f_next</span>;</span><br>&#125;;<br><br><span class="hljs-comment">//给struct foo分配内存空间,</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *</span><br><span class="hljs-class"><span class="hljs-title">foo_alloc</span>(<span class="hljs-title">int</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fp</span>;</span><br>	<span class="hljs-keyword">int</span> index;<br>	<span class="hljs-keyword">if</span> ((fp = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(struct foo))) != <span class="hljs-literal">NULL</span>) &#123;<br>		fp-&gt;f_count = <span class="hljs-number">1</span>;<br>		fp-&gt;f_id = id;<br>		<span class="hljs-comment">// 使用互斥量前一定要初始化</span><br>		<span class="hljs-keyword">if</span> (pthread_mutex_init(&amp;fp-&gt;f_lock,<span class="hljs-literal">NULL</span>) != <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-built_in">free</span>(fp);<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;	<br>		&#125;<br>		index = HASH(id);<br>		pthread_mutex_lock(&amp;hashlock);<br>		fp-&gt;f_next = fh[index];<br>		fh[index] = fp;<br>		pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>		pthread_mutex_unlock(&amp;hashlock);<br><br>		<span class="hljs-comment">/* 省略初始化,初始化完成之前,阻塞其他线程访问此结构*/</span><br><br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>	&#125;<br>	<span class="hljs-keyword">return</span> fp;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_hold(struct foo *fp)<br>&#123;<br>	pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>	fp-&gt;f_count++;<br>	pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *</span><br><span class="hljs-class"><span class="hljs-title">foo_find</span>(<span class="hljs-title">int</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fp</span>;</span><br>	<br>	pthread_mutex_lock(&amp;hashlock);<br>	<span class="hljs-comment">// 从hash链表头开始查,</span><br>	<span class="hljs-keyword">for</span> (fp = fh[HASH(id)]; fp != <span class="hljs-literal">NULL</span>; fp = fp-&gt;f_next) &#123;<br>		<span class="hljs-keyword">if</span> (fp-&gt;f_id == id) &#123;<br>			<span class="hljs-comment">// 加锁了又加一层锁,影响性能,</span><br>			foo_hold(fp);<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>	&#125;<br>	pthread_mutex_unlock(&amp;hashlock);<br>	<span class="hljs-comment">// 增加引用计数,并返回指向该结构的指针</span><br>	<span class="hljs-keyword">return</span> fp;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_rele(struct foo *fp)<br>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">tfp</span>;</span><br>	<span class="hljs-keyword">int</span> index;<br><br>	<span class="hljs-comment">// 首先别的线程在我访问时不能访问,则锁住该结构</span><br>	pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>	<span class="hljs-keyword">if</span> (fp-&gt;f_count == <span class="hljs-number">1</span>) &#123;<br>		<span class="hljs-comment">// 解锁,因为想从散列表中删除</span><br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>		<span class="hljs-comment">// 锁住hashlock,防止被find找到,但是之前已经找到的线程会从此时会增加引用计数,</span><br>		<span class="hljs-comment">// 对散列表加锁,然后对结构加锁</span><br>		pthread_mutex_lock(&amp;hashlock);<br>		pthread_mutex_lock(&amp;fp-&gt;f_lock);<br><br>		<span class="hljs-comment">// f_lock unlock后 其他线程找到了并对其进行hold,此时我们返回就行了</span><br>		<span class="hljs-keyword">if</span> (fp-&gt;f_count != <span class="hljs-number">1</span>) &#123;<br>			fp-&gt;f_count--;<br>			pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>			pthread_mutex_unlock(&amp;hashlock);<br>			<span class="hljs-keyword">return</span> ;<br>		&#125;<br><br>		index = HASH(fp-&gt;f_id);<br>		<span class="hljs-comment">// tfp是链表头</span><br>		tfp = fh[index];<br>		<span class="hljs-keyword">if</span> (tfp == fp) <br>			fh[index] = fp-&gt;f_next;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">// 找到fp在链条中的上一个,然后移除fp</span><br>			<span class="hljs-keyword">while</span> (tfp-&gt;f_next != fp)<br>				tfp = tfp-&gt;f_next;<br>			tfp-&gt;f_next = fp-&gt;f_next;<br>		&#125;<br>		pthread_mutex_unlock(&amp;hashlock);<br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>		pthread_mutex_destroy(&amp;fp-&gt;f_lock);<br>		<span class="hljs-built_in">free</span>(fp);<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		fp-&gt;f_count--;<br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>改进</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NHASH 29</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> HASH(id) (((unsigned long)id)%NHASH)</span><br> <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fh</span>[<span class="hljs-title">NHASH</span>];</span><br><span class="hljs-keyword">pthread_mutex_t</span> hashlock = PTHREAD_MUTEX_INITIALIZER;<br><span class="hljs-comment">// initializer</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> &#123;</span><br>	<span class="hljs-keyword">int</span> f_count;<br>	<span class="hljs-keyword">pthread_mutex_t</span> f_lock;<br>	<span class="hljs-keyword">int</span> f_id;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">f_next</span>;</span><br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *</span><br><span class="hljs-class"><span class="hljs-title">foo_alloc</span>(<span class="hljs-title">int</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fp</span>;</span><br>	<span class="hljs-keyword">int</span> index;<br><br>	<span class="hljs-keyword">if</span> ((fp = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(struct foo))) != <span class="hljs-literal">NULL</span>) &#123;<br>		fp-&gt;f_count = <span class="hljs-number">1</span>;<br>		fp-&gt;f_id = id;<br>		<span class="hljs-comment">// 第二个参数mutex_t attr,返回互斥量的错误码</span><br>		<span class="hljs-keyword">if</span> (pthread_mutex_init(&amp;fp-&gt;f_lock,<span class="hljs-literal">NULL</span>) != <span class="hljs-number">0</span>) &#123;<br>			<span class="hljs-built_in">free</span>(fp);<br>			<span class="hljs-comment">// 分配失败</span><br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>		&#125;<br>		<span class="hljs-comment">// 根据id得到链表索引</span><br>		index = HASH(id);<br>		pthread_mutex_lock(&amp;hashlock);<br>		fp-&gt;f_next = fh[index];<br>		fh[index] = fp;<br>		pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>		<span class="hljs-comment">// 和前面一个,在全局锁解锁前,先把自己加锁</span><br>		pthread_mutex_unlock(&amp;hashlock);<br>		pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>	&#125;<br>	<span class="hljs-keyword">return</span> fp;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_hold(struct foo *fp)<br>&#123;<br>	pthread_mutex_lock(&amp;fp-&gt;f_lock);<br>	fp-&gt;f_count++;<br>	pthread_mutex_unlock(&amp;fp-&gt;f_lock);<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *</span><br><span class="hljs-class"><span class="hljs-title">foo_find</span>(<span class="hljs-title">int</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">fp</span>;</span><br>	<span class="hljs-comment">// 操作链表,多个线程可能同时找个一个然后同时操作,所以锁住hashlock</span><br>	pthread_mutex_lock(&amp;hashlock);<br>	<span class="hljs-keyword">for</span> (fp = fh[HASH(id)]; fp != <span class="hljs-literal">NULL</span>; fp = fp-&gt;f_next) &#123;<br>		<span class="hljs-keyword">if</span> (fp-&gt;f_id == id) &#123;<br>			fp-&gt;f_count++;<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>	&#125;<br>	pthread_mutex_unlock(&amp;hashlock);<br>	<span class="hljs-keyword">return</span> fp;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>foo_rele(struct foo *fp)<br>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">foo</span> *<span class="hljs-title">tfp</span>;</span><br>	<span class="hljs-keyword">int</span> index;<br>	pthread_mutex_lock(&amp;hashlock);<br>	<span class="hljs-comment">//此时可能有hold线程存在,但是hold中的f_lock能锁住结构体</span><br>	<span class="hljs-keyword">if</span> (--fp-&gt;f_count == <span class="hljs-number">0</span>) &#123;<br>		index = HASH(fp-&gt;f_id);<br>		tfp = fh[index];<br>		<span class="hljs-keyword">if</span> (tfp == fp)<br>			fh[index] = fp-&gt;f_next;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-keyword">while</span> (tfp-&gt;f_next != fp)<br>				tfp = tfp-&gt;f_next;<br>			tfp-&gt;f_next = fp-&gt;f_next;<br>		&#125;<br>		pthread_mutex_unlock(&amp;hashlock);<br>		pthread_mutex_destroy(&amp;fp-&gt;f_lock);<br>		<span class="hljs-comment">// 多线程及时被抢占也无所谓,已经从列表中移除了</span><br>		<span class="hljs-built_in">free</span>(fp);<br>	&#125; <span class="hljs-keyword">else</span><br>		<span class="hljs-comment">// 不符合资格就不释放</span><br>		pthread_mutex_unlock(&amp;hashlock);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="pthread-mutex-timedlock"><a href="#pthread-mutex-timedlock" class="headerlink" title="pthread_mutex_timedlock"></a><code>pthread_mutex_timedlock</code></h4><blockquote>
+<p><code>int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,const struct timespec *restrict tsptr);</code></p>
+<p>尝试获得一个已经加锁的互斥量,在允许的绝对时间前阻塞,直到该互斥量的锁释放,否则超过时间返回<code>ETIMEDOUT</code></p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br> <br><span class="hljs-keyword">int</span> <br>main(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[]) &#123;<br>	<span class="hljs-keyword">int</span> err;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timespec</span> <span class="hljs-title">tout</span>;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tm</span> *<span class="hljs-title">tmp</span>;</span><br>	<span class="hljs-keyword">char</span> buf[<span class="hljs-number">64</span>];<br>	<span class="hljs-keyword">pthread_mutex_t</span> lock = PTHREAD_MUTEX_INITIALIZER;<br><br>	pthread_mutex_lock(&amp;lock);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;mutex is locked\n&quot;</span>);<br>	clock_gettime(CLOCK_REALTIME,&amp;tout);<br>	tmp = localtime(&amp;tout.tv_sec);	<br>	strftime(buf,<span class="hljs-keyword">sizeof</span>(buf),<span class="hljs-string">&quot;%r&quot;</span>,tmp);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;current time is %s\n&quot;</span>,buf);<br>	tout.tv_sec += <span class="hljs-number">10</span>;<br><br>	sleep(<span class="hljs-number">5</span>);<br>	pthread_mutex_unlock(&amp;lock);<br>	<span class="hljs-comment">// 2次对自己加锁,就会造成死锁</span><br>	<span class="hljs-comment">// 在绝对时间前,只要锁释放了就锁住,否则error返回</span><br>	err = pthread_mutex_timedlock(&amp;lock,&amp;tout);<br>	clock_gettime(CLOCK_REALTIME,&amp;tout);<br>	tmp = localtime(&amp;tout.tv_sec);<br>	strftime(buf,<span class="hljs-keyword">sizeof</span>(buf),<span class="hljs-string">&quot;%r&quot;</span>,tmp);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;the time is now %s\n&quot;</span>,buf);<br><br>	<span class="hljs-keyword">if</span> (err == <span class="hljs-number">0</span>)<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;mutex locked again!\n&quot;</span>);<br>	<span class="hljs-keyword">else</span> <br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;can&#x27;t lock mvtex again:%s\n&quot;</span>,strerror(err));<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h4><ol>
+<li>原理</li>
+</ol>
+<blockquote>
+<p>共享互斥锁(<code>shared-exclusive-lock</code>),有３种状态:</p>
+<blockquote>
+<ol>
+<li>读模式加锁</li>
+<li>写模式加锁</li>
+<li>不加锁</li>
+</ol>
+<ul>
+<li>读模式加锁就是共享状态,多个线程可以同时占有锁(os实现可能对线程个数有限制,所以要检查<code>pthread_rwlock_rdlock()</code>的返回值)</li>
+<li>写模式加锁就是互斥,只能有一个线程占用锁,</li>
+</ul>
+</blockquote>
+<ol>
+<li>读写锁是<strong>写模式加锁状态时,在这个锁解锁前,无论是以读还是写的方式试图对这个锁加锁的线程都将阻塞</strong></li>
+<li>读写锁是<strong>读模式加锁状态时,以读方式对读写锁加锁的线程可以获得访问权,但是以写的方式对读写锁加锁的线程会被阻塞(直到所有线程释放读锁为止)</strong>   —-&gt;  如果此时又有线程以读方式加锁,如果该线程不被阻塞,<strong>岂不是以写方式对读写锁加锁的线程一直处于饥饿状态,所以　读写锁会阻塞随后的读模式锁请求,避免读模式锁长期占用,而写模式锁请求等不到满足</strong>,</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>适用场景</li>
+</ol>
+<blockquote>
+<p>对数据结构<strong>读的次数远大于写的次数</strong></p>
+</blockquote>
+<ol start="3">
+<li>使用</li>
+</ol>
+<blockquote>
+<p>初始化与<code>pthread_mutex_t</code>相同,静态分配的读写锁初始化可使用<code>PTHREAD_RWLOCK_INITIALIZER</code>,也可使用<code>pthread_rwlock_init()</code>初始化,动态分配的读写锁在回收内存前要释放资源<code>pthread_rwlock_destroy()</code>,</p>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">&gt;pthread_rwlock_rdlock(<span class="hljs-keyword">pthread_rwlock_t</span> *rwlock);<br>&gt;pthread_rwlock_wrlock(<span class="hljs-keyword">pthread_rwlock_t</span> *rwlock);<br>&gt;pthread_rwlock_unlock(<span class="hljs-keyword">pthread_rwlock_t</span> *rwlock);<br></code></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> &#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *<span class="hljs-title">j_next</span>;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *<span class="hljs-title">j_prev</span>;</span><br>	<span class="hljs-keyword">pthread_t</span> j_id; <span class="hljs-comment">// 线程id</span><br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">queue</span> &#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *<span class="hljs-title">q_head</span>;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *<span class="hljs-title">q_tail</span>;</span><br>	<span class="hljs-keyword">pthread_rwlock_t</span> q_lock;<br>&#125;;<br><br><span class="hljs-keyword">int</span> <br>queue_init(struct <span class="hljs-built_in">queue</span> *que)<br>&#123;<br>	<span class="hljs-keyword">int</span> err;<br>	que-&gt;q_head = <span class="hljs-literal">NULL</span>;<br>	que-&gt;q_tail = <span class="hljs-literal">NULL</span>;<br>	<span class="hljs-comment">// 初始化任务队列的读写锁</span><br>	err = pthread_rwlock_init(&amp;que-&gt;q_lock,<span class="hljs-literal">NULL</span>);<br>	<span class="hljs-keyword">if</span> (err != <span class="hljs-number">0</span>)<br>		<span class="hljs-keyword">return</span> err;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">// job插入到队列头</span><br><span class="hljs-keyword">void</span><br>job_insert(struct <span class="hljs-built_in">queue</span> *que,struct job *jp)<br>&#123;<br>	<span class="hljs-comment">// 互斥锁住</span><br>	pthread_rwlock_wrlock(&amp;que-&gt;q_lock);<br>	jp-&gt;j_next = que-&gt;q_head;<br>	jp-&gt;j_prev = <span class="hljs-literal">NULL</span>;<br>	<span class="hljs-keyword">if</span> (que-&gt;q_head != <span class="hljs-literal">NULL</span>)<br>		que-&gt;q_head-&gt;j_prev = jp;<br>	<span class="hljs-keyword">else</span> <br>		<span class="hljs-comment">// 队列中只有１个job了</span><br>		que-&gt;q_tail = jp;<br>	que-&gt;q_head = jp;<br><br>	pthread_rwlock_unlock(&amp;que-&gt;q_lock);<br>&#125;<br><br><span class="hljs-comment">// job插入到列队尾部</span><br><span class="hljs-keyword">void</span> <br>job_append(struct <span class="hljs-built_in">queue</span> *que,struct job *jp)<br>&#123;<br>	pthread_rwlock_wrlock(&amp;que-&gt;q_lock);<br>	jp-&gt;j_next = <span class="hljs-literal">NULL</span>;<br>	jp-&gt;j_prev = que-&gt;q_tail;<br>	<span class="hljs-keyword">if</span> (que-&gt;q_tail != <span class="hljs-literal">NULL</span>)<br>		que-&gt;q_tail-&gt;j_next = jp;<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-comment">//队列中只有１个job了</span><br>		que-&gt;q_head = jp;<br>	que-&gt;q_tail = jp;<br>	pthread_rwlock_unlock(&amp;que-&gt;q_lock);<br>&#125;<br><br><span class="hljs-comment">// 从job队列中　移出job</span><br><span class="hljs-keyword">void</span><br>job_remove(struct <span class="hljs-built_in">queue</span> *que,struct job *jp)<br>&#123;<br>	pthread_rwlock_wrlock(&amp;que-&gt;q_lock);<br><br>	<span class="hljs-keyword">if</span> (jp == que-&gt;q_head) &#123;	<br>		que-&gt;q_head = jp-&gt;j_next;<br>		<span class="hljs-comment">// 队列只剩一个就是jp</span><br>		<span class="hljs-keyword">if</span> (que-&gt;q_tail == jp)<br>			que-&gt;q_tail == <span class="hljs-literal">NULL</span>;<br>		<span class="hljs-keyword">else</span><br>			jp-&gt;j_next-&gt;j_prev = jp-&gt;j_prev;<br>		<span class="hljs-comment">// jp是最后一个,且队列长度&gt;1</span><br>	&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (jp == que-&gt;q_tail) &#123;<br>		que-&gt;q_tail = jp-&gt;j_prev;<br>		jp-&gt;j_prev-&gt;j_next = jp-&gt;j_next;<br>	&#125; <span class="hljs-keyword">else</span> &#123;<br>		jp-&gt;j_prev-&gt;j_next = jp-&gt;j_next;<br>		jp-&gt;j_next-&gt;j_prev = jp-&gt;j_prev;<br>	&#125;<br>	pthread_rwlock_unlock(&amp;que-&gt;q_lock);<br>&#125;<br><br><span class="hljs-comment">// 从队列中找到某个job</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *</span><br><span class="hljs-class"><span class="hljs-title">job_find</span>(<span class="hljs-keyword">struct</span> <span class="hljs-title">queue</span> *<span class="hljs-title">que</span>,<span class="hljs-title">pthread_t</span> <span class="hljs-title">id</span>)</span><br><span class="hljs-class">&#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">job</span> *<span class="hljs-title">jp</span>;</span><br><br>	<span class="hljs-comment">// 系统对读锁被占有的线程个数有限制,所以检查返回值</span><br>	<span class="hljs-keyword">if</span> (pthread_rwlock_rdlock(&amp;que-&gt;q_lock) != <span class="hljs-number">0</span>)<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br><br>	<span class="hljs-keyword">for</span> (jp = que-&gt;q_head; jp != <span class="hljs-literal">NULL</span>; jp = jp-&gt;j_next)<br>		<span class="hljs-keyword">if</span> (pthread_equal(id,jp-&gt;j_id))<br>			<span class="hljs-keyword">break</span>;<br>	pthread_rwlock_unlock(&amp;que-&gt;q_lock);<br>	<span class="hljs-keyword">return</span> jp;<br>&#125;<br><br><span class="hljs-keyword">int</span> <br>main(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[]) &#123;<br> <br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h4><blockquote>
+<p>线程通过共享全局变量进行同步,条件变量分为条件状态和变量(用来通信)<code>pthread_cond_t</code></p>
+<ul>
+<li>初始化和其他的一样</li>
+</ul>
+<p>条件由互斥量来保护,,线程在改变条件状态前先锁住互斥量,<code>pthread_cond_wait(pthread_cond_t *cond,pthread_mutex_t *mutex)</code>,然后此函数把调用线程放入等待条件的线程列表(进程挂起),<strong>对互斥量解锁,等<code>pthread_cond_wait</code>返回后,互斥量再次被锁住</strong></p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/time.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><br><span class="hljs-keyword">void</span><br>maketimeout(struct timespec *tsp,<span class="hljs-keyword">long</span> minutes)<br>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">now</span>;</span><br>	gettimeofday(&amp;now,<span class="hljs-literal">NULL</span>);<br>	tsp-&gt;tv_sec = now.tv_sec;<br>	tsp-&gt;tv_nsec = now.tv_usec * <span class="hljs-number">1000</span>;<br>	tsp-&gt;tv_sec += minutes * <span class="hljs-number">60</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msg</span> &#123;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msg</span> *<span class="hljs-title">m_next</span>;</span><br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msg</span> *<span class="hljs-title">workq</span>;</span><br><br><span class="hljs-keyword">pthread_cond_t</span> qready = PTHREAD_COND_INITIALIZER;<br><br><span class="hljs-keyword">pthread_mutex_t</span> qlock = PTHREAD_MUTEX_INITIALIZER;<br><br><br><span class="hljs-comment">// 消费者(消费消息) </span><br><span class="hljs-keyword">void</span>  <br>process_msg(<span class="hljs-keyword">void</span>)<br>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msg</span> *<span class="hljs-title">mp</span>;</span><br>	<span class="hljs-keyword">for</span> (;;) &#123;<br>		pthread_mutex_lock(&amp;qlock);<br>		<span class="hljs-comment">// 如果工作队列为空,则线程进入等待(循环等待)</span><br>		<span class="hljs-keyword">while</span> (workq == <span class="hljs-literal">NULL</span>) <br>			<span class="hljs-comment">// 线程放入等待条件的线程列表上</span><br>			pthread_cond_wait(&amp;qready,&amp;qlock);<br>		<span class="hljs-comment">// 处于等待的线程结束等待后,立即进入临界区</span><br>		mp = workq;<br>		workq = mp-&gt;m_next;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;proc msg \n&quot;</span>);<br>		pthread_mutex_unlock(&amp;qlock);<br>	&#125;<br>&#125;<br><br><span class="hljs-comment">// 生产者(生产消息)</span><br><span class="hljs-keyword">void</span> <br>enqueue_msg(struct msg *mp)<br>&#123;<br>	pthread_mutex_lock(&amp;qlock);<br>	mp-&gt;m_next = workq;<br>	workq = mp;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;create \n&quot;</span>);<br>	pthread_mutex_unlock(&amp;qlock);<br>	<span class="hljs-comment">// 给处于条件变量等待队列中的线程发信号,</span><br>	pthread_cond_signal(&amp;qready);<br><br>&#125;<br><br><span class="hljs-keyword">void</span> *<br>func1(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	process_msg();<br>	<span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-keyword">void</span> *<br>func2(<span class="hljs-keyword">void</span> *mp)<br>&#123;<br>	enqueue_msg(mp);<br>	<span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">100</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">pthread_t</span> tid[maxn];<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msg</span>* <span class="hljs-title">p</span>[<span class="hljs-title">maxn</span>];</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++)<br>		p[i] = (struct msg *)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(struct msg));<br>		<br>	<span class="hljs-keyword">pthread_t</span> tid1;<br>	pthread_create(&amp;tid1,<span class="hljs-literal">NULL</span>,func1,<span class="hljs-literal">NULL</span>);<br>	<span class="hljs-comment">//我先创造maxn个生产者</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++)<br>		pthread_create(&amp;tid[i],<span class="hljs-literal">NULL</span>,func2,(<span class="hljs-keyword">void</span> *)p[i]);<br>	<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++)<br>		pthread_join(tid[i],<span class="hljs-literal">NULL</span>);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn; i++)<br>		<span class="hljs-built_in">free</span>(p[i]);<br>	pthread_join(tid1,<span class="hljs-literal">NULL</span>);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="自旋锁-类似互斥量"><a href="#自旋锁-类似互斥量" class="headerlink" title="自旋锁(类似互斥量)"></a>自旋锁(类似互斥量)</h4><ol>
+<li>非抢占式内核中,由于中断处理程序不能抢占已经有锁的线程,所以中断不会导致死锁</li>
+<li>单核/单cpu环境下使用自旋锁没有用,因为线程A获得锁以后,线程B一直占用CPU使得锁不能释放,知道线程B的时间片用完,</li>
+<li>获得自旋锁之前一直处于忙等待状态(占用CPU),所以自旋锁被持有的时间短,且线程不希望进行睡眠or唤醒的线程调度</li>
+<li>尝试获取互斥量可能会先自旋一会(避免线程调度,看具体实现)</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br> <br><span class="hljs-keyword">pthread_spinlock_t</span> lock;<br><br><span class="hljs-keyword">void</span> *<br>func1(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func1 before\n&quot;</span>);<br>	pthread_spin_lock(&amp;lock);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func1 中间\n&quot;</span>);<br>	sleep(<span class="hljs-number">1</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func1 end\n&quot;</span>);<br>	pthread_spin_unlock(&amp;lock);	<br>	<span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-keyword">void</span> *<br>func2(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func2 before\n&quot;</span>);<br>	pthread_spin_lock(&amp;lock);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func2 sleep\n&quot;</span>);<br>	sleep(<span class="hljs-number">10</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;func2 end\n&quot;</span>);<br>	pthread_spin_unlock(&amp;lock);<br>	<span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	pthread_spin_init(&amp;lock,PTHREAD_PROCESS_SHARED);<br>	<span class="hljs-keyword">pthread_t</span> tid1,tid2;<br><br>	pthread_create(&amp;tid1,<span class="hljs-literal">NULL</span>,func1,<span class="hljs-literal">NULL</span>);<br>	pthread_create(&amp;tid2,<span class="hljs-literal">NULL</span>,func2,<span class="hljs-literal">NULL</span>);<br><br><br>	pthread_join(tid1,<span class="hljs-literal">NULL</span>);<br>	pthread_join(tid2,<span class="hljs-literal">NULL</span>);<br>	pthread_spin_destroy(&amp;lock);<br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="屏障"><a href="#屏障" class="headerlink" title="屏障"></a>屏障</h4><ul>
+<li>多线程并行工作的同步机制,允许每个线程等待,直到所有的合作线程都达到某一点,然后从该点继续执行,(意思是等待一些线程在某点之前必须都执行完毕</li>
+</ul>
+<blockquote>
+<p><code>pthread_join()</code>就是一种简单的屏障,等待指定的线程执行完毕</p>
+</blockquote>
+<ul>
+<li>使用屏障允许任意数量的线程等待,直到所有线程处理完毕</li>
+</ul>
+<hr>
+<blockquote>
+<ol>
+<li>初始化相比其他几个同步少了<strong>宏定义</strong>,且初始化要<strong>声明任意线程的数量(记得主线程</strong></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c">&gt;<span class="hljs-comment">// 注意第三个参数</span><br>&gt;pthread_barrier_init(<span class="hljs-keyword">pthread_barrier_t</span> *barrier,<br>                   <span class="hljs-keyword">const</span> <span class="hljs-keyword">pthread_barrierattr_t</span> *attr,<br>                   <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> count);<br>&gt;pthread_barrier_destroy(<span class="hljs-keyword">pthread_barrier_t</span> *barrier);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>pthread_barrier_wait()</code>表明此线程完成工作,等待其他线程赶上来</li>
+</ol>
+<ul>
+<li>调用此函数的线程在屏蔽计数为满足时,线程进入休眠状态,最后一个调用的线程会唤醒所有此类线程(<strong>注意返回值</strong>)</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// gcc a.c -o a -lpthread -lbsd</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span> </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;limits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/time.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NTHR 8 </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NUMNUM 8000000L</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> TNUM (NUMNUM/NTHR)</span><br><br><span class="hljs-keyword">long</span> nums[NUMNUM];<br><span class="hljs-keyword">long</span> snums[NUMNUM];<br><br><span class="hljs-keyword">pthread_barrier_t</span> b;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> SOLARIS</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> heapsort qsort</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">int</span> <span class="hljs-title">heapsort</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *,<span class="hljs-keyword">size_t</span>,<span class="hljs-keyword">size_t</span>,<span class="hljs-keyword">int</span> (*)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *,<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *))</span></span>;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> </span><br><br><span class="hljs-keyword">int</span> <br>complong(<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *arg1,<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *arg2)<br>&#123;<br>	<span class="hljs-keyword">long</span> l1 = *(<span class="hljs-keyword">long</span> *)arg1;<br>	<span class="hljs-keyword">long</span> l2 = *(<span class="hljs-keyword">long</span> *)arg2;<br><br>	<span class="hljs-keyword">if</span> (l1 == l2)<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (l1 &lt; l2)<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-keyword">void</span> *<br>thr_fn(<span class="hljs-keyword">void</span> *arg)<br>&#123;<br>	<span class="hljs-keyword">long</span> index = (<span class="hljs-keyword">long</span>)arg;<br>	heapsort(&amp;nums[index],TNUM,<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">long</span>),complong);<br>	<span class="hljs-comment">// 线程完成工作,等待其他所有线程赶上来,增加屏障计数</span><br>	pthread_barrier_wait(&amp;b);<br>	<span class="hljs-keyword">return</span> (<span class="hljs-keyword">void</span> *)<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>merge()<br>&#123;<br>	<span class="hljs-keyword">long</span> index[NTHR];<br>	<span class="hljs-keyword">long</span> i,minindex,sindex,num;<br><br>	<span class="hljs-comment">// 得到每个线程处理部分的下标</span><br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; NTHR; i++)<br>		index[i] = i * TNUM;<br>	<span class="hljs-comment">// 扫描所有数字一遍,每一个数字从8个部分中选取,然后增加其中一部分的下标,８个部分都已经是排好序</span><br>	<span class="hljs-keyword">for</span> (sindex = <span class="hljs-number">0</span>; sindex &lt; NUMNUM; sindex++) &#123;<br>		num = LONG_MAX;<br>		<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt;	NTHR; i++) &#123;<br>			<span class="hljs-comment">//</span><br>			<span class="hljs-keyword">if</span> ((index[i] &lt; (i+<span class="hljs-number">1</span>)*TNUM) &amp;&amp; (nums[index[i]] &lt; num)) &#123;<br>				num = nums[index[i]];<br>				minindex = i;<br>			&#125;<br>		&#125;<br>		snums[sindex] = nums[index[minindex]];<br>		index[minindex]++;<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> i;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span> <span class="hljs-title">start</span>,<span class="hljs-title">end</span>;</span><br>	<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> startusec,endusec;<br>	<span class="hljs-keyword">double</span> elapsed;<br>	<span class="hljs-keyword">int</span> err;<br>	<span class="hljs-keyword">pthread_t</span> tid;<br>	srandom(<span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; NUMNUM; i++)<br>		nums[i] = random();<br>	gettimeofday(&amp;start,<span class="hljs-literal">NULL</span>);<br>	<span class="hljs-comment">// 初始化屏障量</span><br>	pthread_barrier_init(&amp;b,<span class="hljs-literal">NULL</span>,NTHR+<span class="hljs-number">1</span>);<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; NTHR; i++) &#123;<br>		err = pthread_create(&amp;tid,<span class="hljs-literal">NULL</span>,thr_fn,(<span class="hljs-keyword">void</span> *)(i * TNUM));<br>		<span class="hljs-keyword">if</span> (err != <span class="hljs-number">0</span>)<br>			err_exit(err,<span class="hljs-string">&quot;can&#x27;t create thread&quot;</span>);<br>	&#125;<br>	<span class="hljs-comment">// 自己做完了,等到所有屏障前的线程,满足屏障计数后,所有线程都唤醒,</span><br>	pthread_barrier_wait(&amp;b);<br>	merge();<br>	gettimeofday(&amp;end,<span class="hljs-literal">NULL</span>);<br><br>	startusec = start.tv_sec * <span class="hljs-number">1000000</span> + start.tv_usec;<br>	endusec = end.tv_sec * <span class="hljs-number">1000000</span> + end.tv_usec;<br>	elapsed = (<span class="hljs-keyword">double</span>)(endusec - startusec) / <span class="hljs-number">1000000.0</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sort took %.4f seconds\n&quot;</span>,elapsed);<br>	<span class="hljs-comment">//for (i = 0; i &lt; NUMNUM; i++)</span><br>	<span class="hljs-comment">//	printf(&quot;%ld\n&quot;,snums[i]);</span><br>	<span class="hljs-comment">//</span><br>    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>单线程和8线程,性能提高4倍多,</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/06/csdn/%E4%BD%BF%E7%94%A8mutex%E5%92%8C%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F%E5%AF%B9%E6%AF%94/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用mutex和条件变量对比</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">
+                        <span class="hidden-mobile">APUE习题8.7</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

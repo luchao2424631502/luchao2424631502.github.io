@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>php留言板小demo - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="php留言板小demo">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-19 11:46" pubdate>
+        2019年10月19日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      778 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">php留言板小demo</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><ul>
+<li>本地数据库名:<code>php10</code>  user:<code>root</code>,passwd:<code> </code>,</li>
+<li>表:<code>msg</code>,4个字段<code>id</code>,<code>content</code>,<code>user</code>, <code>intime</code></li>
+</ul>
+<h3 id="一些简单sql语句"><a href="#一些简单sql语句" class="headerlink" title="一些简单sql语句"></a>一些简单sql语句</h3><ul>
+<li><p>增: <code>INSERT INTO msg () VALUES ();</code></p>
+</li>
+<li><p>删: <code>DELETE FROM msg WHERE id = 10; </code>    <code>DELETE FROM msg</code></p>
+</li>
+<li><p>改: <code>UPDATE msg SET content=&#39;xx&#39;,user=&#39;xx&#39;</code>  <code>UPDATE msg SET content=&#39;xx&#39;,user=xx WHERE id&lt;1 and id&gt;9</code></p>
+</li>
+<li><p>查 : <code>SELECT * FROM msg </code> (<code>*</code>代表字段)</p>
+</li>
+</ul>
+<hr>
+<h3 id="MYSQLI-函数的使用"><a href="#MYSQLI-函数的使用" class="headerlink" title="MYSQLI 函数的使用"></a>MYSQLI 函数的使用</h3><p><code>test1.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-comment">// 提交留言且显示</span><br><br><span class="hljs-variable">$host</span>=<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>;<br><span class="hljs-variable">$dbuser</span>=<span class="hljs-string">&#x27;root&#x27;</span>;<br><span class="hljs-variable">$passwd</span>=<span class="hljs-string">&#x27;&#x27;</span>;<br><span class="hljs-variable">$database</span>=<span class="hljs-string">&#x27;php10&#x27;</span>;<br><br><span class="hljs-variable">$db</span> = <span class="hljs-keyword">new</span> mysqli(<span class="hljs-variable">$host</span>,<span class="hljs-variable">$dbuser</span>,<span class="hljs-variable">$passwd</span>,<span class="hljs-variable">$database</span>);<br><br><span class="hljs-comment">//判断连接是否成功</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$db</span>-&gt;connect_errno)<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;数据库连接失败&quot;</span>);<br><br><span class="hljs-comment">// 与数据库服务器 传输时的编码格式 </span><br><span class="hljs-variable">$db</span>-&gt;query(<span class="hljs-string">&quot;SET NAMES UTF8&quot;</span>);<br><span class="hljs-variable">$sql</span> = <span class="hljs-string">&#x27;select * from msg order by id desc;&#x27;</span>;<br><span class="hljs-comment">//执行查询语句 拿到查询结果</span><br><span class="hljs-variable">$myquery_result</span> = <span class="hljs-variable">$db</span>-&gt;query(<span class="hljs-variable">$sql</span>);<br><br><span class="hljs-comment">// var_dump($myquery_result);</span><br> <br><span class="hljs-keyword">if</span> (!<span class="hljs-variable">$myquery_result</span>)<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;查询失败&quot;</span>);<br><br><span class="hljs-variable">$rows</span> = []; <span class="hljs-comment">//二维数组取出所有数据</span><br><span class="hljs-keyword">while</span> ( <span class="hljs-variable">$row</span> = <span class="hljs-variable">$myquery_result</span>-&gt;fetch_array(MYSQLI_ASSOC) ) &#123;<br>	<span class="hljs-variable">$rows</span>[] = <span class="hljs-variable">$row</span>;<br>&#125;<br><br><span class="hljs-meta">?&gt;</span><br><br>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>	&lt;meta charset=<span class="hljs-string">&quot;utf-8&quot;</span>/&gt;<br>	&lt;title&gt;留言本&lt;/title&gt;<br>	&lt;style&gt;<br>	.warp &#123;<br>		width:<span class="hljs-number">600</span>px;	<br>		margin:<span class="hljs-number">0</span>px auto; <br>	&#125;<br>	.add &#123; overflow: hidden;&#125;<br>	.add .content &#123;<br>		width:<span class="hljs-number">598</span>px;<br>		padding:<span class="hljs-number">0</span>;<br>		margin:<span class="hljs-number">0</span>;<br>	&#125;<br>	.add .user &#123;<span class="hljs-keyword">float</span>:left;&#125;<br>	.add .btn &#123;<span class="hljs-keyword">float</span>:right;&#125;<br><br>	.msg &#123;margin:<span class="hljs-number">20</span>px <span class="hljs-number">0</span>px; background:<span class="hljs-comment">#ccc; padding:5px;&#125;</span><br>	.msg .info &#123;overflow:hidden;&#125;<br>	.msg .user &#123;<span class="hljs-keyword">float</span>:left; color:blue;&#125;<br>	.msg .time &#123;<span class="hljs-keyword">float</span>:right; color:black;&#125;<br>	.msg .content &#123; width:<span class="hljs-number">100</span>%; padding:<span class="hljs-number">5</span>px; &#125;<br>	&lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>	&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>=&#x27;<span class="hljs-title">warp</span>&#x27;&gt;</span><br><span class="hljs-class">		&lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>=&#x27;<span class="hljs-title">add</span>&#x27; &gt;</span><br><span class="hljs-class">		&lt;!--  表单提交给 <span class="hljs-title">formsave</span>.<span class="hljs-title">php</span>, 通过 <span class="hljs-title">formsave</span>.<span class="hljs-title">php</span> 将表单数据写入数据库 --&gt;</span><br>		&lt;form action=&quot;formsave.php&quot; method=&quot;post&quot;&gt;<br>			&lt;textarea name=<span class="hljs-string">&#x27;content&#x27;</span> <span class="hljs-class"><span class="hljs-keyword">class</span>=&#x27;<span class="hljs-title">content</span>&#x27; <span class="hljs-title">cols</span>=&#x27;50&#x27; <span class="hljs-title">rows</span>=&#x27;5&#x27;&gt; &lt;/<span class="hljs-title">textarea</span>&gt;</span><br><span class="hljs-class">			&lt;<span class="hljs-title">input</span> <span class="hljs-title">name</span>=&#x27;<span class="hljs-title">user</span>&#x27; <span class="hljs-title">class</span>=&#x27;<span class="hljs-title">user</span>&#x27; <span class="hljs-title">type</span>=&#x27;<span class="hljs-title">text</span>&#x27;/&gt;</span><br><span class="hljs-class">			&lt;<span class="hljs-title">input</span> <span class="hljs-title">class</span>=&#x27;<span class="hljs-title">btn</span>&#x27; <span class="hljs-title">type</span>=&#x27;<span class="hljs-title">submit</span>&#x27; <span class="hljs-title">value</span>=&#x27;发表留言&#x27; /&gt;</span><br><span class="hljs-class">		&lt;/<span class="hljs-title">form</span>&gt;</span><br><span class="hljs-class">		&lt;/<span class="hljs-title">div</span>&gt;</span><br><span class="hljs-class">		&lt;?<span class="hljs-title">php</span></span><br><span class="hljs-class">			// 通过遍历显示留言内容 </span><br>			foreach( $rows as $row) &#123;<br>		<span class="hljs-meta">?&gt;</span><br>			&lt;!-- 留言板显示 --&gt;<br>			&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>=&#x27;<span class="hljs-title">msg</span>&#x27;&gt;</span><br><span class="hljs-class">				&lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>=&#x27;<span class="hljs-title">info</span>&#x27;&gt;</span><br>					&lt;span class=&#x27;user&#x27;&gt; &lt;?php echo $row[&#x27;user&#x27;]; ?&gt; &lt;/span&gt;<br>					&lt;span class=&#x27;time&#x27;&gt; &lt;?php echo date(&quot;Y-m-d H:i:s&quot;,$row[&#x27;intime&#x27;]); ?&gt; &lt;/span&gt;<br>				&lt;/div&gt;<br>				&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>=&#x27;<span class="hljs-title">content</span>&#x27;&gt;</span><br>					&lt;span&gt; &lt;?php echo $row[&#x27;content&#x27;]; ?&gt; &lt;/span&gt;<br>				&lt;/div&gt;<br>			&lt;/div&gt;<br>		<span class="hljs-meta">&lt;?php</span><br>		&#125; <br>		<span class="hljs-meta">?&gt;</span><br>	&lt;/div&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><code>formsave.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br><span class="hljs-comment">// POST传参</span><br><span class="hljs-variable">$content</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;content&#x27;</span>];<br><span class="hljs-variable">$user</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;user&#x27;</span>];<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span>(<span class="hljs-params"> <span class="hljs-variable">$content</span> </span>) </span>&#123;<br>	<span class="hljs-keyword">if</span> ( <span class="hljs-variable">$content</span> == <span class="hljs-string">&#x27;&#x27;</span>)<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	<span class="hljs-variable">$forbid_use</span> = [<span class="hljs-string">&#x27;xx&#x27;</span>,<span class="hljs-string">&#x27;xx&#x27;</span>,<span class="hljs-string">&#x27;xx&#x27;</span>,<span class="hljs-string">&#x27;xx&#x27;</span>];<br><br>	<span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$forbid_use</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$i</span>) <br>		<span class="hljs-keyword">if</span> (<span class="hljs-variable">$content</span> == <span class="hljs-variable">$i</span>)<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><span class="hljs-keyword">if</span> ( !post(<span class="hljs-variable">$content</span>) )<br>	<span class="hljs-keyword">die</span> (<span class="hljs-string">&#x27;留言不正确&lt;br&gt;&#x27;</span>);<br><br><span class="hljs-keyword">if</span> ( !post(<span class="hljs-variable">$user</span>) )<br>	<span class="hljs-keyword">die</span> (<span class="hljs-string">&#x27;用户不正确&lt;br&gt;&#x27;</span>);<br><br><span class="hljs-variable">$host</span> = <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>;<br><span class="hljs-variable">$dbuser</span> = <span class="hljs-string">&#x27;root&#x27;</span>;<br><span class="hljs-variable">$passwd</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br><span class="hljs-variable">$database</span> = <span class="hljs-string">&#x27;php10&#x27;</span>;<br><br><span class="hljs-variable">$db</span> = <span class="hljs-keyword">new</span> mysqli(<span class="hljs-variable">$host</span>,<span class="hljs-variable">$dbuser</span>,<span class="hljs-variable">$passwd</span>,<span class="hljs-variable">$database</span>);<br><span class="hljs-variable">$db</span>-&gt;query(<span class="hljs-string">&quot;SET NAMES UTF8&quot;</span>);<br><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$db</span>-&gt;connect_errno) <br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;连接数据库失败&#x27;</span>);<br><br><span class="hljs-variable">$time</span> = time();<br><br><span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;insert into msg (content,user,intime) values (&#x27;<span class="hljs-subst">&#123;$content&#125;</span>&#x27;,&#x27;<span class="hljs-subst">&#123;$user&#125;</span>&#x27;,<span class="hljs-subst">$time</span>);&quot;</span>;<br><span class="hljs-comment">//将表单提交的数据写入数据库.</span><br><span class="hljs-variable">$flag</span> = <span class="hljs-variable">$db</span>-&gt;query( <span class="hljs-variable">$sql</span> );<br><br><span class="hljs-keyword">if</span> (!<span class="hljs-variable">$flag</span>)<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;插入数据失败&quot;</span>);<br><span class="hljs-comment">// 转跳至 同目录下的 test1.php </span><br>header(<span class="hljs-string">&quot;location: test1.php&quot;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/php/">php</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%95%99%E8%A8%80%E6%9D%BF/">留言板</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/27/csdn/HDU%201421/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HDU 1421</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">
+                        <span class="hidden-mobile">EK + Dinic 最大流算法理解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

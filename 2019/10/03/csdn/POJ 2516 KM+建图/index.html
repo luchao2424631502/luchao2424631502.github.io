@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>POJ 2516 KM+建图 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="POJ 2516 KM+建图">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-03 15:19" pubdate>
+        2019年10月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      871 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">POJ 2516 KM+建图</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<p><a target="_blank" rel="noopener" href="http://poj.org/problem?id=2516">POJ 2516</a></p>
+<h3 id="题意"><a href="#题意" class="headerlink" title="题意:"></a>题意:</h3><ul>
+<li><code>n</code>个店主,<code>m</code>个供货商(仓库),<code>k</code>种商品</li>
+<li>给出<code>n</code>个店主的<code>k</code>种商品的需求,<code>m</code>个仓库存放<code>k</code>种商品的个数,和对于每种商品$k_i$来说从$m_i$<strong>运送到</strong>$n_i$的<strong>运费</strong></li>
+<li>求最小花费, 如果商品不足则输出<code>-1</code></li>
+</ul>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路:"></a>思路:</h3><ol>
+<li>分<code>k</code>次计算：<strong>每个商品分别求最小花费,然后加和</strong>，建立二分图后<strong>首先判断商品数量是否足够给店主.**然后</strong>裸KM()**</li>
+</ol>
+<h3 id="存数据-建图"><a href="#存数据-建图" class="headerlink" title="存数据+建图"></a>存数据+建图</h3><ol>
+<li><code>shop[i][k]</code>存第<code>i</code>个店主的第$k_i$种商品的需求个数，<code>sup[i][k]</code>存第<code>i</code>个仓库存的第$k_i$中商品的个数.<code>cost[t][i][j]</code>存商品<code>t</code>从仓库<code>j</code>运到店主<code>i</code>的花费<ul>
+<li>KM一般是<strong>左部分少右部分多</strong>的完备匹配</li>
+</ul>
+</li>
+<li>对于第$k_i$种商品:   将店主需要的<strong>所有该种商品的个数拆成二分图的左部分的点</strong>,仓库拥有的<strong>所有该商品拆成二分图的右部分的点</strong>,</li>
+<li>边换成负值套用KM求最大带权匹配</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#include &lt;iostream&gt;</span><br><span class="hljs-comment">#include &lt;cstring&gt;</span><br><span class="hljs-comment">#include &lt;algorithm&gt;</span><br><br>using namespace std;<br>const <span class="hljs-built_in">int</span> maxn = <span class="hljs-number">55</span>;<br>const <span class="hljs-built_in">int</span> inf = -<span class="hljs-number">0x3f3f3f3f</span>;<br><span class="hljs-built_in">int</span> shop[maxn][maxn],sup[maxn][maxn],cost[maxn][maxn][maxn];<br><br><span class="hljs-built_in">int</span> n,m,k,cntA,cntB,delta;<br><span class="hljs-built_in">int</span> belongA[maxn*<span class="hljs-number">3</span>],belongB[maxn*<span class="hljs-number">3</span>];<br><span class="hljs-built_in">int</span> w[maxn*<span class="hljs-number">3</span>][maxn*<span class="hljs-number">3</span>],la[maxn*<span class="hljs-number">3</span>],lb[maxn*<span class="hljs-number">3</span>],match[maxn*<span class="hljs-number">3</span>];<br><span class="hljs-built_in">bool</span> va[maxn*<span class="hljs-number">3</span>],vb[maxn*<span class="hljs-number">3</span>];<br><br>void read() &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=n; ++i)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=k; ++j)<br>            scanf(<span class="hljs-string">&quot;%d&quot;</span>,&amp;shop[i][j]);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=m; ++i)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=k; ++j)<br>            scanf(<span class="hljs-string">&quot;%d&quot;</span>,&amp;sup[i][j]);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> t=<span class="hljs-number">1</span>; t&lt;=k; ++t)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=n; ++i)<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=m; ++j)<br>                scanf(<span class="hljs-string">&quot;%d&quot;</span>,&amp;cost[t][i][j]);<br>&#125;<br><br><span class="hljs-built_in">int</span> dfs(<span class="hljs-built_in">int</span> u) &#123;<br>    va[u] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntB; ++i) &#123;<br>        <span class="hljs-keyword">if</span> (!vb[i]) &#123;<br>            <span class="hljs-keyword">if</span> (la[u]+lb[i] - w[u][i] == <span class="hljs-number">0</span>) &#123;<br>                vb[i] = <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">if</span> (!match[i] || dfs(match[i])) &#123;<br>                    match[i] = u;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> delta = <span class="hljs-built_in">min</span>(delta,la[u]+lb[i]-w[u][i]);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><br><span class="hljs-built_in">int</span> KM () &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">0</span>; i&lt;maxn*<span class="hljs-number">3</span>; ++i) la[i] = -inf;<br>    memset(lb,<span class="hljs-number">0</span>,sizeof lb);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntA; ++i)<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=cntB; ++j)<br>            la[i] = <span class="hljs-built_in">max</span>(la[i],w[i][j]);<br>    memset(match,<span class="hljs-number">0</span>,sizeof match);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntA; ++i) &#123;<br>        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>            memset(va,<span class="hljs-number">0</span>,sizeof va);<br>            memset(vb,<span class="hljs-number">0</span>,sizeof vb);<br>            delta = inf;<br>            <span class="hljs-keyword">if</span> (dfs(i)) <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntB; ++i) &#123;<br>                <span class="hljs-keyword">if</span> (va[i]) la[i] -= delta;<br>                <span class="hljs-keyword">if</span> (vb[i]) lb[i] += delta;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-built_in">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntB; ++i)<br>        <span class="hljs-keyword">if</span> (match[i]) ans += w[match[i]][i];<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><span class="hljs-built_in">int</span> main() &#123;<br>    freopen(<span class="hljs-string">&quot;1.in&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,stdin);<br>    <span class="hljs-keyword">while</span> (scanf(<span class="hljs-string">&quot;%d%d%d&quot;</span>,&amp;n,&amp;m,&amp;k) != EOF &amp;&amp; (n+m+k)) &#123;<br>        read();<br>        // 判断仓库的货物是否足够<br>        <span class="hljs-built_in">bool</span> flag = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=k; ++i) &#123;<br>            <span class="hljs-built_in">int</span> need =<span class="hljs-number">0</span>, have = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=n; ++j)<br>                need += shop[j][i];<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=m; ++j)<br>                have += sup[j][i];<br>            <span class="hljs-keyword">if</span> (need &gt; have) &#123;<br>                flag = <span class="hljs-number">0</span>;<br>                printf(<span class="hljs-string">&quot;-1\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (!flag) <span class="hljs-keyword">continue</span>;<br>        <span class="hljs-built_in">int</span> ans = <span class="hljs-number">0</span>;<br>        // KM分别处理每个货物<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> t=<span class="hljs-number">1</span>; t&lt;=k; ++t) &#123;<br>            cntA = cntB = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=n; ++i)<br>                <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=shop[i][t]; ++j)<br>                    belongA[++cntA] = i; //给同一种货物的所有货物标号顺便 标记属于哪个店家<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=m; ++i)<br>                <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=sup[i][t]; ++j)<br>                    belongB[++cntB] = i; //存储点的货物属于哪个仓库,并且给每个相同货物标记号码<br>            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i=<span class="hljs-number">1</span>; i&lt;=cntA; ++i)<br>                <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j=<span class="hljs-number">1</span>; j&lt;=cntB; ++j)<br>                    w[i][j] = -cost[t][belongA[i]][belongB[j]];<br>            ans += KM();<br>        &#125;<br>        printf(<span class="hljs-string">&quot;%d\n&quot;</span>,-ans);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/KM/">KM</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/03/csdn/POJ%202400%20KM+%E5%BB%BA%E5%9B%BE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">POJ 2400 KM+建图</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">
+                        <span class="hidden-mobile">POJ 3686 KM+建图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

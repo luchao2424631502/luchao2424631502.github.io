@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/05/csdn/%E6%8B%93%E6%89%91%E5%BA%8F(poj1128)/">拓扑序(poj1128)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/05/csdn/%E6%8B%93%E6%89%91%E5%BA%8F(poj1128)/">
+          
+          
+            
+          
+          
+
+题目
+
+一个框由2个点来确定，读图，纪律这2个点
+扫描一个框上的点，出现的点一定是后来覆盖上去的，
+扫的同时建有向图，
+dfs求出拓扑序
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-05 19:04" pubdate>
+              2019-05-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%8B%93%E6%89%91%E5%BA%8F/">拓扑序</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/05/csdn/dfs%20bfs%E6%8B%93%E6%89%91%E5%BA%8F%E5%88%97+%E5%88%A4%E6%96%AD/">dfs bfs拓扑序列+判断</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/05/csdn/dfs%20bfs%E6%8B%93%E6%89%91%E5%BA%8F%E5%88%97+%E5%88%A4%E6%96%AD/">
+          
+          
+            
+          
+          
+
+
+想要得到拓扑序的图一定是有向图.
+拓扑序列虽然不止1个,但都满足,每个点的前驱后继点的顺序，某点的后继点在拓扑序中不可能出现在该点的前面,
+
+基本思想：
+拓扑序列满足，入度为0的点进入序列，且该点的出边点的入度-1,
+如果该点出边的入度为0,则重复第1步 
+
+邻接表+bfs
+开一个数组记录所有点的入度,将入度为0的点加入到队列
+取出队头,加入到拓扑序.
+更新出边的点的入度,判断是否为0，为0
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-05 15:39" pubdate>
+              2019-05-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%8B%93%E6%89%91%E5%BA%8F%E5%88%97/">拓扑序列</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/04/csdn/%E6%8B%86%E5%88%86%E5%8D%95%E8%AF%8D%20dp/">拆分单词 dp</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/04/csdn/%E6%8B%86%E5%88%86%E5%8D%95%E8%AF%8D%20dp/">
+          
+          
+            
+          
+          
+
+timu题目：给定一个非空字符串 s 和一个包含非空单词列表的字典 ，判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。
+说明：拆分时可以重复使用字典中的单词。字典中没有重复的单词。样例：示例 1：
+
+输入: s = “leetcode”, wordDict = [“leet”, “code”]
+输出: true
+解释: 返回 true 因为 “leetcode” 可以被拆分成 “l
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-04 19:50" pubdate>
+              2019-05-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/03/csdn/dfs+%E6%A0%91%E4%B8%8E%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86(%E6%B7%B1%E5%BA%A6%EF%BC%8C%E9%87%8D%E5%BF%83)/">dfs+树与图的遍历(深度，重心)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/03/csdn/dfs+%E6%A0%91%E4%B8%8E%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86(%E6%B7%B1%E5%BA%A6%EF%BC%8C%E9%87%8D%E5%BF%83)/">
+          
+          
+            
+          
+          
+
+
+邻接表存图
+123456789101112131415161718192021222324252627#include &lt;iostream&gt;using namespace std;const int maxn = 1e6;int ver[maxn],next[maxn],head[maxn],edge[maxn];int tot = 0;// 存图void add(int u,i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-03 19:45" pubdate>
+              2019-05-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dfs/">dfs</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/03/csdn/%E5%B9%B6%E6%9F%A5%E9%9B%86%E6%A8%A1%E6%9D%BF/">并查集模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/03/csdn/%E5%B9%B6%E6%9F%A5%E9%9B%86%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+1.合并2个点时，可以判断2个点是否属于一个联通分量，如果不属于，那么加入该连通分量，2. 最后判断该图 有几个单独的联通分量，3. 或者将图压缩成 最小生成树时，判断每个点是否属于最小生成树中，不是就加入树中，
+
+用一个pre[i]表示点i在图中的顶点，初始化时每个点i（都是一个单独的联通分量）所以顶点就是，判断联通分量的数量也是判断pre[i] == i，
+合并两个u,v，一开始标记pre
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-03 10:32" pubdate>
+              2019-05-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/02/csdn/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E4%BE%8B%E9%A2%98(poj3090)/">欧拉函数例题(poj3090)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/02/csdn/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E4%BE%8B%E9%A2%98(poj3090)/">
+          
+          
+            
+          
+          
+
+欧拉函数例题  
+
+除了(1,0)(1,1)(0,1)三个点的，发现其余可视点gcd(x,y)=1
+发现关于(1,1)这条线所有点都是对称的，不妨取下半部分，x&lt;y,此时1&lt;=x&lt;y&lt;=n,这就转化到求与y互质数x的个数,
+y有多个选择,且y&gt;=2,最后答案从2~N累加起来
+
+求欧拉函数值，就是分解质因数的过程，1.试除法分解质因数累加和，但是只能求出 $\ups
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-02 10:21" pubdate>
+              2019-05-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">欧拉函数</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/05/01/csdn/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E5%8F%8A%E6%8E%A8%E5%AF%BC/">欧拉函数性质及推导</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/01/csdn/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8%E5%8F%8A%E6%8E%A8%E5%AF%BC/">
+          
+          
+            
+          
+          
+
+互质
+gcd(a,b) = 1 则a,b互质,  
+gcd(a,b,c) = 1  则两两互质gcd(a,b) = gcd(a,c) = gcd(b,c) = 1  欧拉函数定义:[1,N)中与N互质数的个数被称为欧拉函数,记作 $\upsilon(N)$由算数基本定理知：$N = p_1^{c_1} * p_2^{c_2}*p_3^{c_3}……p_i^{c_i}$     
+
+
+先推倒i=
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-01 20:57" pubdate>
+              2019-05-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">欧拉函数</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">O(n)时间求 最长回文子串 Manacher算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+回文字符串分为奇回文和偶回文，在字符串中间插入任意字符使得串变成奇回文串
+
+暴力思想：肯定是找一个点往两边任意扩展,遍历一次,Manacher时间为O(n)
+
+开一个数组p[]记录 以点i为中点 的最长回文串的半径,
+假设前i-1个点的p[]都已经求出来来，现在考虑p[i]如何推导
+
+重点：3. R是p[1]~p[i-1]中推出来的右端最远最长回文子串的右端点,且用pos记录下来，每一步更新
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-30 17:06" pubdate>
+              2019-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">回文子串</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/30/csdn/%E9%80%9B%E7%94%BB%E5%B1%95(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">逛画展(单调队列)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/30/csdn/%E9%80%9B%E7%94%BB%E5%B1%95(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">
+          
+          
+            
+          
+          
+
+
+这么简单的我都想不出来思路：
+
+开一个vis[]标记在区间[l,r]中已经出现的画的数量,当每个画vis[i]==1那么看到的画的数量++,左端如果画的数量&gt;1那么向左移动, 
+右端不断标记然后加入队列中，当 画的数量=画家的数量 记录区间端点值
+
+123456789101112131415161718192021222324252627282930313233#include &lt
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-30 11:29" pubdate>
+              2019-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/04/29/csdn/poj1961(kmp)/">poj1961(kmp)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/29/csdn/poj1961(kmp)/">
+          
+          
+            
+          
+          
+
+poj1961思路：
+
+满足 $i % (i-prefix[i]) == 0$ 且i != i-prefix[i] ,说明当前子串S[1~i]的长度是（最长公共前后缀）的前缀长度的倍数，那么 i/(i-prefix[i])就是循环节的个数
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-29 22:31" pubdate>
+              2019-04-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/kmp/">kmp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/25/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/27/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>第14章特权级(控制转换)和任务 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="第14章特权级(控制转换)和任务">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-12 10:09" pubdate>
+        2020年5月12日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      77
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">第14章特权级(控制转换)和任务</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h2 id="任务和特权级保护"><a href="#任务和特权级保护" class="headerlink" title="任务和特权级保护"></a>任务和特权级保护</h2><h3 id="任务的隔离和特权级保护"><a href="#任务的隔离和特权级保护" class="headerlink" title="任务的隔离和特权级保护"></a>任务的隔离和特权级保护</h3><p>程序:记录在载体上的指令和数据,正在执行的一个副本叫做<strong>任务(<code>task</code>)</strong></p>
+<blockquote>
+<ul>
+<li><p>为了有效在任务间实施隔离,每一个<strong>任务</strong>具有自己的<strong>描述符表</strong>，称为局部描述符表<code>LDT(local)</code>:存放自己的段</p>
+<p>那么:</p>
+</li>
+</ul>
+<ol>
+<li>类似<code>GDTR</code>，处理器中<code>LDTR</code>也是用来追踪LDT的</li>
+<li><code>LDT</code>的数量依据任务的多少/</li>
+</ol>
+<ul>
+<li>段选择子中的<code>TI(table indicator)</code> 0=GDT 1=LDT</li>
+</ul>
+</blockquote>
+<h4 id="任务状态段-TSS"><a href="#任务状态段-TSS" class="headerlink" title="任务状态段 TSS"></a>任务状态段 TSS</h4><p>多任务环境下,任务切换保护现场:通用寄存器，段寄存器，ESP，EIP，EFLAGS 等,<strong>每个任务都用额外的内存区域保护相关的信息，叫做 任务状态段(<code>Task State segment: TSS</code>)</strong>,</p>
+<p>处理器用<code>TR</code>寄存器指向当前任务的<code>TSS</code>,和<code>GDTR,LDTR</code>寄存器一样只有一个,但任务有多个,随着任务改变</p>
+<p>流程:处理器将当前任务现场信息保存到TR指向的TSS,再使TR指向新任务的TSS,<strong>并从新任务的TSS中恢复现场</strong></p>
+<p>每个任务包含2个部分:全局+私有,全局是所有任务共有的(包含OS的软件和例程)</p>
+<h4 id="特权级保护概述"><a href="#特权级保护概述" class="headerlink" title="特权级保护概述"></a>特权级保护概述</h4><p>处理器正在一个代码段中取指令和执行指令时,当前代码段的特权级叫做当前特权级(<code>Current Privilege Level:CPL</code>)</p>
+<p>只有在特权级CPL=0才能执行的指令称为<strong>特权指令</strong>,</p>
+<p>处理器的EFLAGS中,位13,12是IOPL位(输入输出特权级),代表当前任务的IO特权级别，TSS中有EFLAGS的副本</p>
+<p>处理器不限制0特权级别的程序的IO访问,但是可以限制特权级别<strong>低的</strong>程序IO访问权限,</p>
+<hr>
+<h4 id="代码段的特权级别检查"><a href="#代码段的特权级别检查" class="headerlink" title="代码段的特权级别检查"></a>代码段的特权级别检查</h4><p>控制转移<strong>只允许发生在2个特权级别相同的代码段之间,例如CPL=2时,只能转移到DPL=2的代码段接着执行，不能转移到DPL=0,1,3的代码段执行,</strong></p>
+<blockquote>
+<p>特权级别低的应用程序如何调用特权级别高的操作系统例程?</p>
+</blockquote>
+<ol>
+<li>依从</li>
+</ol>
+<ul>
+<li>代码段描述符的<code>Type</code>子段中的<code>C</code>位,<code>C=0</code>:代码段只能<strong>供同特权级别的程序使用</strong>,<code>C=1</code>:<strong>代码段可以从特权级比自己低的程序调用并且进入</strong></li>
+</ul>
+<p>调用条件:</p>
+<ul>
+<li><code>CPL &gt;= 目标代码段的DPL</code>:意思是当前执行的程序的特权级别只能比它低或者等于,<strong>不能将控制从高特权级别转移到低特权级别</strong></li>
+</ul>
+<p>并且:依从的代码段不是在自己的<code>DPL</code>特权级上运行,<strong>而是在原来的调用程序的特权级别上运行,意思是当前代码段调用了比自己特权级别高的代码段,并不改变当前特权级别CPL,（被调用过程的特权级别依从）</strong></p>
+<blockquote>
+<ul>
+<li>任何时候都不允许将<strong>控制</strong>从较高的特权级别转移到较低的特权级.下面的调用门是特例</li>
+</ul>
+</blockquote>
+<ol start="2">
+<li>调用门</li>
+</ol>
+<p>门:另一种形式的描述符,称为门描述符,简称门,门描述符描述可执行的代码,</p>
+<p>根据不同的用途分为：中断门/陷阱门:中断过程使用,任务门:执行任务切换.</p>
+<p>通过调用门进行控制转移:</p>
+<p><code>jmp far</code>:转移到比当前特权级别高的代码段,<strong>不改变当前特权级别</strong></p>
+<p><code>call far</code>:<strong>当前特权级别提升到目标代码段的特权级别</strong></p>
+<ul>
+<li>除了从高特权级别例程()返回外,不允许从特权级高的代码段转移到特权级低的代码段</li>
+</ul>
+<hr>
+<p>特权级保护机制只在保护模式下启用,进入保护模式后，处理器自动将当前特权级CPL设定为0,</p>
+<p>不管是实施<strong>控制转移</strong>和<strong>访问数据段</strong>，都是一个请求,RPL:指请求者的特权级别</p>
+<p>段选择子的RPL指请求者的特权级别（多数情况下请求者=自己,所以RPL=CPL）,RPL由编程人员决定然后给处理器看</p>
+<hr>
+<h4 id="特权检查总结"><a href="#特权检查总结" class="headerlink" title="特权检查总结"></a>特权检查总结</h4><ol>
+<li><p>直接转移到<strong>非依从</strong>的<strong>代码段</strong>,要求</p>
+<p>CPL = DPL</p>
+<p>RPL = DPL</p>
+</li>
+<li><p>直接转移到<strong>依从的代码段</strong></p>
+<p>CPL &gt;= DPL</p>
+<p>RPL &gt;= DPL</p>
+</li>
+</ol>
+<ul>
+<li>(门控制转移略) </li>
+</ul>
+<ol start="3">
+<li><p>高特权级别程序<strong>可以</strong>访问低特权级别的<strong>数据段</strong>，反之不行,访问数据段要修改(<code>DS ES FS GS</code>)寄存器</p>
+<p>CPL &lt;= DPL </p>
+<p>RPL &lt;= DPL </p>
+</li>
+<li><p>任何时候栈段特权级别必须等于CPL,对SS进行修改,必须</p>
+<p>CPL = DPL</p>
+<p>RPL = DPL </p>
+</li>
+</ol>
+<hr>
+<p>接13章的core程序,将用户程序的特权级定为3</p>
+<p>调用门(<code>Call Gate</code>)格式(可安装到GDT或者LDT中):</p>
+<table>
+<thead>
+<tr>
+<th>高32bit:</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>31</td>
+<td>16</td>
+<td>15</td>
+<td>14 - 13</td>
+<td>12</td>
+<td>11 -  8</td>
+<td>7 6 5</td>
+<td>4 - 0</td>
+</tr>
+<tr>
+<td>段内偏移量31-16</td>
+<td></td>
+<td>P</td>
+<td>DPL</td>
+<td>0</td>
+<td>TYPE</td>
+<td>0 0 0</td>
+<td>参数个数</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>低32bit:</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>16</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>15</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>例程所在代码段的段选择子</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>段内偏移量15-0</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>TYPE:标识门的类型,<code>1100</code>=调用门</p>
+<p>P位:有效位,1=有效，0=调用门时产生中断(故障中断,中断返回后处理器会重新执行)</p>
+<hr>
+<p>通过调用门实施特权级之间的控制转移时,注意<code>jmp far</code>和<code>call far</code>指令,CPL是否改变,</p>
+<p>因为栈的特权级别必须和当前特权级别一致,控制转移时栈也要切换,供对应的特权级使用,</p>
+<p>每个任务除了固定的栈外,需要定义几套栈,特权级1需要定义DPL=0的栈,特权级2可能需要定义0,1级别的栈,同理特权级3可能需要定义0，1，2级别的栈.</p>
+<p>这些任务的不同级别的栈都需要登记在<strong>当前任务的TSS中（意思是的使用的当前TSS的r0,1,2栈）</strong>,在控制转移后使用,<strong>并且栈切换由处理器固件自动完成的,在通过调用门使用高特权级别例程时,传递的参数可能用当前的栈(旧栈),处理器会根据调用门描述符中的参数个数来复制到新的栈中,切换后处理器自动替换SS和ESP的内容</strong></p>
+<hr>
+<p><img src="https://img-blog.csdnimg.cn/202005121005194.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>调用门规则:</p>
+<ol>
+<li><p>当前CPL和RPL权限大于等于调用门描述符DPL,(我现在权限比你调用门描述符权限大才行)</p>
+<blockquote>
+<p>数值上:</p>
+<p>CPL &lt;= 调用门描述符的DPL</p>
+<p>RPL &lt;= 调用门描述符的DPL</p>
+</blockquote>
+</li>
+<li><p>当前特权级CPL低于或者等于目标代码段描述符的DPL,</p>
+<blockquote>
+<p>数值上:</p>
+<p>CPL &gt;= DPL</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>总结: 调用门相当于下限,目标代码段描述符的DPL相当于上限</li>
+</ul>
+<hr>
+<ul>
+<li>调用门是给那个等级的例程当做桥梁的,那么就放在哪个描述符表中(dt)，给OS例程就放在GDT中</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/202005131502315.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>LDT的格式和GDT一样,而且某些位是固定的</p>
+<blockquote>
+<ol>
+<li>D/B位置,操作数大小 = 0,</li>
+<li>L位</li>
+<li>S固定=0,表示系统的段描述符or门描述符, 因为LDT属于系统的段描述符.</li>
+<li>TYPE固定=0010</li>
+</ol>
+</blockquote>
+<h2 id><a href="#" class="headerlink" title></a><img src="https://img-blog.csdnimg.cn/20200512100542527.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></h2><p>TSS描述符和LDT差不多:</p>
+<ul>
+<li>TYPE中的B(<code>BUSY</code>)位,B=0,表示刚刚创建不忙,B=1表示任务在执行或者处于挂起状态</li>
+</ul>
+<h2 id="-1"><a href="#-1" class="headerlink" title></a><img src="https://img-blog.csdnimg.cn/20200512100601565.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></h2><p><code>arpl</code>指令(<code>adjust RPL field of segment selector</code>):</p>
+<p>因为程序编写者可以将RPL写成高特权级,在通过调用门控制转移到高特权级别后,如果有<strong>某些数段选择子作为参数传过来使用,CPL&lt;=选择子对应描述符DPL,又因为RPL被认为改成高特权级,则RPL&lt;=DPL</strong>,那么可以使坏传入OS的数据段来修改</p>
+<p><code>arpl a,b</code>:</p>
+<ol>
+<li><code>RPL(a) &lt; RPL(b)</code>:则a的RPL增加到b的RPL,并且设置<code>ZF</code></li>
+<li>否则<code>ZF</code>清零</li>
+</ol>
+<hr>
+<ul>
+<li>加入了TSS TCB LDT,将用户程序放在r3执行,通过调用门进入历程(mbr,和用户程序和上一章一样)</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br><span class="line">793</span><br><span class="line">794</span><br><span class="line">795</span><br><span class="line">796</span><br><span class="line">797</span><br><span class="line">798</span><br><span class="line">799</span><br><span class="line">800</span><br><span class="line">801</span><br><span class="line">802</span><br><span class="line">803</span><br><span class="line">804</span><br><span class="line">805</span><br><span class="line">806</span><br><span class="line">807</span><br><span class="line">808</span><br><span class="line">809</span><br><span class="line">810</span><br><span class="line">811</span><br><span class="line">812</span><br><span class="line">813</span><br><span class="line">814</span><br><span class="line">815</span><br><span class="line">816</span><br><span class="line">817</span><br><span class="line">818</span><br><span class="line">819</span><br><span class="line">820</span><br><span class="line">821</span><br><span class="line">822</span><br><span class="line">823</span><br><span class="line">824</span><br><span class="line">825</span><br><span class="line">826</span><br><span class="line">827</span><br><span class="line">828</span><br><span class="line">829</span><br><span class="line">830</span><br><span class="line">831</span><br><span class="line">832</span><br><span class="line">833</span><br><span class="line">834</span><br><span class="line">835</span><br><span class="line">836</span><br><span class="line">837</span><br><span class="line">838</span><br><span class="line">839</span><br><span class="line">840</span><br><span class="line">841</span><br><span class="line">842</span><br><span class="line">843</span><br><span class="line">844</span><br><span class="line">845</span><br><span class="line">846</span><br><span class="line">847</span><br><span class="line">848</span><br></pre></td><td class="code"><pre><code class="hljs c">    core_code_seg_sel   equ <span class="hljs-number">0x38</span><br>    core_data_seg_sel   equ <span class="hljs-number">0x30</span><br>    sys_routine_seg_sel equ <span class="hljs-number">0x28</span><br>    video_ram_seg_sel   equ <span class="hljs-number">0x20</span> <br>    core_stack_seg_sel  equ <span class="hljs-number">0x18</span><br>    mem_0_4_gb_seg_sel  equ <span class="hljs-number">0x08</span><br><br>    core_length         dd core_end <br><br>    sys_routine_seg     dd section.sys_routine.start <br><br>    core_data_seg       dd section.core_data.start <br><br>    core_code_seg       dd section.core_code.start <br><br>    core_entry          dd start <br>                        dw core_code_seg_sel<br><br>    [bits <span class="hljs-number">32</span>]<br>SECTION sys_routine vstart=<span class="hljs-number">0</span><br>put_string:                                 ;显示<span class="hljs-number">0</span>终止的字符串并移动光标 <br>                                            ;输入：DS:EBX=串地址<br>         push ecx<br>  .getc:<br>         mov cl,[ebx]<br>         <span class="hljs-keyword">or</span> cl,cl<br>         jz .<span class="hljs-built_in">exit</span><br>         call put_char<br>         inc ebx<br>         jmp .getc<br><br>  .<span class="hljs-built_in">exit</span>:<br>         pop ecx<br>         retf                               ;段间返回<br><br>;-------------------------------------------------------------------------------<br>put_char:                                   ;在当前光标处显示一个字符,并推进<br>                                            ;光标。仅用于段内调用 <br>                                            ;输入：CL=字符ASCII码 <br>         pushad<br><br>         ;以下取当前光标位置<br>         mov dx,<span class="hljs-number">0x3d4</span><br>         mov al,<span class="hljs-number">0x0e</span><br>         out dx,al<br>         inc dx                             ;<span class="hljs-number">0x3d5</span><br>         in al,dx                           ;高字<br>         mov ah,al<br><br>         dec dx                             ;<span class="hljs-number">0x3d4</span><br>         mov al,<span class="hljs-number">0x0f</span><br>         out dx,al<br>         inc dx                             ;<span class="hljs-number">0x3d5</span><br>         in al,dx                           ;低字<br>         mov bx,ax                          ;BX=代表光标位置的<span class="hljs-number">16</span>位数<br><br>         cmp cl,<span class="hljs-number">0x0d</span>                        ;回车符？<br>         jnz .put_0a<br>         mov ax,bx<br>         mov bl,<span class="hljs-number">80</span><br>         div bl<br>         mul bl<br>         mov bx,ax<br>         jmp .set_cursor<br><br>  .put_0a:<br>         cmp cl,<span class="hljs-number">0x0a</span>                        ;换行符？<br>         jnz .put_other<br>         add bx,<span class="hljs-number">80</span><br>         jmp .roll_screen<br><br>  .put_other:                               ;正常显示字符<br>         push es<br>         mov eax,video_ram_seg_sel          ;<span class="hljs-number">0xb8000</span>段的选择子<br>         mov es,eax<br>         shl bx,<span class="hljs-number">1</span><br>         mov [es:bx],cl<br>         pop es<br><br>         ;以下将光标位置推进一个字符<br>         shr bx,<span class="hljs-number">1</span><br>         inc bx<br><br>  .roll_screen:<br>         cmp bx,<span class="hljs-number">2000</span>                        ;光标超出屏幕？滚屏<br>         jl .set_cursor<br><br>         push ds<br>         push es<br>         mov eax,video_ram_seg_sel<br>         mov ds,eax<br>         mov es,eax<br>         cld<br>         mov esi,<span class="hljs-number">0xa0</span>                       ;小心！<span class="hljs-number">32</span>位模式下movsb/w/d <br>         mov edi,<span class="hljs-number">0x00</span>                       ;使用的是esi/edi/ecx <br>         mov ecx,<span class="hljs-number">1920</span><br>         rep movsd<br>         mov bx,<span class="hljs-number">3840</span>                        ;清除屏幕最底一行<br>         mov ecx,<span class="hljs-number">80</span>                         ;<span class="hljs-number">32</span>位程序应该使用ECX<br>  .cls:<br>         mov word[es:bx],<span class="hljs-number">0x0720</span><br>         add bx,<span class="hljs-number">2</span><br>         loop .cls<br><br>         pop es<br>         pop ds<br><br>         mov bx,<span class="hljs-number">1920</span><br><br>  .set_cursor:<br>         mov dx,<span class="hljs-number">0x3d4</span><br>         mov al,<span class="hljs-number">0x0e</span><br>         out dx,al<br>         inc dx                             ;<span class="hljs-number">0x3d5</span><br>         mov al,bh<br>         out dx,al<br>         dec dx                             ;<span class="hljs-number">0x3d4</span><br>         mov al,<span class="hljs-number">0x0f</span><br>         out dx,al<br>         inc dx                             ;<span class="hljs-number">0x3d5</span><br>         mov al,bl<br>         out dx,al<br><br>         popad<br>         <br>         ret                                <br><br>;-------------------------------------------------------------------------------<br>read_hard_disk_0:                           ;从硬盘读取一个逻辑扇区<br>                                            ;EAX=逻辑扇区号<br>                                            ;DS:EBX=目标缓冲区地址<br>                                            ;返回：EBX=EBX+<span class="hljs-number">512</span><br>         push eax <br>         push ecx<br>         push edx<br>      <br>         push eax<br>         <br>         mov dx,<span class="hljs-number">0x1f2</span><br>         mov al,<span class="hljs-number">1</span><br>         out dx,al                          ;读取的扇区数<br><br>         inc dx                             ;<span class="hljs-number">0x1f3</span><br>         pop eax<br>         out dx,al                          ;LBA地址<span class="hljs-number">7</span>~<span class="hljs-number">0</span><br><br>         inc dx                             ;<span class="hljs-number">0x1f4</span><br>         mov cl,<span class="hljs-number">8</span><br>         shr eax,cl<br>         out dx,al                          ;LBA地址<span class="hljs-number">15</span>~<span class="hljs-number">8</span><br><br>         inc dx                             ;<span class="hljs-number">0x1f5</span><br>         shr eax,cl<br>         out dx,al                          ;LBA地址<span class="hljs-number">23</span>~<span class="hljs-number">16</span><br><br>         inc dx                             ;<span class="hljs-number">0x1f6</span><br>         shr eax,cl<br>         <span class="hljs-keyword">or</span> al,<span class="hljs-number">0xe0</span>                         ;第一硬盘  LBA地址<span class="hljs-number">27</span>~<span class="hljs-number">24</span><br>         out dx,al<br><br>         inc dx                             ;<span class="hljs-number">0x1f7</span><br>         mov al,<span class="hljs-number">0x20</span>                        ;读命令<br>         out dx,al<br><br>  .waits:<br>         in al,dx<br>         <span class="hljs-keyword">and</span> al,<span class="hljs-number">0x88</span><br>         cmp al,<span class="hljs-number">0x08</span><br>         jnz .waits                         ;不忙，且硬盘已准备好数据传输 <br><br>         mov ecx,<span class="hljs-number">256</span>                        ;总共要读取的字数<br>         mov dx,<span class="hljs-number">0x1f0</span><br>  .readw:<br>         in ax,dx<br>         mov [ebx],ax<br>         add ebx,<span class="hljs-number">2</span><br>         loop .readw<br><br>         pop edx<br>         pop ecx<br>         pop eax<br>      <br>         retf                               ;段间返回 <br><br>;-------------------------------------------------------------------------------<br>;汇编语言程序是极难一次成功，而且调试非常困难。这个例程可以提供帮助 <br>put_hex_dword:                              ;在当前光标处以十六进制形式显示<br>                                            ;一个双字并推进光标 <br>                                            ;输入：EDX=要转换并显示的数字<br>                                            ;输出：无<br>         pushad<br>         push ds<br>      <br>         mov ax,core_data_seg_sel           ;切换到核心数据段 <br>         mov ds,ax<br>      <br>         mov ebx,bin_hex                    ;指向核心数据段内的转换表<br>         mov ecx,<span class="hljs-number">8</span><br>  .xlt:    <br>         rol edx,<span class="hljs-number">4</span><br>         mov eax,edx<br>         <span class="hljs-keyword">and</span> eax,<span class="hljs-number">0x0000000f</span><br>         xlat<br>      <br>         push ecx<br>         mov cl,al                           <br>         call put_char<br>         pop ecx<br>       <br>         loop .xlt<br>      <br>         pop ds<br>         popad<br>         retf<br>      <br>;-------------------------------------------------------------------------------<br>allocate_memory:                            ;分配内存<br>                                            ;输入：ECX=希望分配的字节数<br>                                            ;输出：ECX=起始线性地址 <br>         push ds<br>         push eax<br>         push ebx<br>      <br>         mov eax,core_data_seg_sel<br>         mov ds,eax<br>      <br>         mov eax,[ram_alloc]<br>         add eax,ecx                        ;下一次分配时的起始地址<br>      <br>         ;这里应当有检测可用内存数量的指令<br>          <br>         mov ecx,[ram_alloc]                ;返回分配的起始地址<br><br>         mov ebx,eax<br>         <span class="hljs-keyword">and</span> ebx,<span class="hljs-number">0xfffffffc</span><br>         add ebx,<span class="hljs-number">4</span>                          ;强制对齐 <br>         test eax,<span class="hljs-number">0x00000003</span>                ;下次分配的起始地址最好是<span class="hljs-number">4</span>字节对齐<br>         cmovnz eax,ebx                     ;如果没有对齐，则强制对齐 <br>         mov [ram_alloc],eax                ;下次从该地址分配内存<br>                                            ;cmovcc指令可以避免控制转移 <br>         pop ebx<br>         pop eax<br>         pop ds<br><br>         retf<br><br>;-------------------------------------------------------------------------------<br>set_up_gdt_descriptor:                      ;在GDT内安装一个新的描述符<br>                                            ;输入：EDX:EAX=描述符 <br>                                            ;输出：CX=描述符的选择子<br>         push eax<br>         push ebx<br>         push edx<br><br>         push ds<br>         push es<br><br>         mov ebx,core_data_seg_sel          ;切换到核心数据段<br>         mov ds,ebx<br><br>         sgdt [pgdt]                        ;以便开始处理GDT<br><br>         mov ebx,mem_0_4_gb_seg_sel<br>         mov es,ebx<br><br>         movzx ebx,word [pgdt]              ;GDT界限<br>         inc bx                             ;GDT总字节数，也是下一个描述符偏移<br>         add ebx,[pgdt+<span class="hljs-number">2</span>]                   ;下一个描述符的线性地址<br><br>         mov [es:ebx],eax<br>         mov [es:ebx+<span class="hljs-number">4</span>],edx<br><br>         add word [pgdt],<span class="hljs-number">8</span>                  ;增加一个描述符的大小<br><br>         lgdt [pgdt]                        ;对GDT的更改生效<br><br>         mov ax,[pgdt]                      ;得到GDT界限值<br>         <span class="hljs-keyword">xor</span> dx,dx<br>         mov bx,<span class="hljs-number">8</span><br>         div bx                             ;除以<span class="hljs-number">8</span>，去掉余数<br>         mov cx,ax<br>         shl cx,<span class="hljs-number">3</span>                           ;将索引号移到正确位置<br><br>         pop es<br>         pop ds<br><br>         pop edx<br>         pop ebx<br>         pop eax<br><br>         retf<br>;-------------------------------------------------------------------------------<br>make_seg_descriptor:                        ;构造存储器和系统的段描述符<br>                                            ;输入：EAX=线性基地址<br>                                            ;      EBX=段界限<br>                                            ;      ECX=属性。各属性位都在原始<br>                                            ;          位置，无关的位清零 <br>                                            ;返回：EDX:EAX=描述符<br>         mov edx,eax<br>         shl eax,<span class="hljs-number">16</span><br>         <span class="hljs-keyword">or</span> ax,bx                           ;描述符前<span class="hljs-number">32</span>位(EAX)构造完毕<br><br>         <span class="hljs-keyword">and</span> edx,<span class="hljs-number">0xffff0000</span>                 ;清除基地址中无关的位<br>         rol edx,<span class="hljs-number">8</span><br>         bswap edx                          ;装配基址的<span class="hljs-number">31</span>~<span class="hljs-number">24</span>和<span class="hljs-number">23</span>~<span class="hljs-number">16</span>  (<span class="hljs-number">80486</span>+)<br><br>         <span class="hljs-keyword">xor</span> bx,bx<br>         <span class="hljs-keyword">or</span> edx,ebx                         ;装配段界限的高<span class="hljs-number">4</span>位<br><br>         <span class="hljs-keyword">or</span> edx,ecx                         ;装配属性<br><br>         retf<br><br>;-------------------------------------------------------------------------------<br>make_gate_descriptor:                       ;构造门的描述符（调用门等）<br>                                            ;输入：EAX=门代码在段内偏移地址<br>                                            ;       BX=门代码所在段的选择子 <br>                                            ;       CX=段类型及属性等（各属<br>                                            ;          性位都在原始位置）<br>                                            ;返回：EDX:EAX=完整的描述符<br>         push ebx<br>         push ecx<br>      <br>         mov edx,eax<br>         <span class="hljs-keyword">and</span> edx,<span class="hljs-number">0xffff0000</span>                 ;得到偏移地址高<span class="hljs-number">16</span>位 <br>         <span class="hljs-keyword">or</span> dx,cx                           ;组装属性部分到EDX<br>       <br>         <span class="hljs-keyword">and</span> eax,<span class="hljs-number">0x0000ffff</span>                 ;得到偏移地址低<span class="hljs-number">16</span>位 <br>         shl ebx,<span class="hljs-number">16</span>                          <br>         <span class="hljs-keyword">or</span> eax,ebx                         ;组装段选择子部分<br>      <br>         pop ecx<br>         pop ebx<br>      <br>         retf                                   <br>                       <br>sys_routine_end:<br><br>SECTION core_data vstart=<span class="hljs-number">0</span><br>         pgdt             dw  <span class="hljs-number">0</span>             ;用于设置和修改GDT <br>                          dd  <span class="hljs-number">0</span><br><br>         ram_alloc        dd  <span class="hljs-number">0x00100000</span>    ;下次分配内存时的起始地址<br><br>         ;符号地址检索表<br>         salt:<br>         salt_1           db  &#x27;@PrintString&#x27;<br>                     times <span class="hljs-number">256</span>-($-salt_1) db <span class="hljs-number">0</span><br>                          dd  put_string<br>                          dw  sys_routine_seg_sel<br><br>         salt_2           db  &#x27;@ReadDiskData&#x27;<br>                     times <span class="hljs-number">256</span>-($-salt_2) db <span class="hljs-number">0</span><br>                          dd  read_hard_disk_0<br>                          dw  sys_routine_seg_sel<br><br>         salt_3           db  &#x27;@PrintDwordAsHexString&#x27;<br>                     times <span class="hljs-number">256</span>-($-salt_3) db <span class="hljs-number">0</span><br>                          dd  put_hex_dword<br>                          dw  sys_routine_seg_sel<br><br>         salt_4           db  &#x27;@TerminateProgram&#x27;<br>                     times <span class="hljs-number">256</span>-($-salt_4) db <span class="hljs-number">0</span><br>                          dd  return_point<br>                          dw  core_code_seg_sel<br><br>         salt_item_len   equ $-salt_4<br>         salt_items      equ ($-salt)/salt_item_len<br><br>         message_1        db  &#x27;  If you seen this message,that means we &#x27;<br>                          db  &#x27;are now in protect mode,and the system &#x27;<br>                          db  &#x27;core is loaded,and the video display &#x27;<br>                          db  &#x27;routine works perfectly.&#x27;,0x0d,0x0a,0<br><br>         message_2        db  &#x27;  System wide CALL-GATE mounted.&#x27;,0x0d,0x0a,0<br>         <br>         message_3        db  0x0d,0x0a,&#x27;  Loading user program...&#x27;,0<br>         <br>         do_status        db  &#x27;Done.&#x27;,0x0d,0x0a,0<br>         <br>         message_6        db  <span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span><br>                          db  &#x27;  User program terminated,control returned.&#x27;,0<br><br>         bin_hex          db &#x27;0123456789ABCDEF&#x27;<br>                                            ;put_hex_dword子过程用的查找表 <br><br>         core_buf   times <span class="hljs-number">2048</span> db <span class="hljs-number">0</span>         ;内核用的缓冲区<br><br>         esp_pointer      dd <span class="hljs-number">0</span>              ;内核用来临时保存自己的栈指针     <br><br>         cpu_brnd0        db 0x0d,0x0a,&#x27;  &#x27;,0<br>         cpu_brand  times <span class="hljs-number">52</span> db <span class="hljs-number">0</span><br>         cpu_brnd1        db <span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0x0d</span>,<span class="hljs-number">0x0a</span>,<span class="hljs-number">0</span><br><br>         ;任务控制块链<br>         tcb_chain        dd  <span class="hljs-number">0</span><br><br>core_data_end:<br><br>SECTION core_code vstart=<span class="hljs-number">0</span> <br>fill_descriptor_in_ldt:<br><br>    push eax <br>    push edx <br>    push edi <br>    push ds <br><br>    mov ecx,mem_0_4_gb_seg_sel              ;全局段<br>    mov ds,ecx <br><br>    mov edi,[ebx+<span class="hljs-number">0x0c</span>]                      ;获得LDT基地址<br><br>    <span class="hljs-keyword">xor</span> ecx,ecx <br>    mov cx,[ebx+<span class="hljs-number">0x0a</span>]                       ;LDT界限<br>    inc cx                                  ;长度<br><br>    mov [edi+ecx+<span class="hljs-number">0x00</span>],eax <br>    mov [edi+ecx+<span class="hljs-number">0x04</span>],edx                  ;在LDT末尾安装描述符<br><br>    add cx,<span class="hljs-number">8</span><br>    dec cx              ;新界限<br><br>    mov [ebx+<span class="hljs-number">0x0a</span>],cx                       ;更新新界限<br><br>    mov ax,cx <br>    <span class="hljs-keyword">xor</span> dx,dx <br>    mov cx,<span class="hljs-number">8</span><br>    div cx <br><br>    mov cx,ax           ;ax=第几个<br>    shl cx,<span class="hljs-number">3</span><br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0100B              ;T1=<span class="hljs-number">1</span> RPL=<span class="hljs-number">0</span> (默认,程序返回后自己修改)<br><br>    pop ds<br>    pop edi <br>    pop edx <br>    pop eax <br><br>    ret <br><br>load_relocate_program:<br>    pushad <br><br>    push ds <br>    push es <br><br>    mov ebp,esp <br><br>    mov ecx,mem_0_4_gb_seg_sel<br>    mov es,ecx <br>;ESI=TCB的基地址<br>    mov esi,[ebp+<span class="hljs-number">11</span>*<span class="hljs-number">4</span>]<br><br>;分配LDT空间<br>    mov ecx,<span class="hljs-number">160</span><br>    call sys_routine_seg_sel:allocate_memory<br>    mov [es:esi+<span class="hljs-number">0x0c</span>],ecx               ;登记LDT基地址在TCB中<br>    mov word [es:esi+<span class="hljs-number">0x0a</span>],<span class="hljs-number">0xffff</span>       ;登记LDT界限到TCB中<br><br>;ds=内核数据段<br>    mov eax,core_data_seg_sel<br>    mov ds,eax <br><br>    mov eax,[ebp+<span class="hljs-number">12</span>*<span class="hljs-number">4</span>]                  ;从栈中得到程序逻辑扇区号<br>    mov ebx,core_buf                    ;读入内核数据中的buffer<br>    call sys_routine_seg_sel:read_hard_disk_0<br><br>;<br>    mov eax,[core_buf]              ;程序大小<br>    mov ebx,eax <br>    <span class="hljs-keyword">and</span> ebx,<span class="hljs-number">0xfffffe00</span><br>    add ebx,<span class="hljs-number">512</span><br>    test eax,<span class="hljs-number">0x000001ff</span><br>    cmovnz eax,ebx <br><br>    mov ecx,eax <br>    call sys_routine_seg_sel:allocate_memory<br>    mov [es:esi+<span class="hljs-number">0x06</span>],ecx           ;登记程序起始地址到TCB<br><br>    mov ebx,ecx                     ;ebx=程序起始地址<br>    <span class="hljs-keyword">xor</span> edx,edx <br>    mov ecx,<span class="hljs-number">512</span><br>    div ecx <br>    mov ecx,eax                     ;总扇区数量<br><br>    mov eax,mem_0_4_gb_seg_sel<br>    mov ds,eax                      ;ds指向全局段描述符<br><br>    mov eax,[ebp+<span class="hljs-number">12</span>*<span class="hljs-number">4</span>]              ;eax=程序起始扇区号<br><br>.b1:<br>    call sys_routine_seg_sel:read_hard_disk_0<br>    inc eax <br>    loop .b1<br><br>    mov edi,[es:esi+<span class="hljs-number">0x06</span>]           ;从TCB中取到程序要加载到的地址<br><br>;建立程序head描述符(信息)<br>    mov eax,edi                     ;<br>    mov ebx,[edi+<span class="hljs-number">0x04</span>]              ;段长度<br>    dec ebx                         ;段界限<br>    mov ecx,<span class="hljs-number">0x0040f200</span>              ;DPL=<span class="hljs-number">3</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br><br>;安装程序head描述符到LDT中<br>    mov ebx,esi                     ;esi=TCB基础地址<br>    call fill_descriptor_in_ldt<br><br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0011B      ;修改RPL=<span class="hljs-number">3</span><br>    mov [es:esi+<span class="hljs-number">0x44</span>],cx            ;登记head选择子到TCB中<br>    mov [edi+<span class="hljs-number">0x04</span>],cx               ;写回程序头部<br><br>;建立程序code段描述符在LDT中<br>    mov eax,edi <br>    add eax,[edi+<span class="hljs-number">0x14</span>]              ;eax=程序起始地址+代码段偏移地址<br>    mov ebx,[edi+<span class="hljs-number">0x18</span>]              ;段长度<br>    dec ebx                         ;界限<br>    mov ecx,<span class="hljs-number">0x0040f800</span>              ;RPL=<span class="hljs-number">3</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    mov ebx,esi                     ;TCB基础地址<br>    call fill_descriptor_in_ldt<br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0011B      ;RPL=<span class="hljs-number">3</span><br>    mov [edi+<span class="hljs-number">0x14</span>],cx               ;写回到程序head<br><br>;建立程序数据段描述符<br>    mov eax,edi                     ;程序加载地址<br>    add eax,[edi+<span class="hljs-number">0x1c</span>]              ;程序起始地址+数据偏移地址<br>    mov ebx,[edi+<span class="hljs-number">0x20</span>]              ;段长度<br>    dec ebx                         ;<br>    mov ecx,<span class="hljs-number">0x0040f200</span>              ;RPL=<span class="hljs-number">3</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    mov ebx,esi <br>    call fill_descriptor_in_ldt<br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0011B      ;RPL=<span class="hljs-number">3</span><br>    mov [edi+<span class="hljs-number">0x1c</span>],cx <br><br>;建立程序栈描述符<br>    mov ecx,[edi+<span class="hljs-number">0x0c</span>]<br>    mov ebx,<span class="hljs-number">0x000fffff</span><br>    sub ebx,ecx <br>    mov eax,<span class="hljs-number">4096</span><br>    mul ecx <br>    mov ecx,eax                     ;eax=实际byte数量<br>    call sys_routine_seg_sel:allocate_memory<br>    add eax,ecx                     ;栈的高地址<br>    mov ecx,<span class="hljs-number">0x00c0f600</span>              ;RPL=<span class="hljs-number">3</span> <br>    call sys_routine_seg_sel:make_seg_descriptor<br>    mov ebx,esi                     ;TCB基地址<br>    call fill_descriptor_in_ldt<br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0011B      ;RPL=<span class="hljs-number">3</span><br>    mov [edi+<span class="hljs-number">0x08</span>],cx               ;写回到程序head<br><br>;重定位程序的salt<br>    mov eax,mem_0_4_gb_seg_sel<br>    mov es,eax <br><br>    mov eax,core_data_seg_sel<br>    mov ds,eax <br><br>    cld <br><br>    mov ecx,[es:edi+<span class="hljs-number">0x24</span>]           ;从程序head得用户salt条数<br>    add edi,<span class="hljs-number">0x28</span>                    ;edi = 从u-salt开始<br><br>.b2:<br>    push ecx <br>    push edi <br><br>    mov ecx,salt_items<br>    mov esi,salt <br><br>.b3:<br>    push edi <br>    push esi <br>    push ecx <br><br>    mov ecx,<span class="hljs-number">64</span><br>    repe cmpsd <br>    jnz .b4 <br>    mov eax,[esi]                   ;偏移地址(有了门描述符用不到了)<br>    mov [es:edi<span class="hljs-number">-256</span>],eax            ;写到用户salt中<br>    mov ax,[esi+<span class="hljs-number">4</span>]                  ;内核例程的门描述符<br>    <span class="hljs-keyword">or</span> ax,<span class="hljs-number">0000000000000011B</span>         ;RPL=<span class="hljs-number">3</span> 门代表下限<br>    mov [es:edi<span class="hljs-number">-252</span>],ax             ;写到用户salt中<br><br>.b4:<br>    pop ecx <br>    pop esi <br>    add esi,salt_item_len<br>    pop edi <br>    loop .b3 <br><br>    pop edi <br>    add edi,<span class="hljs-number">256</span><br>    pop ecx <br>    loop .b2 <br><br>    mov esi,[ebp+<span class="hljs-number">11</span>*<span class="hljs-number">4</span>]             ;TCB地址<br><br>;创建<span class="hljs-number">0</span>特权级栈<br>    mov ecx,<span class="hljs-number">4096</span><br>    mov eax,ecx <br>    mov [es:esi+<span class="hljs-number">0x1a</span>],ecx           ;登记<span class="hljs-number">0</span>栈大小到TCB<br>    shr dword [es:esi+<span class="hljs-number">0x1a</span>],<span class="hljs-number">12</span>      ;<span class="hljs-number">4</span>KB为单位<br>    call sys_routine_seg_sel:allocate_memory<br>    add eax,ecx                     ;栈的高地址<br>    mov [es:esi+<span class="hljs-number">0x1e</span>],eax           ;<span class="hljs-number">0</span>级栈地址登记到TCB<br>    mov ebx,<span class="hljs-number">0xffffe</span>                 ;段长度<br>    mov ecx,<span class="hljs-number">0x00c09600</span>              ;<span class="hljs-number">4</span>KB,读写,<span class="hljs-number">0</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    mov ebx,esi <br>    call fill_descriptor_in_ldt<br>    ;<span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_                    ;当前本来就是<span class="hljs-number">0</span>特权级<br>    mov [es:esi+<span class="hljs-number">0x22</span>],cx            ;登记栈选择子到TCB<br>    mov dword [es:esi+<span class="hljs-number">0x24</span>],<span class="hljs-number">0</span>       ;登记ESP<br><br>;<span class="hljs-number">1</span><br>    mov ecx,<span class="hljs-number">4096</span><br>    mov eax,ecx <br>    mov [es:esi+<span class="hljs-number">0x28</span>],ecx <br>    shr word [es:esi+<span class="hljs-number">0x28</span>],<span class="hljs-number">12</span><br>    call sys_routine_seg_sel:allocate_memory<br>    add eax,ecx <br>    mov [es:esi+<span class="hljs-number">0x2c</span>],eax <br>    mov ebx,<span class="hljs-number">0xffffe</span><br>    mov ecx,<span class="hljs-number">0x00c0b600</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    mov ebx,esi <br>    call fill_descriptor_in_ldt<br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0001 <br>    mov [es:esi+<span class="hljs-number">0x30</span>],cx <br>    mov dword [es:esi+<span class="hljs-number">0x32</span>],<span class="hljs-number">0</span><br><br>;<span class="hljs-number">2</span><br>    mov ecx,<span class="hljs-number">4096</span><br>    mov eax,ecx <br>    mov [es:esi+<span class="hljs-number">0x36</span>],ecx <br>    shr word [es:esi+<span class="hljs-number">0x36</span>],<span class="hljs-number">12</span> <br>    call sys_routine_seg_sel:allocate_memory<br>    add eax,ecx <br>    mov [es:esi+<span class="hljs-number">0x3a</span>],ecx <br>    mov ebx,<span class="hljs-number">0xffffe</span><br>    mov ecx,<span class="hljs-number">0x00c0d600</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    <span class="hljs-keyword">or</span> cx,<span class="hljs-number">0000</span>_0000_0000_0010<br>    mov [es:esi+<span class="hljs-number">0x3e</span>],cx <br>    mov dword [es:esi+<span class="hljs-number">0x40</span>],<span class="hljs-number">0</span><br><br>;在GDT中登记LDT<br>    mov eax,[es:esi+<span class="hljs-number">0x0c</span>]               ;LDT起始地址<br>    movzx ebx,word [es:esi+<span class="hljs-number">0x0a</span>]        ;LDT段界限<br>    mov ecx,<span class="hljs-number">0x00408200</span>                  ;LDT描述符 RPL=<span class="hljs-number">0</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    call sys_routine_seg_sel:set_up_gdt_descriptor<br>    mov [es:esi+<span class="hljs-number">0x10</span>],cx                ;登记LDT选择子到TCB中<br><br>;创建用户程序TSS<br>    mov ecx,<span class="hljs-number">104</span>                         ;最小大小<br>    mov [es:esi+<span class="hljs-number">0x12</span>],cx                ;<br>    dec word [es:esi+<span class="hljs-number">0x12</span>]              ;登记TCB中TSS界限<br>    call sys_routine_seg_sel:allocate_memory<br>    mov [es:esi+<span class="hljs-number">0x14</span>],ecx               ;登记TSS起始地址到TCB<br><br>;登记TSS的基本内容<br>    mov word [es:ecx+<span class="hljs-number">0</span>],<span class="hljs-number">0</span>               ;上一个任务TSS=<span class="hljs-number">0</span><br><br>    mov edx,[es:esi+<span class="hljs-number">0x24</span>]               ;<span class="hljs-number">0</span> esp<br>    mov [es:ecx+<span class="hljs-number">4</span>],edx <br><br>    mov dx,[es:esi+<span class="hljs-number">0x22</span>]                ;<span class="hljs-number">0</span> 段选择子<br>    mov [es:ecx+<span class="hljs-number">8</span>],dx                     <br><br>    mov edx,[es:esi+<span class="hljs-number">0x32</span>]               ;<span class="hljs-number">1</span> esp <br>    mov [es:ecx+<span class="hljs-number">12</span>],edx <br><br>    mov dx,[es:esi+<span class="hljs-number">0x30</span>]                ;<span class="hljs-number">1</span> 段选择子<br>    mov [es:ecx+<span class="hljs-number">16</span>],dx <br><br>    mov edx,[es:esi+<span class="hljs-number">0x40</span>]               ;<span class="hljs-number">2</span> esp <br>    mov [es:ecx+<span class="hljs-number">20</span>],edx <br><br>    mov dx,[es:esi+<span class="hljs-number">0x3e</span>]                ;<span class="hljs-number">2</span> 段选择子<br>    mov [es:ecx+<span class="hljs-number">24</span>],dx <br><br>    mov dx,[es:esi+<span class="hljs-number">0x10</span>]                ;登记任务的LDT选择子到TSS<br>    mov [es:ecx+<span class="hljs-number">96</span>],dx <br><br>    mov dx,[es:esi+<span class="hljs-number">0x12</span>]                ;登记任务的IO bit <span class="hljs-built_in">string</span><br>    mov [es:ecx+<span class="hljs-number">102</span>],dx                 ;TSS界限值<br><br>    mov word [es:ecx+<span class="hljs-number">100</span>],<span class="hljs-number">0</span>             ;T = <span class="hljs-number">0</span>(任务切换不产生中断)<br><br>;在GDT中登记TSS描述符<br>    mov eax,[es:esi+<span class="hljs-number">0x14</span>]               ;TSS起始地址<br>    movzx ebx,word [es:esi+<span class="hljs-number">0x12</span>]        ;段长度<br>    mov ecx,<span class="hljs-number">0x00408900</span><br>    call sys_routine_seg_sel:make_seg_descriptor<br>    call sys_routine_seg_sel:set_up_gdt_descriptor  ;在GDT中安装TSS描述符<br>    mov [es:esi+<span class="hljs-number">0x18</span>],cx                ;在TCB中登记TSS选择子<br><br>    pop es <br>    pop ds <br>    <br>    popad <br><br>    ret <span class="hljs-number">8</span>                               ;esp+<span class="hljs-number">8</span> 丢弃参数<br><br>;输入:ECX=当前线性地址<br>append_to_tcb_link:<br>    push eax <br>    push edx <br>    push ds <br>    push es <br><br>    mov eax,core_data_seg_sel<br>    mov ds,eax <br><br>    mov eax,mem_0_4_gb_seg_sel<br>    mov es,eax <br><br>    mov dword [es:ecx+<span class="hljs-number">0x00</span>],<span class="hljs-number">0</span><br><br>    mov eax,[tcb_chain]             ;TCB表头指针<br>    <span class="hljs-keyword">or</span> eax,eax <br>    jz .notcb <br><br>.searc:<br>    mov edx,eax <br>    mov eax,[es:edx+<span class="hljs-number">0x00</span>]<br>    <span class="hljs-keyword">or</span> eax,eax <br>    jnz .searc<br><br>    mov [es:edx+<span class="hljs-number">0x00</span>],ecx <br>    jmp .retpc <br><br>.notcb:<br>    mov [tcb_chain],ecx <br><br>.retpc:<br>    pop es <br>    pop ds <br>    pop edx <br>    pop eax <br><br>    ret <br><br>start:<br>    mov ecx,core_data_seg_sel<br>    mov ds,ecx <br><br>    mov ebx,message_1<br>    call sys_routine_seg_sel:put_string<br><br>;显示处理器品牌信息<br>        mov eax,<span class="hljs-number">0x80000002</span><br>         cpuid<br>         mov [cpu_brand + <span class="hljs-number">0x00</span>],eax<br>         mov [cpu_brand + <span class="hljs-number">0x04</span>],ebx<br>         mov [cpu_brand + <span class="hljs-number">0x08</span>],ecx<br>         mov [cpu_brand + <span class="hljs-number">0x0c</span>],edx<br>      <br>         mov eax,<span class="hljs-number">0x80000003</span><br>         cpuid<br>         mov [cpu_brand + <span class="hljs-number">0x10</span>],eax<br>         mov [cpu_brand + <span class="hljs-number">0x14</span>],ebx<br>         mov [cpu_brand + <span class="hljs-number">0x18</span>],ecx<br>         mov [cpu_brand + <span class="hljs-number">0x1c</span>],edx<br><br>         mov eax,<span class="hljs-number">0x80000004</span><br>         cpuid<br>         mov [cpu_brand + <span class="hljs-number">0x20</span>],eax<br>         mov [cpu_brand + <span class="hljs-number">0x24</span>],ebx<br>         mov [cpu_brand + <span class="hljs-number">0x28</span>],ecx<br>         mov [cpu_brand + <span class="hljs-number">0x2c</span>],edx<br><br>         mov ebx,cpu_brnd0                  ;显示处理器品牌信息 <br>         call sys_routine_seg_sel:put_string<br>         mov ebx,cpu_brand<br>         call sys_routine_seg_sel:put_string<br>         mov ebx,cpu_brnd1<br>         call sys_routine_seg_sel:put_string<br>;安装调用门<br>    mov edi,salt                    ;salt表起始位置<br>    mov ecx,salt_items              ;salt表条目数量\<br>;将core_data中的salt的段选择子+偏移地址换成门描述符,登记在GDT中<br>.b3:<br>    push ecx <br>    mov eax,[edi+<span class="hljs-number">256</span>]<br>    mov bx,[edi+<span class="hljs-number">260</span>]<br>    mov cx,<span class="hljs-number">1</span>_11_0_1100_000_00000B<br><br>    call sys_routine_seg_sel:make_gate_descriptor<br>    call sys_routine_seg_sel:set_up_gdt_descriptor<br>    mov [edi+<span class="hljs-number">260</span>],cx <br>    add edi,salt_item_len<br>    pop ecx <br>    loop .b3 <br><br>    mov ebx,message_2 <br>    call far [salt_1+<span class="hljs-number">256</span>]<br><br>    mov ebx,message_3<br>    call sys_routine_seg_sel:put_string<br>;创建TCB(Task control block) 我理解为OS层面上的东西(非处理器和存储器)<br>    mov ecx,<span class="hljs-number">0x46</span> <br>    call sys_routine_seg_sel:allocate_memory<br>    call append_to_tcb_link             ;加入到TCB链<br><br>    push dword <span class="hljs-number">50</span>                   ;程序位于<span class="hljs-number">50</span>扇区 <br>    push ecx                        ;TCB起始地址<br><br>    call load_relocate_program      ;加载和重定位用户程序<br><br>    mov ebx,do_status<br>    call sys_routine_seg_sel:put_string<br><br>    mov eax,mem_0_4_gb_seg_sel<br>    mov ds,eax <br><br>    ltr [ecx+<span class="hljs-number">0x18</span>]                  ;加载TSS <span class="hljs-keyword">register</span> <span class="hljs-number">16</span> bit 选择子<br>    lldt [ecx+<span class="hljs-number">0x10</span>]                 ;加载LDT<br><br>    mov eax,[ecx+<span class="hljs-number">0x44</span>]<br>    mov ds,eax                      ;切换到用户head <br><br>;假装从调用门返回,r0 -&gt; r3<br>    push dword [<span class="hljs-number">0x08</span>]               ;ss <br>    push dword <span class="hljs-number">0</span> <br><br>    push dword [<span class="hljs-number">0x14</span>]               ;cs <br>    push dword [<span class="hljs-number">0x10</span>]               ;eip=程序code开始<br><br>    retf                            ;<br>return_point:<br>    mov eax,core_data_seg_sel<br>    mov ds,eax;由用户程序jmp来CPL=<span class="hljs-number">3</span>导致中断<br><br>    mov ebx,message_6 <br>    call sys_routine_seg_sel:put_string<br><br>    hlt <br><br>core_code_end:<br><br>SECTION core_trail<br><br>core_end:<br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li>作业配的代码c14_core中:645,662行操作数大小没有指出来,4096 一个字的大小,加上word<br>参考:《X86汇编实模式到保护模式》</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/13/csdn/%E7%AC%AC15%E7%AB%A0%E4%BB%BB%E5%8A%A1%E5%88%87%E6%8D%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第15章任务切换</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/07/csdn/%E7%AC%AC13%E7%AB%A0%E7%A8%8B%E5%BA%8F%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%8A%A8%E6%80%81%E6%89%A7%E8%A1%8C/">
+                        <span class="hidden-mobile">第13章程序加载和动态执行</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

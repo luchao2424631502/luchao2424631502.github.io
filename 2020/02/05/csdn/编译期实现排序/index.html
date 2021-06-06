@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>编译期实现排序 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="编译期实现排序">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-05 21:04" pubdate>
+        2020年2月5日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">编译期实现排序</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h2 id="编译期间实现排序"><a href="#编译期间实现排序" class="headerlink" title="编译期间实现排序"></a>编译期间实现排序</h2><ul>
+<li>在b站上看到的,凭借一点c++ 的知识勉强读懂</li>
+</ul>
+<hr>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><code>Values</code>实现将基类对象类型放在(展开在)<code>tuple中</code>,<code>std::tuple&lt;&gt;</code>是个聚合类,能将参数包中不同元素类型糅合成一种类型,排序就是在<code>tuple</code>上进行的</li>
+</ul>
+<ol>
+<li><p>模板类实现判断, <code>template&lt;bool,typename Then,typename Else&gt; If</code></p>
+</li>
+<li><p>封装成<code>Compare函数</code>模板类用来比较(相同or不同类型)的值,</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 模板类中的模板类成员</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Less</span> &#123;</span><br>	<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T2&gt;  <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Apply</span> &#123;</span>&#125;;<br>&#125;;<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+<ol start="3">
+<li><p>通过编译期对类型的递归推导(其实这里是遍历),配合<code>Compare</code>进行比较,得到<code>std::tuple&lt;&gt;</code>的类型的<code>value</code>的极值</p>
+<blockquote>
+<ol>
+<li>写出<code>template</code>的递归终止推导情况</li>
+<li>写出递归的普通情况, </li>
+</ol>
+</blockquote>
+</li>
+<li><p>既然能够得到<code>std::tuple&lt;&gt;</code>的极值,那么还要排序,就必须对位置进行调整,<strong>实现一个将<code>tuple</code>中的元素去掉一个的模板类</strong></p>
+<p>利用<code>std::tuple_cat()和FindLimit&lt;Comp,std::tuple&lt;&gt;&gt;</code></p>
+</li>
+<li><p>利用<code>FindLimit&lt;&gt;</code>和<code>PopLimit&lt;&gt;</code>,每一步都找到<code>tuple</code>中最小的一个类型(<code>::value</code>),从<code>tuple&lt;&gt;</code>中分离出去,然后对剩下的<code>tuple</code>进行递归,</p>
+</li>
+</ol>
+<hr>
+<ul>
+<li>本质上都是利用对类型的推导,在写的过程中要注意很多细节.</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;type_traits&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;tuple&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">int</span> ...values&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Values</span> &#123;</span><br>	<span class="hljs-comment">// 把值values转换成类型然后展开,放在tuple中</span><br>	<span class="hljs-keyword">using</span> type = <span class="hljs-built_in">std</span>::tuple&lt;<span class="hljs-built_in">std</span>::integral_constant&lt;<span class="hljs-keyword">int</span>,values&gt;...&gt;;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">bool</span>,<span class="hljs-keyword">typename</span> Then,<span class="hljs-keyword">typename</span> Else&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">If</span>;</span><br><br><span class="hljs-comment">// 结果状态</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Then,<span class="hljs-keyword">typename</span> Else&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">If</span>&lt;</span><span class="hljs-literal">true</span>,Then,Else&gt; &#123;<br>	<span class="hljs-keyword">using</span> type = Then;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Then,<span class="hljs-keyword">typename</span> Else&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">If</span>&lt;</span><span class="hljs-literal">false</span>,Then,Else&gt; &#123;<br>	<span class="hljs-keyword">using</span> type = Else;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T1&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Less</span> &#123;</span><br>	<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T2&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Apply</span> &#123;</span><br>		<span class="hljs-keyword">using</span> type = <span class="hljs-keyword">typename</span> If&lt;(T1::value &lt; T2::value),T1,T2&gt;::type;<br>	&#125;;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T1&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">GE</span> &#123;</span><br>	<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T2&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Apply</span> &#123;</span><br>		<span class="hljs-keyword">using</span> type = <span class="hljs-keyword">typename</span> If&lt;(T1::value &gt;= T2::value),T1,T2&gt;::type;<br>	&#125;;<br>&#125;;<br><br><span class="hljs-comment">// 通过递归两两比较找到std::tuple&lt;&gt;中的极值,</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>, <span class="hljs-title">typename</span> <span class="hljs-title">Tuples</span>&gt;</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">FindLimit</span>;</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>, <span class="hljs-title">typename</span> <span class="hljs-title">Head</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">FindLimit</span>&lt;</span>Comp,<span class="hljs-built_in">std</span>::tuple&lt;Head&gt;&gt; &#123; <span class="hljs-comment">// </span><br>	<span class="hljs-keyword">using</span> type = Head;<br>&#125;;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>,<span class="hljs-title">typename</span> <span class="hljs-title">Head</span>,<span class="hljs-title">typename</span> ...<span class="hljs-title">Tails</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">FindLimit</span>&lt;</span>Comp,<span class="hljs-built_in">std</span>::tuple&lt;Head,Tails...&gt;&gt; &#123;<br>	<span class="hljs-keyword">using</span> type =<span class="hljs-keyword">typename</span> Comp&lt;Head&gt;::<span class="hljs-keyword">template</span> Apply&lt;<br>		<span class="hljs-keyword">typename</span> FindLimit&lt;Comp,<span class="hljs-built_in">std</span>::tuple&lt;Tails...&gt;&gt;::type<br>		&gt;::type;<br>&#125;;<br><br><span class="hljs-comment">//从std::tuple中弹出极值</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Limit,<span class="hljs-keyword">typename</span> ...Tuples&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PopLimit</span>;</span><br><span class="hljs-comment">// tuple为空,现在只有一个值无需弹出</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Limit&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PopLimit</span>&lt;</span>Limit,<span class="hljs-built_in">std</span>::tuple&lt;&gt;&gt; &#123;<br>	<span class="hljs-comment">// 弹出后的结果如下</span><br>	<span class="hljs-keyword">using</span> type = <span class="hljs-built_in">std</span>::tuple&lt;&gt;;<br>&#125;;<br><span class="hljs-comment">// 给出要Pop的值(类型)和所有值</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Limit,<span class="hljs-keyword">typename</span> ...Others&gt;<br><span class="hljs-comment">//　模板参数推导从tuple中找到了Limit</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PopLimit</span>&lt;</span>Limit,<span class="hljs-built_in">std</span>::tuple&lt;Limit,Others...&gt;&gt; &#123;<br>	<span class="hljs-keyword">using</span> type = <span class="hljs-built_in">std</span>::tuple&lt;Others...&gt;;<br>&#125;;<br><span class="hljs-comment">// 没有从当前参数包中的第一个参数中找到,继续找</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> Limit,<span class="hljs-keyword">typename</span> Head,<span class="hljs-keyword">typename</span> ...Others&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">PopLimit</span>&lt;</span>Limit,<span class="hljs-built_in">std</span>::tuple&lt;Head,Others...&gt;&gt; &#123;<br>	<span class="hljs-comment">//using type = decltype(std::tuple_cat(std::tuple&lt;Head&gt;(),</span><br>	<span class="hljs-comment">//			PopLimit&lt;Limit,std::tuple&lt;Others...&gt;&gt;::type));</span><br>	<span class="hljs-comment">//using type = decltype(std::tuple_cat(std::tuple&lt;Head&gt;&#123;&#125;,</span><br>	<span class="hljs-comment">//(typename PopLimit&lt;Limit,std::tuple&lt;Others...&gt;&gt;::type)&#123;&#125;));</span><br>	<span class="hljs-keyword">using</span> type = <span class="hljs-keyword">decltype</span>(<span class="hljs-built_in">std</span>::tuple_cat(<span class="hljs-built_in">std</span>::tuple&lt;Head&gt;&#123;&#125;,<br>				<span class="hljs-keyword">typename</span> PopLimit&lt;Limit,<span class="hljs-built_in">std</span>::tuple&lt;Others...&gt;&gt;::type&#123;&#125;));<br>&#125;;<br><br><span class="hljs-comment">// 排序</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>,<span class="hljs-title">typename</span> <span class="hljs-title">T</span>&gt;</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">bSort</span>;</span><br><span class="hljs-comment">// class Comp中需要推到的类型是　template &lt;typename T1&gt; class Comp</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>&gt;</span> <br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">bSort</span>&lt;</span>Comp,<span class="hljs-built_in">std</span>::tuple&lt;&gt;&gt; &#123;<br>	<span class="hljs-keyword">using</span> type = <span class="hljs-built_in">std</span>::tuple&lt;&gt;;<br>&#125;;<br><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T1&gt; <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Comp</span>,<span class="hljs-title">typename</span> ...<span class="hljs-title">values</span>&gt;</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">bSort</span>&lt;</span>Comp,<span class="hljs-built_in">std</span>::tuple&lt;values...&gt;&gt; &#123;<br>	<span class="hljs-comment">// 先递归找到极值</span><br>	<span class="hljs-keyword">using</span> limit = <span class="hljs-keyword">typename</span> FindLimit&lt;Comp,<span class="hljs-built_in">std</span>::tuple&lt;values...&gt;&gt;::type;<br>	<span class="hljs-keyword">using</span> others = <span class="hljs-keyword">typename</span> PopLimit&lt;limit,<span class="hljs-built_in">std</span>::tuple&lt;values...&gt;&gt;::type;<br>	<span class="hljs-keyword">using</span> type = <span class="hljs-keyword">decltype</span>(<span class="hljs-built_in">std</span>::tuple_cat(<span class="hljs-built_in">std</span>::tuple&lt;limit&gt;&#123;&#125;,<span class="hljs-keyword">typename</span> bSort&lt;Comp,others&gt;::type&#123;&#125;));<br><br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-comment">// 都是tuple</span><br>	<span class="hljs-keyword">using</span> lst_1_3 = Values&lt;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> lst_1_2 = Values&lt;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> lst_3_1 = Values&lt;<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> lst = Values&lt;<span class="hljs-number">1</span>,<span class="hljs-number">99</span>,<span class="hljs-number">9</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">100</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> ans = Values&lt;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">99</span>,<span class="hljs-number">100</span>&gt;::type;<br><br>	<span class="hljs-keyword">using</span> i1 = <span class="hljs-built_in">std</span>::integral_constant&lt;<span class="hljs-keyword">int</span>,<span class="hljs-number">1</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> i2 = <span class="hljs-built_in">std</span>::integral_constant&lt;<span class="hljs-keyword">int</span>,<span class="hljs-number">2</span>&gt;::type;<br>	<span class="hljs-keyword">using</span> i3 = <span class="hljs-built_in">std</span>::integral_constant&lt;<span class="hljs-keyword">int</span>,<span class="hljs-number">3</span>&gt;::type;<br><br>	<span class="hljs-comment">// 1. 测试比大小 If判断或者Less</span><br>	<span class="hljs-comment">//static_assert(!std::is_same&lt;If&lt;(i1::value &lt; i2::value),i1,i2&gt;::type,i1&gt;::value,&quot;no problem&quot;);</span><br>	<span class="hljs-comment">//static_assert(!std::is_same&lt;Less&lt;i2&gt;::Apply&lt;i3&gt;::type,i2&gt;::value,&quot;i2 &lt; i3&quot;);</span><br><span class="hljs-comment">//	if (std::is_same&lt;If&lt;(i1::value &lt; i2::value),i1,i2&gt;::type,i1&gt;::value)</span><br><span class="hljs-comment">//		std::cout &lt;&lt; &quot;i1 &lt; i2&quot;;</span><br>	<br>	<span class="hljs-comment">// 2. 测试编译找到的极值</span><br>	<span class="hljs-keyword">static_assert</span>(!<span class="hljs-built_in">std</span>::is_same&lt;FindLimit&lt;GE,lst&gt;::type,i1&gt;::value, <span class="hljs-string">&quot;最小值是　i1&quot;</span>);<br>	<br>	<span class="hljs-comment">// 3. 测试排序结果</span><br><span class="hljs-comment">//	static_assert(!std::is_same&lt;bSort&lt;Less,lst&gt;::type,ans&gt;::value , &quot;排序成功&quot;);</span><br><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	test();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">APUE习题8.7</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/29/csdn/%E5%AF%B9C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86IO%E7%9A%84%E7%90%86%E8%A7%A3/">
+                        <span class="hidden-mobile">对C语言标准IO的理解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

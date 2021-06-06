@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/08/24/csdn/Time_wait%E7%8A%B6%E6%80%81%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%88%A9%E7%94%A8/">Time_wait状态端口重利用</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/08/24/csdn/Time_wait%E7%8A%B6%E6%80%81%E7%AB%AF%E5%8F%A3%E9%87%8D%E5%88%A9%E7%94%A8/">
+          
+          
+            
+          
+          
+
+
+
+连接断开的过程:主机A发起请求断开连接,主机B回应ACK,FIN包,当主机A收到FIN包时,TIME_WAIT定时器开始启动,然后A向B发送ACK包,因为B没有收到ACK包,所以B不知道自己的FIN包是否发送成功
+
+B成功收到ACK包,连接断开
+B没有收到ACK包,认为自己发送的FIN包出现问题,则重新发送FIN包,
+
+为什么有Time_wait状态?
+如果没有Time_wait状态,A向
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-08-24 16:44" pubdate>
+              2020-08-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/socket/">socket</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/08/19/csdn/%E7%BC%96%E8%AF%91%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89.c/">编译当前目录所有.c</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/08/19/csdn/%E7%BC%96%E8%AF%91%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E6%89%80%E6%9C%89.c/">
+          
+          
+            
+          
+          
+
+头文件都放在./include中
+CC                 = gcc
+CFLAGS            = -o2 -I include/ 
+SRC                = $(wildcard *.c)                        #代表所有的.c文件
+TAR                = $(patsubst %.c,%, $(SRC)) #
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-08-19 11:09" pubdate>
+              2020-08-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Makefile/">Makefile</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">
+          
+          
+            
+          
+          
+
+从kernel.bin中根据elf文件格式执行内核加载kernel.bin步骤和加载loader.bin步骤一样,将kernel.bin加载到内存后,
+因为kernel的编译参数-Ttext 0x30400指定了程序入口(可以在/boot/include/load.inc中修改,并且修改kernel编译参数-Ttext就能加载到自己指定的内存地址处).
+因为**kernel被编译成elf格式,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-19 11:12" pubdate>
+              2020-07-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">Orange‘s:disp_str()字符串函数第二次调用乱码原因</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">
+          
+          
+            
+          
+          
+
+
+书上.c编译参数加上-m32,LD链接参数-m elf_i386
+
+去掉此Bug后正好Makefile也完成了
+
+第2次调用disp_str()时乱码,Google后说是ebx没有进栈被保护的原因,果然没错,但是为什么呢？
+断点打到kernel起始执行地址:0x30400
+单步调试发现call cstart后
+如果第一次ebx被破坏后,第二次调用指向的参数地址错误,并且循环了多次
+
+调试信息
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-14 23:08" pubdate>
+              2020-07-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8E%E6%B8%8A-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-Orange-S/">于渊    操作系统  Orange S</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/">Orange‘s:FAT12认识和Boot引导</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/">
+          
+          
+            
+          
+          
+
+
+ 前2章实验都是借助DOS提供保护模式环境来实验(因为在引导扇区512byte限制下提供不了保护模式),
+为了让OS进入保护模式而引导扇区又不能解决,通过boot把磁盘中的loader加载进内存,然后通过loader进入保护模式并且加载kernel
+这样就突破了512byte的限制
+
+boot-&gt;loader-&gt;kernel
+此书将软盘做成FAT12格式
+
+bximage制作1.
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-12 11:02" pubdate>
+              2020-07-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8E%E6%B8%8A-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-Orange-S/">于渊    操作系统  Orange S</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">Orange‘s:保护模式小总结</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">
+          
+          
+            
+          
+          
+
+Orange’s的中断方式我看了看和linux0.1x是一样的,时钟中断实验:
+
+回到实模式目前我认为没意义但是注意:
+
+a. 要求段寄存器高速缓冲器的属性(段长度)提前设置号
+b. cs通过在32bit代码段转跳到16bit代码段来设置(描述符)
+c. 直接修改jmp编译后指令的段地址
+d. 修改的8259A和IDTR需要恢复原样
+
+
+开启分页后人为使物理地址和线性地址对应,好操作
+
+通过宏
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-10 18:21" pubdate>
+              2020-07-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">linux 0.12引导启动程序</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">
+          
+          
+            
+          
+          
+
+引导启动程序
+91年16bit实模式的引导代码是Minix上的as86编译器编译的,现在改为as编译,进入32bit保护模式下后就是gas(现as)编译
+
+
+bootsect.S功能:
+
+将自己从0x7c00:0移动到0x9000:0处,并且读入setup.s(4*512=2kb)到自己后面
+将system模块读入到0x1000:0处,然后控制转移给setup.s
+
+
+在第一个扇区的倒数第6个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-30 17:30" pubdate>
+              2020-05-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/22/csdn/Linux%200.1x%E6%89%80%E6%9C%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(bochs%E8%BF%90%E8%A1%8C0.12%E5%86%85%E6%A0%B8+%E5%92%8C0.12%E4%BC%A0%E9%80%92%E6%96%87%E4%BB%B6+%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95%E4%BE%8B%E7%A8%8B)/">Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/22/csdn/Linux%200.1x%E6%89%80%E6%9C%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(bochs%E8%BF%90%E8%A1%8C0.12%E5%86%85%E6%A0%B8+%E5%92%8C0.12%E4%BC%A0%E9%80%92%E6%96%87%E4%BB%B6+%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95%E4%BE%8B%E7%A8%8B)/">
+          
+          
+            
+          
+          
+
+
+环境搭建电脑环境:
+OS: Deepin 15.11 stable 
+Kernel: x86_64 Linux 4.15.0-30deepin-generic
+在bochs运行0.12内核
+bochs:apt install bochs(自己编译麻烦)
+
+默认安装目录:
+主(工作)目录:/usr/local/bin,作用:配置文件,磁盘和bochs img工具
+默认配置(没啥用:/usr/l
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-22 22:52" pubdate>
+              2020-05-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/18/csdn/%E7%AC%AC16%E7%AB%A0%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6/">第16章分页机制</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/18/csdn/%E7%AC%AC16%E7%AB%A0%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6/">
+          
+          
+            
+          
+          
+
+
+
+386层次化分页结构
+
+页目录\页表\页
+
+页目录 页表 都占用4KB的页,1024个项,每个项4Byte大小
+页目录指向1024个页表,一个页表指向1024个页,一个页大小4KB,总的寻址大小是1024*1024*4KB=4GB
+
+ 在CR0中开启分页机制后,cpu段部件给出的地址不再是物理地址,称线性地址,需要经过页部件的转换为物理地址
+
+
+线性地址如何转换为物理地址
+
+CR3寄存器存
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-18 10:54" pubdate>
+              2020-05-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/05/13/csdn/%E7%AC%AC15%E7%AB%A0%E4%BB%BB%E5%8A%A1%E5%88%87%E6%8D%A2/">第15章任务切换</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/13/csdn/%E7%AC%AC15%E7%AB%A0%E4%BB%BB%E5%8A%A1%E5%88%87%E6%8D%A2/">
+          
+          
+            
+          
+          
+
+
+通过调用门尽管进入R0的例程,但是并没有进行任务切换,只是控制转换到了任务的全局区域
+
+任务切换的方法:
+中断:未屏蔽情况下,任务切换随时发生,如定时器中断（准确的时间间隔发生）,强制任务实施任务切换(就我现在的理解就是进程能够执行的时间片是相同的,超过了在处理器层面上任务要切换),
+
+
+实模式在是内存最低端1KB的中断向量表,保护模式不再适用,取而代之的是中断描述符表
+类似GDT和LDT来
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-13 16:26" pubdate>
+              2020-05-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/4/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/6/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,962 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/07/csdn/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-2%E7%BA%A7%E5%88%86%E9%A1%B5%E8%A1%A8%E5%8E%9F%E7%90%86/">虚拟内存-2级分页表原理</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/07/csdn/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-2%E7%BA%A7%E5%88%86%E9%A1%B5%E8%A1%A8%E5%8E%9F%E7%90%86/">
+          
+          
+            
+          
+          
+
+
+虚拟内存中的分页
+每个进程都有一个页表,
+每个进程可以占据大量的虚存空间 
+
+
+概念：
+
+页表项 : 页表中的每个项记录了每个页对应的页框号
+
+
+
+不带单位默认为字节Byte
+
+问题
+假设进程的虚存空间为$2GB=2^{31}$，若使用$2^9 = 512$个字节的页,那么进程需要$2^{31}/2^9 = 2^{22}$个页表项.  
+
+
+导致进程加载到内存时,创建的页表占用的内存空间太大
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-07 18:10" pubdate>
+              2019-11-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-2%E7%BA%A7%E5%88%86%E9%A1%B5%E8%A1%A8-%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2/">虚拟内存 2级分页表 地址转换</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/05/csdn/%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF-%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98/">死锁和饥饿-哲学家就餐问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/05/csdn/%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF-%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+
+哲学家就餐问题
+背景:
+
+
+
+假设5位哲学家住在一起(可以推广到n),每天生活就是思考和吃饭,每位哲学家需要2把叉子来吃意大利面.
+就餐安排: 一张圆桌,5个板凳,5个盘子,5把叉子,每个想吃饭的哲学家做到椅子上,使用盘子2侧的叉子来吃面条,
+问题: 设计算法 保证互斥(2位哲学家不能使用相邻的叉子),同时还要避免死锁(每个哲学家都在等待叉子,且占用了叉子)和饥饿
+
+
+
+信号量解决方案
+规定
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-05 14:41" pubdate>
+              2019-11-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%AD%BB%E9%94%81-%E9%A5%A5%E9%A5%BF/">死锁 饥饿</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">费用流 类Dinic算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+费用流类Dinic算法
+因为费用有负边权所以用spfa，求单位费用之和最小的路径
+
+将bfs分层标记dep数组 换成 spfa分层标记dist[](最小费用和)
+
+dfs寻找多条增广路时, 开vis标记筛掉返回的边 ,且增广路顺着spfa标记的最小费用和路径走, 
+
+dfs维护流和费用
+
+
+
+Luogu P4016
+注意:
+环形,
+最终n个仓库存货量相同,
+只能在相邻的仓库之间搬运
+
+建图
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-03 15:53" pubdate>
+              2019-11-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/01/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20MCMF%E7%AE%97%E6%B3%95/">费用流 MCMF算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/01/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20MCMF%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+Min cost Max flow算法Luogu P3381
+实现思路
+邻接表保存时注意：
+
+
+
+费用具有对称性,
+流量具有守恒性
+
+
+
+spfa()根据边的容量\流量\花费来找到增广路, 以及维护每点的入边pre[i],和判断是否还有增广路
+EK()路程:
+已经通过了spfa()确定了增广路,第一次while找到增广路可以通过的最大流量,
+第二次while()更新网络
+维护maxflow和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-01 20:31" pubdate>
+              2019-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/11/01/csdn/HDU%201533%20%E8%B4%B9%E7%94%A8%E6%B5%81%E5%85%A5%E9%97%A8/">HDU 1533 费用流入门</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/01/csdn/HDU%201533%20%E8%B4%B9%E7%94%A8%E6%B5%81%E5%85%A5%E9%97%A8/">
+          
+          
+            
+          
+          
+
+
+
+
+
+
+
+
+
+费用流 (最小费用最大流)
+网络图中 每条边  多给出了  单位流量的费用 cost(u,v) ,当通过(u,v)的流量为$f(u,v)$时,需要花费 $f(u,v)*cost(u,v)$
+
+因为是在 最大流的前提下求出最小费用, 那么 最大流量已经确定了,即使每条边的花费不一样,但只要费用和最小就行了
+
+
+
+
+EK+SPFA
+
+HDU  1533
+
+人作为一部分,房子作为一部
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-01 18:29" pubdate>
+              2019-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/30/csdn/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84%20or%20%E7%BA%BF%E6%AE%B5%E6%A0%91/">差分数组 or 线段树</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/30/csdn/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84%20or%20%E7%BA%BF%E6%AE%B5%E6%A0%91/">
+          
+          
+            
+          
+          
+
+
+提交地址
+描述:
+bbq的工作是管理学校的社团活动，具体来说是为每个社团活动分配教室。要把有限的教室合理安排给这些社团，是不容易的。每个社团活动用k, t1, t2来表示：该社团活动在第t1天～第t2天内需要k个教室（包括t1，t2）。bbq总是按社团活动申请的先后顺序分配教室，如果某一天剩余的教室数量不够满足某社团的要求，则停止教室的分配。bbq需要告知该社团，他们的该次社团活动无法进行。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-30 20:27" pubdate>
+              2019-10-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">差分数组</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">互斥和同步-读者/写者问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+
+读者/写者问题问题定义:
+存在一个多进程共享的数据区,该数据区可以是 一个文件或者一块内存或者一组寄存器, 有些进程reader只读取该数据区中的数据, 有些进程writer只往数据区写数据
+
+
+满足条件
+
+
+任意数量的读进程可以同时读该文件
+一次只有一个写进程可以写文件
+若一个写进程正在写文件,则禁止任何进程读文件
+
+
+
+综上即: 读进程不需要排斥其他进程,而写进程需要排斥其他所有进程
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-30 01:47" pubdate>
+              2019-10-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E5%8F%91-%E5%90%8C%E6%AD%A5/">并发 同步</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/29/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E6%B6%88%E8%B4%B9%E8%80%85!%E7%94%9F%E4%BA%A7%E8%80%85%20(%E7%AE%A1%E7%A8%8B+%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)/">互斥和同步-消费者/生产者 (管程+消息传递)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/29/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E6%B6%88%E8%B4%B9%E8%80%85!%E7%94%9F%E4%BA%A7%E8%80%85%20(%E7%AE%A1%E7%A8%8B+%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)/">
+          
+          
+            
+          
+          
+
+管程
+由一个或多个过程、一个初始化序列和局部数据组成的软件模块,主要特点:
+&gt;1. 局部数据变量只能被**管程的过程**访问,任何外部过程都不能访问
+  &gt;2. 一个进程通过调用**管程的一个过程**进入管程.
+  &gt;3. 只能有一个进程在管程中执行,调用管程的任何其他进程都被**阻塞**，以等待管程可用
+
+管程的互斥机制:
+
+管程的数据每次只能被一个进程访问
+通过放入 共享
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-29 00:44" pubdate>
+              2019-10-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%92%E6%96%A5-%E5%90%8C%E6%AD%A5/">互斥 同步</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/28/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E7%94%9F%E4%BA%A7%E8%80%85!%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/">互斥和同步-生产者/消费者问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/28/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E7%94%9F%E4%BA%A7%E8%80%85!%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+信号量解决互斥
+由于所有进程都需要访问共享资源，每个进程进入临界区前执行 semWait(s),若s为负,则进程被阻塞,为正数则-1,进程立即进入临界区,由于s不为正,则其他任何进程不能进入临界区
+
+下面将 缓冲区作为 共享资源 
+
+
+生产者/消费者问题
+问题:
+
+有一个或多个生产者生产某种类型的数据,放置在缓冲区,,有一个消费者从缓冲区取数据,每次取一项,
+操作系统为了保证避免对缓冲区的重复
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-28 22:04" pubdate>
+              2019-10-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E5%8F%91-%E4%BA%92%E6%96%A5/">并发 互斥</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/10/27/csdn/%E7%AE%80%E5%8D%95shell%E8%84%9A%E6%9C%AC%E9%87%8D%E5%90%AFmysql%E6%9C%8D%E5%8A%A1/">简单shell脚本重启mysql服务</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/27/csdn/%E7%AE%80%E5%8D%95shell%E8%84%9A%E6%9C%AC%E9%87%8D%E5%90%AFmysql%E6%9C%8D%E5%8A%A1/">
+          
+          
+            
+          
+          
+
+
+shell脚本定时检测mariadb状态,实现崩溃后重启服务
+
+检测mysql状态多种方法（监听端口之类）, (centos7 systemctl中服务名称为mariadb也能用pgrep -x mysqld)
+检测pgrep 命令返回值 然后重启服务
+
+123456789# !/bin/bashtime=$(date)pgrep -x mysqld &amp;&gt; /dev/nulli
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-27 13:41" pubdate>
+              2019-10-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/9/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/11/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

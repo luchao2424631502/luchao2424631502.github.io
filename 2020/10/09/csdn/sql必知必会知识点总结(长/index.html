@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>sql必知必会知识点总结(长 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sql必知必会知识点总结(长">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-09 20:41" pubdate>
+        2020年10月9日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      52
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">sql必知必会知识点总结(长</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+<h3 id="sql学习"><a href="#sql学习" class="headerlink" title="sql学习"></a>sql学习</h3><h4 id="1-SELECT"><a href="#1-SELECT" class="headerlink" title="1.SELECT"></a>1.SELECT</h4><ol>
+<li>检索单个列<code>SELECT prod_name FROM Products;</code><ul>
+<li>返回未排序数据</li>
+<li>返回所有行,没有过滤</li>
+</ul>
+</li>
+<li>检索多个列,列名之间加上<code>,</code>就行,<code>SELECT prod_id,prod_name FROM Products;</code></li>
+<li>检索所有列,<code>SELECT * FROM Products;</code>,可以看到自己不知道名字的列</li>
+</ol>
+<h4 id="2-排序检索数据"><a href="#2-排序检索数据" class="headerlink" title="2. 排序检索数据"></a>2. 排序检索数据</h4><ol>
+<li><p>排序数据: <code>SELECT prod_name,prod_price FROM Products ORDER BY prod_price;</code></p>
+</li>
+<li><p>按多个列(列名)排序:<code>SELECT prod_id,prod_price,prod_name FROM Products ORDER BY prod_price,prod_name;</code></p>
+</li>
+<li><p>按照select清单中列的<strong>相对</strong>位置排序</p>
+<p><code>SELECT prod_id,prod_price,prod_name FROM Products ORDER BY 2,3;</code></p>
+</li>
+<li><p>指定排序方向 (<code>ASC</code> 和 <code>DESC</code>),多个列写在各自列后面</p>
+<ul>
+<li><p>单个列逆序(按照prod_price逆序):<code>SELECT prod_id,prod_price,prod_name FROM Products ORDER BY prod_price DESC;</code></p>
+</li>
+<li><p>多个列(prod_price降序,prod_name排序):<code>SELECT prod_id,prod_price,prod_name FROM Products ORDER BY prod_price DESC,prod_name;</code></p>
+<blockquote>
+<p>多个列降序排序,必须每个列都指定</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-where子句"><a href="#3-where子句" class="headerlink" title="3. where子句"></a>3. where子句</h4><pre><code>&gt; 指定搜索条件(过滤条件)</code></pre>
+<ol>
+<li>相等测试 <code>SELECT prod_name,prod_price FROM Products WHERE prod_price=3.49;</code></li>
+</ol>
+<blockquote>
+<p>where和order by字句的位置:<strong>order by 位于 where之后</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,prod_name,prod_price <span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> prod_price=<span class="hljs-number">3.49</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> prod_name <span class="hljs-keyword">DESC</span>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ol start="2">
+<li><p>where子句的操作符(不列举了)</p>
+</li>
+<li><p>操作符between and </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,prod_price <span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> prod_price<br><span class="hljs-keyword">between</span> <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>空值检查</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_price <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>;<br><br><span class="hljs-keyword">select</span> vend_address,vend_city,vend_state <br><span class="hljs-keyword">from</span> Vendors <br><span class="hljs-keyword">where</span> vend_state <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span> <br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> vend_city <span class="hljs-keyword">desc</span>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="4-高级数据过滤"><a href="#4-高级数据过滤" class="headerlink" title="4. 高级数据过滤"></a>4. 高级数据过滤</h4><ol>
+<li><p>and</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,vend_id,prod_price,prod_name<br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> vend_id=<span class="hljs-string">&#x27;DLL01&#x27;</span> <span class="hljs-keyword">and</span> prod_price &lt;= <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>or</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,vend_id,prod_price<br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span> <span class="hljs-keyword">or</span> vend_id = <span class="hljs-string">&#x27;BRS01&#x27;</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> prod_price <span class="hljs-keyword">desc</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>and 和 or同时使用的优先级,<strong>and &gt; or</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,vend_id,prod_price<br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span> <span class="hljs-keyword">or</span> vend_id = <span class="hljs-string">&#x27;BRS01&#x27;</span> <br><span class="hljs-keyword">and</span> prod_price &gt;= <span class="hljs-number">10</span>;<br><br>条件当vend_id=&#x27;BRS01&#x27;和prod_price&gt;=10先结合,然后vend_id = &#x27;DLL01&#x27;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,vend_id,prod_price<br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> (vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span> <span class="hljs-keyword">or</span> vend_id = <span class="hljs-string">&#x27;BRS01&#x27;</span>)<br><span class="hljs-keyword">and</span> prod_price &gt;= <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>IN</strong> , 注意是where的子句,<strong>并且合法值在圆括号组成的清单中,逗号隔开</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,vend_id,prod_price <br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> vend_id <br><span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;DLL01&#x27;</span>,<span class="hljs-string">&#x27;BRS01&#x27;</span>)<br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> prod_price;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,vend_id,prod_price<br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_id <br><span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;BR01&#x27;</span>,<span class="hljs-string">&#x27;BR02&#x27;</span>,<span class="hljs-string">&#x27;BR03&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>使用<code>IN</code>的优点:</p>
+<ol>
+<li>长的合法选项清单，</li>
+<li>一般比or快</li>
+<li>包含<strong>其他select子句</strong></li>
+</ol>
+</li>
+<li><p>NOT</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> *<br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span><br><span class="hljs-keyword">and</span> (prod_price &lt;= <span class="hljs-number">5</span> <span class="hljs-keyword">or</span> prod_price &gt;= <span class="hljs-number">10</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name<br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> <span class="hljs-keyword">not</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> prod_name;<br><br>等价<br><br><span class="hljs-keyword">select</span> prod_name <br><span class="hljs-keyword">from</span> Products<br><span class="hljs-keyword">where</span> vend_id != <span class="hljs-string">&#x27;DLL01&#x27;</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> prod_name;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="5-使用通配符过滤-（用于文本段-where子句使用like操作符"><a href="#5-使用通配符过滤-（用于文本段-where子句使用like操作符" class="headerlink" title="5. 使用通配符过滤 （用于文本段,where子句使用like操作符"></a>5. 使用通配符过滤 （用于文本段,where子句使用like操作符</h4><ol>
+<li><p><code>%</code>通配符: 任何字符出现任意次数 (正则中的<code>*</code>)</p>
+<ol>
+<li><p>找到Fish开头的产品</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,prod_name <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_name <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;fish%&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>任意位置包含<code>bean bag</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,prod_name<br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_name <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%bean bag%&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p><code>_</code>:只匹配单个字符 (正则中的<code>?</code>)</p>
+<ol>
+<li><p>匹配2个字符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,prod_name<br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_name <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;__ inch teddy bear&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>也可使用%</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,prod_name <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_name <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;$ inch teddy bear&#x27;</span><br>;<br><br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p><code>[]</code>,在mariadb测试好像并不支持sql的<code>[]</code>通配符</p>
+<p>改用正则表达式,</p>
+<p>找到<code>J M</code>开头的联系人</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_contact <br><span class="hljs-keyword">from</span> Customers <br>wher cust_contact <br>regexp <span class="hljs-string">&#x27;^[JM]&#x27;</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> cust_contact<br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="6-计算字段"><a href="#6-计算字段" class="headerlink" title="6. 计算字段"></a>6. 计算字段</h4><ol>
+<li><p>拼接字段</p>
+<p>sql中:在select语句中使用<code>+</code>或者<code>||</code></p>
+<p>mysql不支持,使用concat()函数拼接项表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql:<br><span class="hljs-keyword">select</span> <span class="hljs-keyword">concat</span>(vend_name,<span class="hljs-string">&#x27;(&#x27;</span>,vend_country,<span class="hljs-string">&#x27;)&#x27;</span>)<br><span class="hljs-keyword">from</span> Vendors<br>;<br><br>原生sql:<br><span class="hljs-keyword">select</span> vend_name + <span class="hljs-string">&#x27;(&#x27;</span> + vend_country + <span class="hljs-string">&#x27;)&#x27;</span><br><span class="hljs-keyword">from</span> Vendors <br>;<br></code></pre></td></tr></table></figure>
+
+<p>拼接字段后列的名字是一个值 (没有列名),给<strong>列赋予别名(alias)</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">concat</span>(vend_name,<span class="hljs-string">&#x27;(&#x27;</span>,vend_country,<span class="hljs-string">&#x27;)&#x27;</span>)<br><span class="hljs-keyword">as</span> vend_title <br><span class="hljs-keyword">from</span> Vendors <br>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注意as是在from之前的</li>
+</ul>
+</li>
+<li><p>执行算术计算</p>
+<ol>
+<li><p>在订单物品表中算出每一个物品的总价,</p>
+<p>查看单价和数量</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,quantity,item_price<br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">where</span> order_num = <span class="hljs-number">20008</span><br>;<br></code></pre></td></tr></table></figure>
+
+<p>添加计算结果列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <br>prod_id,quantity,item_price,<br>quantity*item_price <span class="hljs-keyword">as</span> all_price<br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">where</span> order_num = <span class="hljs-number">20008</span><br>;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="7-数据处理函数"><a href="#7-数据处理函数" class="headerlink" title="7.数据处理函数"></a>7.数据处理函数</h4><ol>
+<li><p>文本处理函数</p>
+<ol>
+<li><p>upper()转大写</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_name,<span class="hljs-keyword">upper</span>(vend_name) <span class="hljs-keyword">as</span> vend_name_upcase <br><span class="hljs-keyword">from</span> Vendors <br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> vend_name;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>soundex()发音类似</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> <span class="hljs-keyword">soundex</span>(cust_contact) = <span class="hljs-keyword">soundex</span>(<span class="hljs-string">&#x27;Michael Green&#x27;</span>)<br>;<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>数学函数(举个例子</p>
+<ol>
+<li>mysql中的round()取整</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> order_num,order_item,<br><span class="hljs-keyword">round</span>(item_price) <span class="hljs-keyword">as</span> item_round<br><span class="hljs-keyword">from</span> OrderItems <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="8-汇总数据-针对数据集合而不是每条数据本身"><a href="#8-汇总数据-针对数据集合而不是每条数据本身" class="headerlink" title="8.汇总数据(针对数据集合而不是每条数据本身)"></a>8.汇总数据(针对数据集合而不是每条数据本身)</h4><blockquote>
+<ol>
+<li>avg() 返回某列的平均值</li>
+<li>count() 返回某列的行数</li>
+<li>max() 返回某列的最大值</li>
+<li>min() 返回某列的最小值</li>
+<li>sum() 返回某列之和</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>avg()</p>
+<p>返回所有产品的平均值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">avg</span>(prod_price) <span class="hljs-keyword">as</span> avg_price <br><span class="hljs-keyword">from</span> Products<br>;<br></code></pre></td></tr></table></figure>
+
+<p>返回特定条件(某产品)的平均值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">avg</span>(prod_price) <span class="hljs-keyword">as</span> avg_price <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>count()对表中行的数目进行计算</p>
+<ol>
+<li>count(*),无论行中包含的是什么,都计数</li>
+<li>count(colnum),对特定列计算,<strong>忽略NULL</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> num_cust <br><span class="hljs-keyword">from</span> Customers <br>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(cust_email) <span class="hljs-keyword">as</span> num_cust <br><span class="hljs-keyword">from</span> Customers <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>max()</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">max</span>(prod_price) <span class="hljs-keyword">as</span> max_price <br><span class="hljs-keyword">from</span> Products <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>min()</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">min</span>(prod_price) <span class="hljs-keyword">as</span> min_price<br><span class="hljs-keyword">from</span> Products <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>sum()</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">sum</span>(prod_price) <span class="hljs-keyword">as</span> sum_price <br><span class="hljs-keyword">from</span> Products <br>;<br><br><span class="hljs-keyword">select</span> <span class="hljs-keyword">sum</span>(quantity * item_price) <span class="hljs-keyword">as</span> items_all<br><span class="hljs-keyword">from</span> OrderItems <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="DISTINCT的使用-避免相同的值出现"><a href="#DISTINCT的使用-避免相同的值出现" class="headerlink" title="DISTINCT的使用(避免相同的值出现)"></a>DISTINCT的使用(避免相同的值出现)</h5><ol>
+<li><p>在avg中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">avg</span>(<span class="hljs-keyword">distinct</span> prod_price) <span class="hljs-keyword">as</span> avg_price <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> vend_id = <span class="hljs-string">&#x27;DLL01&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>count中(避免重复值计数)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(<span class="hljs-keyword">distinct</span> prod_price) <span class="hljs-keyword">as</span> count_price<br><span class="hljs-keyword">from</span> Products <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="组合聚集函数"><a href="#组合聚集函数" class="headerlink" title="组合聚集函数"></a>组合聚集函数</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> num_items,<br><span class="hljs-keyword">min</span>(prod_price) <span class="hljs-keyword">as</span> price_min,<br><span class="hljs-keyword">max</span>(prod_price) <span class="hljs-keyword">as</span> price_max,<br><span class="hljs-keyword">avg</span>(prod_price) <span class="hljs-keyword">as</span> price_avg<br><span class="hljs-keyword">from</span> Products <br>;<br></code></pre></td></tr></table></figure>
+
+<h4 id="9-分组数据"><a href="#9-分组数据" class="headerlink" title="9.分组数据"></a>9.分组数据</h4><ol>
+<li><p>创建分组 , <strong>理解为每一列中的某些行的值是相同的,分组是把这些相同的值放在一起</strong></p>
+<p>产品表: 统计每个供应商提供了多少产品(产品分组)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_id,<span class="hljs-keyword">count</span>(vend_id) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> vend_id <br>;<br></code></pre></td></tr></table></figure>
+
+<p>供应商表: 统计的每个供应商来自那些国家(国家分组)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_country,<span class="hljs-keyword">count</span>(vend_country) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> Vendors <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> vend_country <br>;<br></code></pre></td></tr></table></figure>
+
+<p>订单项目表: 统计每个订单分别由那些产品组成(由产品分组)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,<span class="hljs-keyword">count</span>(prod_id) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> prod_id <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p><strong>上面的数据,可以通过where过滤掉行,但是根据分组出来的数据来过滤呢?也就是以组为单位过滤</strong></p>
+</blockquote>
+<ol start="2">
+<li><p>过滤分组</p>
+<h4 id="Having子句"><a href="#Having子句" class="headerlink" title="Having子句"></a>Having子句</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,<span class="hljs-keyword">count</span>(prod_id) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> prod_id <br><span class="hljs-keyword">having</span> (<span class="hljs-keyword">count</span>(prod_id) &gt;= <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">count</span>(prod_id) &lt;= <span class="hljs-number">3</span>)<br>;<br></code></pre></td></tr></table></figure>
+
+<p>在订单项目表中,统计产品相同的订单并且这些产品相同的订单数目&gt;=2和&lt;=3</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_id,<span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> orders <br><span class="hljs-keyword">from</span> Orders <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+<p>在订单表中,统计客户相同的订单(按客户分组)</p>
+<hr>
+<ul>
+<li>使用Where在分组前过滤某些行,然后在分组过滤</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_id,<span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span> <br><span class="hljs-keyword">from</span> Products <br><span class="hljs-keyword">where</span> prod_price &gt;= <span class="hljs-number">4</span> <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> vend_id <br><span class="hljs-keyword">having</span> <span class="hljs-keyword">count</span>(*) &gt;= <span class="hljs-number">2</span><br>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>在产品表中,选出卖出产品数量大于&gt;=2,产品价格&gt;=4的供应商</strong></p>
+</li>
+<li><p>分组和排序,</p>
+<p><strong>保证数据正确排序的方法,不要仅依赖Group by排序数据</strong></p>
+<p>默认group by排序:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> order_num,<span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br>   <span class="hljs-keyword">from</span> OrderItems <br>   <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> order_num <br>   <span class="hljs-keyword">having</span> <span class="hljs-keyword">count</span>(*) &gt; <span class="hljs-number">2</span><br>   ;<br></code></pre></td></tr></table></figure>
+
+<p>添加order by子句,指定排序字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> order_num,<span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> order_num <br><span class="hljs-keyword">having</span> <span class="hljs-keyword">count</span>(*) &gt; <span class="hljs-number">2</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> <span class="hljs-keyword">count</span>(*),order_num <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="10-使用子查询"><a href="#10-使用子查询" class="headerlink" title="10.使用子查询"></a>10.使用子查询</h4><ol>
+<li><p>列出物品<code>RGAN01</code>的所有客户</p>
+<blockquote>
+<ol>
+<li>从订单项目表中根据物品名字找到订单号</li>
+<li>根据订单号从订单表中找打客户id</li>
+</ol>
+<p>分2部分做到</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> order_num<br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>;<br><br><span class="hljs-keyword">select</span> cust_id <br><span class="hljs-keyword">from</span> Orders <br><span class="hljs-keyword">where</span> order_num <span class="hljs-keyword">in</span> (<span class="hljs-number">20007</span>,<span class="hljs-number">20008</span>)<br>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>使用子查询组合起来</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_id <br><span class="hljs-keyword">from</span> Orders <br><span class="hljs-keyword">where</span> order_num <span class="hljs-keyword">in</span> (<br>	<span class="hljs-keyword">select</span> order_num <br>	<span class="hljs-keyword">from</span> OrderItems <br>	<span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>更进一步,列出所有客户信息</li>
+</ol>
+<p>套了2个子查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_address,cust_contact <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_id <span class="hljs-keyword">in</span> (<br>	<span class="hljs-keyword">select</span> cust_id<br>	<span class="hljs-keyword">from</span> Orders <br>	<span class="hljs-keyword">where</span> order_num <span class="hljs-keyword">in</span> (<br>		<span class="hljs-keyword">select</span> order_num<br>		<span class="hljs-keyword">from</span> OrderItems <br>		<span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>	)<br>);<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>计算字段使用子查询,<strong>计算字段中给出外面表的字段作为条件</strong></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_state,(<br>	<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(*)<br>	<span class="hljs-keyword">from</span> Orders <br>	<span class="hljs-keyword">where</span> Orders.cust_id = Customers.cust_id <br>	)<br><span class="hljs-keyword">as</span> <span class="hljs-keyword">num</span><br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> cust_name <br>;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h4 id="11-联结表"><a href="#11-联结表" class="headerlink" title="11. 联结表"></a>11. 联结表</h4><ol>
+<li><p><strong>等值联结</strong>(也称内部联结):</p>
+<p>2个表有相同字段,查询的字段同时来自不同的表</p>
+<p>查货物信息以及对应的供货商信息(通过相同vend_id字段)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_name,prod_name,prod_price<br><span class="hljs-keyword">from</span> Vendors,Products <br><span class="hljs-keyword">where</span> Vendors.vend_id = Products.vend_id<br>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>from子句列出2个表,where子句来联结,并且要给出<strong>完全限定的列名Vendors.vend_id,如果仅是vend_id有二义性</strong></p>
+<h5 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积:"></a>笛卡尔积:</h5></li>
+<li><p>没有联结条件的表关系返回结果为笛卡尔积</p>
+</li>
+</ul>
+<blockquote>
+<p>例如表A有3项,表B有4项,则笛卡尔积有12项,每一项是2个不同项连接一起</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_name,prod_name,prod_price<br><span class="hljs-keyword">from</span> Vendors,Products <br>;<br></code></pre></td></tr></table></figure>
+
+<p>等值联结也称内部联结,也可用下面<strong>语法</strong> inner A join B on 条件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> vend_name,prod_name,prod_price <br><span class="hljs-keyword">from</span> Products <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> Vendors <br><span class="hljs-keyword">on</span> Products.vend_id = Vendors.vend_id <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>联结多个表</p>
+<p>显示订单号为20007的订单物品</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_name,vend_name,prod_price,quantity <br><span class="hljs-keyword">from</span> OrderItems,Products,Vendors <br><span class="hljs-keyword">where</span> order_num = <span class="hljs-number">20007</span><br>	<span class="hljs-keyword">and</span> OrderItems.prod_id = Products.prod_id <br>	<span class="hljs-keyword">and</span> Products.vend_id = Vendors.vend_id <br>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>将之前子查询转换成联结查询</strong></p>
+<p>子查询:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_id <span class="hljs-keyword">in</span> (<br>	<span class="hljs-keyword">select</span> cust_id <br>	<span class="hljs-keyword">from</span> Orders <br>	<span class="hljs-keyword">where</span> order_num <span class="hljs-keyword">in</span>(<br>		<span class="hljs-keyword">select</span> order_num<br>		<span class="hljs-keyword">from</span> OrderItems <br>		<span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>	)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>首先列处3个表以及2个字段,然后把子查询的结果,等价转化为等值条件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact <br><span class="hljs-keyword">from</span> Customers,Orders,OrderItems<br><span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>	<span class="hljs-keyword">and</span> OrderItems.order_num = Orders.order_num <br>	<span class="hljs-keyword">and</span> Customers.cust_id = Orders.cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="12-高级联结"><a href="#12-高级联结" class="headerlink" title="12.高级联结"></a>12.高级联结</h4><ol>
+<li><p>使用表别名缩短语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact <br><span class="hljs-keyword">from</span> Customers <span class="hljs-keyword">as</span> C,Orders <span class="hljs-keyword">as</span> O,OrderItems <span class="hljs-keyword">as</span> OI<br><span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>	<span class="hljs-keyword">and</span> OI.order_num = O.order_num<br>	<span class="hljs-keyword">and</span> C.cust_id = O.cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="2种联结"><a href="#2种联结" class="headerlink" title="2种联结"></a>2种联结</h5><ol>
+<li><p>自联结</p>
+<blockquote>
+<p>因为单条select 不能2次引用相同表</p>
+</blockquote>
+<p>在Customers表根据员工名所在公司,在本表中查处此公司的所有员工</p>
+<p>使用子查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_id,cust_name,cust_contact<br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_name = (<br>	<span class="hljs-keyword">select</span> cust_name <br>	<span class="hljs-keyword">from</span> Customers <br>	<span class="hljs-keyword">where</span> cust_contact = <span class="hljs-string">&#x27;Jim Jones&#x27;</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>因为2次查询都是在相同的表,可以通过as重命名看作不同表,然后查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> c1.cust_id,c1.cust_name,c1.cust_contact <br><span class="hljs-keyword">from</span> Customers <span class="hljs-keyword">as</span> c1,Customers <span class="hljs-keyword">as</span> c2<br><span class="hljs-keyword">where</span> c2.cust_contact = <span class="hljs-string">&#x27;Jim Jones&#x27;</span><br>	<span class="hljs-keyword">and</span> c1.cust_name = c2.cust_name<br>;<br></code></pre></td></tr></table></figure>
+
+<p>在Products表中也试试</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> c1.prod_id,c1.vend_id,c1.prod_name<br><span class="hljs-keyword">from</span> Products <span class="hljs-keyword">as</span> c1,Products <span class="hljs-keyword">as</span> c2<br><span class="hljs-keyword">where</span> c2.prod_id = <span class="hljs-string">&#x27;BNBG01&#x27;</span><br>	<span class="hljs-keyword">and</span> c2.vend_id = c1.vend_id <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>外部联结</p>
+<blockquote>
+<p><strong>与内部联结的差距是,内部联结需要列的值相等,(即2个表相同字段的行的值不相同会被过滤)</strong></p>
+<p><strong>而外部联结会选择其中一个表让所有行都出现,</strong></p>
+</blockquote>
+<p><code>left outer join</code> 或者 <code>right outer join</code>,(随意改变2个表出现的顺序)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> Customers.cust_id,Orders.order_num<br><span class="hljs-keyword">from</span> Customers <span class="hljs-keyword">left</span> <span class="hljs-keyword">outer</span> <span class="hljs-keyword">join</span> Orders<br><span class="hljs-keyword">on</span> Customers.cust_id = Orders.cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+<p>让Customers中的所有cust_id行都出现</p>
+</li>
+<li><p>带聚集函数的联结</p>
+<p>统计有订单的客户的所有订单数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> Customers.cust_id,<span class="hljs-keyword">count</span>(Orders.order_num) <span class="hljs-keyword">as</span> num_ord <br><span class="hljs-keyword">from</span> Customers <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> Orders <br><span class="hljs-keyword">on</span> Customers.cust_id = Orders.cust_id <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> Customers.cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>因为是等值联结所以就并不是所有客户都出现了</li>
+</ul>
+<p>统计所有客户的所有订单数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> Customers.cust_id,<span class="hljs-keyword">count</span>(Orders.order_num) <span class="hljs-keyword">as</span> num_ord <br><span class="hljs-keyword">from</span> Customers <span class="hljs-keyword">left</span> <span class="hljs-keyword">outer</span> <span class="hljs-keyword">join</span> Orders <br><span class="hljs-keyword">on</span> Customers.cust_id = Orders.cust_id <br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> Customers.cust_id <br>;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h4 id="13-组合查询"><a href="#13-组合查询" class="headerlink" title="13.组合查询"></a>13.组合查询</h4><blockquote>
+<p>Union 用来组合 数条SQL查询,对于多条select语句,可以将结果组合成单个集合</p>
+</blockquote>
+<ol>
+<li><p>使用union </p>
+<blockquote>
+<p>每条select语句之间放上union就行</p>
+</blockquote>
+<p>查询位于IN,IL,MI州或者是Fun4All单位的所有客户 1.使用where来做</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email,cust_state <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_state <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;IN&#x27;</span>,<span class="hljs-string">&#x27;IL&#x27;</span>,<span class="hljs-string">&#x27;MI&#x27;</span>)<br><span class="hljs-keyword">or</span> cust_name = <span class="hljs-string">&#x27;Fun4All&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+
+<p>使用union合并2个select查询出来的集合</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email,cust_state <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_state <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;IN&#x27;</span>,<span class="hljs-string">&#x27;IL&#x27;</span>,<span class="hljs-string">&#x27;MI&#x27;</span>)<br><span class="hljs-keyword">union</span> <br><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email,cust_state <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_name = <span class="hljs-string">&#x27;Fun4All&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>union的规则</p>
+<p>必须由2条或者以上的select语句组成,语句间用union分隔</p>
+<p><strong>union中的每个查询必须包含相同的列,表达式,或聚集函数</strong></p>
+</li>
+<li><p><strong>union从查询结果集中自动去除了重复的行,如果想要全部结果,使用union all</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_state <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;IN&#x27;</span>,<span class="hljs-string">&#x27;IL&#x27;</span>,<span class="hljs-string">&#x27;MI&#x27;</span>)<br><span class="hljs-keyword">union</span> <span class="hljs-keyword">all</span><br><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_name = <span class="hljs-string">&#x27;Fun4All&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>对组合查询结果排序</p>
+<blockquote>
+<p>只能使用一条order by 子句,并且出现在最后一条select语句之后</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_state <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;IN&#x27;</span>,<span class="hljs-string">&#x27;IL&#x27;</span>,<span class="hljs-string">&#x27;MI&#x27;</span>)<br><span class="hljs-keyword">union</span> <br><span class="hljs-keyword">select</span> cust_name,cust_contact,cust_email <br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_name = <span class="hljs-string">&#x27;Fun4All&#x27;</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> cust_name,cust_contact <br>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="14-插入数据"><a href="#14-插入数据" class="headerlink" title="14.插入数据"></a>14.插入数据</h4><blockquote>
+<p>语法: insert into 表A values ()</p>
+</blockquote>
+<ol>
+<li><p>插入检索出来的数据</p>
+<p>如果有一个CustNew表和Customers字段相同,可以使用<strong>Insert into select语句</strong></p>
+<p>将CustNew表数据合并到Customers表中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> Customers <br><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> CustNew;<br></code></pre></td></tr></table></figure>
+
+<p>或者将CustNew中的某条记录插入表Customers中:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> Customers <br><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> CustNew <br><span class="hljs-keyword">where</span> cust_id = <span class="hljs-string">&#x27;1000000008&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="15-更新和删除数据"><a href="#15-更新和删除数据" class="headerlink" title="15.更新和删除数据"></a>15.更新和删除数据</h4><ol>
+<li><p>更新数据</p>
+<blockquote>
+<p>基本格式: <code>update 表 set 列=值 where 条件</code></p>
+</blockquote>
+<p>例:更新客户1000000005的email</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> Customers <br><span class="hljs-keyword">set</span> cust_email = <span class="hljs-string">&#x27;kim@thetoystore.com&#x27;</span><br><span class="hljs-keyword">where</span> cust_id = <span class="hljs-string">&#x27;1000000005&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除数据</p>
+<blockquote>
+<p>格式: <code>delete from 表 where 条件</code>, （如果没有where子句则所有的行都会被删除</p>
+</blockquote>
+<p>删除cust_id = ‘1000000006’的客户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_id = <span class="hljs-string">&#x27;1000000006&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="16-创建表"><a href="#16-创建表" class="headerlink" title="16.创建表"></a>16.创建表</h4><ol>
+<li><p>书中的Products表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> Products (<br>	prod_id <span class="hljs-built_in">char</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	vend_id <span class="hljs-built_in">char</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	prod_name <span class="hljs-built_in">char</span>(<span class="hljs-number">254</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	prod_price <span class="hljs-built_in">decimal</span>(<span class="hljs-number">8</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	prod_desc <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1000</span>) <span class="hljs-literal">null</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>decimal:除掉任何符号8位,小数点后最多2位</p>
+<p>**默认null 和 not null **</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> Vendors (<br>	vend_id <span class="hljs-built_in">char</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	vend_name <span class="hljs-built_in">char</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	vend_address <span class="hljs-built_in">char</span>(<span class="hljs-number">50</span>),<br>	vend_city <span class="hljs-built_in">char</span>(<span class="hljs-number">50</span>),<br>	vend_state <span class="hljs-built_in">char</span>(<span class="hljs-number">5</span>),<br>	vend_zip <span class="hljs-built_in">char</span>(<span class="hljs-number">10</span>),<br>	vend_country <span class="hljs-built_in">char</span>(<span class="hljs-number">50</span>)<br>);<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>指定默认值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> OrderItems (<br>	order_num <span class="hljs-built_in">integer</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	order_item <span class="hljs-built_in">integer</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	prod_id <span class="hljs-built_in">char</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>,<br>	quantity <span class="hljs-built_in">integer</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">default</span> <span class="hljs-number">1</span>,<br>	item_price <span class="hljs-built_in">decimal</span>(<span class="hljs-number">8</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>插入一行时,没有给出具体值则使用默认值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> OrderItems (order_num,order_item,prod_id,item_price)<br><span class="hljs-keyword">values</span> (<span class="hljs-number">150</span>,<span class="hljs-number">200</span>,<span class="hljs-string">&#x27;prod_id_1&#x27;</span>,<span class="hljs-number">1.99</span>);<br></code></pre></td></tr></table></figure>
+
+<p>就能看到default的值</p>
+</li>
+<li><p>在表中添加新的列</p>
+<p>添加列就要给出数据类型</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> Vendors <br><span class="hljs-keyword">add</span> vend_phone <span class="hljs-built_in">char</span>(<span class="hljs-number">20</span>)<br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> Vendors <br><span class="hljs-keyword">drop</span> <span class="hljs-keyword">column</span> vend_phone;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除表</p>
+<p>删除Vendors表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">table</span> Vendors;<br></code></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h4 id="17-使用视图"><a href="#17-使用视图" class="headerlink" title="17.使用视图"></a>17.使用视图</h4><blockquote>
+<p>使用视图的好处:</p>
+<ol>
+<li>简化复杂的sql操作,重用</li>
+<li>使用表的组成部分而不是整个表</li>
+<li>保护数据</li>
+<li>可更改数据格式和表示</li>
+</ol>
+<blockquote>
+<p>视图创建后,利用方式和表基本相同</p>
+</blockquote>
+<p>视图的规则和限制:</p>
+</blockquote>
+<ol>
+<li><p>创建视图</p>
+<blockquote>
+<p>语法: create view 视图名 as </p>
+</blockquote>
+<p>将之前的联结查询(产品客户表)包装成一个视图,简化sql查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> cust_name,cust_contact<br><span class="hljs-keyword">from</span> Customers,Orders,OrderItems <br><span class="hljs-keyword">where</span> Customers.cust_id = Orders.cust_id <br><span class="hljs-keyword">and</span> OrderItems.order_num = Orders.order_num <br><span class="hljs-keyword">and</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+
+<p>将联结查询的cust_name,cust_contact,prod_id结果信息制作为视图,然后从视图中查询数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> ProductCustomers <span class="hljs-keyword">as</span> <br><span class="hljs-keyword">select</span> cust_name,cust_contact,prod_id<br><span class="hljs-keyword">from</span> Customers,Orders,OrderItems <br><span class="hljs-keyword">where</span> (Customers.cust_id = Orders.cust_id)<br><span class="hljs-keyword">and</span> (OrderItems.order_num = Orders.order_num)<br>;<br></code></pre></td></tr></table></figure>
+
+<p>从view中查询订购RGAN01产品的客户信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> * <br><span class="hljs-keyword">from</span> ProductCustomers <br><span class="hljs-keyword">where</span> prod_id = <span class="hljs-string">&#x27;RGAN01&#x27;</span><br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">drop</span> <span class="hljs-keyword">view</span> ProductCustomers<br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>用视图重新格式化检索出的数据</p>
+<p>使用视图前每次select都需要在计算字段中格式化</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">concat</span>(vend_name,<span class="hljs-string">&#x27;(&#x27;</span>,vend_country,<span class="hljs-string">&#x27;)&#x27;</span>)<br><span class="hljs-keyword">as</span> vend_title <br><span class="hljs-keyword">from</span> Vendors <br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> vend_name <br>;<br></code></pre></td></tr></table></figure>
+
+<p>将上面语句结果转为视图,则每次需要查询时不必格式化</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> VendorsLocations <span class="hljs-keyword">as</span> <br><span class="hljs-keyword">select</span> <span class="hljs-keyword">concat</span>(vend_name,<span class="hljs-string">&#x27;(&#x27;</span>,vend_country,<span class="hljs-string">&#x27;)&#x27;</span>)<br><span class="hljs-keyword">as</span> vend_title <br><span class="hljs-keyword">from</span> Vendors <br>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> *<br><span class="hljs-keyword">from</span> VendorLocations<br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>用视图过滤不想要的数据</p>
+<p>过滤掉email为null的客户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> CustomerEmailList <span class="hljs-keyword">as</span> <br><span class="hljs-keyword">select</span> cust_id,cust_name,cust_email<br><span class="hljs-keyword">from</span> Customers <br><span class="hljs-keyword">where</span> cust_email <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span><br>;<br><br><span class="hljs-comment">-- 查询</span><br><span class="hljs-keyword">select</span> * <br><span class="hljs-keyword">from</span> CustomerEmailList <br>;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>视图与计算字段</p>
+<p>之前的检索某个订单中的物品和计算此物品的总价格:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> prod_id,quantity,item_price,quantity*item_price <span class="hljs-keyword">as</span> expanded_price<br><span class="hljs-keyword">from</span> OrderItems <br><span class="hljs-keyword">where</span> order_num = <span class="hljs-number">20008</span><br>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>转为视图</strong></p>
+<p>查询某个订单的总价格,可以create一个所有订单的总价格view,然后select某个订单</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> OrderItemsExpanded <span class="hljs-keyword">as</span> <br><span class="hljs-keyword">select</span> order_num,<br>		prod_id,<br>		quantity,<br>		item_price,<br>		quantity*item_price <span class="hljs-keyword">as</span> expanded_price<br><span class="hljs-keyword">from</span> OrderItems<br>;<br><br><span class="hljs-comment">-- 查询</span><br><span class="hljs-keyword">select</span> * <br><span class="hljs-keyword">from</span> OrderItemsExpanded <br><span class="hljs-keyword">where</span> order_num = <span class="hljs-number">20008</span><br>;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<blockquote>
+<p>创建view的主要目的是减少重复的sql语句,(方便),view=虚拟的表,包含的不是数据而是根据需要检索数的查询</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%85%A5%E9%97%A8/">数据库(入门</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/30/csdn/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E5%AE%9E%E4%BE%8B!%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84HTTP%E8%AF%B7%E6%B1%82%E7%9A%84%E8%AF%BB%E5%8F%96%E5%92%8C%E5%88%86%E6%9E%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">有限状态机实例:服务端实现简单的HTTP请求的读取和分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/04/csdn/IPv4%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/">
+                        <span class="hidden-mobile">IPv4协议详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

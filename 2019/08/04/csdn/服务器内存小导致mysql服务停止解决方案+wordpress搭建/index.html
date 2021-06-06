@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>服务器内存小导致mysql服务停止解决方案+wordpress搭建 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="服务器内存小导致mysql服务停止解决方案+wordpress搭建">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-04 00:03" pubdate>
+        2019年8月4日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      716 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">服务器内存小导致mysql服务停止解决方案+wordpress搭建</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h2 id="wordpress搭建"><a href="#wordpress搭建" class="headerlink" title="wordpress搭建"></a>wordpress搭建</h2><ul>
+<li>域名现在要实名</li>
+<li>买了国外服务器后(可以使用默认的dns服务器,一般都能解析),然后修改<code>dns 解析设置</code>,设置为服务器的ip</li>
+<li><del>好像修改dns服务器要等几个小时才能成功</del></li>
+<li><code>dig yourdomain</code>或者<code>nslookup  youdomain</code>查看是否域名解析到<code>ip</code>是否成功</li>
+</ul>
+<h4 id="lnmp环境搭建"><a href="#lnmp环境搭建" class="headerlink" title="lnmp环境搭建"></a>lnmp环境搭建</h4><ol>
+<li>安装 <code>nginx mariadb php-fpm</code>…</li>
+<li><code>nginx</code>配置文件修改(写入内容是<del>抄</del>的): <code>vim /etc/nginx/conf.d/web.conf</code></li>
+</ol>
+<ul>
+<li><code>server_name</code>:自己的域名</li>
+<li><code>root</code>:表示<code>nginx</code>站点根目录<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment">#======================== WEB options ============================</span><br><span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">80</span>;<br>        <span class="hljs-attribute">server_name</span>  yourdomain;<br>        <span class="hljs-attribute">root</span>         /var/wordpress;<br>	<span class="hljs-attribute">index</span>        index.php index.html;<br>	<span class="hljs-attribute">charset</span>	     utf-<span class="hljs-number">8</span>;<br><span class="hljs-comment">#======================== Pseudo static ==========================</span><br>        <span class="hljs-attribute">location</span> / &#123;<br>	<span class="hljs-attribute">if</span> (-f $request_filename/index.html)&#123; <span class="hljs-attribute">rewrite</span> (.*) <span class="hljs-variable">$1</span>/index.html <span class="hljs-literal">break</span>; &#125;<br>	<span class="hljs-attribute">if</span> (-f $request_filename/index.php)&#123; <span class="hljs-attribute">rewrite</span> (.*) <span class="hljs-variable">$1</span>/index.php; &#125;<br>	<span class="hljs-attribute">if</span> (!-f $request_filename)&#123; <span class="hljs-attribute">rewrite</span> (.*) /index.php; &#125;<br>	&#125;<br><span class="hljs-comment">#======================== PHP options ============================</span><br>	<span class="hljs-attribute">location</span> <span class="hljs-regexp">~ \.php</span> &#123;<br>		<span class="hljs-attribute">root</span>    /var/wordpress;<br>		<span class="hljs-attribute">fastcgi_pass</span>    <span class="hljs-number">127.0.0.1:9000</span>;<br>		<span class="hljs-attribute">fastcgi_index</span>   index.php;<br>		<span class="hljs-attribute">fastcgi_param</span>   SCRIPT_FILENAME  $document_root$fastcgi_script_name;<br>		<span class="hljs-attribute">include</span>         fastcgi_params;<br>	&#125;<br><span class="hljs-comment">#======================== Error page =============================</span><br>        <span class="hljs-attribute">error_page</span> <span class="hljs-number">400</span> <span class="hljs-number">403</span> <span class="hljs-number">404</span> /40x.html;<br>            <span class="hljs-attribute">location</span> = /40x.html &#123;<br>        &#125;<br>        <span class="hljs-attribute">error_page</span> <span class="hljs-number">500</span> <span class="hljs-number">502</span> <span class="hljs-number">503</span> <span class="hljs-number">504</span> /50x.html;<br>            <span class="hljs-attribute">location</span> = /50x.html &#123;<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<ol start="3">
+<li>配置<code>php</code>服务<br><code>vim /etc/php-fpm.d/www.conf</code></li>
+</ol>
+<ul>
+<li><code>nginx</code>用户使用<code>php-fpm</code>服务,权限设置<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-keyword">user</span> <span class="hljs-title">= nginx</span><br><span class="hljs-keyword">group</span> <span class="hljs-title">= nginx</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<ol start="4">
+<li><p>创建一个数据库给<code>wordpress</code>使用  </p>
+<blockquote>
+<ol>
+<li><code>mysql</code>    </li>
+<li><code>create database xxx</code></li>
+<li>创建该数据库的账户密码<br><code>grant all privileges on wpdb.* to &#39;账户1&#39;@&#39;localhost&#39; identified by &#39;密码1&#39;;</code><br>账户名:<code>账户1</code>,密码:<code>密码1</code></li>
+<li>看看已有的数据库<br><code>show databases;</code></li>
+</ol>
+</blockquote>
+</li>
+<li><p>开启所有服务</p>
+<blockquote>
+<ol>
+<li><code>systemctl enable mariadb</code><br><code>systemctl start mariadb</code>   </li>
+<li> <code>systemctl enable php-fpm</code><br><code>systemctl start php-fpm</code></li>
+<li><code>systemctl enable nginx</code><br><code>systemctl start nginx</code> </li>
+</ol>
+</blockquote>
+</li>
+<li><p>下载<code>wordpress</code>到<code>/var/wordpress</code>(站点根目录)</p>
+</li>
+</ol>
+<ul>
+<li><code>wget</code>下载解压打包看别的<code>blog</code></li>
+<li>修改<code>/var/wordpress</code>的所属组和用户</li>
+<li><code>chmod 755 -R /var/wordpress</code></li>
+<li><code>chown nginx:nginx -R wordpress</code></li>
+<li><del><code>wordpress</code>的权限给<code>nginx</code>避免一些权限报错</del></li>
+</ul>
+<ol start="7">
+<li>域名访问来安装<code>wordpress</code></li>
+</ol>
+<h3 id="关于低配便宜辣鸡服务器-mariadb-mysql-服务自动终止原因"><a href="#关于低配便宜辣鸡服务器-mariadb-mysql-服务自动终止原因" class="headerlink" title="关于低配便宜辣鸡服务器,mariadb(mysql)服务自动终止原因"></a>关于<del>低配便宜辣鸡</del>服务器,<code>mariadb(mysql)</code>服务自动终止原因</h3><ul>
+<li><code>vim /var/log/mariadb/mariadb.log</code>查看报错</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql">140521 08:26:40 mysqld_safe Starting mysqld daemon <span class="hljs-keyword">with</span> <span class="hljs-keyword">databases</span> <span class="hljs-keyword">from</span> /<span class="hljs-keyword">var</span>/lib/mysql<br><span class="hljs-number">140521</span> <span class="hljs-number">08</span>:<span class="hljs-number">26</span>:<span class="hljs-number">41</span> mysqld_safe mysqld <span class="hljs-keyword">from</span> pid <span class="hljs-keyword">file</span> /<span class="hljs-keyword">var</span>/run/mysqld/mysqld.pid ended<br><br>mysqld: <span class="hljs-keyword">Out</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">memory</span> (Needed <span class="hljs-number">128917504</span> <span class="hljs-keyword">bytes</span>)之类的报错<br><br>Fatal <span class="hljs-keyword">error</span>: cannot <span class="hljs-keyword">allocate</span> <span class="hljs-keyword">memory</span> <span class="hljs-keyword">for</span> the buffer pool<br>无法在内存中分配内存.服务器内存小.<br></code></pre></td></tr></table></figure>
+<p>原因:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">Well, the issue here <span class="hljs-keyword">is</span> Performance <span class="hljs-keyword">Schema</span>, <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> making it obvious.<br><span class="hljs-keyword">When</span> starting up, it allocates <span class="hljs-keyword">all</span> the RAM it needs.<br><span class="hljs-keyword">By</span> <span class="hljs-keyword">default</span>, it will use around <span class="hljs-number">400</span>MB <span class="hljs-keyword">of</span> RAM,<br>which isn’t noticible <span class="hljs-keyword">with</span> a <span class="hljs-keyword">database</span> <span class="hljs-keyword">server</span> <span class="hljs-keyword">with</span> <span class="hljs-number">64</span>GB <span class="hljs-keyword">of</span> RAM,<br>but it <span class="hljs-keyword">is</span> quite significant <span class="hljs-keyword">for</span> a small virtual machine.<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>默认是性能模式且不明显,sql启动时会分配它需要的RAM,默认会使用400MB,大服务器上这点不算什么.但是在小虚拟机上很重要</code></li>
+<li><del>好像我的<code>Plugins</code>(插件)服务也因为内存的原因不能用</del><h4 id="修改配置文件vim-etc-my-cnf-在-mysqld-项下"><a href="#修改配置文件vim-etc-my-cnf-在-mysqld-项下" class="headerlink" title="修改配置文件vim /etc/my.cnf,在[mysqld]项下."></a>修改配置文件<code>vim /etc/my.cnf</code>,在<code>[mysqld]</code>项下.</h4>添加:<code>performance_schema = off</code></li>
+</ul>
+<h3 id="当运行环境正常和域名解析正确时-如果还是访问不了-说明服务器的防火墙关闭了80端口"><a href="#当运行环境正常和域名解析正确时-如果还是访问不了-说明服务器的防火墙关闭了80端口" class="headerlink" title="当运行环境正常和域名解析正确时,如果还是访问不了,说明服务器的防火墙关闭了80端口"></a>当运行环境正常和域名解析正确时,如果还是访问不了,说明服务器的防火墙关闭了<code>80端口</code></h3><ol>
+<li>关闭防火墙</li>
+<li>开启<code>80端口</code><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">firewall-cmd <span class="hljs-attribute">--zone</span>=public <span class="hljs-attribute">--add-port</span>=80/tcp --permanent<br>systemctl restart firewalld<br></code></pre></td></tr></table></figure>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/mariadb-performance-schema/">mariadb performance_schema</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/04/csdn/HDU_3974_dfs+%E7%BA%BF%E6%AE%B5%E6%A0%91/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HDU_3974_dfs+线段树</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/03/csdn/Urllib%E5%BA%93%E7%9A%84%E9%83%A8%E5%88%86%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">Urllib库的部分使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

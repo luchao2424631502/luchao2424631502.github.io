@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>VsStudio制作静态库-mutable-explicit等用法 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="VsStudio制作静态库-mutable-explicit等用法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-06 17:26" pubdate>
+        2021年1月6日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">VsStudio制作静态库-mutable-explicit等用法</h1>
+            
+            <div class="markdown-body">
+              <h4 id="mutable关键字"><a href="#mutable关键字" class="headerlink" title="mutable关键字"></a>mutable关键字</h4><ol start="2">
+<li><p><strong>class中的常函数</strong>,当函数中不需要修改类中的变量时将函数声明为 <code>const</code> 函数,<strong>配合const&amp;对象使用</strong>,(const的位置和override出现的位置相同,说明这个地方是修改函数属性的),</p>
+<p><strong>如果要在class的const函数中修改类中变量,则将成员变量声明为mutable</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;array&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;../src/include/local.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entity</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-keyword">int</span> m_X, m_Y;<br>	<span class="hljs-keyword">mutable</span> <span class="hljs-keyword">int</span> var; <span class="hljs-comment">//mutable:可变的,表示即使在常方法中也可以修改此可变的变量,可变:允许在常函数中允许变量被修改</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">GetX</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span><br><span class="hljs-function">	</span>&#123;<br>		var = <span class="hljs-number">2</span>;<br>		<span class="hljs-keyword">return</span> m_X;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">GetX</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-keyword">return</span> m_X;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetX</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span><br><span class="hljs-function">	</span>&#123;<br>		m_X = x;<br>	&#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">PrintEntity</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Entity&amp; e)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; e.GetX() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_AGE = <span class="hljs-number">80</span>;<br>	<span class="hljs-keyword">int</span> <span class="hljs-keyword">const</span>*<span class="hljs-keyword">const</span>  a = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; *a &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>可变lambda函数</p>
+<p>值捕获的变量不能在非可变lambda中修改,<strong>即:只能在可变lambda中修改值捕获的变量</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> x = <span class="hljs-number">8</span>;<br><span class="hljs-keyword">auto</span> f = [=]() <br>&#123;<br>	x++;<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>&#125;;<br>f();<br><span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<h4 id="类的构造函数中初始化成员变量尽量使用初始化列表-避免在构造函数体内部初始化成员变量"><a href="#类的构造函数中初始化成员变量尽量使用初始化列表-避免在构造函数体内部初始化成员变量" class="headerlink" title="类的构造函数中初始化成员变量尽量使用初始化列表,避免在构造函数体内部初始化成员变量"></a>类的构造函数中初始化成员变量尽量使用初始化列表,避免在构造函数体内部初始化成员变量</h4><hr>
+<h3 id="new运算符的不同用法"><a href="#new运算符的不同用法" class="headerlink" title="new运算符的不同用法"></a>new运算符的不同用法</h3><p>operator new 和 placement new </p>
+<h3 id="explicit关键字声明类的构造函数，禁止类的隐式类型转化"><a href="#explicit关键字声明类的构造函数，禁止类的隐式类型转化" class="headerlink" title="explicit关键字声明类的构造函数，禁止类的隐式类型转化"></a>explicit关键字声明类的构造函数，禁止类的隐式类型转化</h3><pre><code>implicit (含蓄的) 隐式类型转换 explicit (明确的) 显式构造函数,**只要有对应的构造函数,默认是implicit的,即可以进行隐式类型转换,除非将构造函数声明为explicit,显式的构造函数**</code></pre>
+<h3 id="重载运算符的写法"><a href="#重载运算符的写法" class="headerlink" title="重载运算符的写法"></a>重载运算符的写法</h3><blockquote>
+<ol>
+<li><p>重载运算符operator的写法<strong>和写class中的成员函数是一样的</strong>,</p>
+<p>注意:</p>
+</li>
+</ol>
+<ol>
+<li><p>在类中重载运算符的函数参数只有一个是因为重载的是2元运算符,且第一个参数是this指针</p>
+</li>
+<li><p>如上,当我们重载全局运算符的时候<strong>千万不要向重载class的2元运算符一样只写一个参数</strong></p>
+<p>如果重载了+ - &amp; /运算符,<strong>最好有对应的名字的成员函数来表达运算符的意思</strong></p>
+</li>
+</ol>
+</blockquote>
+<h3 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h3><blockquote>
+<p>应为类中有指针,重写拷贝构造函数解决浅拷贝和深拷贝问题</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++">String abc;<br><span class="hljs-comment">/*调用拷贝构造函数例子*/</span><br>String <span class="hljs-built_in">string</span> = abc;<br><span class="hljs-function">String <span class="hljs-title">string1</span><span class="hljs-params">(abc)</span></span>;<br><br><span class="hljs-comment">/*定义自己的拷贝构造函数*/</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span></span><br><span class="hljs-class">&#123;</span><br>  <span class="hljs-keyword">public</span>:<br>    String() = <span class="hljs-keyword">default</span>;<br>    String(<span class="hljs-keyword">const</span> String&amp; other)<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="std-vector"><a href="#std-vector" class="headerlink" title="std::vector"></a>std::vector</h3><ol>
+<li><p>注意容器大小的变化</p>
+<p><code>std::vector&lt;int&gt; vec;</code>在stack上分配的容器大小是1,当push_back时,<strong>容器会申请新的内存空间,    并且将原来所有的元素都复制 (模板是类则调用类的拷贝构造函数) 过去</strong>,</p>
+<blockquote>
+<p> 在push_back()前使用<code>reserve()</code>函数申请容器的内存空间,<strong>减少扩容时,元素的多次拷贝构造</strong></p>
+</blockquote>
+<ol start="2">
+<li>添加元素时调用<code>emplace_back()</code>,<strong>此函数直接在容器的内存上使用参数构造元素(类),而<code>push_back()</code>则是先构造临时对象,然后在容器内存上调用拷贝构造函数.</strong></li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;array&gt;</span></span><br><span class="hljs-comment">//#include &quot;../src/include/local.h&quot;</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;memory&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Vertex</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-keyword">public</span>:<br>	Vertex() = <span class="hljs-keyword">default</span>;<br><br>	Vertex(<span class="hljs-keyword">float</span> x, <span class="hljs-keyword">float</span> y, <span class="hljs-keyword">float</span> z)<br>		:x(x), y(y), z(z)<br>	&#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;x,y,z构造函数&quot;</span>&lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br>	Vertex(<span class="hljs-keyword">const</span> Vertex&amp; other)<br>		:x(other.x), y(other.y), z(other.z)<br>	&#123;<br>		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>	&#125;<br>	<span class="hljs-comment">//~Vertex()</span><br>	<span class="hljs-comment">//&#123;</span><br>	<span class="hljs-comment">//	std::cout &lt;&lt; &quot;~析构函数&quot; &lt;&lt; std::endl;</span><br>	<span class="hljs-comment">//&#125;</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-keyword">float</span> x, y, z;<br>&#125;;<br><br><span class="hljs-built_in">std</span>::ostream&amp; <span class="hljs-keyword">operator</span>&lt;&lt;(<span class="hljs-built_in">std</span>::ostream&amp; stream, <span class="hljs-keyword">const</span> Vertex&amp; vertex)<br>&#123;<br>	stream &lt;&lt; vertex.x &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; vertex.y &lt;&lt; <span class="hljs-string">&quot;, &quot;</span> &lt;&lt; vertex.z;<br>	<span class="hljs-keyword">return</span> stream;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Function</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Vertex&gt;&amp; v)</span></span><br><span class="hljs-function"></span>&#123;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;	<br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;Vertex&gt; vertices;<br>	vertices.reserve(<span class="hljs-number">3</span>);<br><br>	<span class="hljs-comment">//vertices.push_back(&#123;1,2,3&#125;);</span><br>	<span class="hljs-comment">//vertices.push_back(&#123;4,5,6&#125;);</span><br>	<span class="hljs-comment">//vertices.push_back(&#123;7,8,9&#125;);</span><br><br>	vertices.emplace_back(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>);<br>	vertices.emplace_back(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>);<br>	vertices.emplace_back(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>);<br><br>	<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cin</span>.get();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<h3 id="Visual-Studio中c-项目添加静态库"><a href="#Visual-Studio中c-项目添加静态库" class="headerlink" title="Visual Studio中c++项目添加静态库"></a>Visual Studio中c++项目添加静态库</h3><blockquote>
+<p>首先下载需要使用的库,然后配置include目录和静态库or动态库目录,+具体库文件名</p>
+<p>这里以glfw c库<a target="_blank" rel="noopener" href="https://www.glfw.org/download.html">下载</a>来举例</p>
+<p>将下载的文件夹目录下的include/目录和所需要的版本的lib/目录复制到项目所在目录(可自己在项目中添加新的目录)</p>
+</blockquote>
+<ol>
+<li><p>下载windows预编译二进制文件(库文件)</p>
+<blockquote>
+<p>根据自己项目是win32还是x64对应下载</p>
+</blockquote>
+</li>
+<li><p>添加头文件所在目录: 在项目-&gt;属性-&gt;c/c++-&gt;<strong>附加包含目录中</strong>,添加<strong>头文件所在目录</strong></p>
+</li>
+<li><p>添加库文件所在目录: 在项目-&gt;属性-&gt;链接器(<code>Linker</code>)-&gt;常规,添加<strong>附加库目录(库文件的路径)</strong></p>
+</li>
+<li><p>添加依赖的具体库文件: 项目-&gt;属性-&gt;链接器(<code>Linker</code>)-&gt;输入-&gt;附加依赖项,添加静态库文件<code>.lib</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="动态库"><a href="#动态库" class="headerlink" title="动态库"></a>动态库</h3><p>DLL有2种调用方法</p>
+<ol>
+<li>隐式调用</li>
+<li>显示调用</li>
+</ol>
+<hr>
+<h3 id="同一解决方案下添加另一个项目-编译成静态库-链接到原项目"><a href="#同一解决方案下添加另一个项目-编译成静态库-链接到原项目" class="headerlink" title="同一解决方案下添加另一个项目(编译成静态库)链接到原项目"></a>同一解决方案下添加另一个项目(编译成静态库)链接到原项目</h3><ol>
+<li>新建空c++项目(假设叫做Test),(解决方案和项目不在同一目录中)</li>
+<li>在解决方案中添加新项目(空的c++项目),假设叫Static</li>
+<li>Static编译成lib,修改项目属性-&gt;常规属性-&gt;配置类型,选择.lib</li>
+<li>Test要使用Static编译出的.lib,<strong>引用头文件和上面一样</strong>,</li>
+<li>引用lib文件可以不需要再次添加lib目录和依赖的lib文件名,<strong>Test项目右键点击添加-&gt;引用-&gt;同意解决方案下的Static-&gt;确定</strong></li>
+<li>编译Test,测试链接成功</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/mutable-explicit/">mutable,explicit</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/11/tuple-variant-any-string-view-Singleton%E4%BD%BF%E7%94%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">tuple_variant_any_string_view_Singleton使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/06/template%E5%92%8Cnamespace%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">template和namespace简单使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

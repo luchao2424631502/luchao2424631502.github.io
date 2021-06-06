@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>虚拟内存-2级分页表原理 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="虚拟内存-2级分页表原理">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-07 18:10" pubdate>
+        2019年11月7日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      837 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">虚拟内存-2级分页表原理</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+<h3 id="虚拟内存中的分页"><a href="#虚拟内存中的分页" class="headerlink" title="虚拟内存中的分页"></a>虚拟内存中的分页</h3><ul>
+<li>每个进程都有一个页表,</li>
+<li>每个进程<strong>可以</strong>占据大量的<strong>虚存空间</strong> </li>
+</ul>
+<hr>
+<p>概念：</p>
+<ol>
+<li>页表项 : 页表中的每个项记录了<strong>每个页</strong>对应的<strong>页框号</strong></li>
+</ol>
+<hr>
+<ul>
+<li>不带单位默认为字节<code>Byte</code></li>
+</ul>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><blockquote>
+<p>假设进程的虚存空间为$2GB=2^{31}$，若使用$2^9 = 512$个字节的页,那么进程需要$2^{31}/2^9 = 2^{22}$个<strong>页表项</strong>.  </p>
+</blockquote>
+<blockquote>
+<p>导致进程加载到内存时,创建的页表占用的内存空间太大.</p>
+</blockquote>
+<ul>
+<li>大多数虚拟内存方案<strong>都在虚存中保存页表</strong>, <strong>那么说明页表也能像页一样能够被分开，(分页技术)</strong></li>
+<li>分页技术 同样来 分<strong>页表</strong> ： <strong>将1个大页表分成多个页表</strong></li>
+<li>使得当一个进程正在运行时,<strong>页表至少有一个部分在内存中,且该部分包含正在运行的页    的页表项</strong></li>
+</ul>
+<h3 id="使用二级方案来组织大型页表"><a href="#使用二级方案来组织大型页表" class="headerlink" title="使用二级方案来组织大型页表"></a>使用二级方案来组织大型页表</h3><ul>
+<li>分页技术 同样来 分<strong>页表</strong> ： <strong>将1个大页表分成多个页表</strong></li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h4><ol>
+<li><p>有一个<strong>页目录</strong>,每一项指向一个<strong>页表</strong>, </p>
+<p>若<strong>页目录</strong>长度为<code>x</code>,且<strong>页表</strong>最大长度为<code>y</code>,则一个<strong>进程</strong>可以有<code>x*y</code>页</p>
+</li>
+<li><p><strong>典型情况下: 页目录的一个页表的最大长度被限制为<code>1</code>页</strong>   (重要限制), </p>
+</li>
+</ol>
+<h4 id="32位地址的两级方案"><a href="#32位地址的两级方案" class="headerlink" title="32位地址的两级方案:"></a>32位地址的两级方案:</h4><p><img src="https://img-blog.csdnimg.cn/20191107180444578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="图片"></p>
+<blockquote>
+<ol>
+<li><p>采用<strong>字节级</strong>寻址,因为是<code>32</code>位一个地址,等价<code>4Byte</code>一个地址,</p>
+<ul>
+<li>不带单位默认为字节<code>Byte</code></li>
+</ul>
+</li>
+<li><p>规定<strong>页</strong>的大小为$4KB = 2^{12}$,  因为<strong>页表只包含1个页,下面简称此类 页表 为 页</strong>,</p>
+</li>
+<li><p> 则$4GB=2^{32}$虚拟地址空间需要$2^{32}/2^{12}=2^{20}$个页(<strong>页表</strong>)组成 (<strong>称为第三层</strong>)</p>
+</li>
+</ol>
+<ul>
+<li>如何优化查询页表?</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>若上面的每个<strong>页(页表)**都由<code>4</code>个字节的</strong>地址**映射可以找到, </p>
+<ol>
+<li>则创建一个<strong>新页表</strong>,<strong>每个页表项</strong>是<code>4</code>个字节的地址,<strong>指向</strong>该$2^{20}$个<strong>页(页表)</strong>,</li>
+<li>新页表的大小为$2^{20}*4=2^{22}=4MB$的<strong>内存空间</strong>, （<strong>称为第二次</strong>）</li>
+<li>又因为规定了<strong>页的大小$2^{12}$**，则</strong>该新页表<strong>有 $2^{22}/2^{12}=2^{10}$个</strong>页(页表)<strong>,每个</strong>页(页表)含有**$2^{10}$个 <strong>$4$字节地址</strong></li>
+</ol>
+<p>总结:</p>
+<p>第二层($4MB$) = $2^{10}$个<strong>页(页表)</strong> = $2^{20}$ 个<code>4</code>字节地址</p>
+</li>
+<li><p>因为每个<strong>页(页表)**都由<code>4</code>个字节的</strong>地址<strong>映射可以找到, 则</strong>第二层的页(页表)又<strong>可以由$2^{10}$个 **$4$字节地址</strong>组成</p>
+<ol>
+<li>这个$2^{10}$<strong>个$4$字节地址</strong> $2^{10}*4=2^{12}$组成<strong>根页表</strong>,占据内存$2^{12}=4KB$ (<strong>称为第一层</strong>)</li>
+</ol>
+</li>
+</ul>
+<h4 id="虚拟地址如何通过第一层的根页表找到在内存中的地址"><a href="#虚拟地址如何通过第一层的根页表找到在内存中的地址" class="headerlink" title="虚拟地址如何通过第一层的根页表找到在内存中的地址"></a>虚拟地址如何通过第一层的根页表找到在内存中的地址</h4><h5 id="32位虚拟地址结构"><a href="#32位虚拟地址结构" class="headerlink" title="32位虚拟地址结构"></a>32位虚拟地址结构</h5><ul>
+<li> $[10位][10位][12位]$</li>
+</ul>
+<ol>
+<li><p>第一个10位有$2^{10}$个选择,则<strong>通过第一层$2^{10}$个选择找到了第二层中$2^{10}$个页(页表)中的一个</strong></p>
+<ul>
+<li>现在位于第二层中的任意一个<strong>页(页表)</strong></li>
+</ul>
+</li>
+<li><p>此时同样仍有$2^{10}$个选择</p>
+</li>
+<li><p>来到了第三层,<strong>因为页表长度为1</strong>,找到的<strong>页表</strong>恰好有<strong>页</strong>的<strong>页框号</strong></p>
+</li>
+<li><p>最后 <strong>页框号+12位偏移量</strong> 得到在内存中的地址</p>
+</li>
+</ol>
+<h5 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h5><ul>
+<li>重要是理解<strong>页</strong>  <strong>页表</strong>  <strong>页表项</strong> 的区别和联系</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-2%E7%BA%A7%E5%88%86%E9%A1%B5%E8%A1%A8-%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2/">虚拟内存 2级分页表 地址转换</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/17/csdn/Floyd%E6%B1%82%E6%9C%80%E5%B0%8F%E7%8E%AF/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Floyd求最小环</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/05/csdn/%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF-%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">死锁和饥饿-哲学家就餐问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

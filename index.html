@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/30/X86%E4%B8%8B%E6%8E%A7%E5%88%B6Intel8042%E5%88%9D%E5%A7%8B%E5%8C%96%E9%BC%A0%E6%A0%87/">X86下控制Intel8042初始化鼠标</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/30/X86%E4%B8%8B%E6%8E%A7%E5%88%B6Intel8042%E5%88%9D%E5%A7%8B%E5%8C%96%E9%BC%A0%E6%A0%87/">
+          
+          
+            
+          
+          x86下开启鼠标中断和鼠标初始化
+在bochs中开启鼠标mouse: enable,默认是ps/2接口鼠标
+
+设置Intel 8259A开启鼠标中断
+
+同时打开irq2 和 irq12才能开启鼠标中断
+但是经过测试实际上并没有产生 鼠标中断,
+
+测试过程
+关闭除鼠标中断外的其它中断
+
+启动bochs,show extint:开启显示外部中断,
+
+c,然后经过一段中断输出后停止了,开启鼠标,移动鼠标
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-30 18:59" pubdate>
+              2021-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Intel-8042/">Intel 8042</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/28/VGA%E4%B8%8B%E7%9A%84palette%E6%8A%80%E6%9C%AF/">VGA下的palette技术</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/28/VGA%E4%B8%8B%E7%9A%84palette%E6%8A%80%E6%9C%AF/">
+          
+          
+            
+          
+          os^代码当前使用的vga下分辨率0x13: 320x200x8位彩色模式,可以显示256种颜色
+其它模式:
+
+0x03:80x25,也就是master分支使用的文本模式
+0x12:640x480x4位彩色模式,
+
+调色板技术^调色板
+存在的意义是:为了节省空间采用的索引压缩的算法,并且只有颜色&lt;=256色有用
+
+
+压缩空间的例子:
+ 颜色数为16个的彩色图用原生rgb表示需要3byte大小
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-28 00:15" pubdate>
+              2021-04-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/vga/">vga</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/24/%E5%B0%8630%E5%A4%A9%E4%B8%ADtxt%E6%96%87%E4%BB%B6%E7%9A%84ascii%E5%AD%97%E4%BD%93%E5%83%8F%E7%B4%A0%E6%95%B0%E6%8D%AE%E8%BD%AC%E4%B8%BAbinary%E6%8F%92%E5%85%A5elf%E6%A0%BC%E5%BC%8F%E7%9A%84kernel%E4%B8%AD/">将30天中txt文件的ascii字体像素数据转为binary插入elf格式的kernel中</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/24/%E5%B0%8630%E5%A4%A9%E4%B8%ADtxt%E6%96%87%E4%BB%B6%E7%9A%84ascii%E5%AD%97%E4%BD%93%E5%83%8F%E7%B4%A0%E6%95%B0%E6%8D%AE%E8%BD%AC%E4%B8%BAbinary%E6%8F%92%E5%85%A5elf%E6%A0%BC%E5%BC%8F%E7%9A%84kernel%E4%B8%AD/">
+          
+          
+            
+          
+          将30天中的txt文件ascii字体像素数据转化为(8bits*16)byte array放入elf文件中
+背景: 目前在基于elephant os上将30天的图形界面加入上来,但是30天的编译链是书作者写的,此方式是用gcc等实现,此处是处理256个ascii字体文件加入到kernel.bin中
+
+方法:通过objcopy将二进制文件制作成.o文件
+作者提供的hankaku.txt字体文件
+将开
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-24 15:42" pubdate>
+              2021-04-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9C%9F%E7%9B%B8%E8%BF%98%E5%8E%9F/">30天自制操作系统,操作系统真相还原</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/05/bochs%E4%B8%8A%E7%9A%84%E4%B8%80%E6%AC%A1%E8%B0%83%E8%AF%95/">bochs上的一次调试</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/05/bochs%E4%B8%8A%E7%9A%84%E4%B8%80%E6%AC%A1%E8%B0%83%E8%AF%95/">
+          
+          
+            
+          
+          一次bochs上的调试
+3个线程不断的打印,导致GP异常,我开始以为是线程同步问题,访问了25x80显存,
+
+
+如何找到合适的断点?异常是在3个线程运行一段时候后才产生,那么线程产生附近的代码行的地址怎么得到呢?
+比如找到thread_start函数地址,
+查看链接出来的内核镜像的符号表直接显示出编译后的符号的虚拟地址,
+nm kernel.bin | grep thread_start
+
+这一步
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-05 21:52" pubdate>
+              2021-04-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/bochs/">bochs</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/27/x86%E4%B8%AD%E6%96%AD/">x86中断</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/27/x86%E4%B8%AD%E6%96%AD/">
+          
+          
+            
+          
+          中断分类外部中断:  按照是否宕机分为可屏蔽中断和不可屏蔽中断
+内部中断:  按照中断是否正常,分为软中断和异常
+外部中断
+外部中断来自某一个外部硬件设备,所以也称为硬件中断
+
+软件中断
+由指令主动发起的中断,
+
+
+int 8bit立即数,支持256种中断
+int3,调试断点指令,调试器fork子进程,将断点处的指令备份,替换为0xcc(int3指令的机器码),然后保存子进程的寄存器和相关内存单元
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-27 20:59" pubdate>
+              2021-03-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">att汇编格式</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">
+          
+          
+            
+          
+          调用约定
+cdecl调用方式:
+
+参数从右往左入栈
+调用者保存eax,ecx,edx寄存器,其余寄存器由被调用者(函数)来保存
+函数返回值保存在eax寄存器中
+
+内联汇编Intel和At&amp;t的风格对比:
+
+
+
+区别
+Intel
+At&amp;t
+说明
+
+
+
+寄存器
+
+寄存器前有前缀%
+
+
+
+操作数顺序
+a&lt;-b
+a-&gt;b
+恰好相反
+
+
+操作数字体指定大小
++数据类型用来修饰:b
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 19:41" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/gcc-asm/">gcc asm</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">x86特权级总结</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">
+          
+          
+            
+          
+          特权级变换时栈如何变化cpu从低特权级代码段转移到高特权级代码段 栈从tss中读取到,
+从高特权级代码段转移到低特权级代码段, 低特权级的栈指针可以从当前栈底部拿到(低-&gt;高转移时保存的)
+CPL和DPL对于受访问为数据段来说:
+只要CPL&lt;=DPL就可以访问到此数据段的内容
+对于受访问为代码段来说:
+只有相同特权级别才能访问,(高特权级代码段-&gt;低特权级代码段只有中断能做到,低
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-15 00:14" pubdate>
+              2021-03-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/x86/">x86</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/01/18/%E5%BC%BA-%E5%BC%B1-%E7%AC%A6%E5%8F%B7-%E5%BC%95%E7%94%A8/">gcc强引用弱引用</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/01/18/%E5%BC%BA-%E5%BC%B1-%E7%AC%A6%E5%8F%B7-%E5%BC%95%E7%94%A8/">
+          
+          
+            
+          
+          强符号和弱符号多个目标文件中含有相同名字全局符号的定义,那么这些目标文件链接的时候将会出现符号重复定义的错误.编译器默认函数和初始化了的全局变量为强符号(Strong Symbol),未初始化的全局变量为弱符号(Weak Symbol),强弱符号都是针对定义来说的,不是针对符号的引用(extern int ext);
+链接器处理符号规则:
+
+不允许强符号被多次定义(即不同的目标文件中不能有同名的强
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-01-18 14:50" pubdate>
+              2021-01-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/">编译链接</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/gcc/">gcc</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/01/16/Emacs%E7%AC%AC2%E9%83%A8%E5%88%86%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%BC%96%E8%BE%91%E7%89%B9%E6%80%A7/">Emacs第二部分:基本模式和编辑特性</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/01/16/Emacs%E7%AC%AC2%E9%83%A8%E5%88%86%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%BC%96%E8%BE%91%E7%89%B9%E6%80%A7/">
+          
+          
+            
+          
+          Emacs第二部分:基本模式和编辑特性编辑模式模式可以划分为主要模式和次要模式.
+主要模式规定了主要的编辑行为,并且仅应用于当前编辑会话中的缓冲区.在任何时刻,每个缓冲区都有且仅有一个活动的主要模式.
+次要模式通常提供了一些与任何特定的主要模式无关的特性或功能.可以把它们看作用于控制这些特性的切换:使用其函数名来调用一个次要模式可以开启或关闭该模式,任何时候都可以开启多个次要模式
+查看哪些模式是活
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-01-16 20:43" pubdate>
+              2021-01-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Emacs/">Emacs</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Emacs/">Emacs</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/01/14/Emacs%E6%89%80%E6%9C%89%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">Emacs第一部分:所有基础知识</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/01/14/Emacs%E6%89%80%E6%9C%89%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">
+          
+          
+            
+          
+          
+一个用来调用特定命令的Emacs组合键被称为一个键绑定,可自定义,Emacs有缺省的绑定
+
+Emacs命令分为2大类,
+
+Ctrl
+Meta(Alt)
+
+
+Emacs符号中Ctrl写成C-后面是第二个按键对应的字符,例如Ctrl-X组合键写成C-X
+
+Meta按键被表示为M-
+Meta键常被帮顶到Alt键,通常可以使用Esc键完成一个Meta按键序列,与输入Ctrl按键序列不同,按下Esc,然后
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-01-14 18:40" pubdate>
+              2021-01-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Emacs/">Emacs</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Emacs/">Emacs</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

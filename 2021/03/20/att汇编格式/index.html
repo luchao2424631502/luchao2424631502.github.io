@@ -1,0 +1,616 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>att汇编格式 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="att汇编格式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-20 19:41" pubdate>
+        2021年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">att汇编格式</h1>
+            
+            <div class="markdown-body">
+              <h2 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h2><p><img src="/images/%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A.png" srcset="/img/loading.gif" alt="1"></p>
+<p>cdecl调用方式:</p>
+<ol>
+<li>参数从右往左入栈</li>
+<li>调用者保存eax,ecx,edx寄存器,其余寄存器由被调用者(函数)来保存</li>
+<li>函数返回值保存在eax寄存器中</li>
+</ol>
+<h2 id="内联汇编"><a href="#内联汇编" class="headerlink" title="内联汇编"></a>内联汇编</h2><p>Intel和At&amp;t的风格对比:</p>
+<table>
+<thead>
+<tr>
+<th align="center">区别</th>
+<th align="center">Intel</th>
+<th align="center">At&amp;t</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">寄存器</td>
+<td align="center"></td>
+<td align="center">寄存器前有前缀%</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">操作数顺序</td>
+<td align="center">a&lt;-b</td>
+<td align="center">a-&gt;b</td>
+<td align="center">恰好相反</td>
+</tr>
+<tr>
+<td align="center">操作数字体指定大小</td>
+<td align="center">+数据类型用来修饰:byte,word,dword,如:mov byte[0x1234],eax</td>
+<td align="center">指令的最后一个字母表示操作树的大小,b,w,l,如:movl %eax,var</td>
+<td align="center">att语法,内存地址是第一位,数字默认是地址,所以操作数字就是操作内存,Intel语法数字就是数字,加上[]才是操作内存,</td>
+</tr>
+<tr>
+<td align="center">立即数</td>
+<td align="center">6</td>
+<td align="center">有前缀$,$6</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">远转跳</td>
+<td align="center">jmp far segment:offset</td>
+<td align="center">ljmp $segment:$offset</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">远调用</td>
+<td align="center">call far segment:offset</td>
+<td align="center">lcall $segment:$offset</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">远返回</td>
+<td align="center">ret far n</td>
+<td align="center">lret $n</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<hr>
+<p>att内存寻址通用格式:</p>
+<p>  <code>segreg(段基址):base_address(offset_address,index,size)</code></p>
+<p>对应的值是: base_address+offset_address+index*size</p>
+<p>等价与Intel格式: segreg:[base+offset+index*size]</p>
+<p>base_address表示基地址,<strong>可正负</strong></p>
+<p>offset_address表示偏移地址,index表示索引值(这2个必须是8个通用寄存器)</p>
+<p>size:表示长度,值只能取: 1,2,4,8</p>
+<h4 id="att寻址方式"><a href="#att寻址方式" class="headerlink" title="att寻址方式:"></a>att寻址方式:</h4><ol>
+<li><p>直接寻址(只有base_address项),如: <code>movl $255,0xc00008f0</code></p>
+</li>
+<li><p>寄存器间接寻址(只有offset_address项,<strong>所以格式为(offset_address)</strong>): 如:  <code>movl (%eax),%ebx</code></p>
+</li>
+<li><p>寄存器相对址(有offset_address和base_address项,<strong>格式为base_address(offset_address)</strong> ),如: <code>movb -4(%ebx),%al</code>,将地址(ebx-4)的1 byte字节复制到al寄存器中</p>
+</li>
+<li><p>变址寻址(含有index,既然有index则有size,base_address和offset_address可有可无,):</p>
+<ol>
+<li><p>无<code>base_address</code>,无<code>offset_address</code></p>
+<p><code>movl %eax,(,%esi,2)</code>:将eax的值写入地址esi*2处</p>
+</li>
+<li><p>无<code>base_address</code>,有<code>offset_address</code></p>
+<p><code>movl %eax,(%ebx,%esi,2)</code>:将eax的值写入ebx+esi*2处</p>
+</li>
+<li><p>有<code>base_address</code>,无<code>offset_address</code></p>
+<p><code>movl %eax,base_value(,%esi,2)</code>:将eax的值写入base_value+esi*2处</p>
+</li>
+<li><p>有<code>base_address</code>,有<code>offset_address</code></p>
+<p><code>movl %eax,base_value(%ebx,%esi,2)</code>:将eax的值写入base_value+ebx+esi*2处</p>
+</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 id="基本内联汇编"><a href="#基本内联汇编" class="headerlink" title="基本内联汇编"></a>基本内联汇编</h3><blockquote>
+<p>有<code>#define __asm__ asm</code>和<code>#define __volatile__ volatile</code>,所以直接用asm和volatile就行</p>
+</blockquote>
+<p>基本格式<code>asm [volatile] (&quot;assembly code&quot;);</code></p>
+<ol>
+<li>指令用<code>&quot;&quot;</code>括起来,</li>
+<li>指令之间用<code>;</code>或者<code>\n</code>或<code>\n\t</code></li>
+</ol>
+<p>例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">char</span> *str=<span class="hljs-string">&quot;hello,world\n&quot;</span>;<br><span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">asm</span> <span class="hljs-title">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;pusha;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;movl $4,%eax;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;movl $1,%ebx;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;movl str,%ecx;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;movl $12,%edx;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;int $0x80;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;mov %eax,count;&quot;</span></span></span><br><span class="hljs-function"><span class="hljs-params">    <span class="hljs-string">&quot;popa&quot;</span>)</span></span>;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>没什么需要注意的,此时基本内敛汇编引用C变量只能引用全局变量,在扩展中可以随意使用</p>
+<p>x64下编译成32bit 可执行:<code>gcc -m32 test.s </code></p>
+<h3 id="扩展内联汇编"><a href="#扩展内联汇编" class="headerlink" title="扩展内联汇编"></a>扩展内联汇编</h3><p>问题:</p>
+<ol>
+<li>C和内联汇编对寄存器的使用冲突</li>
+<li>汇编如何访问C栈上的变量</li>
+</ol>
+<p>按照格式提供汇编要访问的变量给编译器看(gcc制订的规则)</p>
+<p><code>asm [volatile] (&quot;assembly code&quot;:output:input:modify)</code></p>
+<ol>
+<li>output:output指定汇编代码执行后如何将数据传递给C代码使用,格式:<code>&quot;操作数修饰符 约束名&quot;(c变量名)</code></li>
+<li>input:input,指定C中的变量如何传递给汇编代码使用.<code>[操作数修饰符] 约束名(C变量名)</code></li>
+<li>modify:通知编译器那些寄存器可能被破坏</li>
+</ol>
+<ul>
+<li><p>寄存器约束</p>
+<p>将input或output中的变量约束在某个寄存器中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">a: eax/ax/al<br>b: ebx/bx/bl<br>c: ecx/cx/cl<br>d: edx/dx/dl<br>D: edi/di<br>S: esi/si<br>q: 任意<span class="hljs-number">4</span>个通用寄存器:eax/ebx/ecx/edx<br>r: 任意<span class="hljs-number">6</span>个通用寄存器:eax/ebc/ecx/edx/esi/edi<br>g: q+内存<br>A: eax和edx组成的<span class="hljs-number">64b</span>it整数<br>f: 浮点寄存器<br>t: 第一个浮点寄存器<br>u: 第<span class="hljs-number">2</span>个浮点寄存器<br></code></pre></td></tr></table></figure>
+
+<p>例(对比基本内联汇编):</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ps(str) printf(<span class="hljs-meta-string">&quot;%s&quot;</span>,str);</span><br><br><span class="hljs-keyword">char</span> *str=<span class="hljs-string">&quot;hello,world\n&quot;</span>;<br><span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">int</span> in_a=<span class="hljs-number">1</span>,in_b=<span class="hljs-number">2</span>,out_sum;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">asm</span>(<span class="hljs-string">&quot;pusha;\</span><br><span class="hljs-string">      movl in_a,%eax;\</span><br><span class="hljs-string">      movl in_b,%ebx;\</span><br><span class="hljs-string">      addl %ebx,%eax;\</span><br><span class="hljs-string">      movl %eax,out_sum;\</span><br><span class="hljs-string">      popa&quot;</span>);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum is %d&quot;</span>,out_sum);<br><br>  in_a=<span class="hljs-number">16</span>;<br>  in_b=<span class="hljs-number">22</span>;<br>  <span class="hljs-keyword">asm</span>(<span class="hljs-string">&quot;addl %%ebx,%%eax&quot;</span>:<span class="hljs-string">&quot;=a&quot;</span>(out_sum):<span class="hljs-string">&quot;a&quot;</span>(in_a),<span class="hljs-string">&quot;b&quot;</span>(in_b));<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sum is %d&quot;</span>,out_sum);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>方便,并且由gcc完成将input赋值到寄存器中和寄存器赋值到output中</p>
+<blockquote>
+<p>注意: <code>%</code>在扩展内联汇编中留给占位符用,寄存器使用2个%,既<code>%%ebx</code></p>
+</blockquote>
+</li>
+<li><p>内存约束</p>
+<p>gcc将input和output中的C变量的地址作为操作数,直接进行内存读写,</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">m: 表示操作数可以使用任意一种内存形式<br>o: 操作数为内存变量,但是访问是通过偏移量的形式(包含offset_address的格式),<br></code></pre></td></tr></table></figure>
+
+<p>例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ps(str) printf(<span class="hljs-meta-string">&quot;%s&quot;</span>,str);</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">int</span> in_a=<span class="hljs-number">1</span>,in_b=<span class="hljs-number">2</span>;<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;in_b is %d\n&quot;</span>,in_b);<br>  <span class="hljs-keyword">asm</span>(<span class="hljs-string">&quot;movb %b0,%1;&quot;</span>::<span class="hljs-string">&quot;a&quot;</span>(in_a),<span class="hljs-string">&quot;m&quot;</span>(in_b));<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;in_b is %d\n&quot;</span>,in_b);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>立即数约束</p>
+<p>gcc在传值的时候不通过内存和寄存器,直接将立即数传递给汇编代码,</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">i: 表示操作数为整数立即数<br>F: 浮点立即数<br>I: <span class="hljs-number">0</span><span class="hljs-number">-31</span>之间的立即数<br>J: <span class="hljs-number">0</span><span class="hljs-number">-63</span>之间的立即数<br>N: <span class="hljs-number">0</span><span class="hljs-number">-255</span>之间的立即数<br>O: <span class="hljs-number">0</span><span class="hljs-number">-32</span>之间的立即数<br>X: 操作数为任何类型的立即数<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>通用约束</p>
+</li>
+</ul>
+<hr>
+<ol>
+<li>序号占位符</li>
+</ol>
+<ol start="2">
+<li><p>名称占位符</p>
+<p><code>[名称] &quot;[操作类型]约束名&quot; (C变量)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs asm">#include &lt;stdio.h&gt;<br>int main()<br>&#123;<br>  int in_a&#x3D;1;<br>  int in_b&#x3D;2;<br>  int out;<br>  asm(&quot;addl %%ebx,%%eax;&quot;<br>      &quot;movl %%eax,%[result]&quot;:&quot;+a&quot;(in_a):&quot;b&quot;(in_b),[result]&quot;m&quot;(out));<br>  &#x2F;&#x2F; in_a和out都是结果<br>  &#x2F;&#x2F; +表示既作为输入又作为输出结果<br>  printf(&quot;in_a is %d\nout is %d\n&quot;,in_a,out);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h4 id="操作数类型修饰"><a href="#操作数类型修饰" class="headerlink" title="操作数类型修饰"></a>操作数类型修饰</h4><p>output中:</p>
+<ol>
+<li><code>=</code>:表示操作数只写,如: <code>=a(var)</code>,等价与<code>var=eax</code></li>
+<li><code>+</code>:表示操作数是<strong>可读写的</strong>,寄存器或内存前被读入,然后被写入</li>
+<li><code>&amp;</code>:表示output的操作数要独占被约束的寄存器, input中约束的寄存器不能与此相同</li>
+</ol>
+<p>input:</p>
+<ol>
+<li><code>%</code>:此操作数可以和下一个操作数互换</li>
+</ol>
+<p><code>+</code>例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-keyword">int</span> in_a=<span class="hljs-number">1</span>,in_b=<span class="hljs-number">2</span>;<br>  <span class="hljs-keyword">asm</span>(<span class="hljs-string">&quot;addl %%ebx,%%eax;&quot;</span>:<span class="hljs-string">&quot;+a&quot;</span>(in_a):<span class="hljs-string">&quot;b&quot;</span>(in_b));<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;in_a is %d&quot;</span>,in_a);<br>&#125;<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/gcc-asm/">gcc asm</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/27/x86%E4%B8%AD%E6%96%AD/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">x86中断</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">x86特权级总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

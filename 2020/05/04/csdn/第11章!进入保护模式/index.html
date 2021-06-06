@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>第11章:进入保护模式 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="第11章:进入保护模式">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-04 08:21" pubdate>
+        2020年5月4日 早上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">第11章:进入保护模式</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="描述符格式"><a href="#描述符格式" class="headerlink" title="描述符格式:"></a>描述符格式:</h3><table>
+<thead>
+<tr>
+<th align="left">高32位</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">31                  24</td>
+<td>23</td>
+<td>22</td>
+<td>21</td>
+<td>20</td>
+<td>1916</td>
+<td>15</td>
+<td>1413</td>
+<td>12</td>
+<td>11 8</td>
+<td>7    0</td>
+</tr>
+<tr>
+<td align="left">段基地址 24-31(8bit)</td>
+<td>G</td>
+<td>D/B</td>
+<td>L</td>
+<td>AVL</td>
+<td>段界限(19-16 = 4bit = 1个16位)</td>
+<td>p</td>
+<td>DPL</td>
+<td>S</td>
+<td>TYPE</td>
+<td>段基地址 23-16(8bit)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><strong>低32位:</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left">31</td>
+<td></td>
+<td></td>
+<td></td>
+<td>16</td>
+<td>15</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td align="left">段基地址 15-0</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>段界限15-0</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>G(粒度):</p>
+<p> 0=1 byte</p>
+<p>1= 4k byte</p>
+</li>
+<li><p>D/B (操作数大小)</p>
+<p>0=16bit</p>
+<p>1=32bit</p>
+</li>
+<li><p>L:64bit处理器用的</p>
+</li>
+<li><p>AVL(空闲)</p>
+</li>
+<li><p>P 段是否存在内存中</p>
+<p>0 = 不存在</p>
+<p>1 = 存在</p>
+</li>
+<li><p>DPL 描述符的特权级别 : 指定访问该段需具有的最低特权级别</p>
+<p>保护模式执行的代码特权级别都是 0</p>
+</li>
+<li><p>S: 段的类型</p>
+<p> 0=系统段</p>
+<p> 1=代码or数据段</p>
+</li>
+<li><p>type: 代码段or数据段的的类型</p>
+</li>
+</ol>
+<hr>
+<p>分析例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"> mov dword [bx+<span class="hljs-number">0x08</span>],<span class="hljs-number">0x7c0001ff</span> ;低位<br> mov dword [bx+<span class="hljs-number">0x0c</span>],<span class="hljs-number">0x00409800</span>	;高位<br>     <br><br><span class="hljs-number">0x00409800</span><br><span class="hljs-number">0x7c0001ff</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>线性地址</p>
+<p>高位(前1个字节+最后1个字节)+低位(前2个字节) = <code>0x00007c00</code></p>
+</li>
+<li><p>段界限 (20bit = 4+16 bit) </p>
+<ul>
+<li>4bit恰好是1个16进制数</li>
+</ul>
+<p>高位第4个16进制数(0) + 低位最后2个字节(<code>01ff</code>) = <code>0x001ff</code></p>
+</li>
+<li><p>剩下 高位第3个(<code>3</code>)、第5个(<code>9</code>)、第6个(<code>4</code>)16进制数,每个位置对应看就行了</p>
+</li>
+</ol>
+<hr>
+<p>80486: 南桥的处理器接口的端口0x92:第0位<code>INIT_NOW</code>用于初始化处理器,此端口=1,处理器复位,计算机重启，第1位控制A20,</p>
+<hr>
+<p>2种模式的切换开关:CR0是 <strong>控制寄存器（Control register）</strong>,并且第1位(位0)是<strong>保护模式允许位置(Protection Enable)</strong>, =1则处理器进入保护模式,</p>
+<blockquote>
+<p>32bit处理器下的段寄存器变成了<strong>段选择器(存描述符在table中的偏移位置)</strong>,且cpu内部对应了一个用户不可见的描述符高速缓存寄存器, 并且新增了2个额外的段寄存器<code>Fs</code>,<code>Gs</code>(注意:仍是16位)</p>
+</blockquote>
+<p>32bit处理器实模式下,引用一个段,处理器自动将段地址左移4位,传送到描述符高速缓存器中,(32bit下向段寄存器传送16bit的逻辑段地址处理器不看做是<strong>描述符选择子</strong>)</p>
+<h5 id="保护模式访问内存的方式-段选择子的组成"><a href="#保护模式访问内存的方式-段选择子的组成" class="headerlink" title="保护模式访问内存的方式(段选择子的组成"></a>保护模式访问内存的方式(段选择子的组成</h5><ul>
+<li><p>传送到段寄存器的不是逻辑段地址而是在描述符表(局部或者全局)中的索引号(偏移地址)</p>
+<ol>
+<li>TL指出在GDT(=0)还是LDT(=1)中 </li>
+<li>RPL:自己的特权级别</li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>15</th>
+<th></th>
+<th>3</th>
+<th>2</th>
+<th>1       0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>描述符索引(偏移地址)</td>
+<td></td>
+<td></td>
+<td>TI</td>
+<td>RPL</td>
+</tr>
+</tbody></table>
+<h5 id="在设置CR0的位0后进入保护模式的问题"><a href="#在设置CR0的位0后进入保护模式的问题" class="headerlink" title="在设置CR0的位0后进入保护模式的问题"></a>在设置CR0的位0后进入保护模式的问题</h5><ul>
+<li><p>处理器进入16位保护模式</p>
+<p>操作数默认大小由描述符D位决定,此时段寄存器的描述符高速缓存器<strong>仍是实模式(低20有效,高12为0)内容</strong>，所以D位 = 0,此时处于16bit保护模式下</p>
+</li>
+</ul>
+<ol>
+<li>描述符高速缓存器低20位有效,高12位为0,应刷新段寄存器的内容</li>
+<li>流水线中待执行的都是按照16bit操作数或者32bit编译后的字节，因为对地址的解释不同,<strong>可能导致执行结果不正确</strong></li>
+</ol>
+<p>通过<code>jmp</code>刷新段寄存器和段寄存器描述符高速缓冲器,<strong>因为无条件转移,流水线被清空</strong></p>
+<p><code>JMP</code>执行时:将GDT()中描述符加载到cs寄存器描述符高速缓存器,偏移量送到EIP中</p>
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs python">;实模式下<br>mov ax,cs<br>mov ss,ax<br>mov sp,<span class="hljs-number">0x7c00</span><br><br>mov ax,[cs:gdt_base+<span class="hljs-number">0x7c00</span>]<br>mov dx,[cs:gdt_base+<span class="hljs-number">0x7c00</span>+<span class="hljs-number">0x02</span>]<br>mov bx,<span class="hljs-number">16</span><br>div bx<br>mov ds,ax   ;商<br>mov bx,dx   ;bx=偏移地址<br><br>;将ds:bx设置成 gdt的起始地址<br>mov dword [bx+<span class="hljs-number">0x00</span>],<span class="hljs-number">0x00</span><br>mov dword [bx+<span class="hljs-number">0x04</span>],<span class="hljs-number">0x00</span><br><br>;code段描述符<br>mov dword [bx+<span class="hljs-number">0x08</span>],<span class="hljs-number">0x7c0001ff</span><br>mov dword [bx+<span class="hljs-number">0x0c</span>],<span class="hljs-number">0x00409800</span><br><br>;data段设置成显存 <span class="hljs-number">0xb800</span><br>mov dword [bx+<span class="hljs-number">0x10</span>],<span class="hljs-number">0x8000ffff</span><br>mov dword [bx+<span class="hljs-number">0x14</span>],<span class="hljs-number">0x0040920b</span><br><br>;栈段<br>mov dword [bx+<span class="hljs-number">0x18</span>],<span class="hljs-number">0x00007a00</span><br>mov dword [bx+<span class="hljs-number">0x1c</span>],<span class="hljs-number">0x00409600</span><br><br>;将gdt的线性及地址和大小加载到gdtR寄存器中<br>mov word [cs:gdt_size+<span class="hljs-number">0x7c00</span>],<span class="hljs-number">31</span> ;gdt的大小=描述符个数*<span class="hljs-number">8</span>-<span class="hljs-number">1</span><br><br>;lgdt指令:<br>lgdt [cs:gdt_size+<span class="hljs-number">0x7c00</span>];gdt加载完毕<br><br><span class="hljs-keyword">in</span> al,<span class="hljs-number">0x92</span><br><span class="hljs-keyword">or</span> al,0000_0010B    ;打开A20.因为要兼容所以A20一直设置成<span class="hljs-number">0</span>,现在打开,因为要进入保护模式<br>out <span class="hljs-number">0x92</span>,al<br><br>cli ;清除IF位置,禁止中断<br>;此时仍然处于实模式<br>mov eax,cr0 ;将控制寄存器的内容读入到eax中<br><span class="hljs-keyword">or</span> eax,<span class="hljs-number">1</span>    ;打开pe位置(保护模式的位置)<br>mov cr0,eax<br>;进入保护模式,但是还未清空流水线<br>jmp dword <span class="hljs-number">0x0008</span>:flush ;通过无条件转移指令来清空流水线<br><br>bits <span class="hljs-number">32</span>;接下来的按照32bit来编译<br>flush:<br>    mov byte [<span class="hljs-number">0x00</span>],<span class="hljs-string">&#x27;P&#x27;</span><br>    mov byte [<span class="hljs-number">0x02</span>],<span class="hljs-string">&#x27;r&#x27;</span><br>    mov byte [<span class="hljs-number">0x04</span>],<span class="hljs-string">&#x27;o&#x27;</span><br>    mov byte [<span class="hljs-number">0x06</span>],<span class="hljs-string">&#x27;t&#x27;</span><br>    mov byte [<span class="hljs-number">0x08</span>],<span class="hljs-string">&#x27;e&#x27;</span><br>    mov byte [<span class="hljs-number">0x0a</span>],<span class="hljs-string">&#x27;c&#x27;</span><br>    mov byte [<span class="hljs-number">0x0c</span>],<span class="hljs-string">&#x27;t&#x27;</span><br>    mov byte [<span class="hljs-number">0x0e</span>],<span class="hljs-string">&#x27; &#x27;</span><br>    mov byte [<span class="hljs-number">0x10</span>],<span class="hljs-string">&#x27;m&#x27;</span><br>    mov byte [<span class="hljs-number">0x12</span>],<span class="hljs-string">&#x27;o&#x27;</span><br>    mov byte [<span class="hljs-number">0x14</span>],<span class="hljs-string">&#x27;d&#x27;</span><br>    mov byte [<span class="hljs-number">0x16</span>],<span class="hljs-string">&#x27;e&#x27;</span><br>    mov byte [<span class="hljs-number">0x18</span>],<span class="hljs-string">&#x27; &#x27;</span><br>    mov byte [<span class="hljs-number">0x1a</span>],<span class="hljs-string">&#x27;O&#x27;</span><br>    mov byte [<span class="hljs-number">0x1c</span>],<span class="hljs-string">&#x27;K&#x27;</span><br>;填写段选择子来选择位于gdt中的栈段<br>    mov cx,00000000000_11_000B<br>    mov ss,cx ;修改ss段寄存器,向其中填写段选择子<br>    mov esp,<span class="hljs-number">0x7c00</span><br><br>    mov ebp,esp<br>    push byte <span class="hljs-string">&#x27;.&#x27;</span><br><br>    sub ebp,<span class="hljs-number">4</span><br>    cmp ebp,esp<br>    jnz ghalt   ;ebp!=esp则cpu暂停<br>    pop eax     ;ebp=esp 将值pop到eax中<br>    mov [<span class="hljs-number">0x1e</span>],al ;al的值写到ds:<span class="hljs-number">0x1e</span>中,因为ds=<span class="hljs-number">0xb800</span>所以显示到屏幕上了<br>ghalt:<br>    hlt<br><br>gdt_size    dw <span class="hljs-number">0</span><br>gdt_base    dd <span class="hljs-number">0x00007e00</span><br>times <span class="hljs-number">510</span>-($-$$) db <span class="hljs-number">0</span><br>db <span class="hljs-number">0x55</span>,<span class="hljs-number">0xaa</span><br></code></pre></td></tr></table></figure>
+
+<p><code>Bochs</code>调试:</p>
+<ol>
+<li>r:显示所有的通用寄存器</li>
+<li>sreg:段寄存器</li>
+<li>creg:控制寄存器内容: PE=1 进入保护模式</li>
+<li>lgdt加载gdt到gdtr后,用info gdt查看gdt</li>
+</ol>
+<hr>
+<p>来源:《X86实模式到保护模式》</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/07/csdn/%E7%AC%AC13%E7%AB%A0%E7%A8%8B%E5%BA%8F%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%8A%A8%E6%80%81%E6%89%A7%E8%A1%8C/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第13章程序加载和动态执行</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/01/csdn/IA-32%E6%9E%B6%E6%9E%84%20(Intel%20Architecture%2032-bit)%E6%A6%82%E8%A7%88%20%E5%92%8C%208086%E5%B0%8F%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

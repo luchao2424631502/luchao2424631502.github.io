@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程) - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-05-22 22:52" pubdate>
+        2020年5月22日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程)</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>电脑环境:</p>
+<p><code>OS: Deepin 15.11 stable</code> </p>
+<p><code>Kernel: x86_64 Linux 4.15.0-30deepin-generic</code></p>
+<h4 id="在bochs运行0-12内核"><a href="#在bochs运行0-12内核" class="headerlink" title="在bochs运行0.12内核"></a>在bochs运行0.12内核</h4><ol>
+<li>bochs:<code>apt install bochs</code>(自己编译麻烦)</li>
+</ol>
+<p>默认安装目录:</p>
+<p>主(工作)目录:<code>/usr/local/bin</code>,作用:配置文件,磁盘和bochs img工具</p>
+<p>默认配置(没啥用:<code>/usr/local/share/doc/bochs</code></p>
+<p>用到的BIOS ROM和显卡ROM:<code>/usr/local/share/bochs</code></p>
+<p>0.12内核用到的所有工具<a target="_blank" rel="noopener" href="http://oldlinux.org/Linux.old/bochs/linux-0.12-080324.zip">oldlinux</a></p>
+<hr>
+<p>在主目录下(<code>/usr/local/bin</code>)创建配置文件<code>bochsrc</code>,</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><code class="hljs shell"><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>megs: 32<br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> ROMIMAGE:</span><br><br><span class="hljs-meta">#</span><span class="bash"> The ROM BIOS controls what the PC does when it first powers on.</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>romimage: file=/usr/local/share/bochs//BIOS-bochs-latest <br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> VGAROMIMAGE</span><br><br><span class="hljs-meta">#</span><span class="bash"> You now need to load a VGA ROM BIOS into C0000.</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>vgaromimage: file=/usr/local/share/bochs//VGABIOS-lgpl-latest<br><br><br><br>floppya: 1_44=&quot;bootimage-0.12-hd&quot;, status=inserted<br><br>floppyb: 1_44=&quot;diskb.img&quot;, status=inserted<br><br><br><br>ata0-master: type=disk, path=&quot;rootimage-0.12-hd&quot;, mode=flat, cylinders=487, heads=16, spt=63<br><br><span class="hljs-meta">#</span><span class="bash">ata0-slave: <span class="hljs-built_in">type</span>=disk, path=<span class="hljs-string">&quot;rootimage-0.12-hd1&quot;</span>, mode=flat, cylinders=487, heads=16, spt=63</span><br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> BOOT:</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>boot: floppy<br><br><span class="hljs-meta">#</span><span class="bash">boot: disk</span><br><br><span class="hljs-meta">#</span><span class="bash">boot: a</span><br><br><span class="hljs-meta">#</span><span class="bash">boot: c</span><br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> <span class="hljs-built_in">disable</span> the mouse, since DLX is text only</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>mouse: enabled=0<br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> LOG:</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">log</span>: /dev/null</span><br><br>log: bochsout.txt<br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> LOG CONTROLS</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br>panic: action=ask<br><br>error: action=report<br><br>info: action=report<br><br>debug: action=ignore<br><br><span class="hljs-meta">#</span><span class="bash">debug: action=ignore</span><br><br><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash"> VGA_UPDATE_INTERVAL:</span><br><br><span class="hljs-meta">#</span><span class="bash">=======================================================================</span><br><br><span class="hljs-meta">#</span><span class="bash">vga_update_interval: 300000</span><br></code></pre></td></tr></table></figure>
+
+<p>我这里用的是第２种方法,内核代码数据在软盘文件<code>rootimage-0.12-hd</code>,根文件系统在硬盘文件<code>rootimage-0.12-hd</code>,</p>
+<hr>
+<p>启动0.12内核</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">bochs <br>选中仿真　6<br>c (bochs指令 continue) <br>root<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以自己在0x7c00处打一个断点查看BIOS情况,</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200522224905540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<p>0.12算是成功运行</p>
+<h4 id="内核和当前os传递文件"><a href="#内核和当前os传递文件" class="headerlink" title="内核和当前os传递文件"></a>内核和当前os传递文件</h4><p>软盘一般包含完整文件系统(没分区),</p>
+<p>硬盘一般有多个分区(不同的文件系统)</p>
+<ul>
+<li><p>当前os下:</p>
+<p><code>losetup</code>将文件模拟成设备,此文件如果有文件系统,则可以挂载</p>
+<p>感觉上和<code>mount</code>相反设备挂载到对应目录下</p>
+<p><code>mount -o loop = losetup + mount</code></p>
+<p>通过上面可以查看虚拟软盘文件中的内容</p>
+<blockquote>
+<p>　工具包中<code>diskb.img</code>是dos格式的软盘,作为第二个软盘给0.12然后和0.12交换数据,0.12下有mtools程序访问DOS文件系统中文件</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">当前OS下查看diskb.img中的内容</span><br>mount -t msdos diskb.img -o loop /mnt<br>ls /mnt <br>umount /mnt <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>传递数据</p>
+<p>修改bochs配置文件,添加第二个软盘,(当然diskb.img放在工作目录)</p>
+<p><code>floppyb: 1_44=&quot;diskb.img&quot;, status=inserted</code></p>
+<p>可以看到0.12 /root目录下的hello.c</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">mcopy hello.c b:<br>mdir b:<br></code></pre></td></tr></table></figure>
+
+<p>然后重新挂载到当前OS查看,转移成功</p>
+<blockquote>
+<p>我在这里死活报错,我在0.12中执行了<code>mount /dev/floppy1 /mnt</code> (没想明白自己为什么要执行这个),然后bochs进入0.12报错:<code>mount:lockfile</code>之类的,重新把原来的bootimage和rootimage放到工作目录下就行了</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="编译运行简单内核例程"><a href="#编译运行简单内核例程" class="headerlink" title="编译运行简单内核例程"></a>编译运行简单内核例程</h4><blockquote>
+<p> 直接在bochs中的0.12下编译算了,物理机环境更加难弄</p>
+</blockquote>
+<ol>
+<li><p>用bochs的bximage制作一个1.44M的软盘a.img</p>
+</li>
+<li><p>mkfs格式化文件系统为msdos <code>mkfs -t msdos a.img</code></p>
+</li>
+<li><p>虚拟为loop设备,然后挂载到/mnt目录下(用来和0.12传递文件)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">losetup /dev/loop1 a.img <br>mount -t msdos /dev/loop1 /mnt <br>将需要编译的makefile和.s移动到/mnt下<br>umount /mnt <br>losetup -d /dev/loop1 <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改bochsrc</p>
+</li>
+<li><p>进入0.12,执行<code>mdir b:</code>可能报错(<code>Reset-floppy called</code>),我没有解决,在进入后等待一会,在执行就可能没有(不知道为什么)</p>
+</li>
+<li><p>从软盘把文件移动到0.12的目录下,<code>mcopy b:makefile makefile</code>这种格式命令<a target="_blank" rel="noopener" href="http://www.linuxso.com/command/mtools.html">mtools使用</a></p>
+</li>
+<li><p>make编译成功</p>
+</li>
+</ol>
+<p>   <img src="https://img-blog.csdnimg.cn/20200522225010197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<ol start="8">
+<li>执行<code>make disk</code>将编译出来的简单内核例程写入<code>/dev/fd0</code>(引导镜像文件),reset重启就行,下次进入0.12用原来的bootimage.img引导<br><img src="https://img-blog.csdnimg.cn/20200522225047960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></li>
+</ol>
+<h4 id="Bochs调试命令"><a href="#Bochs调试命令" class="headerlink" title="Bochs调试命令"></a>Bochs调试命令</h4><blockquote>
+<p>学汇编时大部分应该都会</p>
+</blockquote>
+<h4 id="制作根文件系统-失败"><a href="#制作根文件系统-失败" class="headerlink" title="制作根文件系统(失败)"></a>制作根文件系统(失败)</h4><blockquote>
+<p>linux 0.1x 支持的文件系统是 MiniX1.0系统</p>
+</blockquote>
+<p>用bximage(bochs自带的创建一个256MB硬盘映像文件)</p>
+<p>按照书中在sls-linux中进行分区和格式化</p>
+<h4 id="bochs中运行sls-linux"><a href="#bochs中运行sls-linux" class="headerlink" title="bochs中运行sls-linux"></a>bochs中运行sls-linux</h4><ul>
+<li><p>书中用到sls linux,先来安装一下 <a target="_blank" rel="noopener" href="http://oldlinux.org/Linux.old/bochs/sls-1.0.zip">sls linux包</a></p>
+<p>在当前目录下<code>mkdir sls</code>(随意哪一个目录都行),把sls包的文件复制到这里</p>
+<p>修改默认配置文件,<code>bochs -f sls的配置文件</code>,注意软盘和磁盘文件的路径</p>
+<p>根据bochs报错修改,以及<code>System BIOS must end at 0xfffff</code>报错:</p>
+<ul>
+<li>去掉rootimage的<code>, address=0xf0000</code><br><img src="https://img-blog.csdnimg.cn/20200522225113649.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ul>
+<h4 id="在hdc-img上建立根文件系统报错-Kernel-painc-HD-controller-not-ready"><a href="#在hdc-img上建立根文件系统报错-Kernel-painc-HD-controller-not-ready" class="headerlink" title="在hdc.img上建立根文件系统报错 Kernel painc: HD controller not ready"></a>在hdc.img上建立根文件系统报错 Kernel painc: HD controller not ready</h4><p>书中这里又用第一中双软盘的方式启动0.12,<strong>但是在修改软盘驱动器A为根文件系统软盘后continue报错</strong>如上</p>
+<blockquote>
+<p>使用<code>bochsrc-0.12-hd.bxrc</code>配置文件启动的话,该配置文件加载bootimage-0.12-hd,此软盘文件第509,510字节设备号是0x0301,在linux 0.1x时代代表第一个硬盘的第一个分区,所以从<code> rootimage-0.12-hd</code>硬盘(文件)中加载根文件系统</p>
+</blockquote>
+<p>解决此报错的方法:<a target="_blank" rel="noopener" href="https://blog.csdn.net/body100123/article/details/52469076">csdn</a></p>
+<p>重新进入到了0.12,并且是软盘上的根目录,mount命令都没有,</p>
+<p>还是要从rootimage-0.12-hd进入然后制作根文件系统,但是复制会有部分报错,并且用hdc.img作为根文件系统引导后连/root都进不去 报错:ENOENT</p>
+<h4 id="在0-12中编译0-12内核"><a href="#在0-12中编译0-12内核" class="headerlink" title="在0.12中编译0.12内核"></a>在0.12中编译0.12内核</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /usr/src/linux<br>make clean<br>make <br>dd bs=8192 if=Image of=/dev/fd0<br></code></pre></td></tr></table></figure>
+
+<p>重写了软盘引导文件,不这样用mtools+diskb.img传递也行<br><img src="https://img-blog.csdnimg.cn/20200522225142491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">linux 0.12引导启动程序</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/18/csdn/%E7%AC%AC16%E7%AB%A0%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6/">
+                        <span class="hidden-mobile">第16章分页机制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

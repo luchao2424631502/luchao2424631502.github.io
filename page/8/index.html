@@ -1,0 +1,936 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="打字机">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/18/csdn/const%20int!%20%E5%92%8C%20const%20int%20!%20const%20%E5%92%8C%20int%20const%20!%20%E7%9A%84%E5%8C%BA%E5%88%AB/">const int* 和 const int * const 和 int const * 的区别</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/18/csdn/const%20int!%20%E5%92%8C%20const%20int%20!%20const%20%E5%92%8C%20int%20const%20!%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+          
+          
+            
+          
+          
+
+const int*和const int * const和 int const *的区别原文地址
+
+int const *是一个指向常量整数的指针
+指向了一个不能被修改的值但是指针指向的地址可以改变
+
+const 在数据类型的一侧,所以可以放在int的前面const int *,(从c++ prime了解到)
+
+
+123456789101112#include &lt;stdio.h&gt;i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-18 19:31" pubdate>
+              2019-12-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/const-pointer/">const pointer</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/15/csdn/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E5%8A%A0%E6%B3%95+%E4%B9%98%E6%B3%95/">线段树区间加法+乘法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/15/csdn/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E5%8A%A0%E6%B3%95+%E4%B9%98%E6%B3%95/">
+          
+          
+            
+          
+          
+
+区间加法+区间乘法（2标记 Luogu
+一开始只想到了开2个标记,但是看了题解才知道标记下传是有优先级的
+
+按题目数据来如果是
+
+先+后x: $val = (val + b) * k = valk+bk$
+
+先x后+ : $val = val * k + b$
+
+
+
+如何处理2个标记?
+
+
+
+
+
+假设给数组[1,2,3]中1~3加上2,然后乘3，然后加4
+
+
+
+式子:
+$sum=(a[1]+2
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-15 17:46" pubdate>
+              2019-12-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">c++流和c流</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">
+          
+          
+            
+          
+          
+
+c++ 流 和 c 流
+标准的c++流默认与其相对应的c流同步:( 在每次输入/输出后同步 )
+
+同步的c++流 无缓冲,每次c++流上的$I/O$操作都立即应用到对应 C 流的缓冲区。这使得能自由地混合 C++ 与  C $I/O$ 。 
+
+ 若关闭同步，则允许 C++ 标准流独立地缓冲其 I/O ，可认为这在某些情况下更快。 
+
+
+12345678910#include &lt;iostr
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-14 22:25" pubdate>
+              2019-12-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/14/csdn/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%8E%E7%9A%84()/">lambda表达式后的()</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/14/csdn/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%8E%E7%9A%84()/">
+          
+          
+            
+          
+          
+
+
+一直对lambda后面的()这种离奇的语法感到奇怪,今天看到如下代码:
+
+1234567auto optimize_cpp_stdio = []() &#123;    std::ios::sync_with_stdio(false);    std::cin.tie(nullptr);    std::cout.tie(nullptr);    std::setvbuf(stdout, n
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-14 19:02" pubdate>
+              2019-12-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/lambda/">lambda</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/11/csdn/%E5%9F%BA%E4%BA%8EThinkphp%E5%BC%80%E5%8F%91%E7%9A%84%E5%8D%9A%E5%AE%A2%20(%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91,mark%E4%B8%80%E4%B8%8B/">基于Thinkphp开发的博客 (第一次开发,mark一下</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/11/csdn/%E5%9F%BA%E4%BA%8EThinkphp%E5%BC%80%E5%8F%91%E7%9A%84%E5%8D%9A%E5%AE%A2%20(%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%BC%80%E5%8F%91,mark%E4%B8%80%E4%B8%8B/">
+          
+          
+            
+          
+          
+
+基于Thinkphp开发的博客 (第一次开发,mark一下tp_blog 开发日志
+11.20 
+文件命名空间sb
+new 命名空间下的文件一定要\app
+12.8 
+忘记密码时输入邮箱的唯一性没有确定,已修复
+玄学Bug : system设置的时候 system验证器离奇失效( 不知道是不是版本问题)
+
+注册账号 和 忘记密码给注册邮箱发送4位验证码 使用了phpmailer扩展
+
+登录的验
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-11 00:30" pubdate>
+              2019-12-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/php/">php</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/blog/">blog</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/05/csdn/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/05/csdn/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
+          
+          
+            
+          
+          
+
+树状数组lowbit(x)
+lowbit既能求出该节点及其下面子节点的个数,也能帮助区间下标转换
+
+
+ $lowbit(x) = x &amp; (-x)$
+
+
+ 例如lowbit(8):
+$8_{10} = 1000_{2}$  负数符号位不同( $-8_{10} = 1000_2$  
+计算机以补码计算
+8的补码$1000$, -8的补码$-8 = 1000_2 = 0111_2 + 1 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-05 18:19" pubdate>
+              2019-12-05
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">树状数组</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/04/csdn/ST%E8%A1%A8/">ST表</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/04/csdn/ST%E8%A1%A8/">
+          
+          
+            
+          
+          
+
+ST表
+$O(logn * n)$ 预处理 $2*10^6 \approx 2^{21}$  $log2^{21} = 21$
+$O(1)$查询,不支持修改操作
+例如用于静态区间最大最小值查询
+
+
+预处理
+询问区间$[L,R]$,最多使用2个预处理过的区间的并就能覆盖询问区间
+$f(i,j)$表示区间$[i,i+2^j-1]$的最大值 ,,,, $2^j-1$即倍增的长度 ,,,  $f(i,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-04 19:51" pubdate>
+              2019-12-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/RMQ/">RMQ</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">
+          
+          
+            
+          
+          
+
+非旋转Treap
+通过节点的优先级来维护树的平衡, 下面是普通非旋转Treap (弱平衡,
+
+性质
+Treap是笛卡尔树的一种,只是 节点优先级是随机的
+$Tree+Heap$: 二叉搜索树+堆的性质
+ 2个核心操作 分裂+合并
+
+分裂 split
+按照 节点权值分裂或者值的排名分裂
+
+
+$split_val$
+
+将一颗treap分裂成2个treap,第一个treap所有节点的权值$\le k
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-04 12:00" pubdate>
+              2019-12-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/02/csdn/%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91/">替罪羊树</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/02/csdn/%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91/">
+          
+          
+            
+          
+          
+
+替罪羊树$\alpha$权重平衡
+认为一棵树$X$是平衡的当且仅当它每一棵子树满足下列条件： 
+$size(x.left) \le \alpha * size(x)$
+$size(x.right)\le \alpha * size(x)$ 
+$\alpha \in [0.5,1]$
+
+$\alpha = 1$就是普通的二叉搜索树
+$\alpha = 0.5$ 左右子树的大小是该数的一半
+
+
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-02 21:35" pubdate>
+              2019-12-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/">平衡树</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2019/12/01/csdn/Luogu%20P3165%20Splay%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">Luogu P3165 Splay区间翻转</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/01/csdn/Luogu%20P3165%20Splay%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">
+          
+          
+            
+          
+          
+
+脑残记录:
+这周末2天只做了一道平衡树题目(2天被一道题限住),发现自己的很多问题,
+1. 学了算法及其性质 但是总是做不出来题目,很难利用学过的性质, 同样这种情况再次发生在今天
+
+没有运用的能力,思维太差???
+
+
+
+
+
+反思:
+自己对算法题目的思维能力 还是不行  ( ？？？一定要想办法改变？？？ )
+要对自己的学过的算法的流程 好好走一遍,
+
+
+
+
+Splay 练习 Luogu P31
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-01 20:48" pubdate>
+              2019-12-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">区间翻转</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/7/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/9/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>替罪羊树 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="替罪羊树">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-12-02 21:35" pubdate>
+        2019年12月2日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">替罪羊树</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h3 id="替罪羊树"><a href="#替罪羊树" class="headerlink" title="替罪羊树"></a>替罪羊树</h3><h4 id="alpha-权重平衡"><a href="#alpha-权重平衡" class="headerlink" title="$\alpha$权重平衡"></a>$\alpha$权重平衡</h4><ol>
+<li><p>认为一棵树$X$是平衡的当且仅当它<strong>每一棵子树</strong>满足下列条件： </p>
+<p>$size(x.left) \le \alpha * size(x)$</p>
+<p>$size(x.right)\le \alpha * size(x)$ </p>
+<p>$\alpha \in [0.5,1]$</p>
+<ul>
+<li>$\alpha = 1$就是普通的二叉搜索树</li>
+<li>$\alpha = 0.5$ 左右子树的大小是该数的一半</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol>
+<li>替罪羊树是平衡树的一种,但<strong>维护平衡的方式不是 旋转,而是重新建树,且重构成 左右子树大小相等的二叉搜索树</strong></li>
+<li>人为设定$\alpha$的值</li>
+</ol>
+<hr>
+<h4 id="重建"><a href="#重建" class="headerlink" title="重建(*)"></a>重建(*)</h4><ul>
+<li>（形象理解为将一棵树拍平, 拍平成一个数组), </li>
+</ul>
+<ol>
+<li><p><strong>将子树通过$dfs$中序遍历（数列顺序不变）存到数组（ 然后通过此数组重新建立子树）</strong></p>
+</li>
+<li><p>左右递归建树（）</p>
+</li>
+</ol>
+<h4 id="插入-如何维护平衡"><a href="#插入-如何维护平衡" class="headerlink" title="插入 (如何维护平衡)"></a>插入 (如何维护平衡)</h4><ul>
+<li><p>向下搜索找到对应位置插入,<strong>在回溯的过程中,判断每一节点是否需要满足平衡,一条树链上可能会有多个子树需要重构,则找到最接近根节点(最高)的子树重建</strong></p>
+<ol>
+<li>当前节点不平衡,记录该节点,当回到上一层节点再判断,如果上一层节点代表的子树仍不平衡,记录更新</li>
+<li>当前节点代表的子树平衡,则判断记录是否有值,（且一定为左右子树的编号,)然后重构子树</li>
+<li>每一次回溯都判断整棵树是否需要重构,避免(只有局部平衡)</li>
+</ol>
+</li>
+<li><p>偷懒做法: </p>
+<p>每个节点判断后,如果需要重构就直接重构,</p>
+<p>去掉<code>if(isbad(now)) ... else &#123;&#125;</code>, 改为<code>if(isbad(now)) rebuild(now)</code></p>
+</li>
+</ul>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><ul>
+<li><p>给节点打标记,但是每次都检查,如果被删除（标记）的点过多,则重构整个树</p>
+<p><code>if((double)e[root].total*alpha &gt; e[root].valid) rebuild(root);</code></p>
+</li>
+</ul>
+<h4 id="数组下标分配问题"><a href="#数组下标分配问题" class="headerlink" title="数组下标分配问题,"></a>数组下标分配问题,</h4><ul>
+<li>伪内存池 (不用的下标\编号回收)</li>
+</ul>
+<hr>
+<h4 id="其他的操作都和其他平衡树大同小异"><a href="#其他的操作都和其他平衡树大同小异" class="headerlink" title="其他的操作都和其他平衡树大同小异"></a>其他的操作都和其他平衡树大同小异</h4><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3369">Luogu 平衡树例题</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">2e6</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> alpha = <span class="hljs-number">0.75</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">scapegoat</span> &#123;</span><br>    <span class="hljs-keyword">int</span> son[<span class="hljs-number">2</span>],val,valid,total;<br>    <span class="hljs-keyword">bool</span> exist;<br>&#125; e[maxn];<br><span class="hljs-keyword">int</span> memory[maxn],cur[maxn];<br><span class="hljs-keyword">int</span> root,pool,poi,to_rebuild;<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isbad</span><span class="hljs-params">(<span class="hljs-keyword">int</span> now)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> left  = e[now].son[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">int</span> right = e[now].son[<span class="hljs-number">1</span>];<br>    <span class="hljs-keyword">if</span> ((<span class="hljs-keyword">double</span>)e[now].valid*alpha &lt;= (<span class="hljs-keyword">double</span>)max(e[left].valid,e[right].valid))<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> now)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!now) <span class="hljs-keyword">return</span> ;<br>    dfs(e[now].son[<span class="hljs-number">0</span>]);<br>    <span class="hljs-keyword">if</span> (e[now].exist)<br>        cur[++poi] = now;<br>    <span class="hljs-keyword">else</span><br>        memory[++pool] = now;<br>    dfs(e[now].son[<span class="hljs-number">1</span>]);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l,<span class="hljs-keyword">int</span> r,<span class="hljs-keyword">int</span> &amp;now)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;<br>    now = cur[mid];<br>    <span class="hljs-keyword">if</span> (l==r) &#123;<br>        e[now].son[<span class="hljs-number">0</span>] = e[now].son[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<br>        e[now].total = e[now].valid = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">return</span> ;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (l &lt;= mid<span class="hljs-number">-1</span>)<br>        build(l,mid<span class="hljs-number">-1</span>,e[now].son[<span class="hljs-number">0</span>]);<br>    <span class="hljs-keyword">else</span><br>        e[now].son[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br>    build(mid+<span class="hljs-number">1</span>,r,e[now].son[<span class="hljs-number">1</span>]);<br>    <span class="hljs-comment">// 回溯时判断是否重建</span><br>    <span class="hljs-keyword">int</span> left=e[now].son[<span class="hljs-number">0</span>],right=e[now].son[<span class="hljs-number">1</span>];<br>    e[now].total = e[left].total + e[right].total + <span class="hljs-number">1</span>;<br>    e[now].valid = e[left].valid + e[right].valid + <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rebuild</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;now)</span> </span>&#123; <span class="hljs-comment">// 以now为根节点,重建</span><br>    poi = <span class="hljs-number">0</span>;<br>    dfs(now); <span class="hljs-comment">// 从Now节点出发,把子树拍平</span><br>    <span class="hljs-keyword">if</span> (poi) build(<span class="hljs-number">1</span>,poi,now);<br>    <span class="hljs-keyword">else</span> now = <span class="hljs-number">0</span>; <span class="hljs-comment">//没有重建的返回 赋值为0</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;now,<span class="hljs-keyword">int</span> val)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (!now) &#123;<br>        now = memory[pool--];<br>        e[now].val = val;<br>        e[now].exist = e[now].total = e[now].valid = <span class="hljs-number">1</span>;<br>        e[now].son[<span class="hljs-number">0</span>] = e[now].son[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">return</span> ;<br>    &#125;<br>    <span class="hljs-comment">// 沿路向下更新</span><br>    e[now].total++,e[now].valid++;<br>    <span class="hljs-keyword">if</span> (val &lt;= e[now].val) insert(e[now].son[<span class="hljs-number">0</span>],val);<br>    <span class="hljs-keyword">else</span> insert(e[now].son[<span class="hljs-number">1</span>],val);<br>    <span class="hljs-comment">// if(isbad(now)) rebuild(now);</span><br>    <span class="hljs-comment">// 下面的都可以注释掉,改为每层不满足直接重构,而不去找离根节点最近的</span><br>    <span class="hljs-comment">// 回溯时 判断是否重建</span><br>    <span class="hljs-keyword">if</span> (!isbad(now)) &#123; <span class="hljs-comment">// now节点不需要重建</span><br>        <span class="hljs-keyword">if</span> (to_rebuild) &#123; <span class="hljs-comment">// 子树中有节点需要重建</span><br>            <span class="hljs-keyword">if</span> (e[now].son[<span class="hljs-number">0</span>] == to_rebuild)<br>                rebuild(e[now].son[<span class="hljs-number">0</span>]);<br>            <span class="hljs-keyword">else</span><br>                rebuild(e[now].son[<span class="hljs-number">1</span>]);<br>            <span class="hljs-comment">// 取消to_rebuild标记</span><br>            to_rebuild = <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span><br>        to_rebuild = now;<br>    <span class="hljs-comment">// 插入的每一层都判断 整个树是否需要重建</span><br>    <span class="hljs-keyword">if</span> (isbad(root))<br>        rebuild(root);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">delete_pos</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;now,<span class="hljs-keyword">int</span> tar)</span> </span>&#123; <span class="hljs-comment">// 删除排名为tar的值</span><br>    <span class="hljs-keyword">int</span> left=e[now].son[<span class="hljs-number">0</span>],right=e[now].son[<span class="hljs-number">1</span>];<br>    <span class="hljs-keyword">if</span> (e[now].exist &amp;&amp; e[left].valid+<span class="hljs-number">1</span> == tar) &#123; <span class="hljs-comment">// 子树+1(本节点) == tar</span><br>        e[now].exist = <span class="hljs-number">0</span>;<br>        e[now].valid--;<br>        <span class="hljs-keyword">return</span> ;<br>    &#125;<br>    <span class="hljs-comment">// 把路径上的点的valid都更新</span><br>    e[now].valid--;<br>    <span class="hljs-comment">// 判断是否还是在 左边部分</span><br>    <span class="hljs-keyword">if</span> (tar &lt;= e[left].valid + e[now].exist)<br>        delete_pos(e[now].son[<span class="hljs-number">0</span>],tar);<br>    <span class="hljs-keyword">else</span><br>        delete_pos(e[now].son[<span class="hljs-number">1</span>],tar-e[left].valid-e[now].exist);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find_kth</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k)</span> </span>&#123; <span class="hljs-comment">// 给出排名k找值</span><br>    <span class="hljs-keyword">int</span> now = root;<br>    <span class="hljs-keyword">while</span> (now) &#123;<br>        <span class="hljs-keyword">int</span> left=e[now].son[<span class="hljs-number">0</span>],right=e[now].son[<span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">if</span> (e[now].exist &amp;&amp; e[left].valid+<span class="hljs-number">1</span> == k) <span class="hljs-comment">// 是不是now节点代表的值</span><br>            <span class="hljs-keyword">return</span> e[now].val;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (k &lt;= e[left].valid) <span class="hljs-comment">// 是不是在左子树中</span><br>            now = left;<br>        <span class="hljs-keyword">else</span> &#123;<br>            k -= e[left].valid + e[now].exist; <span class="hljs-comment">// 减去当前点和左子树大小</span><br>            now = right;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find_rank</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span> </span>&#123; <span class="hljs-comment">// 给值找排名</span><br>    <span class="hljs-keyword">int</span> now = root,ans = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (now) &#123;<br>        <span class="hljs-keyword">if</span> (val &lt;= e[now].val)<br>            now = e[now].son[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">int</span> left = e[now].son[<span class="hljs-number">0</span>],right = e[now].son[<span class="hljs-number">1</span>];<br>            ans += e[left].valid + e[now].exist;<br>            now = right;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">delete_val</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123; <span class="hljs-comment">// 删除值 x</span><br>    delete_pos(root,find_rank(x));<br>    <span class="hljs-comment">// 被删除(标记)的点过多,则重构树</span><br>    <span class="hljs-keyword">if</span>((<span class="hljs-keyword">double</span>)e[root].total*alpha &gt; e[root].valid) rebuild(root);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-comment">// 内存池初始化</span><br>    <span class="hljs-comment">// i&gt;=1 0是根节点的编号</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=maxn<span class="hljs-number">-1</span>; i&gt;=<span class="hljs-number">1</span>; i--)<br>        memory[++pool] = i;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    init();<br>    <span class="hljs-keyword">int</span> n,x,val;<br>    <span class="hljs-built_in">cin</span> &gt;&gt; n;<br>    <span class="hljs-keyword">while</span> (n--) &#123;<br>        <span class="hljs-built_in">cin</span> &gt;&gt; x &gt;&gt; val;<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">1</span>) insert(root,val);<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">2</span>) delete_val(val);<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">3</span>) <span class="hljs-built_in">cout</span> &lt;&lt; find_rank(val) &lt;&lt; <span class="hljs-built_in">endl</span>;<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">4</span>) <span class="hljs-built_in">cout</span> &lt;&lt;  find_kth(val) &lt;&lt; <span class="hljs-built_in">endl</span>;<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">5</span>) <span class="hljs-built_in">cout</span> &lt;&lt; find_kth(find_rank(val)<span class="hljs-number">-1</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;<br>        <span class="hljs-keyword">if</span> (x == <span class="hljs-number">6</span>) <span class="hljs-built_in">cout</span> &lt;&lt; find_kth(find_rank(val+<span class="hljs-number">1</span>)) &lt;&lt; <span class="hljs-built_in">endl</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://riteme.site/blog/2016-4-6/scapegoat.html">好的替罪羊树的介绍   %%%%% 太强了</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/">平衡树</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">非旋转Treap</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/01/csdn/Luogu%20P3165%20Splay%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">
+                        <span class="hidden-mobile">Luogu P3165 Splay区间翻转</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

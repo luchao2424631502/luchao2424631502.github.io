@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>APUE第三章文件IO笔记+习题 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="APUE第三章文件IO笔记+习题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-01-23 17:22" pubdate>
+        2020年1月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">APUE第三章文件IO笔记+习题</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<h1 id="3-文件IO"><a href="#3-文件IO" class="headerlink" title="3 文件IO"></a>3 文件IO</h1><blockquote>
+<p>非缓冲IO,属于POSIX,非IOS C标准  </p>
+<ul>
+<li><code>stdin stdou stderr</code>与<code>STDIN_FILENO STDOUT_FILENO STDERR_FILENO</code>的关系  <ol>
+<li><code>stdin</code>等属于<code>FILE *</code>类型,在<code>&lt;stdio.h&gt;</code>中</li>
+<li><code>STDIN_FILENO</code>等是无符号整数，表示描述符,在<code>&lt;unistd.h&gt;</code>中</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<h2 id="3-1-常用函数"><a href="#3-1-常用函数" class="headerlink" title="3.1 常用函数"></a>3.1 常用函数</h2><ol>
+<li>open<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">open</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *path,<span class="hljs-keyword">int</span> oflag,...<span class="hljs-comment">/*标志需要的参数*/</span>)</span></span><br>成功返回fd,否则-1<br></code></pre></td></tr></table></figure>
+常见<code>oflag</code>:<ol>
+<li><code>O_RDONLY</code>:只读</li>
+<li><code>O_WRONLY</code>:只写</li>
+<li><code>O_RDWR</code>:读写</li>
+<li><code>O_APPEND</code>:原子操作,(定位＋写)</li>
+<li><code>O_CREAT</code>: 文件不存在则创建,后接参数<code>umask</code></li>
+<li><code>O_SYNC</code>: 每次<code>write</code>等待物理IO操作完成(同步),包括文件内容和文件属性,由于不在磁盘的同一处,那么会进行2次IO,</li>
+</ol>
+</li>
+</ol>
+<p>２. <code>lseek</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">off_t</span> <span class="hljs-title">lseek</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd,<span class="hljs-keyword">off_t</span> offset,<span class="hljs-keyword">int</span> whence)</span></span>; <br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>offset</code>与<code>whence</code>有关  </li>
+</ul>
+<p>1.<code>SEEK_SET</code>,距离开始处的偏移量为<code>offset</code><br>2.<code>SEEK_CUR</code>,在当前文件偏移量处增加,(前面为空则<code>SEEK_CUR＝０</code>)<br>3.<code>SEEK_END</code>,偏移量为文件长度 + <code>offset</code></p>
+<ul>
+<li>文件空洞:当文件偏移量大于文件长度,写入时,会在文件中构成一个空洞,<strong>且空洞不要求在磁盘上占用存储区</strong>,<strong>新写入的数据需要磁盘块,但原文件尾端和新开始写入位置的空洞不需要分配磁盘块</strong></li>
+<li>创建空洞文件,且<code>od -c file.hole</code>查看,和<code>ls -ls</code>查看文件大小<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// g++ test.cpp -o test</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fcntl.h&gt;  </span></span><br><span class="hljs-keyword">char</span> buf1[] = <span class="hljs-string">&quot;abcdefghij&quot;</span>;<br><span class="hljs-keyword">char</span> buf2[] = <span class="hljs-string">&quot;ABCDEFGHIJ&quot;</span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> fd;<br>	<span class="hljs-keyword">if</span> ((fd = creat(<span class="hljs-string">&quot;file.hole&quot;</span>,FILE_MODE)) &lt; <span class="hljs-number">0</span>)<br>		err_sys(<span class="hljs-string">&quot;creat error&quot;</span>);<br>	<span class="hljs-keyword">if</span> (write(fd,buf1,<span class="hljs-number">10</span>) != <span class="hljs-number">10</span>)<br>		err_sys(<span class="hljs-string">&quot;buf1 write error&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (lseek(fd,<span class="hljs-number">16384</span>,SEEK_SET) == <span class="hljs-number">-1</span>)<br>		err_sys(<span class="hljs-string">&quot;lseek error&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (write(fd,buf2,<span class="hljs-number">10</span>) != <span class="hljs-number">10</span>)<br>		err_sys(<span class="hljs-string">&quot;buf2 write errro&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>3.<code>close</code>  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt; </span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">close</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span></span>;<br>成功０,失败<span class="hljs-number">-1</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>进程终止时,内核自动关闭所有打开文件,</li>
+<li>并且<strong>关闭一个文件时还会释放该进程加在该文件上的所有记录锁(未理解)</strong></li>
+</ul>
+<p>4.<code>read</code>    </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">ssize_t</span> <span class="hljs-title">read</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd,<span class="hljs-keyword">void</span> *buf,<span class="hljs-keyword">size_t</span> nbyte)</span></span>;<br>成功返回读入字节,<span class="hljs-number">0</span>表示文件尾,<span class="hljs-number">-1</span>出错<br></code></pre></td></tr></table></figure>
+<p>5.<code>write</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">＃include &lt;unistd.h&gt;<br><span class="hljs-function"><span class="hljs-keyword">ssize_t</span> <span class="hljs-title">write</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd,<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *buf,<span class="hljs-keyword">size_t</span> nbyte)</span></span>;<br></code></pre></td></tr></table></figure>
+<h4 id="文件空洞"><a href="#文件空洞" class="headerlink" title="文件空洞"></a>文件空洞</h4><ul>
+<li><code>od -c file.hole</code>查看文件且<code>ls -ls</code>查看文件大小</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// g++ test.cpp -o test</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fcntl.h&gt;</span></span><br><br><span class="hljs-keyword">char</span> buf1[] = <span class="hljs-string">&quot;abcdefghij&quot;</span>;<br><span class="hljs-keyword">char</span> buf2[] = <span class="hljs-string">&quot;ABCDEFGHIJ&quot;</span>;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> fd;<br>	<span class="hljs-keyword">if</span> ((fd = creat(<span class="hljs-string">&quot;file.hole&quot;</span>,FILE_MODE)) &lt; <span class="hljs-number">0</span>)<br>		err_sys(<span class="hljs-string">&quot;creat error&quot;</span>);<br>	<span class="hljs-keyword">if</span> (write(fd,buf1,<span class="hljs-number">10</span>) != <span class="hljs-number">10</span>)<br>		err_sys(<span class="hljs-string">&quot;buf1 write error&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (lseek(fd,<span class="hljs-number">16384</span>,SEEK_SET) == <span class="hljs-number">-1</span>)<br>		err_sys(<span class="hljs-string">&quot;lseek error&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> (write(fd,buf2,<span class="hljs-number">10</span>) != <span class="hljs-number">10</span>)<br>		err_sys(<span class="hljs-string">&quot;buf2 write errro&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>当文件偏移量大于文件当前长度,下次写入会在文件中构成一个空洞,且<strong>不占用磁盘空间</strong>,新写入的数据需要分配磁盘块,<strong>空洞:原文件尾端和新写入位置之间不需要分配磁盘空间</strong></li>
+</ul>
+<h4 id="通过read和write函数复制文件"><a href="#通过read和write函数复制文件" class="headerlink" title="通过read和write函数复制文件"></a>通过<code>read</code>和<code>write</code>函数复制文件</h4><ul>
+<li>从标准输入读和写出标准输出,可以通过shell来重定向实现文件复制,</li>
+<li>缓冲区的大小也能影响效率</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;apue.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUFFSIZE 4 </span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> n;<br>	<span class="hljs-keyword">char</span> buf[BUFFSIZE];<br>	<span class="hljs-keyword">while</span>((n = read(STDIN_FILENO,buf,BUFFSIZE)) &gt; <span class="hljs-number">0</span>) <br>		<span class="hljs-keyword">if</span> (write(STDOUT_FILENO,buf,n) != n)<br>			err_sys(<span class="hljs-string">&quot;write_error&quot;</span>);<br>	<span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">0</span>)<br>		err_sys(<span class="hljs-string">&quot;read error&quot;</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 执行</span><br><span class="hljs-comment">// g++ test.cpp -o test (or gcc</span><br><span class="hljs-comment">// ./test &lt; 1.in &gt; 1.out</span><br></code></pre></td></tr></table></figure>
+<h2 id="3-11文件的原子操作"><a href="#3-11文件的原子操作" class="headerlink" title="3.11文件的原子操作"></a>3.11文件的原子操作</h2><ol>
+<li>记住多进程打开文件模型（３层）<blockquote>
+<p>1.进程表中包含的<strong>文件记录项（矢量）</strong>，</p>
+<blockquote>
+<p>fd是每一项的项号,每一项包括<strong>文件描述符标志(close_on_exec)和指向文件表项的指针</strong></p>
+</blockquote>
+<p>2.内核维护一张文件表,每个表项包括:</p>
+<pre><code>a.文件状态标志
+b.文件偏移量
+c.指向Ｖ节点表项的指针</code></pre>
+<p>3.每个打开文件(或者设备)都有一个Ｖ节点(v-node)，包含了文件类型和对此文件进行各种操作函数的指针.</p>
+</blockquote>
+</li>
+<li><code>O_APPEND</code>标志使得<strong>每次在写入文件之前,都会修改当前偏移量</strong>,将２个操作合并为１一个操作.避免２操作之间处理器会讲进程挂起导致数据被覆盖</li>
+</ol>
+<h2 id="dup函数-duplication-复制"><a href="#dup函数-duplication-复制" class="headerlink" title="dup函数 (duplication 复制"></a>dup函数 (duplication 复制</h2><ul>
+<li>复制现有文件描述符,那么<strong>进程表中文件描述符中有２项的指针都指向相同的内核文件表项</strong></li>
+<li>所以共享 1.文件状态标志,2.当前文件偏移量,3.v节点指针<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">dup</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fd)</span></span>;<br>返回复制fd,否则<span class="hljs-number">-1</span><br></code></pre></td></tr></table></figure>
+<h2 id="fcntl函数"><a href="#fcntl函数" class="headerlink" title="fcntl函数"></a>fcntl函数</h2></li>
+<li>读取文件状态标志 ( 其中有５个状态是互斥的,要与<code>O_ACCMODE</code>一起使用</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include &quot;apue.h&quot;<br>#include &lt;fcntl.h&gt;<br> <br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> val;<br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>		err_quit(<span class="hljs-string">&quot;usage: a.out &lt;descriptor#&gt;&quot;</span>);<br><br>	<span class="hljs-keyword">if</span> ((val = fcntl(atoi(argv[<span class="hljs-number">1</span>]),F_GETFL,<span class="hljs-number">0</span>)) &lt; <span class="hljs-number">0</span>)<br>		err_sys(<span class="hljs-string">&quot;fcntl error for fd %d,&quot;</span>,atoi(argv[<span class="hljs-number">1</span>]));<br>	<br>	<span class="hljs-keyword">switch</span>(val &amp; O_ACCMODE) &#123;<br>		<span class="hljs-keyword">case</span> O_RDONLY:<br>			printf(<span class="hljs-string">&quot;read only&quot;</span>);<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-keyword">case</span> O_WRONLY:<br>			printf(<span class="hljs-string">&quot;write only&quot;</span>);<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-keyword">case</span> O_RDWR:<br>			printf(<span class="hljs-string">&quot;read write&quot;</span>);<br>			<span class="hljs-keyword">break</span>;<br>		<span class="hljs-keyword">default</span>:<br>			err_dump(<span class="hljs-string">&quot;unknown access mode&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">if</span> (val &amp; O_APPEND)<br>		printf(<span class="hljs-string">&quot;, append&quot;</span>);<br>	<span class="hljs-keyword">if</span> (val &amp; O_NONBLOCK)<br>		printf(<span class="hljs-string">&quot;, nonblocking&quot;</span>);<br>	<span class="hljs-keyword">if</span> (val &amp; O_SYNC)<br>		printf(<span class="hljs-string">&quot;, synchronous writes&quot;</span>);<br>#if !defined(_POSIX_C_SOURCE) &amp;&amp; defined(O_FSYNC) &amp;&amp; (O_FSYNC != O_SYNC)<br>	<span class="hljs-keyword">if</span> (val &amp; O_FSYNC)<br>		printf(<span class="hljs-string">&quot;, synchronous writes&quot;</span>);<br>#endif<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>c++</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include &quot;apue.h&quot;<br>#include &lt;fcntl.h&gt;<br> <br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> *argv[])</span> </span>&#123;<br><span class="hljs-comment">//	std::for_each(argv,argv + argc,[](const char *ch)&#123;</span><br><span class="hljs-comment">//			std::cout &lt;&lt; ch &lt;&lt; &quot;\n&quot;;</span><br><span class="hljs-comment">//			&#125;);</span><br>	<span class="hljs-keyword">int</span> val;<br>	<span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>		err_quit(<span class="hljs-string">&quot;usage: a.out &lt;descriptor#&gt;&quot;</span>);<br>	<span class="hljs-comment">// 读取数字argv[1],表示文件描述符</span><br>	<span class="hljs-keyword">if</span> ((val = fcntl(atoi(argv[<span class="hljs-number">1</span>]),F_GETFL,<span class="hljs-number">1</span>)) &lt; <span class="hljs-number">0</span>)<br>		err_sys(<span class="hljs-string">&quot;fcntl error for fd %d&quot;</span>,atoi(argv[<span class="hljs-number">1</span>]));<br><br>	std::map&lt;<span class="hljs-keyword">int</span>,std::string&gt; stat &#123;<br>		&#123;O_RDONLY,std::string(<span class="hljs-string">&quot;read only&quot;</span>)&#125;,<br>		&#123;O_WRONLY,std::string(<span class="hljs-string">&quot;write only&quot;</span>)&#125;,<br>		&#123;O_RDWR,std::string(<span class="hljs-string">&quot;read write&quot;</span>)&#125;,<br>		&#123;<span class="hljs-number">0x3f3f3f3f</span>,std::string(<span class="hljs-string">&quot;unknown access mode&quot;</span>)&#125;<br>	&#125;;<br><br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> auto&amp; i : stat) &#123;<br>		<span class="hljs-comment">// 用O_ACCMODE 取得访问方式位,再来比较</span><br>		<span class="hljs-keyword">if</span> (std::get&lt;<span class="hljs-number">0</span>&gt;(i) == (val &amp; O_ACCMODE)) &#123;<br>			std::cout &lt;&lt; std::get&lt;<span class="hljs-number">1</span>&gt;(i); <br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (std::get&lt;<span class="hljs-number">0</span>&gt;(i) == <span class="hljs-number">0x3f3f3f3f</span>) &#123;<br>			err_dump(std::get&lt;<span class="hljs-number">1</span>&gt;(i).c_str());<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//上面是互斥属性,下面的属性不互斥</span><br>	<span class="hljs-keyword">if</span> (val &amp; O_APPEND)<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;, append&quot;</span>;<br>	<span class="hljs-keyword">if</span> (val &amp; O_NONBLOCK)<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;, nonblocking&quot;</span>;<br>	<span class="hljs-keyword">if</span> (val &amp; O_SYNC)<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;, synchronous writes&quot;</span>;<br>#if !defined(__POSIX_C_SOURCE) &amp;&amp; defined(O_FSYNC) &amp;&amp; (O_FSYNC != O_SYNC)<br>	<span class="hljs-keyword">if</span> (val &amp; O_FSYNC)<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;, synchronous writes&quot;</span>;<br>#endif <br>	std::cout &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;	<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="延迟写"><a href="#延迟写" class="headerlink" title="延迟写"></a>延迟写</h3><blockquote>
+<p>UNIX内核实现中设有<strong>缓冲区高速缓存</strong>和<strong>页高速缓存</strong>,磁盘IO都通过缓冲区进行.当向文件写入数据时,内核通常先将数据复制到缓冲区中,　　<br>如果缓冲区尚未写满<strong>等待写满或者当内核需要重用该缓冲区</strong>这时才将缓冲排入输出队列中,直到实际的IO操作,</p>
+</blockquote>
+<hr>
+<h3 id="课后习题"><a href="#课后习题" class="headerlink" title="课后习题"></a>课后习题</h3><p>3.2</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include &quot;apue.h&quot;<br>#include &lt;unistd.h&gt;<br> <br>struct Node &#123;<br>	<span class="hljs-keyword">int</span> fd;<br>	Node *next;<br>&#125;;<br><br><span class="hljs-comment">// 回收所有空间</span><br><span class="hljs-keyword">void</span><br>free_fd(Node *head) <br>&#123;<br>	<span class="hljs-keyword">while</span>(head != nullptr) &#123;<br>		Node *temp = head;<br>		<span class="hljs-comment">// 先关闭文件描述符,</span><br>		close(head-&gt;fd);<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;close &quot;</span> &lt;&lt; head-&gt;fd &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>		<span class="hljs-comment">//　关闭后回收内存</span><br>		free(head);<br>		head = temp-&gt;next;<br>	&#125;<br>&#125;<br><br><span class="hljs-keyword">int</span><br>mydup2(<span class="hljs-keyword">int</span> fd,<span class="hljs-keyword">int</span> fd2) <br>&#123;<br>	<span class="hljs-keyword">if</span> (fd == fd2)<br>		<span class="hljs-keyword">return</span> fd;<br>	<span class="hljs-comment">//如果fd2已经打开 则先关闭fd2</span><br>	close(fd2);<br>	<br>	<span class="hljs-keyword">int</span> temp_fd;<br>	Node *head = (Node *)malloc(sizeof(Node));<br>	Node *cur = head;<br>	<span class="hljs-comment">// fd2 这一个文件描述符没有存</span><br>	<span class="hljs-keyword">while</span>((temp_fd = dup(fd)) != fd2) &#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;dup &quot;</span> &lt;&lt; temp_fd &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>		<span class="hljs-comment">// 首先判断是否返回出错</span><br>		<span class="hljs-keyword">if</span> (temp_fd == -<span class="hljs-number">1</span>) &#123;<br>			<span class="hljs-comment">// 清楚所有已经分配的fd</span><br>			free_fd(head);<br>			<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>		&#125;<br>		<span class="hljs-comment">// 分配空间保存多余的且打开的文件描述符</span><br>		Node *temp = (Node *)malloc(sizeof(Node));<br>		temp-&gt;next = nullptr;<br>		temp-&gt;fd = temp_fd;<br>		cur-&gt;next = temp;<br>		cur = temp;<br>	&#125;<br>	<br>	<span class="hljs-comment">//　回收fd2之前的所有内存</span><br>	free_fd(head);<br><br>	<span class="hljs-keyword">return</span> fd2;<br>&#125;<br><br><span class="hljs-keyword">int</span> <br>main () <br>&#123;<br>	<span class="hljs-keyword">int</span> fd = mydup2(STDOUT_FILENO,<span class="hljs-number">100</span>);<br>	std::cout &lt;&lt; fd;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>3.5  关于dup2的调用顺序</p>
+<blockquote>
+<p>调用1: <code>./a  &gt;outfile  2&gt;&amp;1</code><br>调用2: <code>./a  2&gt;&amp;1   &gt;outfile</code></p>
+<ol>
+<li><code>&gt;</code>表示将<strong>标准输出</strong>重定向 (默认是1  </li>
+<li><code>2&gt;&amp;1</code>表示将<strong>标准错误输出</strong>重定向到<strong>标准输出</strong> </li>
+<li><code>2&gt;1</code>表示将<strong>标准错误输出</strong>重定向到<strong>１</strong>这个文件  </li>
+<li> 加入了<code>&amp;</code><strong>应该就是说明要使用文件描述符</strong>  </li>
+</ol>
+</blockquote>
+<blockquote>
+<ul>
+<li>调用１<br>先将文件描述符１中的指针指向了oufile的文件表项,然后将文件描述符２中的指针指向了文件描述符１的指针指向,所以最终都指向一个内核中的文件表项.<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-comment">// dup2()的调用顺序</span><br><span class="hljs-number">3</span> = open(file)<br><span class="hljs-function"><span class="hljs-title">dup2</span><span class="hljs-params">(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)</span></span><br><span class="hljs-function"><span class="hljs-title">dup2</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)</span></span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>调用２<br>先将文件描述符2中的指针指向了文件描述符１所指向的内核文件表项,但是文件描述符１中的指针又指向了文件描述符３指向文件表项,最终,２输出在终端,1输出在文件<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">dup2</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)</span></span><br><span class="hljs-comment">// open的位置不太确定?,可能在第一个?</span><br><span class="hljs-function"><span class="hljs-title">open</span><span class="hljs-params">(path)</span></span> = <span class="hljs-number">3</span><br><span class="hljs-function"><span class="hljs-title">dup2</span><span class="hljs-params">(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)</span></span><br></code></pre></td></tr></table></figure>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/caolisong/archive/2007/04/25/726896.html">参考博客</a></li>
+</ul>
+</blockquote>
+<p>3.6</p>
+<ul>
+<li>先创建好文件,测试结果:  <blockquote>
+<p>使用<code>O_APPEND</code>标志打开文件,<code>read</code>受到<code>lseek</code>的影响,但是<code>write</code>不受到<code>lseek</code>的影响,(<code>O_APPEND</code>标志的原因</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include &quot;apue.h&quot;<br>#include &lt;unistd.h&gt;<br>#include &lt;fcntl.h&gt;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">1024</span>;<br><span class="hljs-keyword">char</span> ReadBuf[maxn]; <br> <br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span> </span>&#123;<br>	std::<span class="hljs-function">string <span class="hljs-title">path</span><span class="hljs-params">(<span class="hljs-string">&quot;/home/luchao/Documents/Apue/3/1.out&quot;</span>)</span></span>;<br>	<span class="hljs-keyword">int</span> fd = open(path.c_str(),O_APPEND|O_RDWR);<br>	std::string content = <span class="hljs-string">&quot;abc&quot;</span>;<br>	<span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>)	<br>		err_sys(<span class="hljs-string">&quot;open failed&quot;</span>);<br>	<span class="hljs-keyword">int</span> offset = lseek(fd,<span class="hljs-number">0</span>,SEEK_END);<br>	<span class="hljs-keyword">if</span> (offset == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;lseek error&quot;</span>);<br><br>	<span class="hljs-keyword">int</span> ans = read(fd,ReadBuf,maxn);<br><span class="hljs-comment">//	int ans = write(fd,content.c_str(),content.size());</span><br>	<span class="hljs-keyword">if</span> (ans == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;read error&quot;</span>);<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;\nread content\n&quot;</span> &lt;&lt; ReadBuf;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/28/csdn/APUE%E7%AC%AC%E5%9B%9B%E7%AB%A0%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">APUE第四章文件和目录</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/16/csdn/KMP/">
+                        <span class="hidden-mobile">KMP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

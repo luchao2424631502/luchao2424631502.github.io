@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>文件权限及搜索常用命令 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="文件权限及搜索常用命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-15 19:44" pubdate>
+        2019年6月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      749 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">文件权限及搜索常用命令</h1>
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+
+<ul>
+<li><code>chmod :change the permissions mode of a file</code> 更改文件的权限模式<blockquote>
+<ol>
+<li><code>chmod [ugoa +-= rwx] [文件名] </code></li>
+<li>权限数字  <strong>一般都用数字</strong><br>$r = 2^2 = 4$<br>$w = 2^1 = 2$<br>$x = 2^0 = 1$<br><code>-rwxrw-r--</code><br>_7   _6 _4 </li>
+<li>改变目录权限,子目录权限不会改变,需要递归修改 (recursive)<br><code>mkdir -p /tmp/a/b</code><br><code>chmod 777 /tmp/a</code> 发现子目录权限并没有改变<br><code>chmod -R 777 /tmp/a</code> 递归处理,所有文件及子目录一并处理</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h4 id="文件权限和目录权限对比"><a href="#文件权限和目录权限对比" class="headerlink" title="文件权限和目录权限对比"></a>文件权限和目录权限对比</h4><ul>
+<li>文件  </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>read</code></th>
+<th>读文件(<code>cat less head tail more</code>)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>write</code></td>
+<td>写入文件</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td>执行文件</td>
+</tr>
+</tbody></table>
+<ul>
+<li>目录</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>read</code></th>
+<th>查看目录</th>
+<th>列出目录内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>write</code></td>
+<td>修改目录</td>
+<td>在目录中<strong>创建、删除文件</strong></td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td>执行目录</td>
+<td>进入目录</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>删除文件的前提是目录有<code>write</code>的权限才行</strong> (类比房间和桌椅)</p>
+</li>
+<li><p><code>chown (change file ownship)</code> 改变文件拥有权</p>
+<blockquote>
+<p>1.<code>chown xxx /tmp/Japan</code></p>
+</blockquote>
+</li>
+<li><p><code>chgrp (change file group ownship)</code>改变文件的所属组</p>
+<blockquote>
+<ol>
+<li><code>chgrp xxx /tmp/Japan</code></li>
+</ol>
+</blockquote>
+</li>
+<li><p>文件创建的所属组是缺省组</p>
+</li>
+<li><p><code>umask</code> <code>:the user file-creation mask</code>用户文件创建掩码</p>
+<blockquote>
+<ol>
+<li>功能：显示、设置<strong>文件</strong>的缺省权限    </li>
+<li>缺省创建的<strong>文件</strong>不能有可执行权限,所以文件默认少了<code>x</code></li>
+<li><code>umask -S</code> 字符显示掩码</li>
+<li><code>umask </code> 8进制掩码</li>
+<li>默认掩码是<code>0022</code>,默认权限<code>755</code> = <code>777</code>(最高权限) - 掩码<code>022</code> <code>umask abc</code>,所以默认权限是<code>755</code></li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h2 id="文件搜索"><a href="#文件搜索" class="headerlink" title="文件搜索"></a>文件搜索</h2><ul>
+<li><code>find   path   -option   [   -print ]   [ -exec   -ok   command ]   &#123;&#125; \;</code></li>
+<li><code>find /etc -name init -exec ls -l &#123;&#125; \;</code> </li>
+<li><code>find [搜索范围] [匹配条件]</code><blockquote>
+<ol>
+<li><code>find / -name </code>根目录下搜索,类似win全盘搜索<blockquote>
+<ul>
+<li><code>find /etc -name init</code></li>
+<li> <code>find /etc -name *init*</code><strong>正则表达式内容</strong>,所有包含init的文件    </li>
+<li><code>find /etc -name *init(init*)</code> 前/后 包含</li>
+<li> <code>find /etc -name init??? </code>后面三个字符内容不知道</li>
+</ul>
+</blockquote>
+</li>
+<li><code>find /etc -size +204800</code>(<code>100mb</code>)查找大于100mb的文件 <blockquote>
+<ul>
+<li><code>linux</code>1个数据块大小是<code>0.5kb</code>,<code>+</code>代表大于,<code>-</code>代表小于</li>
+</ul>
+</blockquote>
+</li>
+<li><code>find /home -user root</code>根据所属组的查找</li>
+<li><code>find /etc -*min +time</code>根据时间查找<blockquote>
+<ul>
+<li><code>find /etc -amin +10</code> <code>access</code>  10分钟前被访问过的文件</li>
+<li><code>find /etc -cmin +10</code> <code>change</code> 10分钟前属性被修改过的文件</li>
+<li><code>find /etc -mmin -10</code> <code>modify</code> 10分钟内 内容被修改过的文件</li>
+</ul>
+</blockquote>
+</li>
+<li><code>find /etc -size +2048 -a -size -204800</code> <code>-a</code> <code>:and</code> 并且 <strong>注意到还是要加上<code>-size</code></strong><blockquote>
+<ul>
+<li><code>find /etc -size +2048 -o -size -1024</code> <code>-o</code> <code>:or</code> 或者</li>
+</ul>
+</blockquote>
+</li>
+<li><code>-type</code> 文件的类型 <blockquote>
+<ul>
+<li><code>f</code> <code>:file</code> 文件 <br> <code>d</code> <code>:directory</code> 目录 <br> <code>l</code> <code>:link</code> 软链接 <br> <code>find /etc -name init* -a -type f</code> 文件名以init开头且类型是文件 <br> <code>find /etc -name init* -o -type d </code> 文件名以init开头且类型是目录</li>
+</ul>
+</blockquote>
+</li>
+<li><code>find /tmp -inum 30000</code> 根据文件<code>inode</code>查找 </li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h4 id="其他搜索"><a href="#其他搜索" class="headerlink" title="其他搜索"></a>其他搜索</h4><blockquote>
+<ol>
+<li><code>locate xxx</code> 在<strong>文件资料库查找文件,找不到可能不在收录范围之中</strong><br>(速度快)</li>
+<li><code>which ls</code>查找命令目录及别名信息</li>
+<li><code>whereis ls</code> 查找命令目录及帮助文档</li>
+<li>在文件中找字符串<br><code>grep :(global regular experssion print:全局正则表达式打印)</code><br><code>grep multiuser /etc/inittab</code><br><code>grep -i multiuser /etc/inittab</code> (<code>-i</code> 一般是不区分大小写<code>ignore</code>)</li>
+</ol>
+</blockquote>
+<h4 id="新"><a href="#新" class="headerlink" title="新"></a>新</h4><ul>
+<li>链接命令 <br> <code>-a</code> <br> <code>-o</code></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/16/csdn/%E5%B8%AE%E5%8A%A9+%E5%8E%8B%E7%BC%A9+%E7%BD%91%E7%BB%9C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">帮助+压缩+网络常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/12/csdn/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">文件处理命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
