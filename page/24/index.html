@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/19/csdn/POJ_3278_(BFS)/">POJ_3278_(BFS)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/19/csdn/POJ_3278_(BFS)/">
+          
+          
+            
+          
+          
+
+POJ 3278
+
+总是想着用dfs做,不知道为什么
+标记已经进入队列的点, 遇到k就存ans = step 输出
+用dfs做的时候,根本没有办法控制dfs的范围,这里bfs刚好解决了x-1 x+1 2*x谁先到k的问题 体现了广度优先的思想
+
+123456789101112131415161718192021222324252627282930313233343536373839404142
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-19 16:53" pubdate>
+              2019-05-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/BFS/">BFS</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/19/csdn/POJ_2251_(BFS)/">POJ_2251_(BFS)</a>
       </h1>
 
@@ -624,59 +680,11 @@ O的意思是修复O附近的点,但是必须是已经出现过的需要被修�
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/16/csdn/POJ_1702_(%E5%B8%A6%E6%9D%83%E5%B9%B6%E6%9F%A5%E9%9B%86)/">POJ_1702_(带权并查集)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/16/csdn/POJ_1702_(%E5%B8%A6%E6%9D%83%E5%B9%B6%E6%9F%A5%E9%9B%86)/">
-          
-          
-            
-          
-          
-
-POJ 1703
-
-此题2种情况，一种情况是确定种类不同,另一种就是询问同类的关系
-注意scanf()读取
-还是开一个数组rala[]记录该点与父节点的关系，1表示不同类,0表示同类,在路径压缩到根节点的同时，每一步都进行  该点rala[i]与父节点rala[pre[i]]关系异或rala[i]^rala[pre[i]],这样能使关系保持相同，并且每点只想根节点,
-询问就是 判断根节点是否相
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-16 21:35" pubdate>
-              2019-05-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/23/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/25/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/23/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/25/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

@@ -181,6 +181,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/12/08/GCC-attribute-%E9%83%A8%E5%88%86%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">GCC__attribute__部分使用方法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/12/08/GCC-attribute-%E9%83%A8%E5%88%86%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+          
+          
+            
+          
+          GNU __attribute__(())部分使用方法
+一部分
+
+
+自定义段(将全局变量或函数放入自定义的段) 
+例如:linux内核__init__ #define __init__ __attribute__((section(&quot;.init&quot;)))  
+3种写法都可以
+12345678910111213141516   #include &lt;stdio.h&gt;   
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-12-08 16:37" pubdate>
+              2020-12-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/">编译链接</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/GCC/">GCC</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/12/08/%E9%80%9A%E8%BF%87objcopy%E5%B0%862%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E4%BD%9C%E4%B8%BA-o%E4%B8%AD%E7%9A%84%E4%B8%80%E4%B8%AA%E6%AE%B5/">通过objcopy将2进制文件作为.o中的一个段</a>
       </h1>
 
@@ -645,57 +700,11 @@ linux下用汇编通过中断调用api打印
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/18/csdn/c%E8%AF%AD%E8%A8%80%E6%8F%90%E5%8F%96tar%E5%8C%85%E5%86%85%E5%AE%B9/">c语言提取tar包内容</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/18/csdn/c%E8%AF%AD%E8%A8%80%E6%8F%90%E5%8F%96tar%E5%8C%85%E5%86%85%E5%AE%B9/">
-          
-          
-            
-          
-          
-
-tar文件:以一定方式将多个文件合并成tar文件,不对文件进行压缩,tar文件格式 很 简单,每个文件前面+512字节的header,并且将所有文件叠放在一起
-header1–file1–header2–file2–header3–file3
-解包就是读取文件头得到文件大小,然后读取出文件就行了
-提取tar文件并存储123456789101112131415161718192021222324
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-18 23:19" pubdate>
-              2020-09-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

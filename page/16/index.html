@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/08/07/csdn/HDU_1828_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E5%91%A8%E9%95%BF(%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4)/">HDU_1828_扫描线求周长(线段树维护)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/08/07/csdn/HDU_1828_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E5%91%A8%E9%95%BF(%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4)/">
+          
+          
+            
+          
+          
+
+HDU 1828
+
+从下到上扫一遍如何求出横边与竖边的长度?
+
+
+横边
+
+
+用一个变量存上一次区间横边覆盖总长度.这一次的区间横边覆盖总长度-上一次区间横边覆盖总长度=此次扫描的横边周长,取绝对值(可能为负数)竖边
+线段树维护每个区间覆盖横边的数量(矩形的个数),一个矩形有2个竖边,竖边的长度=下一条横边高度-此条横边高度,所以竖边的周长:2*高度*矩形个数
+
+
+
+线段树为了维护一个区间被覆盖
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-08-07 13:37" pubdate>
+              2019-08-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/08/05/csdn/HDU_1542_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E9%9D%A2%E7%A7%AF(%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4)/">HDU_1542_扫描线求面积(线段树维护)</a>
       </h1>
 
@@ -636,61 +692,11 @@ POJ 3264
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/03/csdn/ZOJ_1610_%E6%80%9D%E7%BB%B4+%E7%BA%BF%E6%AE%B5%E6%A0%91/">ZOJ_1610_思维+线段树</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/03/csdn/ZOJ_1610_%E6%80%9D%E7%BB%B4+%E7%BA%BF%E6%AE%B5%E6%A0%91/">
-          
-          
-            
-          
-          
-
-zoj 1610
-
-思维:
-
-
-线段区间[1,8000],颜色区间[0,8000]
-记录输入.找每个点的最后一个覆盖点就行了
-然后算多少个颜色段123456789101112131415161718192021222324252627282930313233343536373839404142#include &lt;iostream&gt;#include &lt;string.h&gt;u
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-03 09:35" pubdate>
-              2019-08-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/15/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/17/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/15/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/17/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

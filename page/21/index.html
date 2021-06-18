@@ -181,6 +181,69 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/07/07/csdn/HDU_1874_SPFA%E6%A8%A1%E6%9D%BF/">HDU_1874_SPFA模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/07/07/csdn/HDU_1874_SPFA%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+原理：
+
+在有向图中,对于某个边(u,v,w),若存在dist[v] &lt; dist[u]+w,满足三角关系，
+若所有边都满足此不等式,说明一个点已经无法通过任意联通点来松弛它,则所有的dist就是最短路    
+
+来源：
+
+与 dij不同的是,bellman-ford基于迭代思想
+spfa是队列优化的bellman-ford
+
+流程：
+
+将源点加入队列,
+取出队头,扫描所有出边(u,v,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-07-07 16:57" pubdate>
+              2019-07-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spfa/">spfa</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/07/06/csdn/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
       </h1>
 
@@ -662,66 +725,11 @@ chmod [ugoa +-= rwx] [文件名]
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/06/12/csdn/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">文件处理命令</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/06/12/csdn/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/">
-          
-          
-            
-          
-          
-
-linux文件分区
-系统的引导程序只能在主分区上 
-
-
-主分区和扩展分区(号码1~4),逻辑分区只能建立在扩展分区上,一个硬盘最多有16个分区
-/boot 分区(操作系统启动过程所要用到文件),在拥有单独分区/boot后,即使根分区/出现了问题,也能启动操作系统
-a.先分区,b.写入文件系统(格式化)c.分区定义设备文件名,d.挂载到某一个目录下
-
-常用文件命令
-ls -l第一个字母 
-
-
-l
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-06-12 21:04" pubdate>
-              2019-06-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/20/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/22/"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/20/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/22/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
