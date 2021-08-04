@@ -181,6 +181,58 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/09/25/csdn/POJ%203694%20%E5%89%B2%E8%BE%B9+lca/">POJ 3694 割边+lca</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/09/25/csdn/POJ%203694%20%E5%89%B2%E8%BE%B9+lca/">
+          
+          
+            
+          
+          
+
+
+POJ 3694
+问题
+连通图中给出q个询问,每次询问添加一条边,问添加后割边的数量?
+
+思路
+trajan求出割边数量(标记割边中的一点:等价于缩点后存在的点)。
+给出的连接2个点到lca的边上的割边都要取消掉(因为成环了,所以环上不存在割边了)
+看题解学的LCA (最近公共祖先)
+tarjan时顺带求出搜索树中每个点的深度,lca时先将2个中的深的向上遍历,使得2个点在同一深度。再同时向
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-09-25 19:05" pubdate>
+              2019-09-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/09/25/csdn/%E6%AC%A7%E6%8B%89%E5%9B%BE/">欧拉图</a>
       </h1>
 
@@ -600,57 +652,6 @@ istringstream:将每一行string放到字符串流里面,通过流来分割出�
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/01/csdn/allocator%20%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">allocator 类的使用方法</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/01/csdn/allocator%20%E7%B1%BB%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
-          
-          
-            
-          
-          
-
-new分配内存并且构造对象delete释放内存并且析构对象
-注意delete删除指向动态数组的指针123456789101112131415161718192021 1 #include &lt;iostream&gt; 2 #include &lt;cstring&gt; 3  4 using namespace std; 5  6 int main() &#123; 7     char 
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-01 20:42" pubdate>
-              2019-09-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/allocator/">allocator</a>
-            
-          </div>
         
       </div>
     </article>

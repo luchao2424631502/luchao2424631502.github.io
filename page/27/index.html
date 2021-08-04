@@ -181,6 +181,64 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">O(n)时间求 最长回文子串 Manacher算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+回文字符串分为奇回文和偶回文，在字符串中间插入任意字符使得串变成奇回文串
+
+暴力思想：肯定是找一个点往两边任意扩展,遍历一次,Manacher时间为O(n)
+
+开一个数组p[]记录 以点i为中点 的最长回文串的半径,
+假设前i-1个点的p[]都已经求出来来，现在考虑p[i]如何推导
+
+重点：3. R是p[1]~p[i-1]中推出来的右端最远最长回文子串的右端点,且用pos记录下来，每一步更新
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-30 17:06" pubdate>
+              2019-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">回文子串</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/30/csdn/%E9%80%9B%E7%94%BB%E5%B1%95(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">逛画展(单调队列)</a>
       </h1>
 
@@ -661,62 +719,6 @@ The XOR Largest Pair题目：在给定的N个整数中选出2个进行^运算，
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%A0%86/">堆</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/21/csdn/poj2823_%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">poj2823_滑动窗口(单调队列)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/21/csdn/poj2823_%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">
-          
-          
-            
-          
-          
-
-单调队列滑动窗口  
-
-如果没有窗口的限制，而求[0,i]的最值，模拟单调栈（一头不变）解决，求最大值就维护一个单调递减的,输出栈的底部(模拟的栈),求最小值同理
-当窗口限制的时候，我开始想的是队列存值  (用单调队列来维护窗口内的值)，如果仅仅存的是值，那么将无法知道队列中值是否在窗口内，
-此时如果队列存的是 该值的下标那么将很好解决窗口的范围问题，
-
-1234567891011121314
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-21 11:11" pubdate>
-              2019-04-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
             
           </div>
         

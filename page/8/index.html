@@ -181,6 +181,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/01/23/csdn/APUE%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%96%87%E4%BB%B6IO%E7%AC%94%E8%AE%B0+%E4%B9%A0%E9%A2%98/">APUE第三章文件IO笔记+习题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/23/csdn/APUE%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%96%87%E4%BB%B6IO%E7%AC%94%E8%AE%B0+%E4%B9%A0%E9%A2%98/">
+          
+          
+            
+          
+          
+
+3 文件IO
+非缓冲IO,属于POSIX,非IOS C标准  
+
+stdin stdou stderr与STDIN_FILENO STDOUT_FILENO STDERR_FILENO的关系  
+stdin等属于FILE *类型,在&lt;stdio.h&gt;中
+STDIN_FILENO等是无符号整数，表示描述符,在&lt;unistd.h&gt;中
+
+
+
+
+3.1 常用函数
+open123
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-23 17:22" pubdate>
+              2020-01-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/01/16/csdn/KMP/">KMP</a>
       </h1>
 
@@ -686,70 +740,6 @@ $f(i,j)$表示区间$[i,i+2^j-1]$的最大值 ,,,, $2^j-1$即倍增的长度 ,,,
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/RMQ/">RMQ</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">
-          
-          
-            
-          
-          
-
-非旋转Treap
-通过节点的优先级来维护树的平衡, 下面是普通非旋转Treap (弱平衡,
-
-性质
-Treap是笛卡尔树的一种,只是 节点优先级是随机的
-$Tree+Heap$: 二叉搜索树+堆的性质
- 2个核心操作 分裂+合并
-
-分裂 split
-按照 节点权值分裂或者值的排名分裂
-
-
-$split_val$
-
-将一颗treap分裂成2个treap,第一个treap所有节点的权值$\le k
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-12-04 12:00" pubdate>
-              2019-12-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
             
           </div>
         

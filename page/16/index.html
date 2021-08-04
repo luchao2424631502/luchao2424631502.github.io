@@ -181,6 +181,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/08/07/csdn/HDU_3642_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E8%A6%86%E7%9B%963%E6%AC%A1%E7%9A%84%E4%BD%93%E7%A7%AF(%E7%BA%BF%E6%AE%B5%E6%A0%91)/">HDU_3642_扫描线求覆盖3次的体积(线段树)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/08/07/csdn/HDU_3642_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E8%A6%86%E7%9B%963%E6%AC%A1%E7%9A%84%E4%BD%93%E7%A7%AF(%E7%BA%BF%E6%AE%B5%E6%A0%91)/">
+          
+          
+            
+          
+          
+
+HDU 3642
+
+扫描线模板的基础上增加覆盖次数题意
+
+
+至少有2个以上不同地点才存在宝藏.即3个以上的空间立体交叉覆盖出的体积,覆盖3次及以上
+x y z包括整个库,意思就是给出顶点,观察样例知道是左上和右下的坐标
+z&lt;=500.那么扫描法求出平面的面积,在处理题目给出的每一层.求的体积
+
+
+思路
+x用来离散化后作为横轴建线段树,z轴存下来枚举每一个层.x轴坐标离散化后要去重,z轴坐
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-08-07 23:05" pubdate>
+              2019-08-07
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/08/07/csdn/HDU_1255_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E4%BA%8C%E6%AC%A1%E8%A6%86%E7%9B%96%E7%9A%84%E9%9D%A2%E7%A7%AF(%E7%BA%BF%E6%AE%B5%E6%A0%91)/">HDU_1255_扫描线求二次覆盖的面积(线段树)</a>
       </h1>
 
@@ -641,54 +695,6 @@ HDU 1540
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2019-08-03 19:33" pubdate>
-              2019-08-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/03/csdn/HDU_4027_%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E5%BC%80%E6%96%B9/">HDU_4027_线段树区间开方</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/03/csdn/HDU_4027_%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E5%BC%80%E6%96%B9/">
-          
-          
-            
-          
-          
-
-HDU 4027
-
-剪枝:开方等于7次,值等1
-以为每个点的值不一样,所以开方是要每个点开方,不能延迟标记
-long long存sum
-看别人博客:x居然可以&gt;y12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061#
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-03 11:52" pubdate>
               2019-08-03
             </time>
           </div>

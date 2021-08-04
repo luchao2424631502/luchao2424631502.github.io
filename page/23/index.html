@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/30/csdn/UVA%2011624/">UVA 11624</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/30/csdn/UVA%2011624/">
+          
+          
+            
+          
+          
+
+UVA 11624
+
+因为人和火不能模拟出来同时走,
+那么bfs 火 到个点的时间,
+然后bfs 人 到个点的时间,判断时间是否满足在火到来之前
+终点就是越界
+memset(timefire,0x3d,sizeof timefire),我当时设置的是memset(timefire,0,sizeof)就wa了12345678910111213141516171819202122232425262
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-30 18:26" pubdate>
+              2019-05-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/24/csdn/FZU_2150_(BFS)/">FZU_2150_(BFS)</a>
       </h1>
 
@@ -643,53 +692,6 @@ HDU 2612
               <a href="/tags/BFS/">BFS</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/20/csdn/POJ_1426_(BFS)/">POJ_1426_(BFS)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/20/csdn/POJ_1426_(BFS)/">
-          
-          
-            
-          
-          
-
-POJ 1426
-
-找到一个数字X(只由1,0组成),且$ X \% n == 0 $,(数字X能够被n整除)
-输出任意的一个X
-还是想不到要用BFS，从1开始bfs,加入数字ncur = cur * 10 + i,保证了数字都由1 0组成,12345678910111213141516171819202122232425262728293031323334353637383940414243
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-20 15:32" pubdate>
-              2019-05-20
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
         
       </div>
     </article>

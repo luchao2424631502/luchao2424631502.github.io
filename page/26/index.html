@@ -181,6 +181,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/16/csdn/poj%202279(%E7%BA%BF%E6%80%A7%20dp)/">poj 2279(线性 dp)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/16/csdn/poj%202279(%E7%BA%BF%E6%80%A7%20dp)/">
+          
+          
+            
+          
+          
+
+
+
+内存爆了
+将所有新生从高到底排序，  
+
+在第i行插入新生时：   
+
+人数&lt;=该行人数    
+如果在第一行就直接插，不在则 需要满足 ** 该行人数 &lt;= 上一行人数**
+
+
+ f[0][0][0][0][0] = 1 应该为0,为了不写+1则初始化为1;123456789101112131415161718192021222324252627282930313233343
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-16 15:00" pubdate>
+              2019-05-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/15/csdn/2018%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%9B%BD%E8%B5%9B.%E8%B0%83%E6%89%8B%E8%A1%A8/">2018蓝桥杯国赛.调手表</a>
       </h1>
 
@@ -645,64 +699,6 @@ gcd(a,b,c) = 1  则两两互质gcd(a,b) = gcd(a,c) = gcd(b,c) = 1  欧拉函数�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">欧拉函数</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">O(n)时间求 最长回文子串 Manacher算法</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/">
-          
-          
-            
-          
-          
-
-
-回文字符串分为奇回文和偶回文，在字符串中间插入任意字符使得串变成奇回文串
-
-暴力思想：肯定是找一个点往两边任意扩展,遍历一次,Manacher时间为O(n)
-
-开一个数组p[]记录 以点i为中点 的最长回文串的半径,
-假设前i-1个点的p[]都已经求出来来，现在考虑p[i]如何推导
-
-重点：3. R是p[1]~p[i-1]中推出来的右端最远最长回文子串的右端点,且用pos记录下来，每一步更新
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-30 17:06" pubdate>
-              2019-04-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">回文子串</a>
             
           </div>
         

@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/21/csdn/poj2823_%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">poj2823_滑动窗口(单调队列)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/21/csdn/poj2823_%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">
+          
+          
+            
+          
+          
+
+单调队列滑动窗口  
+
+如果没有窗口的限制，而求[0,i]的最值，模拟单调栈（一头不变）解决，求最大值就维护一个单调递减的,输出栈的底部(模拟的栈),求最小值同理
+当窗口限制的时候，我开始想的是队列存值  (用单调队列来维护窗口内的值)，如果仅仅存的是值，那么将无法知道队列中值是否在窗口内，
+此时如果队列存的是 该值的下标那么将很好解决窗口的范围问题，
+
+1234567891011121314
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-21 11:11" pubdate>
+              2019-04-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/21/csdn/poj1456_Supermarket(%E6%9C%80%E5%B0%8F%E5%A0%86)/">poj1456_Supermarket(最小堆)</a>
       </h1>
 
@@ -607,59 +663,6 @@ dp[i]:代表到第i阶台阶的方法， 第i阶台阶可以分别由 i-2 走2�
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2019-04-15 23:00" pubdate>
-              2019-04-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/dp/">dp</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/15/csdn/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88dp%20leetcode_300%EF%BC%89/">最长上升子序列（dp leetcode_300）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/15/csdn/%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88dp%20leetcode_300%EF%BC%89/">
-          
-          
-            
-          
-          
-
-最长上升子序列题目给定一个无序的整数数组，找到其中最长上升子序列的长度。样例输入：  
-123输入: [10,9,2,5,3,7,101,18]  输出: 4   解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
-
-思路用一个数组来维护上升的子序列，扫描原数组的数时，用二分在新数组中找到并且加入，但是要替换掉原来的，因为要按照原数组的顺序加入，如果新数组的数都小于该数，直接
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-15 22:57" pubdate>
               2019-04-15
             </time>
           </div>
