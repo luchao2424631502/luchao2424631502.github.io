@@ -181,6 +181,66 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/10/28/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E7%94%9F%E4%BA%A7%E8%80%85!%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/">互斥和同步-生产者/消费者问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/28/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E7%94%9F%E4%BA%A7%E8%80%85!%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+信号量解决互斥
+由于所有进程都需要访问共享资源，每个进程进入临界区前执行 semWait(s),若s为负,则进程被阻塞,为正数则-1,进程立即进入临界区,由于s不为正,则其他任何进程不能进入临界区
+
+下面将 缓冲区作为 共享资源 
+
+
+生产者/消费者问题
+问题:
+
+有一个或多个生产者生产某种类型的数据,放置在缓冲区,,有一个消费者从缓冲区取数据,每次取一项,
+操作系统为了保证避免对缓冲区的重复
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-28 22:04" pubdate>
+              2019-10-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E5%8F%91-%E4%BA%92%E6%96%A5/">并发 互斥</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/10/27/csdn/%E7%AE%80%E5%8D%95shell%E8%84%9A%E6%9C%AC%E9%87%8D%E5%90%AFmysql%E6%9C%8D%E5%8A%A1/">简单shell脚本重启mysql服务</a>
       </h1>
 
@@ -671,58 +731,6 @@ n个订单,m个工厂,第i 个订单在第j个工厂生产时间为g[i][j],工�
               <a href="/tags/KM%E7%AE%97%E6%B3%95/">KM算法</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/02/csdn/POJ%202226%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">POJ 2226 思维二分图</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/02/csdn/POJ%202226%20%E6%80%9D%E7%BB%B4%E4%BA%8C%E5%88%86%E5%9B%BE/">
-          
-          
-            
-          
-          
-
-POJ 2226
-背景： 此题在 POJ 3041基础上 需要将连续的点看做一个点
-建议先做POJ 3041
-
-题意
-给出nxm的网格.有空地.和泥泞*.*求最少要用多少 (宽度为1的可伸长的木板) 覆盖所有的点**
-
-思路
-因为木板长度可以任意伸长.所以无论是 行还是列,只要*连续就可以看成一个二分图中的点
-还是将行作为二分图的左部.列作为二分图的右部分.先求出原图每个点分别在左部分的编号和
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-02 15:07" pubdate>
-              2019-10-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
         
       </div>
     </article>

@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/01/16/csdn/KMP/">KMP</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/01/16/csdn/KMP/">
+          
+          
+            
+          
+          
+
+前缀表 + kmp
+求前缀表的核心就是 知道在 字符串‘’A B …. C D‘’中
+
+求 最长公共前后缀长度
+已知 A B互相相同,C D 互相相同, (A + B)和(C+D)互相相同
+得到A和D互相相同
+
+
+prefix_table右移一下,
+
+扫描文本串时,pattern串,根据prefix_table的下标位置来改变指向pattern串的指针
+
+
+123456789101112131
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-01-16 20:20" pubdate>
+              2020-01-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/01/16/csdn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">计算机网络概述</a>
       </h1>
 
@@ -694,67 +750,6 @@ $split_val$
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/12/02/csdn/%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91/">替罪羊树</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/12/02/csdn/%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91/">
-          
-          
-            
-          
-          
-
-替罪羊树$\alpha$权重平衡
-认为一棵树$X$是平衡的当且仅当它每一棵子树满足下列条件： 
-$size(x.left) \le \alpha * size(x)$
-$size(x.right)\le \alpha * size(x)$ 
-$\alpha \in [0.5,1]$
-
-$\alpha = 1$就是普通的二叉搜索树
-$\alpha = 0.5$ 左右子树的大小是该数的一半
-
-
-
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-12-02 21:35" pubdate>
-              2019-12-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B9%B3%E8%A1%A1%E6%A0%91/">平衡树</a>
             
           </div>
         

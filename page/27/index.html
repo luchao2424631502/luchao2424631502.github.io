@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/30/csdn/%E9%80%9B%E7%94%BB%E5%B1%95(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">逛画展(单调队列)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/30/csdn/%E9%80%9B%E7%94%BB%E5%B1%95(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">
+          
+          
+            
+          
+          
+
+
+这么简单的我都想不出来思路：
+
+开一个vis[]标记在区间[l,r]中已经出现的画的数量,当每个画vis[i]==1那么看到的画的数量++,左端如果画的数量&gt;1那么向左移动, 
+右端不断标记然后加入队列中，当 画的数量=画家的数量 记录区间端点值
+
+123456789101112131415161718192021222324252627282930313233#include &lt
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-30 11:29" pubdate>
+              2019-04-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/29/csdn/poj1961(kmp)/">poj1961(kmp)</a>
       </h1>
 
@@ -668,64 +717,6 @@ The XOR Largest Pair题目：在给定的N个整数中选出2个进行^运算，
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/21/csdn/poj1456_Supermarket(%E6%9C%80%E5%B0%8F%E5%A0%86)/">poj1456_Supermarket(最小堆)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/21/csdn/poj1456_Supermarket(%E6%9C%80%E5%B0%8F%E5%A0%86)/">
-          
-          
-            
-          
-          
-
-题目思路：
-
-题目给的是时间$t_i$ 意思是：距离过期的时间，只要 $[1,t_i]$ 之内被卖出就行了
-
-
-将时间从小到大排序,维护一个小根堆，   
-堆为空，加入，  
-当不为空时，如果 $t_i$ &gt; que.size() 意思是当前物品距离过期的时间大于已经卖出的个数，那么该物品一定可以卖出   
-如果 $t_i$ = que.size()，判断堆顶的卖出的最小利润是否小于该物
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-21 10:20" pubdate>
-              2019-04-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%A0%86/">堆</a>
             
           </div>
         
