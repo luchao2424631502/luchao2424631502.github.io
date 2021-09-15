@@ -181,6 +181,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/06/01/csdn/Dijkstra_%E6%9C%80%E7%9F%AD%E8%B7%AF%E6%A8%A1%E6%9D%BF/">Dijkstra_最短路模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/06/01/csdn/Dijkstra_%E6%9C%80%E7%9F%AD%E8%B7%AF%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+dij 原理, 总是容易和最小生成树搞混
+dij求的是 源点到每个点的最短距离
+所以会更新一个dist[]的距离表,代表选定源点到每一个点的最短距离
+每次通过选出来的点的出边来松弛 出边指向的点到源点的距离,同时将松弛后的边加入到优先队列中 来找到 出边指向的点中距离源点最近的点
+不断重复上一步,直到所有点都标记了
+松弛意思就是更新出边指向的点到源点的距离,(因为此轮选的点到源点的距离已经是最
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-06-01 15:38" pubdate>
+              2019-06-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dij/">dij</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/30/csdn/UVA%2011624/">UVA 11624</a>
       </h1>
 
@@ -634,64 +689,6 @@ luo gu
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/21/csdn/HDU_2612_(BFS)/">HDU_2612_(BFS)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/21/csdn/HDU_2612_(BFS)/">
-          
-          
-            
-          
-          
-
-HDU 2612
-思路:
-记录出发点(Y和 M)到每一个kfc的距离,
-更新ans最小距离之和坑点:
-
-
-不能走对方的出发点,
-更新ans时注意 有的kfc被包围了,不能走到,除去dist[][] == 0的情况
-清空数组的细节问题1234567891011121314151617181920212223242526272829303132333435363738394041424344454
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-21 16:15" pubdate>
-              2019-05-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/BFS/">BFS</a>
-            
-          </div>
         
       </div>
     </article>

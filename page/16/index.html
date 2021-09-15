@@ -181,6 +181,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/08/09/csdn/HDU_4081_%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91+%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E6%80%A7%E8%B4%A8/">HDU_4081_最小生成树+次小生成树性质</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/08/09/csdn/HDU_4081_%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91+%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E6%80%A7%E8%B4%A8/">
+          
+          
+            
+          
+          
+
+HDU 4081
+
+存坐标点然后建图
+为了使得总长度(除去一条特殊的道路)可能小.那么求出最短路.
+然后枚举图中的每一条边,A已知.B的求法
+
+
+如果在最小生成树中就将最短路的和-此条边的长度=剩余总长度
+如果此边不在最小生成树中.根据生成树的性质,这条边和最小生成树组成环,我们要减去(除去此边)之外的最长边,这样才能使其他的路总和最少(和判断是否存在次小生成树的维护过程一样)
+
+
+在求最小生
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-08-09 13:46" pubdate>
+              2019-08-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/08/07/csdn/HDU_3642_%E6%89%AB%E6%8F%8F%E7%BA%BF%E6%B1%82%E8%A6%86%E7%9B%963%E6%AC%A1%E7%9A%84%E4%BD%93%E7%A7%AF(%E7%BA%BF%E6%AE%B5%E6%A0%91)/">HDU_3642_扫描线求覆盖3次的体积(线段树)</a>
       </h1>
 
@@ -658,54 +712,6 @@ urlopen()urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=Non
             </time>
           </div>
         
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/03/csdn/HDU_1540_%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E8%BF%9E%E7%BB%AD%E7%BB%B4%E6%8A%A4/">HDU_1540_线段树区间连续维护</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/03/csdn/HDU_1540_%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%8C%BA%E9%97%B4%E8%BF%9E%E7%BB%AD%E7%BB%B4%E6%8A%A4/">
-          
-          
-            
-          
-          
-
-HDU 1540
-
-求包括该点在内左右边的连续长度
-线段树维护3个值.len:该点的区间中最大连续长度.leftlen:该点区间左端的最大连续长度rightlen:该点区间右端的最大连续长度线段树区间连续长度的维护:
- 父节点的区间连续长度是左子树区间长度、右子树区间长度、左子树右端+右子树左端的区间长度3着的中最大值
-父节点左端连续长度=左子树左端连续长度.如果左子树区间连续,那么还要加上右
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-03 19:33" pubdate>
-              2019-08-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
         
         
       </div>

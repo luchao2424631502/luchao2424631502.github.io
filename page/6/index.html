@@ -181,6 +181,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">linux 0.12引导启动程序</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">
+          
+          
+            
+          
+          
+
+引导启动程序
+91年16bit实模式的引导代码是Minix上的as86编译器编译的,现在改为as编译,进入32bit保护模式下后就是gas(现as)编译
+
+
+bootsect.S功能:
+
+将自己从0x7c00:0移动到0x9000:0处,并且读入setup.s(4*512=2kb)到自己后面
+将system模块读入到0x1000:0处,然后控制转移给setup.s
+
+
+在第一个扇区的倒数第6个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-05-30 17:30" pubdate>
+              2020-05-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/05/22/csdn/Linux%200.1x%E6%89%80%E6%9C%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(bochs%E8%BF%90%E8%A1%8C0.12%E5%86%85%E6%A0%B8+%E5%92%8C0.12%E4%BC%A0%E9%80%92%E6%96%87%E4%BB%B6+%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95%E4%BE%8B%E7%A8%8B)/">Linux 0.1x所有环境搭建(bochs运行0.12内核+和0.12传递文件+编译运行简单例程)</a>
       </h1>
 
@@ -672,66 +725,6 @@ EAX EBX ECX EDX ESI EDI EBP ESP
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/03/24/csdn/AIO%E5%B0%8F%E5%AE%9E%E4%BE%8B/">AIO小实例</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/03/24/csdn/AIO%E5%B0%8F%E5%AE%9E%E4%BE%8B/">
-          
-          
-            
-          
-          
-
-
-
-使用同步IO和异步IO(熟悉AIO接口)的对比
-来自apue
-
-要求: 将文本的英文字符a-z和A-Zx向右偏移13个字母(不重要),命令行传入输入和输出文件路径
-完成相同的事情,同步IO和异步IO的对比
-
-同步IO
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-03-24 20:51" pubdate>
-              2020-03-24
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux-unix/">linux unix</a>
-            
-          </div>
         
       </div>
     </article>

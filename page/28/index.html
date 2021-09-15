@@ -181,6 +181,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/21/csdn/poj2442Sequence(%E5%A0%86)/">poj2442Sequence(堆)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/21/csdn/poj2442Sequence(%E5%A0%86)/">
+          
+          
+            
+          
+          
+
+题目思路：m个长度为n的序列，每个序列中任取一个，构成 $n^m$ 个和，求其中最小的n个和
+
+当m=2时，求2个序列中，任取一个所构成和中的n个最小和，
+
+
+将2个序列从小到大排序，最小的一定是 $A[1]+B[1]$ ,那么下一个最小的是     $min(A[1]+B[2],A[2]+B[1])$ ,若此时最小的为A[2]+B[1],下一个最小状态从当前最小状态的下标进行移动,那么下一个
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-21 15:52" pubdate>
+              2019-04-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%A0%86/">堆</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/21/csdn/poj2823_%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3(%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97)/">poj2823_滑动窗口(单调队列)</a>
       </h1>
 
@@ -607,63 +662,6 @@ dp题目
             <i class="iconfont icon-date"></i>
             <time datetime="2019-04-16 00:09" pubdate>
               2019-04-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/dp/">dp</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/15/csdn/%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%88leetcode_070%20dp%EF%BC%89/">爬楼梯（leetcode_070 dp）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/15/csdn/%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%88leetcode_070%20dp%EF%BC%89/">
-          
-          
-            
-          
-          
-
-题目非常简单容易理解的线性dp，有n阶台阶，一次爬1或2个，爬到n阶有多少种方法，有1阶 dp[1]=1有2阶 dp[2]=2 (1+1 0+2)依次类推  
-
-dp[i]:代表到第i阶台阶的方法， 第i阶台阶可以分别由 i-2 走2步 和 i-1走1步到达  dp方程 dp[i]=dp[i-1]+dp[i-2]
-
-最小花费爬楼梯在上一题原理上+每层台阶的花费
-
-需要注意爬到最高层有2种情况
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-15 23:00" pubdate>
-              2019-04-15
             </time>
           </div>
         

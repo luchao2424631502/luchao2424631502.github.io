@@ -181,6 +181,72 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">互斥和同步-读者/写者问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+
+读者/写者问题问题定义:
+存在一个多进程共享的数据区,该数据区可以是 一个文件或者一块内存或者一组寄存器, 有些进程reader只读取该数据区中的数据, 有些进程writer只往数据区写数据
+
+
+满足条件
+
+
+任意数量的读进程可以同时读该文件
+一次只有一个写进程可以写文件
+若一个写进程正在写文件,则禁止任何进程读文件
+
+
+
+综上即: 读进程不需要排斥其他进程,而写进程需要排斥其他所有进程
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-30 01:47" pubdate>
+              2019-10-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E5%8F%91-%E5%90%8C%E6%AD%A5/">并发 同步</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/10/29/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E6%B6%88%E8%B4%B9%E8%80%85!%E7%94%9F%E4%BA%A7%E8%80%85%20(%E7%AE%A1%E7%A8%8B+%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92)/">互斥和同步-消费者/生产者 (管程+消息传递)</a>
       </h1>
 
@@ -678,62 +744,6 @@ shop[i][k]存第i个店
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/KM/">KM</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">POJ 3686 KM+建图</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">
-          
-          
-            
-          
-          
-
-POJ 3686
-题意
-n个订单,m个工厂,第i 个订单在第j个工厂生产时间为g[i][j],工厂同一时间只能生产一个订单,但可以连续处理不同订单,如果都在一个工厂生产.即订单a生产完后才能生产b订单，b订单要等待a订单生产
-求处理所有订单的最少时间？输出平均时间
-
-思路(借鉴大神)
-将每个工厂分为n个点,每个点代表第k个处理的商品,T=t1+(t1+t2)+(t1+t2+t3)+...等价于
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-03 13:27" pubdate>
-              2019-10-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/KM%E7%AE%97%E6%B3%95/">KM算法</a>
             
           </div>
         

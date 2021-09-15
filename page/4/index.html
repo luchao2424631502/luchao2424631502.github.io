@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/10/01/csdn/Win%E4%B8%8B%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%AE%80%E5%8D%95%E8%B4%AA%E5%90%83%E8%9B%87%E5%AE%9E%E7%8E%B0/">Win下控制台简单贪吃蛇实现</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/10/01/csdn/Win%E4%B8%8B%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%AE%80%E5%8D%95%E8%B4%AA%E5%90%83%E8%9B%87%E5%AE%9E%E7%8E%B0/">
+          
+          
+            
+          
+          
+
+贪吃蛇
+???算是对大一课设的交代&gt;&gt;&gt;,代码抄过来的
+
+vs2020下编译,仅使用Sleep()和system(“cls”),_kbhit(),等几个win api
+结构: —— main.c global.c global.h
+主要思路:2维数组每个点分别存墙(1),空地(0),蛇身体(2),食物点(3).然后遍历2维数组printf绘图
+蛇身体长度通过int* body
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-10-01 20:08" pubdate>
+              2020-10-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/09/29/csdn/arp%E5%8D%8F%E8%AE%AE%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">arp协议工作原理</a>
       </h1>
 
@@ -594,61 +643,6 @@ FILE * fdopen(int fd,const char *mode);
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/07/csdn/%E5%A4%9A%E6%92%AD!%E5%B9%BF%E6%92%AD/">多播/广播</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/07/csdn/%E5%A4%9A%E6%92%AD!%E5%B9%BF%E6%92%AD/">
-          
-          
-            
-          
-          
-
-多播
-多播组地址:D类IP(具体的还没学)
-
-
-发送方设置TTL,接收方设置所在多组播组IP
-
-setsockopt,IPPROTO_IP层选项:
-
-IP_MULTICAST_TTL:生存时间(time to live):组播传送距离
-IP_ADD_MEMBERSHIP:加入组播 
-
-
-多播基于UDP协议完成,对面1000个用户,不需要像TCP建立1000个连接,不需要像UDP1000次数据传
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-07 11:04" pubdate>
-              2020-09-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
             
           </div>
         

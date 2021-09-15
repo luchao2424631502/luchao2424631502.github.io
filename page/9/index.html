@@ -181,6 +181,64 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/12/04/csdn/ST%E8%A1%A8/">ST表</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/04/csdn/ST%E8%A1%A8/">
+          
+          
+            
+          
+          
+
+ST表
+$O(logn * n)$ 预处理 $2*10^6 \approx 2^{21}$  $log2^{21} = 21$
+$O(1)$查询,不支持修改操作
+例如用于静态区间最大最小值查询
+
+
+预处理
+询问区间$[L,R]$,最多使用2个预处理过的区间的并就能覆盖询问区间
+$f(i,j)$表示区间$[i,i+2^j-1]$的最大值 ,,,, $2^j-1$即倍增的长度 ,,,  $f(i,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-04 19:51" pubdate>
+              2019-12-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/RMQ/">RMQ</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/12/04/csdn/%E9%9D%9E%E6%97%8B%E8%BD%ACTreap/">非旋转Treap</a>
       </h1>
 
@@ -729,66 +787,6 @@ belong[]的作用其实相当于记录块的编号 当块 (消失or合并) 时,�
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">Luogu P2057 最小割</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">
-          
-          
-            
-          
-          
-
-熟练一下 Luogu P2057问题转化为最小割建图
-同意睡觉和反对睡觉恰好为2部分,
-
-
-同意睡觉的点和$S$部分的源点连边, 同理, 反对睡觉的点和$T$部分的汇点连边, 边权都为1
-朋友之间连边 因为都可以违背自己的意愿, 所以建双向边且边权为1
-
-
-最后每个人只有一个决定(每个点都只能属于一个部分),为了使得冲突最小,,割掉最少的边将图分成2部分,即求最小割
-
-123456789101
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-11-18 21:28" pubdate>
-              2019-11-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2-%E5%BB%BA%E5%9B%BE/">最小割 建图</a>
-            
-          </div>
         
       </div>
     </article>

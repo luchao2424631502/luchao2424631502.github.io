@@ -181,6 +181,66 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">Luogu P2057 最小割</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">
+          
+          
+            
+          
+          
+
+熟练一下 Luogu P2057问题转化为最小割建图
+同意睡觉和反对睡觉恰好为2部分,
+
+
+同意睡觉的点和$S$部分的源点连边, 同理, 反对睡觉的点和$T$部分的汇点连边, 边权都为1
+朋友之间连边 因为都可以违背自己的意愿, 所以建双向边且边权为1
+
+
+最后每个人只有一个决定(每个点都只能属于一个部分),为了使得冲突最小,,割掉最少的边将图分成2部分,即求最小割
+
+123456789101
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-18 21:28" pubdate>
+              2019-11-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2-%E5%BB%BA%E5%9B%BE/">最小割 建图</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/18/csdn/Dinic%E7%AE%97%E6%B3%95%20(%E4%BC%98%E5%8C%96)/">Dinic算法 (优化)</a>
       </h1>
 
@@ -745,72 +805,6 @@ bbq的工作是管理学校的社团活动，具体来说是为每个社团活�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">差分数组</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">互斥和同步-读者/写者问题</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/30/csdn/%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5-%E8%AF%BB%E8%80%85!%E5%86%99%E8%80%85%E9%97%AE%E9%A2%98/">
-          
-          
-            
-          
-          
-
-
-读者/写者问题问题定义:
-存在一个多进程共享的数据区,该数据区可以是 一个文件或者一块内存或者一组寄存器, 有些进程reader只读取该数据区中的数据, 有些进程writer只往数据区写数据
-
-
-满足条件
-
-
-任意数量的读进程可以同时读该文件
-一次只有一个写进程可以写文件
-若一个写进程正在写文件,则禁止任何进程读文件
-
-
-
-综上即: 读进程不需要排斥其他进程,而写进程需要排斥其他所有进程
-
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-30 01:47" pubdate>
-              2019-10-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B9%B6%E5%8F%91-%E5%90%8C%E6%AD%A5/">并发 同步</a>
             
           </div>
         

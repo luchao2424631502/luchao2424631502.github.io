@@ -181,6 +181,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">x86特权级总结</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">
+          
+          
+            
+          
+          特权级变换时栈如何变化cpu从低特权级代码段转移到高特权级代码段 栈从tss中读取到,
+从高特权级代码段转移到低特权级代码段, 低特权级的栈指针可以从当前栈底部拿到(低-&gt;高转移时保存的)
+CPL和DPL对于受访问为数据段来说:
+只要CPL&lt;=DPL就可以访问到此数据段的内容
+对于受访问为代码段来说:
+只有相同特权级别才能访问,(高特权级代码段-&gt;低特权级代码段只有中断能做到,低
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-15 00:14" pubdate>
+              2021-03-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/x86/">x86</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/01/18/%E5%BC%BA-%E5%BC%B1-%E7%AC%A6%E5%8F%B7-%E5%BC%95%E7%94%A8/">gcc强引用弱引用</a>
       </h1>
 
@@ -641,70 +694,6 @@ static成员函数
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/static%E5%85%B3%E9%94%AE%E5%AD%97/">static关键字</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/02/TinyHTTPServer%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">TinyHTTPServer源码解析</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/02/TinyHTTPServer%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
-          
-          
-            
-          
-          TinyHTTPServer源码分析目录树:源码目录源码地址:
-
-日志功能 log/
-数据库连接池sql/
-线程池 include/threadpool.h
-定时器 timer/:
-封装的基本的线程同步机制:locker/ 
-http协议解析: http/ 
-运行选项配置 config/
-头文件 include/
-资源文件 root/
-
-提供8个配置选项:
-
-
--p 指定监听端口
--l 0同步写入
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-02 15:25" pubdate>
-              2021-01-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/HttpServer/">HttpServer</a>
             
           </div>
         
