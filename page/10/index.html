@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/21/csdn/%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">块状链表</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/21/csdn/%E5%9D%97%E7%8A%B6%E9%93%BE%E8%A1%A8/">
+          
+          
+            
+          
+          
+
+块状链表
+原理很好理解,实现要注意细节
+转载博客   图示
+
+
+
+数组来模拟链表
+注意 块的编号和块中数组的下标
+belong[]保证编号不重复
+
+
+例题 Luogu 本文编辑器 
+belong[]的作用其实相当于记录块的编号 当块 (消失or合并) 时,下一次生成的块就用上一次消失块的编号,首次初始化为不同的就行了
+避免块状链表退化,在删除或者插入后维护2端的块，根据块的大小来决定是 合并还
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-21 17:53" pubdate>
+              2019-11-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/18/csdn/Luogu%20P2057%20%E6%9C%80%E5%B0%8F%E5%89%B2/">Luogu P2057 最小割</a>
       </h1>
 
@@ -752,59 +808,6 @@ HDU  1533
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/30/csdn/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84%20or%20%E7%BA%BF%E6%AE%B5%E6%A0%91/">差分数组 or 线段树</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/30/csdn/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84%20or%20%E7%BA%BF%E6%AE%B5%E6%A0%91/">
-          
-          
-            
-          
-          
-
-
-提交地址
-描述:
-bbq的工作是管理学校的社团活动，具体来说是为每个社团活动分配教室。要把有限的教室合理安排给这些社团，是不容易的。每个社团活动用k, t1, t2来表示：该社团活动在第t1天～第t2天内需要k个教室（包括t1，t2）。bbq总是按社团活动申请的先后顺序分配教室，如果某一天剩余的教室数量不够满足某社团的要求，则停止教室的分配。bbq需要告知该社团，他们的该次社团活动无法进行。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-30 20:27" pubdate>
-              2019-10-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%AE%E5%88%86%E6%95%B0%E7%BB%84/">差分数组</a>
             
           </div>
         

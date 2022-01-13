@@ -181,6 +181,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">Orange‘s:保护模式小总结</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">
+          
+          
+            
+          
+          
+
+Orange’s的中断方式我看了看和linux0.1x是一样的,时钟中断实验:
+
+回到实模式目前我认为没意义但是注意:
+
+a. 要求段寄存器高速缓冲器的属性(段长度)提前设置号
+b. cs通过在32bit代码段转跳到16bit代码段来设置(描述符)
+c. 直接修改jmp编译后指令的段地址
+d. 修改的8259A和IDTR需要恢复原样
+
+
+开启分页后人为使物理地址和线性地址对应,好操作
+
+通过宏
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-10 18:21" pubdate>
+              2020-07-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/05/30/csdn/linux%200.12%E5%BC%95%E5%AF%BC%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F/">linux 0.12引导启动程序</a>
       </h1>
 
@@ -665,54 +720,6 @@ EAX EBX ECX EDX ESI EDI EBP ESP
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2020-04-27 16:00" pubdate>
-              2020-04-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/27/csdn/%E3%80%8AX86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80!%E4%BB%8E%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%88%B0%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E3%80%8B%E6%A3%80%E6%B5%8B%E7%82%B94.2%E6%8A%A5%E9%94%99!FATAL!Could%20not%20read%20from%20the%20boot%20%20medium!System%20halted/">《X86汇编语言:从实模式到保护模式》检测点4.2报错:FATAL:Could not read from the boot  medium!System halted</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/04/27/csdn/%E3%80%8AX86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80!%E4%BB%8E%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%88%B0%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E3%80%8B%E6%A3%80%E6%B5%8B%E7%82%B94.2%E6%8A%A5%E9%94%99!FATAL!Could%20not%20read%20from%20the%20boot%20%20medium!System%20halted/">
-          
-          
-            
-          
-          
-
-&lt;x86汇编语言:从实模式到保护模式&gt;检测点4.2报错:FATAL:Could not read from the boot  medium!System halted
-已经有虚拟磁盘文件并且启动顺序是第一,
-
-错误原因:
-有效的主引导扇区的最后2个字节应当是0x55和0xaa
-12345678910111213141516171819mov ax,0xb800mov ds,axm
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-27 09:45" pubdate>
               2020-04-27
             </time>
           </div>

@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>使用boost/program_options遇到的一点小问题 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"luchao.online","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="使用boost/program_options遇到的一点小问题">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-14 07:32" pubdate>
+        2022年1月14日 早上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      904 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">使用boost/program_options遇到的一点小问题</h1>
+            
+            <div class="markdown-body">
+              <h3 id="使用boost-program-options遇到的一点小问题"><a href="#使用boost-program-options遇到的一点小问题" class="headerlink" title="使用boost/program_options遇到的一点小问题"></a>使用boost/program_options遇到的一点小问题</h3><h4 id="1-boost-program-options-options-description类"><a href="#1-boost-program-options-options-description类" class="headerlink" title="1.boost/program_options::options_description类"></a>1.boost/program_options::options_description类</h4><p><a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/1_78_0/doc/html/program_options/tutorial.html">使用例子</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">po::options_description <span class="hljs-title">desc</span><span class="hljs-params">(<span class="hljs-string">&quot;Allowed options&quot;</span>)</span></span>;<br>desc.add_options()<br>    (<span class="hljs-string">&quot;help&quot;</span>, <span class="hljs-string">&quot;produce help message&quot;</span>)<br>    (<span class="hljs-string">&quot;compression&quot;</span>, po::value&lt;<span class="hljs-keyword">int</span>&gt;(), <span class="hljs-string">&quot;set compression level&quot;</span>)<br>;<br>po::variables_map vm;<br>po::store(po::parse_command_line(ac, av, desc), vm);<br>po::notify(vm);    <br><br><span class="hljs-keyword">if</span> (vm.count(<span class="hljs-string">&quot;help&quot;</span>)) &#123;<br>    <span class="hljs-built_in">cout</span> &lt;&lt; desc &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (vm.count(<span class="hljs-string">&quot;compression&quot;</span>)) &#123;<br>    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Compression level was set to &quot;</span> <br> &lt;&lt; vm[<span class="hljs-string">&quot;compression&quot;</span>].as&lt;<span class="hljs-keyword">int</span>&gt;() &lt;&lt; <span class="hljs-string">&quot;.\n&quot;</span>;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;Compression level was not set.\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个po::add_options方法第一眼看有点奇怪,正好也遇到了<a target="_blank" rel="noopener" href="https://github.com/luchao2424631502/emerald/blob/master/src/pmd/pmdOptions.cpp">Line 164</a>,于是看了看解释和实现</p>
+<ol>
+<li><p>手册解释: The add_options method of that class returns a special proxy object that defines operator(). Calls to that operator actually declare options,这个类的add_options方法返回了一个特殊的代理对象,这个对象重载了<code>operator()</code></p>
+</li>
+<li><p>查看<a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/1_78_0/doc/html/boost/program_options/options_description.html">options_description类定义</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// In header: &lt;boost/program_options/options_description.hpp&gt;</span><br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">options_description</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-comment">// construct/copy/destruct</span><br>  options_description(<span class="hljs-keyword">unsigned</span> = m_default_line_length, <br>                      <span class="hljs-keyword">unsigned</span> = m_default_line_length/<span class="hljs-number">2</span>);<br>  options_description(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;, <span class="hljs-keyword">unsigned</span> = m_default_line_length, <br>                      <span class="hljs-keyword">unsigned</span> = m_default_line_length/<span class="hljs-number">2</span>);<br><br>  <span class="hljs-comment">// public member functions</span><br>  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-built_in">shared_ptr</span>&lt; option_description &gt;)</span></span>;<br>  <span class="hljs-function">options_description &amp; <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> options_description &amp;)</span></span>;<br>  <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">get_option_column_width</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;<br>  <span class="hljs-function">options_description_easy_init <span class="hljs-title">add_options</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-keyword">const</span> option_description &amp; <br>  find(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;, <span class="hljs-keyword">bool</span>, <span class="hljs-keyword">bool</span> = <span class="hljs-literal">false</span>, <span class="hljs-keyword">bool</span> = <span class="hljs-literal">false</span>) <span class="hljs-keyword">const</span>;<br>  <span class="hljs-keyword">const</span> option_description * <br>  find_nothrow(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp;, <span class="hljs-keyword">bool</span>, <span class="hljs-keyword">bool</span> = <span class="hljs-literal">false</span>, <span class="hljs-keyword">bool</span> = <span class="hljs-literal">false</span>) <span class="hljs-keyword">const</span>;<br>  <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt; <span class="hljs-built_in">shared_ptr</span>&lt; option_description &gt; &gt; &amp; options() <span class="hljs-keyword">const</span>;<br>  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::ostream &amp;, <span class="hljs-keyword">unsigned</span> = <span class="hljs-number">0</span>)</span> <span class="hljs-keyword">const</span></span>;<br><br>  <span class="hljs-comment">// friend functions</span><br>  <span class="hljs-keyword">friend</span> BOOST_PROGRAM_OPTIONS_DECL <span class="hljs-built_in">std</span>::ostream &amp; <br>  <span class="hljs-keyword">operator</span>&lt;&lt;(<span class="hljs-built_in">std</span>::ostream &amp;, <span class="hljs-keyword">const</span> options_description &amp;);<br><br>  <span class="hljs-comment">// public data members</span><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> m_default_line_length;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>看到返回的代理类是<code>options_deescription_easy_init</code>,于是看看其实现:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">options_description_easy_init<br>options_description::add_options()<br>&#123;<br>	<span class="hljs-keyword">return</span> options_dscription_easy_init(<span class="hljs-keyword">this</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>   在来看看<a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/1_78_0/doc/html/boost/program_options/options_d_1_3_32_9_7_1_1_4.html">这个类的定义</a>，</p>
+   <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp">   <span class="hljs-comment">// In header: &lt;boost/program_options/options_description.hpp&gt;</span><br>   <br>   <br>   <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">options_description_easy_init</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>     <span class="hljs-comment">// construct/copy/destruct</span><br>     options_description_easy_init(options_description *);<br>    <span class="hljs-comment">// public member functions</span><br>     <span class="hljs-function">options_description_easy_init &amp; <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *)</span></span>;<br>    options_description_easy_init &amp; <br>     <span class="hljs-keyword">operator</span>()(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *, <span class="hljs-keyword">const</span> value_semantic *);<br>     options_description_easy_init &amp; <br>     <span class="hljs-keyword">operator</span>()(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *, <span class="hljs-keyword">const</span> value_semantic *, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *);<br>   &#125;;<br></code></pre></td></tr></table></figure>
+
+<p>   果然重载了<code>operator()</code>,并且支持3种插入配置参数的规则: The parameters are option name, information about value, and option description.</p>
+<p>   然后到boost源码里面看看具体的实现<code>boost/libs/program_options/src/options_description.cpp</code></p>
+<p>   摘出了一段:</p>
+<pre><code>   options_description_easy_init&amp;
+   options_description_easy_init::
+   operator()(const char* name,
+              const char* description)
+   &#123;
+       // Create untypes semantic which accepts zero tokens: i.e. 
+       // no value can be specified on command line.
+       // FIXME: does not look exception-safe
+       shared_ptr&lt;option_description&gt; d(
+           new option_description(name, new untyped_value(true), description));
+
+       owner-&gt;add(d);
+       return *this;
+   &#125;
+
+   options_description_easy_init&amp;
+   options_description_easy_init::
+   operator()(const char* name,
+              const value_semantic* s)
+   &#123;
+       shared_ptr&lt;option_description&gt; d(new option_description(name, s));
+       owner-&gt;add(d);
+       return *this;
+   &#125;
+
+   options_description_easy_init&amp;
+   options_description_easy_init::
+   operator()(const char* name,
+              const value_semantic* s,
+              const char* description)
+   &#123;
+       shared_ptr&lt;option_description&gt; d(new option_description(name, s, description));
+
+       owner-&gt;add(d);
+       return *this;
+   &#125;</code></pre>
+<p>   <code>owner</code>是指向被代理类的指针<code>options_description *owner;</code></p>
+<p>   这个代理类构造一条<code>option_description</code>利用<code>owner</code>指针调用<code>options_description::add()</code>添加一条配置记录.</p>
+<h4 id="2-小结"><a href="#2-小结" class="headerlink" title="2. 小结"></a>2. 小结</h4><blockquote>
+<p>这应该是一个设计模式,但是我还不知道叫什么….</p>
+</blockquote>
+<p>自己实现一下其中关系:</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs arduino">c++<br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;map&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string&gt;</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span>;</span><br><br><span class="hljs-comment">//就是一个代理类</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base_init</span></span><br><span class="hljs-class">&#123;</span><br>  <span class="hljs-keyword">private</span>:<br>    Base *m_owner;<br>  <span class="hljs-keyword">public</span>:<br>    Base_init(Base *owner):m_owner(owner) &#123;&#125;<br>    ~Base_init() &#123;&#125;<br>  <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">Base_init &amp;<span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *a,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *b)</span></span>;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    Base_init &amp;operator()(const char *a,const value_semantic *s) &#123;&#125;</span><br><span class="hljs-comment">    Base_init &amp;operator()(const char *a,const value_semantic *s,const char *description) &#123;&#125;</span><br><span class="hljs-comment">    */</span><br>&#125;;<br><br><span class="hljs-comment">//被代理的类</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span></span><br><span class="hljs-class">&#123;</span><br>  <span class="hljs-keyword">private</span>:<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>,<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; _map;<br>  <span class="hljs-keyword">public</span>:<br>    Base() &#123;&#125;<br>    ~Base() &#123;&#125;<br>  <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">Base_init <span class="hljs-title">add_desc</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *a,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *b)</span></span>;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span></span>;<br>&#125;;<br><br>Base_init <br>Base::add_desc()<br>&#123;<br>  <span class="hljs-keyword">return</span> Base_init(<span class="hljs-keyword">this</span>);<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>Base::add(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *a,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *b)<br>&#123;<br>  _map.insert(<span class="hljs-built_in">std</span>::<span class="hljs-built_in">make_pair</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>,<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;(a,b));<br>&#125;<br><br><span class="hljs-keyword">void</span> <br>Base::<span class="hljs-built_in">print</span>()<br>&#123;<br>  <span class="hljs-built_in">std</span>::<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>,<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt;::iterator it = _map.<span class="hljs-built_in">begin</span>();<br>  <span class="hljs-keyword">while</span> (it != _map.<span class="hljs-built_in">end</span>())<br>  &#123;<br>    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;<br>    it++;<br>  &#125;<br>&#125;<br><br>Base_init&amp;<br>Base_init::<span class="hljs-keyword">operator</span>()(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *a,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *b)<br>&#123;<br>  m_owner-&gt;add(a,b);<br>  <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  Base b;<br>  b.add_desc()<br>    (<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;llc1&quot;</span>)<br>    (<span class="hljs-string">&quot;key2&quot;</span>,<span class="hljs-string">&quot;llc2&quot;</span>)<br>    (<span class="hljs-string">&quot;key3&quot;</span>,<span class="hljs-string">&quot;llc3&quot;</span>)<br>    (<span class="hljs-string">&quot;key4&quot;</span>,<span class="hljs-string">&quot;llc4&quot;</span>);<br>  b.<span class="hljs-built_in">print</span>();<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C++</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Boost/">Boost</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/15/STL%E4%B8%ADforwardlist%E7%9A%84%E5%A4%A7%E8%87%B4%E5%AE%9E%E7%8E%B0/">
+                        <span class="hidden-mobile">STL中forwardlist的大致实现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/09/27/csdn/HDU%204612%20%E8%BE%B9%E5%8F%8C%E8%BF%9E%E9%80%9A+%E7%BC%A9%E7%82%B9/">HDU 4612 边双连通+缩点</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/09/27/csdn/HDU%204612%20%E8%BE%B9%E5%8F%8C%E8%BF%9E%E9%80%9A+%E7%BC%A9%E7%82%B9/">
+          
+          
+            
+          
+          
+
+
+2 处理重边问题  HDU 4612
+问题：
+无向图将边双联通分量缩点后添加一条边使得割边数量变得最少,最少是多少?
+思路:
+在2个距离最远的点添加一条边使得割边消失的最多,那么剩下的割边最少
+
+先dfs一次找到距离最远的2个点中的1个.(同时记录缩点后割边的总数),
+
+再一次dfs就能统计到另一个最远点的路径上的割边数量.
+技巧
+
+
+for (int j=head[i]; j!=-1; j
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-09-27 14:38" pubdate>
+              2019-09-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/09/26/csdn/HDU%204738%20%E5%89%B2%E8%BE%B9%E6%A8%A1%E6%9D%BF/">HDU 4738 割边模板</a>
       </h1>
 
@@ -601,55 +657,6 @@ Floyd:解决多源最短路径,可以判断环
             <i class="iconfont icon-date"></i>
             <time datetime="2019-09-08 14:20" pubdate>
               2019-09-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/04/csdn/HDU%202196%20%E6%A0%91%E5%BD%A2dp/">HDU 2196 树形dp</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/04/csdn/HDU%202196%20%E6%A0%91%E5%BD%A2dp/">
-          
-          
-            
-          
-          
-
-
-求树中每个点离它最远点的距离HDU 2196
-
-树形dp123f[u][0]:有向图dfs通过回溯(距离由子节点更新得到)求出距离每个点最远的距离,并且标记到最远点路径中经过的第一个子节点f[u][1]:dfs回溯时更新第二远的距离f[u][2]:再一次dfs根据标记 求出点u上半部分距离点u最远的距离
-
-
-点v离它最远的点可能在2个部分,该节点的子树部分,或者是整棵树除去子树的部分,用邻接
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-04 17:38" pubdate>
-              2019-09-04
             </time>
           </div>
         

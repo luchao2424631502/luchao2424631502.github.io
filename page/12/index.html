@@ -181,6 +181,66 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/10/03/csdn/POJ%202516%20KM+%E5%BB%BA%E5%9B%BE/">POJ 2516 KM+建图</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/10/03/csdn/POJ%202516%20KM+%E5%BB%BA%E5%9B%BE/">
+          
+          
+            
+          
+          
+
+POJ 2516
+题意:
+n个店主,m个供货商(仓库),k种商品
+给出n个店主的k种商品的需求,m个仓库存放k种商品的个数,和对于每种商品$k_i$来说从$m_i$运送到$n_i$的运费
+求最小花费, 如果商品不足则输出-1
+
+思路:
+分k次计算：每个商品分别求最小花费,然后加和，建立二分图后首先判断商品数量是否足够给店主.**然后裸KM()**
+
+存数据+建图
+shop[i][k]存第i个店
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-10-03 15:19" pubdate>
+              2019-10-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/KM/">KM</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/10/03/csdn/POJ%203686%20KM+%E5%BB%BA%E5%9B%BE/">POJ 3686 KM+建图</a>
       </h1>
 
@@ -625,62 +685,6 @@ HDU  4635
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2019-09-27 21:41" pubdate>
-              2019-09-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/09/27/csdn/HDU%204612%20%E8%BE%B9%E5%8F%8C%E8%BF%9E%E9%80%9A+%E7%BC%A9%E7%82%B9/">HDU 4612 边双连通+缩点</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/09/27/csdn/HDU%204612%20%E8%BE%B9%E5%8F%8C%E8%BF%9E%E9%80%9A+%E7%BC%A9%E7%82%B9/">
-          
-          
-            
-          
-          
-
-
-2 处理重边问题  HDU 4612
-问题：
-无向图将边双联通分量缩点后添加一条边使得割边数量变得最少,最少是多少?
-思路:
-在2个距离最远的点添加一条边使得割边消失的最多,那么剩下的割边最少
-
-先dfs一次找到距离最远的2个点中的1个.(同时记录缩点后割边的总数),
-
-再一次dfs就能统计到另一个最远点的路径上的割边数量.
-技巧
-
-
-for (int j=head[i]; j!=-1; j
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-09-27 14:38" pubdate>
               2019-09-27
             </time>
           </div>

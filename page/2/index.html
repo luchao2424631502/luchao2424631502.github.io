@@ -181,6 +181,85 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">att汇编格式</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">
+          
+          
+            
+          
+          调用约定
+cdecl调用方式:
+
+参数从右往左入栈
+调用者保存eax,ecx,edx寄存器,其余寄存器由被调用者(函数)来保存
+函数返回值保存在eax寄存器中
+
+内联汇编Intel和At&amp;t的风格对比:
+
+
+
+区别
+Intel
+At&amp;t
+说明
+
+
+
+寄存器
+
+寄存器前有前缀%
+
+
+
+操作数顺序
+a&lt;-b
+a-&gt;b
+恰好相反
+
+
+操作数字体指定大小
++数据类型用来修饰:b
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-20 19:41" pubdate>
+              2021-03-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/gcc-asm/">gcc asm</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/03/15/x86%E7%89%B9%E6%9D%83%E7%BA%A7%E6%80%BB%E7%BB%93/">x86特权级总结</a>
       </h1>
 
@@ -639,61 +718,6 @@ class中的常函数,当函数中不需要修改类中的变量时将函数声�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/c/">c++</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/06/static%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%843%E7%A7%8D%E7%94%A8%E6%B3%95/">static关键字的3种用法</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/06/static%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%843%E7%A7%8D%E7%94%A8%E6%B3%95/">
-          
-          
-            
-          
-          Class中的static的使用
-static成员
-
-static成员函数
-函数参数中没有隐含的this指针
-
-
-12345678910111213141516171819202122232425262728293031#include &lt;iostream&gt;#include &quot;../src/include/local.h&quot;class Singleton &#123;
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-06 17:16" pubdate>
-              2021-01-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/">编译链接</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/static%E5%85%B3%E9%94%AE%E5%AD%97/">static关键字</a>
             
           </div>
         

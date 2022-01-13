@@ -181,6 +181,58 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/16/csdn/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D%EF%BC%88+%E5%8F%98%E5%BD%A2%20dp%EF%BC%89/">打家劫舍（+变形 dp）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/16/csdn/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D%EF%BC%88+%E5%8F%98%E5%BD%A2%20dp%EF%BC%89/">
+          
+          
+            
+          
+          
+
+dp题目  
+
+题目给出n个，我们从1个开始分析1个房子 dp[1]=nums[1];2—-   dp[2]=max(nums[1],nums[2]); 不能偷相邻的，所以2选13—-   dp[3]=max(dp[3-2]+nums[3],dp[2]); 偷1,3号房子，否则偷2号房子即使d[2]=nums[1],也没关系，dp[3]取max后代表的还是偷1,3的值得到dp方程  $dp[i
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-16 00:09" pubdate>
+              2019-04-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/dp/">dp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/15/csdn/%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%88leetcode_070%20dp%EF%BC%89/">爬楼梯（leetcode_070 dp）</a>
       </h1>
 
@@ -651,66 +703,6 @@ description给定一个二维网格 grid。“.” 代表一个空房间， “#
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/10/csdn/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/">前缀和与差分</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/10/csdn/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/">
-          
-          
-            
-          
-          
-
-
-一维前缀和
-从数组第一个开始累加
-
-1s[i]=s[i-1]+a[i]
-求区间[l,r]的和，O(1)复杂度 sum=s[r]-s[l-1]  
-二维前缀和
-递推 s[i][j]=s[i][j]-s[i-1][j]-s[i][j-1]+s[i-1][j-1]
-
-例题：激光炸弹
-一种新型的激光炸弹，可以摧毁一个边长为R的正方形内的所有的目标。现在地图上有n（n≤10000）个目标，用整数xi,
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-10 22:01" pubdate>
-              2019-04-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C%E4%B8%8E%E5%B7%AE%E5%88%86/">前缀和与差分</a>
             
           </div>
         

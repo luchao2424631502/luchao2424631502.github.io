@@ -181,6 +181,54 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/04/27/csdn/%E3%80%8AX86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80!%E4%BB%8E%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%88%B0%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E3%80%8B%E6%A3%80%E6%B5%8B%E7%82%B94.2%E6%8A%A5%E9%94%99!FATAL!Could%20not%20read%20from%20the%20boot%20%20medium!System%20halted/">《X86汇编语言:从实模式到保护模式》检测点4.2报错:FATAL:Could not read from the boot  medium!System halted</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/04/27/csdn/%E3%80%8AX86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80!%E4%BB%8E%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%88%B0%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E3%80%8B%E6%A3%80%E6%B5%8B%E7%82%B94.2%E6%8A%A5%E9%94%99!FATAL!Could%20not%20read%20from%20the%20boot%20%20medium!System%20halted/">
+          
+          
+            
+          
+          
+
+&lt;x86汇编语言:从实模式到保护模式&gt;检测点4.2报错:FATAL:Could not read from the boot  medium!System halted
+已经有虚拟磁盘文件并且启动顺序是第一,
+
+错误原因:
+有效的主引导扇区的最后2个字节应当是0x55和0xaa
+12345678910111213141516171819mov ax,0xb800mov ds,axm
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-04-27 09:45" pubdate>
+              2020-04-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/03/24/csdn/AIO%E5%B0%8F%E5%AE%9E%E4%BE%8B/">AIO小实例</a>
       </h1>
 
@@ -650,57 +698,6 @@ Values实现将基类对象类型放在(展开在)tuple中,std::tuple&lt;&gt;是
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/01/29/csdn/%E5%AF%B9C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86IO%E7%9A%84%E7%90%86%E8%A7%A3/">对C语言标准IO的理解</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/01/29/csdn/%E5%AF%B9C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86IO%E7%9A%84%E7%90%86%E8%A7%A3/">
-          
-          
-            
-          
-          
-
-
-对标准IO的理解:
-个人理解,如果有错误请指出
-
-
-c语言标准IO通过一个FILE结构来封装了read和write系统调用,并且标准IO缓冲区的分配也是通过修改FILE的元素来改变,
-由于常用stdin,stdout,就认为缓冲区是分为输入缓冲区和输出缓冲区的,这只是因为缓冲区承担一项工作(输入or输出)
-
-如果用文件流以O_RDWR状态打开一个文件,那么缓冲区将会同时作为输入和输出的缓冲区
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-01-29 23:56" pubdate>
-              2020-01-29
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
             
           </div>
         
