@@ -181,6 +181,64 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/27/x86%E4%B8%AD%E6%96%AD/">x86中断</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/27/x86%E4%B8%AD%E6%96%AD/">
+          
+          
+            
+          
+          中断分类外部中断:  按照是否宕机分为可屏蔽中断和不可屏蔽中断
+内部中断:  按照中断是否正常,分为软中断和异常
+外部中断
+外部中断来自某一个外部硬件设备,所以也称为硬件中断
+
+软件中断
+由指令主动发起的中断,
+
+
+int 8bit立即数,支持256种中断
+int3,调试断点指令,调试器fork子进程,将断点处的指令备份,替换为0xcc(int3指令的机器码),然后保存子进程的寄存器和相关内存单元
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-27 20:59" pubdate>
+              2021-03-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/03/20/att%E6%B1%87%E7%BC%96%E6%A0%BC%E5%BC%8F/">att汇编格式</a>
       </h1>
 
@@ -664,60 +722,6 @@ class中的常函数,当函数中不需要修改类中的变量时将函数声�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/mutable-explicit/">mutable,explicit</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/06/template%E5%92%8Cnamespace%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">template和namespace简单使用</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/06/template%E5%92%8Cnamespace%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
-          
-          
-            
-          
-          template
-&lt;&gt;中 既可以传递类型,也可以传递值
-
-
-模板函数
-1)推断类型
-123456789101112131415template&lt;typename T&gt;void Print(const T&amp; value)&#123;	std::cout &lt;&lt; value &lt;&lt; std::endl;&#125;int main()&#123;		
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-06 17:18" pubdate>
-              2021-01-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c/">c++</a>
             
           </div>
         

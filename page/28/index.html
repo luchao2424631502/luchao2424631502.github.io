@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/04/26/csdn/trie%E5%BC%82%E6%88%96%E6%9C%80%E5%A4%A7%E5%80%BC2%E9%81%93%E4%BE%8B%E9%A2%98/">trie异或最大值2道例题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/04/26/csdn/trie%E5%BC%82%E6%88%96%E6%9C%80%E5%A4%A7%E5%80%BC2%E9%81%93%E4%BE%8B%E9%A2%98/">
+          
+          
+            
+          
+          
+
+The XOR Largest Pair题目：在给定的N个整数中选出2个进行^运算，得到结果最大的是多少？
+
+思路   
+
+
+将N个正数按照二进制位（从高位到低位）存到字典树中，求^ 的最大值，意思是每一位都尽量走反方向的，本来该位为0，树中有1就走1，没有则继续走0，这样求得的结果一定是最接近^的最大值，
+可以变插入变询问^的最大值，然后更新ans,因为两两相互查询，前面的插入的数没有和后面
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-04-26 21:51" pubdate>
+              2019-04-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/trie/">trie</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/04/23/csdn/trie%E6%95%B0%E7%BB%84%E6%A8%A1%E6%8B%9F/">trie数组模拟</a>
       </h1>
 
@@ -629,58 +685,6 @@
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/17/csdn/%E5%AE%9E%E6%95%B0%E5%9F%9F%E4%B8%8A%E7%9A%84%E4%BA%8C%E5%88%86(poj%202018)/">实数域上的二分(poj 2018)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/17/csdn/%E5%AE%9E%E6%95%B0%E5%9F%9F%E4%B8%8A%E7%9A%84%E4%BA%8C%E5%88%86(poj%202018)/">
-          
-          
-            
-          
-          
-
-
-设置精度epspoj 2018求平均数的最大值，那么平均数在一个区间内肯定具有一个点，满足该点右边都不成立，左边都成立但不是最大，所以可以在这个区间内进行二分
-技巧：将a[i]转化为b[i]=a[i]-averge，那么只要b[i]的最大子段和&gt;0该average成立，证明: $\Sigma^{n} _{i=1}a[i] = n * average$把$\Sigma$展开，ave移到左
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-17 23:36" pubdate>
-              2019-04-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
-            
-          </div>
         
       </div>
     </article>

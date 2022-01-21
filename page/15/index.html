@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/08/13/csdn/HDU%204408%20%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E8%AE%A1%E6%95%B0%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A/">HDU 4408 最小生成树计数详细解释</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/08/13/csdn/HDU%204408%20%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E8%AE%A1%E6%95%B0%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A/">
+          
+          
+            
+          
+          
+
+一些blog看我的好迷,假解释看哭我了,这是我自己的理解,一道题看1天.菜哭HDU 4408
+无向图的最小生成树计数原理
+就是在kruskal处理边的时候不断地找到联通块(由多个同长度的边组成的联通块),取任意一条都满足最小生成树,取不同的相同长度的边就是不同的最小生成树
+在遇到排好序的相同长度的边时,(看作一个阶段).已经使得边满足最小的概念,求出生成树的个数.
+
+变量含义
+vis[]代表每
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-08-13 15:00" pubdate>
+              2019-08-13
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/08/12/csdn/SPOJ%20HIGH%20Highways/">SPOJ HIGH Highways</a>
       </h1>
 
@@ -635,52 +684,6 @@ kruskal原理就是将所有的边排序,然后从小到大处理,正好也将�
               <a href="/tags/%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E9%87%8D%E8%BE%B9%E9%97%AE%E9%A2%98/">次小生成树重边问题</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/10/csdn/UVA%2010600%20prim%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">UVA 10600 prim次小生成树</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/10/csdn/UVA%2010600%20prim%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
-          
-          
-            
-          
-          
-
-UVA 10600
-
-次小生成树prim板子
-代码第44行.发现更新最小生成树中的maxdist[][](2点之间的最大边),不能更新point,也就是刚加入生成树中的点,这样就会更新自环，变成了dist[point],而自环应该是0123456789101112131415161718192021222324252627282930313233343536373839404142434445
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-10 12:49" pubdate>
-              2019-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
         
       </div>
     </article>

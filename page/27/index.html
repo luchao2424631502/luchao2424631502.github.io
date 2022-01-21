@@ -181,6 +181,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/03/csdn/%E5%B9%B6%E6%9F%A5%E9%9B%86%E6%A8%A1%E6%9D%BF/">并查集模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/03/csdn/%E5%B9%B6%E6%9F%A5%E9%9B%86%E6%A8%A1%E6%9D%BF/">
+          
+          
+            
+          
+          
+
+1.合并2个点时，可以判断2个点是否属于一个联通分量，如果不属于，那么加入该连通分量，2. 最后判断该图 有几个单独的联通分量，3. 或者将图压缩成 最小生成树时，判断每个点是否属于最小生成树中，不是就加入树中，
+
+用一个pre[i]表示点i在图中的顶点，初始化时每个点i（都是一个单独的联通分量）所以顶点就是，判断联通分量的数量也是判断pre[i] == i，
+合并两个u,v，一开始标记pre
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-03 10:32" pubdate>
+              2019-05-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/02/csdn/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0%E4%BE%8B%E9%A2%98(poj3090)/">欧拉函数例题(poj3090)</a>
       </h1>
 
@@ -668,62 +721,6 @@ E氏筛
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/04/26/csdn/trie%E5%BC%82%E6%88%96%E6%9C%80%E5%A4%A7%E5%80%BC2%E9%81%93%E4%BE%8B%E9%A2%98/">trie异或最大值2道例题</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/04/26/csdn/trie%E5%BC%82%E6%88%96%E6%9C%80%E5%A4%A7%E5%80%BC2%E9%81%93%E4%BE%8B%E9%A2%98/">
-          
-          
-            
-          
-          
-
-The XOR Largest Pair题目：在给定的N个整数中选出2个进行^运算，得到结果最大的是多少？
-
-思路   
-
-
-将N个正数按照二进制位（从高位到低位）存到字典树中，求^ 的最大值，意思是每一位都尽量走反方向的，本来该位为0，树中有1就走1，没有则继续走0，这样求得的结果一定是最接近^的最大值，
-可以变插入变询问^的最大值，然后更新ans,因为两两相互查询，前面的插入的数没有和后面
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-04-26 21:51" pubdate>
-              2019-04-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/trie/">trie</a>
-            
-          </div>
         
       </div>
     </article>

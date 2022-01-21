@@ -181,6 +181,64 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/">Orange‘s:FAT12认识和Boot引导</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/">
+          
+          
+            
+          
+          
+
+
+ 前2章实验都是借助DOS提供保护模式环境来实验(因为在引导扇区512byte限制下提供不了保护模式),
+为了让OS进入保护模式而引导扇区又不能解决,通过boot把磁盘中的loader加载进内存,然后通过loader进入保护模式并且加载kernel
+这样就突破了512byte的限制
+
+boot-&gt;loader-&gt;kernel
+此书将软盘做成FAT12格式
+
+bximage制作1.
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-12 11:02" pubdate>
+              2020-07-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8E%E6%B8%8A-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-Orange-S/">于渊    操作系统  Orange S</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/07/10/csdn/Orange%E2%80%98s!%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%B0%8F%E6%80%BB%E7%BB%93/">Orange‘s:保护模式小总结</a>
       </h1>
 
@@ -678,49 +736,6 @@ EAX EBX ECX EDX ESI EDI EBP ESP
             <i class="iconfont icon-date"></i>
             <time datetime="2020-05-01 17:13" pubdate>
               2020-05-01
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/04/27/csdn/vhd%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98bochsdebug%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99!ata0-0!%20could%20not%20open%20hard%20drive%20image%20file/">.vhd虚拟磁盘bochsdebug启动报错:ata0-0: could not open hard drive image file</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/04/27/csdn/vhd%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98bochsdebug%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99!ata0-0!%20could%20not%20open%20hard%20drive%20image%20file/">
-          
-          
-            
-          
-          
-
-.vhd虚拟硬盘用于bochs启动 软开实验修改硬盘类型为flat模式,不是VPC
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-04-27 16:00" pubdate>
-              2020-04-27
             </time>
           </div>
         
