@@ -181,6 +181,66 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">Orange‘s:disp_str()字符串函数第二次调用乱码原因</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">
+          
+          
+            
+          
+          
+
+
+书上.c编译参数加上-m32,LD链接参数-m elf_i386
+
+去掉此Bug后正好Makefile也完成了
+
+第2次调用disp_str()时乱码,Google后说是ebx没有进栈被保护的原因,果然没错,但是为什么呢？
+断点打到kernel起始执行地址:0x30400
+单步调试发现call cstart后
+如果第一次ebx被破坏后,第二次调用指向的参数地址错误,并且循环了多次
+
+调试信息
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-14 23:08" pubdate>
+              2020-07-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BA%8E%E6%B8%8A-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-Orange-S/">于渊    操作系统  Orange S</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/">Orange‘s:FAT12认识和Boot引导</a>
       </h1>
 
@@ -683,59 +743,6 @@ TYPE
             <i class="iconfont icon-date"></i>
             <time datetime="2020-05-04 08:21" pubdate>
               2020-05-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/05/01/csdn/IA-32%E6%9E%B6%E6%9E%84%20(Intel%20Architecture%2032-bit)%E6%A6%82%E8%A7%88%20%E5%92%8C%208086%E5%B0%8F%E6%80%BB%E7%BB%93/">IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/05/01/csdn/IA-32%E6%9E%B6%E6%9E%84%20(Intel%20Architecture%2032-bit)%E6%A6%82%E8%A7%88%20%E5%92%8C%208086%E5%B0%8F%E6%80%BB%E7%BB%93/">
-          
-          
-            
-          
-          
-
-IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结寄存器8086
-
-8个通用寄存器
-
-
-AX BX CX DX SI DI BP SP
-
-32bit处理器在此通用寄存器扩展到32bit
-EAX EBX ECX EDX ESI EDI EBP ESP
-实模式下也可以使用,但是32bit寄存器的高16位不可独立使用
-32bit处理器拥有自己的工作模式:保
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-05-01 17:13" pubdate>
-              2020-05-01
             </time>
           </div>
         

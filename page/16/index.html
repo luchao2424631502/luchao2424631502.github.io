@@ -181,6 +181,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/08/11/csdn/UVA%2010462%20kruskal%E5%A4%84%E7%90%86%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E4%B8%AD%E9%87%8D%E8%BE%B9%E9%97%AE%E9%A2%98/">UVA 10462 kruskal处理次小生成树中重边问题</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/08/11/csdn/UVA%2010462%20kruskal%E5%A4%84%E7%90%86%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E4%B8%AD%E9%87%8D%E8%BE%B9%E9%97%AE%E9%A2%98/">
+          
+          
+            
+          
+          
+
+UVA 10462
+
+prim实在是好难理解如何处理重边,看了6小时的blog没看明白
+kruskal原理就是将所有的边排序,然后从小到大处理,正好也将重边给排序了,所有适合处理这个问题
+每条边存uesd,del变量,used代表第一次跑出生成树的结果,del代表这条边是否删去
+第一次跑完kruskal后,枚举每一条在生成树的边,删除,然后标记(使得下次跑kruskal不在加入到生成树中).在
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-08-11 09:32" pubdate>
+              2019-08-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91%E9%87%8D%E8%BE%B9%E9%97%AE%E9%A2%98/">次小生成树重边问题</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/08/10/csdn/UVA%2010600%20prim%E6%AC%A1%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">UVA 10600 prim次小生成树</a>
       </h1>
 
@@ -670,64 +725,6 @@ HDU 4614
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/08/04/csdn/HDU_3974_dfs+%E7%BA%BF%E6%AE%B5%E6%A0%91/">HDU_3974_dfs+线段树</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/08/04/csdn/HDU_3974_dfs+%E7%BA%BF%E6%AE%B5%E6%A0%91/">
-          
-          
-            
-          
-          
-
-HDU 3974
-
-题意是对以点作为根节点的子树进行操作.恰好可以使用线段树
-但是要将每个员工这棵有根树转化成线性区间
-开一个标记数组找到根
-用dfs转化然后.在对应的区间使用线段树区间修改模板
-记得cnt = 0,否则RE
-
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-08-04 10:46" pubdate>
-              2019-08-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/dfs/">dfs</a>
-            
-          </div>
         
       </div>
     </article>

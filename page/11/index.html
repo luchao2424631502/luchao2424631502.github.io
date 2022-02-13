@@ -181,6 +181,72 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/01/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20MCMF%E7%AE%97%E6%B3%95/">费用流 MCMF算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/01/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20MCMF%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+Min cost Max flow算法Luogu P3381
+实现思路
+邻接表保存时注意：
+
+
+
+费用具有对称性,
+流量具有守恒性
+
+
+
+spfa()根据边的容量\流量\花费来找到增广路, 以及维护每点的入边pre[i],和判断是否还有增广路
+EK()路程:
+已经通过了spfa()确定了增广路,第一次while找到增广路可以通过的最大流量,
+第二次while()更新网络
+维护maxflow和
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-01 20:31" pubdate>
+              2019-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/01/csdn/HDU%201533%20%E8%B4%B9%E7%94%A8%E6%B5%81%E5%85%A5%E9%97%A8/">HDU 1533 费用流入门</a>
       </h1>
 
@@ -691,63 +757,6 @@ Ford-Fulkerson (方法)
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Edmonds-Karp%E7%AE%97%E6%B3%95-Dinic%E7%AE%97%E6%B3%95/">Edmonds-Karp算法 Dinic算法</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/04/csdn/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E4%B8%AA%E6%95%B0%E6%A8%A1%E6%9D%BF%20+%20%E6%9C%80%E5%A4%A7%E5%9B%A2%E8%AE%A1%E6%95%B0%E6%A8%A1%E6%9D%BF/">最大独立集个数模板 + 最大团计数模板</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/04/csdn/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E4%B8%AA%E6%95%B0%E6%A8%A1%E6%9D%BF%20+%20%E6%9C%80%E5%A4%A7%E5%9B%A2%E8%AE%A1%E6%95%B0%E6%A8%A1%E6%9D%BF/">
-          
-          
-            
-          
-          
-
-并没有看懂求最大团个数的算法原理???,已知看到最好的解释最大团blog
-POJ  2989
-最大团计数模板
-R集合是 最大团已经加入的点
-P集合是 可能加入的点,且与R集合所有的点存在边(????)
-还是不太明白X集合的作用
-
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-04 17:35" pubdate>
-              2019-10-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A8%A1%E6%9D%BF-%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98/">模板 遗留问题</a>
             
           </div>
         

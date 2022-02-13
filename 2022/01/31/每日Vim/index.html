@@ -1,0 +1,1037 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Practical Vim - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"luchao.online","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Practical Vim">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-01-31 11:45" pubdate>
+        2022年1月31日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      64
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Practical Vim</h1>
+            
+            <div class="markdown-body">
+              <h2 id="每日Vim"><a href="#每日Vim" class="headerlink" title="每日Vim"></a>每日Vim</h2><p>规则:</p>
+<blockquote>
+<p>操作 = 操作符 + 命令</p>
+</blockquote>
+<h3 id="一-模式"><a href="#一-模式" class="headerlink" title="一.模式"></a>一.模式</h3><h4 id="普通模式"><a href="#普通模式" class="headerlink" title="普通模式"></a>普通模式</h4><ol>
+<li><p>无论光标在何处,删除一个单词最快<code>daw</code>,记忆<code>delete a word</code></p>
+</li>
+<li><p><code>&lt;C-a&gt;</code>命令 对数字执行加法,<code>&lt;C-x&gt;</code>命令 对数字执行减法, <strong>在命令前加上count可以进行算数运算</strong></p>
+</li>
+<li><p><code>gu</code>修改为小写/<code>gU</code>修改为大写(operator)</p>
+</li>
+<li><p><code>ap</code>表示一段<code>a paragraph</code></p>
+</li>
+</ol>
+<h4 id="插入模式"><a href="#插入模式" class="headerlink" title="插入模式"></a>插入模式</h4><ol>
+<li><p><code>backspace</code>的代替操作:</p>
+<ul>
+<li><code>&lt;C-h&gt;</code>删除一个字符</li>
+<li><code>&lt;C-w&gt;</code>删除前一个单词</li>
+<li><code>&lt;C-u&gt;</code>删除至行首</li>
+</ul>
+</li>
+<li><p><code>&lt;C-o&gt;zz</code>,进入<strong>插入-普通模式,zz重新绘制屏幕</strong></p>
+</li>
+<li><p><code>&lt;C-r&gt; &#123;register&#125;</code>,插入寄存器的内容,</p>
+<ul>
+<li>插入表达式寄存器的内容 = 利用表达式寄存器做计算</li>
+<li>插入复制寄存器的内容 = <code>&lt;C-r&gt; 0</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h4><blockquote>
+<p><code>v</code>:面向字符的可视模式</p>
+<p><code>V</code>:面向行的可视模式</p>
+<p><code>&lt;C-v&gt;</code>:面向列的可视模式</p>
+<p><code>gv</code>:重新选择上次的high light区域</p>
+</blockquote>
+<ol>
+<li><p>切换选区的活动端点,正常是左上的端点固定,右下的端点活动,<code>o</code>使得右下的端点固定,左上的端点活动</p>
+<p>使用<code>o</code>切换端点配合<code>w</code> :下一个单词 <code>b</code>上一个单词 <code>e</code>单词的词尾</p>
+</li>
+<li><p><code>&lt;C-v&gt;</code>切换到列模式,配合<code>I</code>在行首插入,和<code>r</code>单次替换</p>
+</li>
+<li><p>同时修改列文本:<code>&lt;C-v&gt;</code>切换到列模式选中区域后,<code>c</code>替换所有.</p>
+</li>
+<li><p>在<code>&lt;C-v&gt;</code>模式中<code>i</code>和<code>a</code>不在是插入,请使用<code>I</code>,和<code>A</code></p>
+</li>
+</ol>
+<h4 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h4><ol>
+<li><p>ex命令格式:</p>
+<p><code>: [range] delete/substitute/ []/&#123;&#125;</code></p>
+<p>命令:</p>
+<p><code>:[range]delete [x]</code> 删除指定行到寄存器x</p>
+<p><code>:[range]yank [x]</code> 复制指定范围行到寄存器x</p>
+<p><code>:[line]put [x]</code>  在指定行后粘贴寄存器x中的内容</p>
+<p><code>:[range] copy &#123;address&#125;</code> 把指定范围内的行拷贝到<code>&#123;address&#125;</code>所指定的行下</p>
+<p><code>:[range] move &#123;address&#125;</code>把指定范围内的行移动到<code>&#123;address&#125;</code>所指定的行下</p>
+<p><code>:[range] join</code> 连接指定范围内的行</p>
+<p><code>:[range] normal &#123;commands&#125;</code> 对指定范围的每一行执行普通模式命令</p>
+<p><code>:[range] substitute/&#123;pattern&#125;/&#123;string&#125;/&#123;flags&#125;</code> 把指定范围内出现的<code>&#123;pattern&#125;</code>地方替换为<code>&#123;string&#125;</code></p>
+<p><code>:[range] global/&#123;pattern&#125;/[cmd]</code> 对指定范围内出现匹配<code>&#123;pattern&#125;</code>的所有行,在其上执行ex命令</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>特殊符号含义:</p>
+<ul>
+<li>单个数字表示行,</li>
+<li><code>$</code>表示文件尾部(在普通模式下表示行尾部),</li>
+<li><code>.</code>表示当前行</li>
+<li><code>%</code>表示文件中的所有行. <strong>全局替换 :%s/待替换字符串/新字符串</strong></li>
+<li><code>&#123;address&#125;+n</code>表示行偏移. <strong>显示当前行,到偏移3行后的内容</strong> <code>: .,.+3p</code></li>
+</ul>
+</li>
+<li><p>地址指定范围:</p>
+<ul>
+<li>格式:<code>&#123;start&#125;,&#123;end&#125;</code></li>
+</ul>
+</li>
+<li><p>normal命令,(指定范围上执行普通模式命令),一般配合<code>.</code>使用,进行大量重复操作,</p>
+<ul>
+<li>如果其他普通模式命令一定要和normal分开,</li>
+<li>normal命令会自动将光标移动到每一行的起始处</li>
+</ul>
+<p>例如给指定行添加分号 <code>:.+1,$ normal A;</code></p>
+</li>
+<li><p><code>&lt;C-r&gt;&lt;C-w&gt;</code>将当前光标的单词插入到命令行,</p>
+<ol>
+<li>在执行ex命令时使 插入单词到command line</li>
+<li>查看<code>vimrc</code>文档,<code>:h &lt;C-r&gt;&lt;C-w&gt;</code></li>
+</ol>
+</li>
+<li><p>完整的命令行窗口: </p>
+<ul>
+<li><code>q:</code>打开ex命令历史的命令行窗口 (注意和退出命令是相反的,难怪有时候会按错按出来)</li>
+<li><code>q/</code>:打开查找命令历史的命令行窗口</li>
+<li><code>&lt;C-f&gt;</code>从command line mode切换到命令行窗口(保留当前输入的命令)</li>
+</ul>
+</li>
+<li><p>使用shell的几种操作</p>
+<ul>
+<li><code>&lt;C-z&gt;</code>挂起vim,然后fg回到vim</li>
+<li><code>:shell</code>命令行启动shell,然后<code>exit</code>回到vim</li>
+<li><code>:!&#123;cmd&#125;</code>命令行执行一条shell命令,<code>%</code>表示当前文件名</li>
+</ul>
+</li>
+<li><p>有关标准输入输出</p>
+<ul>
+<li><code>:read !&#123;cmd&#125;</code>将命令的标准输出插入到光标下</li>
+<li><code>:[range] write !&#123;cmd&#125;</code>,选中范围,让后将其作为命令的标准输入<ul>
+<li>好用:<code>[range] write !tee xxx.file</code>:将当前选中的buffer的内容写入到外面的一个文件中</li>
+</ul>
+</li>
+<li>使用命令作为过滤器(filter),(选中输入-&gt;修改-&gt;写回). <code>[range] !&#123;cmd&#125;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="二-文件"><a href="#二-文件" class="headerlink" title="二.文件"></a>二.文件</h3><h4 id="buffer基本管理"><a href="#buffer基本管理" class="headerlink" title="buffer基本管理:"></a>buffer基本管理:</h4><blockquote>
+<p>vim中buffer是文件在内存的映像</p>
+</blockquote>
+<ol>
+<li>buffer列表的基本操作:<ul>
+<li>显示缓冲区列表<code>ls</code>,</li>
+<li><code>b&#123;n&#125;</code>切换到<code>buffer n</code>,</li>
+<li><code>b &#123;bufname&#125;</code>等价于上面</li>
+<li><code>bp=bprev</code>切换到上一个buffer,</li>
+<li><code>bn=bnext</code>切换到下一个buffer,</li>
+<li><code>bf=bfirst</code>切换到第一个buffer,</li>
+<li><code>bl=blast</code>切换到最后一个Buffer</li>
+<li><code>%</code>表示当前显示的buffer,</li>
+<li><code>#</code>表示轮换的Buffer(使用<code>&lt;C-^&gt;</code>可以快速切换到轮换buffer)、</li>
+<li>删除buffer(不影响文件,删除的内存的数据)<code>bdelete</code></li>
+</ul>
+</li>
+<li>参数列表(<code>args</code>)记录了启动时传递给vim的文件列表.这个不是固定的,是可以改变的.<ul>
+<li>glob模式打开文件<code>args *.*</code>打开当前模式的任意文件,<code>arg **/*.css</code>,打开上一层目录中所有子目录包含的css文件,所以<code>*</code>只能在当前目录用,<code>**</code>可以递归进入子目录.</li>
+<li>参数列表执行shell命令 :args `pwd`</li>
+</ul>
+</li>
+<li>隐藏缓冲区<code>hidden buffer</code>:<ol>
+<li>当修改当前buffer后不保存想要切换到另一个buffer中需要加<code>!</code>强制执行,此时被修改的Buffer有<code>h</code>标记表示变成hidden buffer.</li>
+<li><code>edit!</code>重新将磁盘文件覆盖到当前被修改的Buffer中</li>
+<li><code>write</code>=<code>w</code>将buffer内容写回到磁盘中</li>
+<li><code>qa!</code>强制退出所有的窗口</li>
+<li><code>wa!</code>所有buffer写回到磁盘</li>
+</ol>
+</li>
+<li><code>:argdo &#123;cmd&#125;</code>,对所有的缓冲区执行命令cmd</li>
+</ol>
+<h4 id="window-窗口-基本管理："><a href="#window-窗口-基本管理：" class="headerlink" title="window(窗口)基本管理："></a>window(窗口)基本管理：</h4><blockquote>
+<p>窗口是显示buffer的</p>
+<p>打开新窗口默认的buffer是上一个窗口的buffer           </p>
+</blockquote>
+<ol>
+<li><p>创建窗口:</p>
+<ul>
+<li><code>&lt;C-w&gt;s</code>:水平切割窗口 水平当做<code>split</code>默认记</li>
+<li><code>&lt;C-w&gt;v</code>:竖直切割窗口 <code>vertical</code></li>
+<li><code>edit</code>给窗口更换<code>buffer</code></li>
+</ul>
+</li>
+<li><p>创建窗口+更换buffer(<code>&lt;C-w&gt;s+edit</code>):</p>
+<ul>
+<li><code>split &#123;filename&#125;</code></li>
+<li><code>vsplit &#123;filename&#125;</code></li>
+</ul>
+</li>
+<li><p>窗口切换:</p>
+<ul>
+<li><code>&lt;C-w&gt; &#123;hjkl&#125;</code>和normal mode下的移动是一样的</li>
+<li><code>&lt;C-w&gt;w</code>在窗口间循环切换</li>
+</ul>
+</li>
+<li><p>关闭窗口(buffer是仍然存在的)</p>
+<ul>
+<li><code>:close</code>命令 关闭活动窗口</li>
+<li><code>:only</code>命令 关闭除活动窗口外的所有窗口</li>
+<li><code>&lt;C-w&gt;c</code>同上</li>
+<li><code>&lt;C-w&gt;o</code>同上</li>
+</ul>
+</li>
+<li><p>窗口大小设置</p>
+<ul>
+<li><code>&lt;C-w&gt;=</code> 窗口等宽,高.</li>
+</ul>
+</li>
+<li><p>类似<code>:argdo &#123;cmd&#125;</code>, <code>:windo &#123;cmd&#125;</code>是对所有的窗口执行cmd命令.</p>
+<p>例如 设置所有窗口的当前工作目录 <code>:windo lcd Documents/</code></p>
+</li>
+</ol>
+<h4 id="标签页将窗口分组"><a href="#标签页将窗口分组" class="headerlink" title="标签页将窗口分组"></a>标签页将窗口分组</h4><blockquote>
+<p>vim的标签页是vim窗口的容器,将窗口组织到工作区中,类比桌面workspace</p>
+</blockquote>
+<ol>
+<li>创建标签页 <code>tabedit &#123;filename&#125;</code></li>
+<li>关闭标签页 <code>tabc&#123;lose&#125;</code></li>
+<li>关闭除当前标签页外的所有标签页 <code>tabo&#123;nly&#125;</code></li>
+<li>标签页切换<ul>
+<li>ex命令(不方便) 去第n个标签页:<code>:tabn &#123;N&#125;</code>, 下一个标签页<code>:tabn</code>,上一个标签页<code>tabp</code></li>
+<li>normal mode: 去第n个标签页<code>&#123;N&#125;gt</code>, 下一个标签页<code>gt</code>, 上一个标签页<code>gT</code></li>
+</ul>
+</li>
+<li>标签页移动<code>tabm&#123;ove&#125; &#123;N&#125;</code>:方便重新给标签页排序</li>
+</ol>
+<h4 id="基本文件管理"><a href="#基本文件管理" class="headerlink" title="基本文件管理"></a>基本文件管理</h4><ol>
+<li><p>ex命令<code>edit</code>打开文件<code>:edit &#123;filename&#125;</code></p>
+<p>配置技巧: cmd mode下<code>:%%</code>得到当前文件所在目录(配合edit使用)</p>
+<p><code>cnoremap &lt;expr&gt; %% getcmdtype() == &#39;:&#39; ? expand(&#39;%:h&#39;).&#39;/&#39; : &#39;%%&#39;</code></p>
+</li>
+<li><p>vim默认的文件管理器,<code>edit &#123;path&#125;</code>打开文件管理器窗口</p>
+</li>
+<li><p><code>:edit %</code>,%符号表示当前文件的完整路径</p>
+<p><code>:edit %:h</code>,<code>:h</code>会去掉当前文件,只留下路径,</p>
+</li>
+<li><p>vim打开一个不存在的文件后如何保存:</p>
+<ol>
+<li>先创建此文件存在的目录:<code>!mkdir -p %:h</code></li>
+<li>保存文件就行<code>:w</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="三-快速移动和快速转跳"><a href="#三-快速移动和快速转跳" class="headerlink" title="三.快速移动和快速转跳"></a>三.快速移动和快速转跳</h3><ol>
+<li><p>行之间的基本移动:</p>
+<blockquote>
+<p>实际行和屏幕行之间的移动</p>
+</blockquote>
+<p><code>j</code>和<code>k</code>命令会根据实际行,<code>gj</code>和<code>gk</code>按照屏幕行来上下移动.</p>
+<p>移动到行首<code>0</code>,移动到屏幕行首<code>g0</code></p>
+<p>移动到行首<code>^</code>((<strong>自己单独做了映射</strong>)),移动到屏幕行首<code>g^</code> </p>
+<p>移动到行尾<code>$</code>((<strong>自己单独做映射</strong>)),移动到屏幕行尾<code>g$</code></p>
+</li>
+<li><p>基于单词和字符串的移动</p>
+<ul>
+<li>单词(之间)的移动</li>
+</ul>
+<p>​    <code>w</code> 下一个单词</p>
+<p>​    <code>b</code>上一个单词</p>
+<p>​    <code>e</code>单词的词尾</p>
+<p>​    <code>ge</code>上一个单词的词尾</p>
+<ul>
+<li><p>字符串对应的移动()</p>
+<blockquote>
+<p>vim的字符串比单词更简单,非空白字符序列组成(以空白字符分割):</p>
+</blockquote>
+<p><code>W</code>下一个字符串</p>
+<p><code>B</code>上一个字符串</p>
+<p><code>E</code>下一个字符串词尾</p>
+<p><code>gE</code>上一个字符串词尾</p>
+</li>
+</ul>
+</li>
+<li><p>基于字符查找的移动</p>
+<ol>
+<li><p>通过normal mode下的<code>f&#123;char&#125;</code>来快速移动,所以<code>f&#123;char&#125;</code>配置<code>,</code>和<code>;</code>移动非常快</p>
+<blockquote>
+<p> <code>N</code>,和<code>n</code>是重复搜索模式的查找.</p>
+<p> <code>;</code>和<code>,</code>是重复<code>f</code>命令的查找</p>
+<p> 最好不要将<code>&lt;Leader&gt;</code>映射为<code>,</code></p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>通过normal mode下<code>t&#123;char&#125;</code>快速移动到查找字符的<strong>前一个字符</strong>,类似<code>f&#123;char&#125;</code>.</p>
+<blockquote>
+<p>f记忆为find,t记忆为<code>till</code>,<strong>直到查找到指定的字符为止</strong></p>
+</blockquote>
+<blockquote>
+<p><code>d/c</code>配合<code>t</code>使用可以删除行中的指定的一段. 例如删除句子的后半句: <code>f,dt.</code></p>
+</blockquote>
+</li>
+<li><p>通过查找进行移动</p>
+<p><code>/</code>正向查找</p>
+<p><code>?</code>反向查找</p>
+<p>删除某段的基本操作:</p>
+<ul>
+<li>利用可视模式选中某段然后d删除<code>v/xx&lt;CR&gt;d</code>,</li>
+</ul>
+<p>删除某段的高级操作(利用<strong>操作符+动作</strong>,把查找看成动作理解)</p>
+<ul>
+<li><code>d&#123;motion&#125;</code>+查找动作 = <code>d/xxx&lt;CR&gt;</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="使用文本对象-第一类-操作分隔符或者分隔符内部文本对象"><a href="#使用文本对象-第一类-操作分隔符或者分隔符内部文本对象" class="headerlink" title="使用文本对象 (第一类: 操作分隔符或者分隔符内部文本对象)"></a>使用文本对象 (第一类: <strong>操作分隔符或者分隔符内部文本对象</strong>)</h4><p>   <strong>使用模式: 在visual mode或者操作符之后(操作符待决模式 operator-pending)</strong></p>
+<p>   永远以<code>a</code>或者<code>i(inner)</code>开头出现,</p>
+<ul>
+<li><p><code>aB</code>/<code>iB</code>选中区块内的文本,</p>
+</li>
+<li><p><code>at</code>/<code>it</code>选中tag标签内的文本</p>
+</li>
+<li><p><code>a</code>/<code>i</code> +<code>&#123;char&#125;</code>,char表示想选中一对符号中的其中一个,<code>a(</code>/<code>a&lt;</code>,<code>a&quot;</code>,<code>a[</code>,<code>a&#123;</code>,<code>a&#39;</code></p>
+<p>使用场景例如:</p>
+</li>
+</ul>
+<ol>
+<li><p>快速修改头文件 <code>ci&lt;</code></p>
+</li>
+<li><p>快速删除<code>const char *</code>的内容<code>di&quot;</code></p>
+</li>
+<li><p>快速复制<code>const char *</code>的内容<code>yi&quot;</code></p>
+<blockquote>
+<p><code>d</code>配合<code>a</code>类文本对象(因为删除前后的空格),</p>
+<p><code>c</code>配合<code>i</code>类文本对象(只选中文本对象,不修改前后的空格)</p>
+</blockquote>
+</li>
+<li><p>使用文本对象 (第二类: <strong>操作文本块</strong>)</p>
+<ul>
+<li><code>iw</code>/<code>aw</code> 当前单词, (iw不包含空格)</li>
+<li><code>iW</code>,<code>aW</code>当前字符串</li>
+<li><code>is</code>,<code>as</code>当前句子</li>
+<li><code>ip</code>,<code>ap</code>当前段落</li>
+</ul>
+</li>
+<li><p>使用位置标记(局部/全局)</p>
+<ul>
+<li><p>标记当前光标位置:   <code>m&#123;a-zA-Z&#125;</code>,小写buffer内可用,大写全局可用.(m表mark)</p>
+</li>
+<li><p>跳转到光标位置:       反引号调转到标记位置, 单引号跳转到标记的行的位置.</p>
+</li>
+</ul>
+<blockquote>
+<p>单标记技巧:<code>mm</code>来标记,``m`跳转回来</p>
+</blockquote>
+<h4 id="vim默认的位置标记"><a href="#vim默认的位置标记" class="headerlink" title="vim默认的位置标记"></a>vim默认的位置标记</h4><ol>
+<li>`` 两个反引号: 表示跳转之前的光标位置</li>
+<li>`. 上次修改的地方</li>
+<li>`^ 上次插入的地方</li>
+<li>`[  上次修改或复制的起始位置</li>
+<li>`] 上次修改或复制的结束位置</li>
+<li>`&lt; 上次高亮区的起始位置</li>
+<li>`&gt; 上次高亮区的结束位置</li>
+</ol>
+</li>
+<li><p><code>%</code>在当前行找到和当前字符匹配的项目,<code>&#123;&#125;</code>/<code>[]</code>,<code>()</code>等,利用`` 反引号快速回到另一个匹配项的位置,然后r修改</p>
+</li>
+<li><p>遍历跳转列表 (each window)</p>
+</li>
+<li><p>遍历改变列表 <code>changes</code> (each buffer)</p>
+<ul>
+<li><p>vim会记录每次修改的地方,<code>:changes</code>查看所有修改.</p>
+</li>
+<li><p><code>g;</code>和<code>g,</code>遍历每次修改的光标位置</p>
+</li>
+</ul>
+</li>
+<li><p>查看光标下的指定文件<code>gf</code>,配合跳转命令<code>&lt;C-o&gt;</code>,和<code>&lt;C-i&gt;</code>跳去跳回</p>
+</li>
+</ol>
+<h3 id="四-寄存器"><a href="#四-寄存器" class="headerlink" title="四.寄存器"></a>四.寄存器</h3><h4 id="常用寄存器"><a href="#常用寄存器" class="headerlink" title="常用寄存器"></a>常用寄存器</h4><blockquote>
+<p>windows中的剪切(cut),复制(copy),粘贴(paste),</p>
+<p>对应vim中的delete(剪切),yank(复制),put(粘贴).</p>
+<p>windows使用的系统的剪贴板,vim默认使用的无名寄存器,</p>
+</blockquote>
+<ol>
+<li><p>无名寄存器<code>&quot;&quot;</code></p>
+<ul>
+<li><code>x</code>,<code>s</code>,<code>d&#123;motion&#125;</code>,<code>c&#123;motion&#125;</code>,<code>y&#123;motion&#125;</code>命令即使指定了其他寄存器,但是无名寄存器也会有内容(无名寄存器发生总是缺省的)</li>
+</ul>
+</li>
+<li><p>黑洞寄存器<code>&quot;_</code></p>
+<ul>
+<li><p>真正的删除文本,因为没有把内容复制到其他的寄存器上去.</p>
+</li>
+<li><p><code>&quot;_diw</code>,真正删除一个单词</p>
+</li>
+</ul>
+</li>
+<li><p>复制专用寄存器<code>&quot;0</code></p>
+<ul>
+<li><p>``y{motion}`命令复制的文本不仅在无名寄存器中,也在复制专用寄存器中.</p>
+</li>
+<li><p>Numbered register 0 contains the text from the most recent yank command,unless the command specified another register with [“x].</p>
+</li>
+</ul>
+</li>
+<li><p>26个有名寄存器<code>&quot;a-&quot;z</code> ,</p>
+<ul>
+<li>如果使用大写字母引用,就是将新内容追加到原有内容之后.小写字母引用是覆盖.</li>
+</ul>
+</li>
+<li><p>系统剪切板<code>&quot;+</code>或者<code>&quot;*</code>,</p>
+<ul>
+<li>通过外部寄存器可以与系统剪切板交换文本</li>
+</ul>
+</li>
+<li><p>表达式寄存器<code>&quot;=</code>.</p>
+<ul>
+<li>技巧1:在插入模式中当做计算器使用:<code>&lt;C-r&gt; =</code>使用计算功能</li>
+</ul>
+</li>
+<li><p>只读寄存器</p>
+<ul>
+<li><code>&quot;%</code> 当前文件名</li>
+<li><code>&quot;#</code>上一个文件名</li>
+<li><code>&quot;.</code>上次插入的文件</li>
+<li><code>&quot;:</code>上次执行的ex命令</li>
+</ul>
+</li>
+<li><p>查找寄存器<code>&quot;/</code>,</p>
+<ul>
+<li>保存的是上一次查找的内容</li>
+</ul>
+</li>
+</ol>
+<h4 id="寄存器内容替换高亮区文本"><a href="#寄存器内容替换高亮区文本" class="headerlink" title="寄存器内容替换高亮区文本"></a>寄存器内容替换高亮区文本</h4><ol>
+<li>基本操作:<code>yiw</code>-&gt;<code>ve</code>-&gt;<code>&quot;0p</code></li>
+<li>可视模式下的p会交换无名寄存器的内容,将寄存器内容填充到高亮区域,将高亮区域内容复制到无名寄存器中.</li>
+</ol>
+<h4 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h4><h5 id="宏的读取与执行"><a href="#宏的读取与执行" class="headerlink" title="宏的读取与执行"></a>宏的读取与执行</h5><ol>
+<li><code>q&#123;register&#125;</code>开始录制宏,<code>q</code>停止录制,<code>@&#123;register&#125;</code>执行宏,<code>@@</code>执行上一次执行的宏</li>
+</ol>
+<ul>
+<li>录制宏的修改序列会保存到寄存器上.</li>
+</ul>
+<h5 id="加次数回放宏"><a href="#加次数回放宏" class="headerlink" title="加次数回放宏"></a>加次数回放宏</h5><ul>
+<li><code>f+</code>-&gt;<code>s +&lt;C-[&gt;</code> -&gt; <code>qq;.q</code> -&gt;<code>22@q</code></li>
+</ul>
+<h5 id="在连续的文本行上修改"><a href="#在连续的文本行上修改" class="headerlink" title="在连续的文本行上修改"></a>在连续的文本行上修改</h5><ol>
+<li><p>串行操作： 录制宏完毕后执行<code>n</code>次(宏里面有换行的操作)</p>
+<p>例如:<code>qa0f.r)w~jq</code> -&gt;再执行3次宏<code>3@a</code></p>
+</li>
+<li><p>并行操作：宏录制完后,可视化选中然后执行·<code>:normal @&#123;register&#125;</code> (对所有的行进行操作)</p>
+<p>例如:<code>qa0f.r)w~q</code> -&gt; <code>VG</code> -&gt; <code>:normal @a</code></p>
+</li>
+</ol>
+<h5 id="给宏追加命令"><a href="#给宏追加命令" class="headerlink" title="给宏追加命令"></a>给宏追加命令</h5><ul>
+<li><p>用大写字母引用寄存器录制宏就行:</p>
+<p><code>qa0f.r)w~q</code>-&gt;追加<code>j</code>,<code>qAjq</code>就行.</p>
+</li>
+</ul>
+<h5 id="在一组文件中执行宏-x"><a href="#在一组文件中执行宏-x" class="headerlink" title="在一组文件中执行宏(x)"></a>在一组文件中执行宏(x)</h5><h5 id="给列表编号"><a href="#给列表编号" class="headerlink" title="给列表编号"></a>给列表编号</h5><ul>
+<li><p>使用let设一个变量后使用表达式寄存器插入.</p>
+<p><code>:let i=0</code></p>
+<p><code>qaI&lt;C-r&gt;=i&lt;CR&gt;) &lt;C-[&gt;</code></p>
+<p><code>:let i+=1</code> //目的是标号+1</p>
+<p><code>q</code></p>
+<p>然后并行执行宏</p>
+</li>
+</ul>
+<h5 id="编辑宏的内容"><a href="#编辑宏的内容" class="headerlink" title="编辑宏的内容"></a>编辑宏的内容</h5><ol>
+<li>先<code>&quot;&#123;register&#125;p</code>粘贴到当前文档中,</li>
+<li>然后再文档中修改宏的内容</li>
+<li>然后<code>V&quot;ay</code>就能又覆盖到a寄存器中.完成修改宏内容.</li>
+</ol>
+<h3 id="五-模式"><a href="#五-模式" class="headerlink" title="五.模式"></a>五.模式</h3><h4 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h4><h5 id="1-基本查找操作"><a href="#1-基本查找操作" class="headerlink" title="1. 基本查找操作"></a>1. 基本查找操作</h5><ul>
+<li><code>/</code>正向查找,<code>?</code>反向查找,<code>n</code>跳转到下一处,<code>N</code>跳转到上一处.</li>
+</ul>
+<h5 id="2-高亮查找匹配"><a href="#2-高亮查找匹配" class="headerlink" title="2. 高亮查找匹配"></a>2. 高亮查找匹配</h5><ul>
+<li><p>开启<code>hlsearch</code>可以高亮所有匹配项,<code>:noh</code>暂时关闭高亮</p>
+</li>
+<li><p>在<C-l>重新绘制屏幕的基础上增加<code>noh</code>功能的新映射项配置:</C-l></p>
+<p><code>nnoremap &lt;silent&gt; &lt;C-l&gt; :&lt;C-u&gt;noh&lt;CR&gt;&lt;C-l&gt;</code></p>
+</li>
+</ul>
+<h5 id="3-预览第一处匹配"><a href="#3-预览第一处匹配" class="headerlink" title="3. 预览第一处匹配"></a>3. 预览第一处匹配</h5><ul>
+<li>开启:<code>set incsearch</code></li>
+</ul>
+<h5 id="4-统计匹配个数"><a href="#4-统计匹配个数" class="headerlink" title="4. 统计匹配个数"></a>4. 统计匹配个数</h5><ul>
+<li><code>% s///gn</code></li>
+</ul>
+<h5 id="5-将光标偏移到查找匹配的结尾"><a href="#5-将光标偏移到查找匹配的结尾" class="headerlink" title="5.将光标偏移到查找匹配的结尾"></a>5.将光标偏移到查找匹配的结尾</h5><ul>
+<li><p>光标默认会匹配于首字母上,<code>/&#123;pattern&#125;/&#123;offset&#125;&lt;CR&gt;</code>,能够控制光标定位在匹配结果的附近,</p>
+<p>例如定位在匹配结果的结尾<code>/&#123;pattern&#125;/e&lt;CR&gt;</code></p>
+<p>或者已经进行了查找操作<code>/&#123;pattern&#125;&lt;CR&gt;</code>,则<code>//e&lt;CR&gt;</code>,也能重定位光标</p>
+</li>
+</ul>
+<h5 id="6-对完整的查找匹配进行操作"><a href="#6-对完整的查找匹配进行操作" class="headerlink" title="6.对完整的查找匹配进行操作"></a>6.对完整的查找匹配进行操作</h5><blockquote>
+<p>global/{pattern}/{cmd} 可以做到,</p>
+</blockquote>
+<h5 id="7-向前查找当前光标下的单词"><a href="#7-向前查找当前光标下的单词" class="headerlink" title="7. 向前查找当前光标下的单词"></a>7. 向前查找当前光标下的单词</h5><ul>
+<li><code>*</code></li>
+</ul>
+<h4 id="替换-substitute命令"><a href="#替换-substitute命令" class="headerlink" title="替换 (substitute命令"></a>替换 (substitute命令</h4><h5 id="1-完整格式"><a href="#1-完整格式" class="headerlink" title="1. 完整格式:"></a>1. 完整格式:</h5><ul>
+<li><p><code>[range]substitute/&#123;pattern&#125;/&#123;string&#125;/&#123;flags&#125;</code></p>
+<p>常用flags总结:</p>
+<ul>
+<li><code>g</code> 一行的所有匹配项都发生替换,而不仅是一行的第一项</li>
+<li><code>n</code>不进行替换,报告匹配项目数量</li>
+<li><code>c</code>确认每一匹配项是否需要替换</li>
+<li><code>e</code>没有匹配项时,不报告错误.</li>
+<li><code>&amp;</code>重复上次使用的标志位</li>
+</ul>
+<p>替换域的特殊字符</p>
+<ul>
+<li><code>\r</code> 换行符</li>
+<li><code>\t</code>制表符</li>
+<li><code>\\</code>反斜线</li>
+<li><code>\&#123;n&#125;</code>插入第n个子匹配</li>
+<li><code>\0</code>或<code>&amp;</code>插入匹配模式的所有内容</li>
+<li><code>~</code>上次的<code>&#123;string&#125;</code></li>
+<li><code>\=&#123;vim script&#125;</code>,执行表达式</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-全局替换"><a href="#2-全局替换" class="headerlink" title="2. 全局替换"></a>2. 全局替换</h5><ul>
+<li><p>利用标志位<code>g</code>使得每行所有匹配项都替换,<code>%</code>表示所有行的范围</p>
+<p><code>:% s/&#123;pattern&#125;/&#123;string&#125;/g</code>,就能实现全局替换.</p>
+</li>
+</ul>
+<h5 id="3-手动控制每一次的替换"><a href="#3-手动控制每一次的替换" class="headerlink" title="3.手动控制每一次的替换"></a>3.手动控制每一次的替换</h5><ul>
+<li><p>利用标志位<code>c</code>(confirm),同上<code>:% s/&#123;pattern&#125;/&#123;string&#125;/gc</code></p>
+<p>y替换此处,</p>
+<p>n忽略此处</p>
+<p>q退出此处</p>
+<p>l 替换此处后退出</p>
+<p>a 替换后面所有退出</p>
+</li>
+</ul>
+<h5 id="4-重用上次查找模式"><a href="#4-重用上次查找模式" class="headerlink" title="4.重用上次查找模式"></a>4.重用上次查找模式</h5><ul>
+<li><code>&#123;pattern&#125;</code>留空,将使用上一次的查找模式,(上一次的<code>substitute</code>命令和<code>/</code>和<code>?</code>都算上一次查找模式)</li>
+</ul>
+<h5 id="5-用寄存器内容替换"><a href="#5-用寄存器内容替换" class="headerlink" title="5.用寄存器内容替换"></a>5.用寄存器内容替换</h5><blockquote>
+<p>查找域留空,使用上一次的,但是替换域留空,则空字符串替换,等价于删除</p>
+</blockquote>
+<ol>
+<li><p>传寄存器的值,<code>:%s//&lt;C-r&gt;&#123;register&#125;/g</code>,寄存器的值会直接复制到命令行上.(特殊字符需要提前进行转义)</p>
+</li>
+<li><p>引用寄存器.<code>:%s//\=@&#123;register&#125;/g</code>,如上,=表示执行vim脚本,@{register}在普通模式下是执行宏,在这里表示引用某个寄存器.</p>
+<p>固定场景(充分利用寄存器):</p>
+<ol>
+<li><p>现在文档中复制替换的字符串(到”0寄存器中).</p>
+</li>
+<li><p><code>/</code>查找所有替换域</p>
+</li>
+<li><p><code>:%s//\=@0</code>, 利用<code>//</code>表示上一次查找域,<code>@0</code>表示引用赋值寄存器. (充分利用了vim的特性)</p>
+</li>
+</ol>
+</li>
+</ol>
+<h5 id="6-重复上一次的substitute命令"><a href="#6-重复上一次的substitute命令" class="headerlink" title="6.重复上一次的substitute命令"></a>6.重复上一次的substitute命令</h5><ol>
+<li>重复上一次s命令: <code>:s//~/&amp;</code>, <code>//</code>表使用上一次的查找域,<code>~</code>表使用上一次替换字符串,<code>&amp;</code>表使用上一次标志位.</li>
+<li><code>g&amp;</code>快捷键对应<code>:%s//~/&amp;</code>,比上面多一个全局的范围,弥补没有加<code>%</code>的单次替换</li>
+</ol>
+<h4 id="global命令"><a href="#global命令" class="headerlink" title="global命令"></a>global命令</h4><h5 id="1-完整格式-1"><a href="#1-完整格式-1" class="headerlink" title="1.完整格式:"></a>1.完整格式:</h5><ul>
+<li><p><code>:[range] global[!]/&#123;pattern&#125;/ [range][cmd]</code></p>
+<p>缺省的范围是<code>%</code>,查找域留空<code>//</code>也是使用上一次的查找域. cmd缺省是print命令.</p>
+<p>还有<code>global!</code>和<code>vglobal</code>命令,</p>
+<p><code>vglobal</code>在匹配的行的剩下的行上执行命令.(v表示invert)</p>
+</li>
+<li><p>清空寄存器: <code>q&#123;register&#125;q</code>,没有指令就是空</p>
+</li>
+</ul>
+<h5 id="2-利用global提取内容到寄存器"><a href="#2-利用global提取内容到寄存器" class="headerlink" title="2.利用global提取内容到寄存器"></a>2.利用global提取内容到寄存器</h5><p>​    例:提取所有注释内容到寄存器B</p>
+<p>​    <code>:global/\/\//yank B</code>,为什么要用大写,(小写    覆盖只剩下第一条匹配的,大写追加)</p>
+<p>​    例:提取所有注释内容到文件尾部</p>
+<p>​    <code>:global/\/\//t$</code>,</p>
+<h5 id="3-给指定区域属性排序"><a href="#3-给指定区域属性排序" class="headerlink" title="3.给指定区域属性排序"></a>3.给指定区域属性排序</h5><ol>
+<li><p>给单条规则(大括号内的属性)排序:</p>
+<p><code>vi&#123;:sort</code>,(利用文本对象)</p>
+<ol start="2">
+<li>给所有规则排序</li>
+</ol>
+<p><code>:global/&#123;/ .+1,/&#125;/-1 sort</code> 解释:</p>
+<blockquote>
+<ul>
+<li>ex命令会接受 范围 作为参数(也就是接受global传来的范围)</li>
+<li>[cmd],准确来说是<code>[range][cmd]</code>,也就是在传入的范围的基础上再次展开</li>
+</ul>
+</blockquote>
+<p><code>.+1,/&#125;/-1</code>符合<code>/&#123;pattern&#125;/&#123;offset&#125;</code>模式,也就是在查找模式下偏移光标,</p>
+<p><code>.,/&#125;/</code>去掉偏移表示 从当前行开始到<code>&#125;</code>行结束，</p>
+</li>
+</ol>
+<h5 id="4-global的广义形式-global与任意ex命令组合范式"><a href="#4-global的广义形式-global与任意ex命令组合范式" class="headerlink" title="4. global的广义形式(global与任意ex命令组合范式)"></a>4. global的广义形式(global与任意ex命令组合范式)</h5><p>​    <code>:g/&#123;start&#125; .,&#123;finish&#125; [cmd]</code></p>
+<p>​    例如给 {} 区域内文本缩进</p>
+<p>​    <code>:global/&#123;/ .+1,/&#125;/-1 &gt;</code></p>
+<h2 id="基本操作-单字母"><a href="#基本操作-单字母" class="headerlink" title="基本操作-(单字母)"></a>基本操作-(单字母)</h2><blockquote>
+<p>因为不熟悉单独拧出来</p>
+</blockquote>
+<ol>
+<li><code>r</code><strong>替代一个字符</strong>,<code>R</code><strong>替换模式(插入模式的一种特例)</strong></li>
+<li><code>f&#123;char&#125;</code><strong>行内字符查找</strong>,<code>F&#123;char&#125;</code><strong>行内字符反向查找</strong></li>
+<li><code>s</code>是<strong>删除后插入</strong>,<code>S</code>是<strong>删除整行后插入</strong></li>
+<li><code>c</code>是<code>d</code>是一样的类型(操作符),d是删除,c是修改,所以<code>c</code>后面<strong>接命令/次数</strong>,<code>C</code>修改至行尾</li>
+<li>和<code>A</code>对应的在 行首插入的是 <code>I</code>.</li>
+<li><code>t/T&#123;char&#125;</code>将光标定位到前/后字符,<code>t&#123;char&#125;</code>可作为<code>&#123;motion&#125;</code>使用.</li>
+<li><code>m&#123;position&#125;</code>在当前光标位置设置标记,<code>:marks</code>查看设置的标记,`{position}定位到标记处</li>
+</ol>
+<h2 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h2><ol>
+<li>普通,插入,命令,可视化,模式外,还有一种模式叫做**<code>operator pending mode</code><strong>,操作符待决模式,意思就是输入了<code>gu</code>/<code>d</code>/<code>c</code>/<code>y</code>这个操作符,在状态栏可以看到情况,等待输入</strong>command<strong>来完成一个</strong>操作**</li>
+<li>在插入模式下,想执行一条普通模式的命令,使用<code>ctrl-o</code>进入<strong>插入-普通</strong>模式,然后执行一条命令后就自动回到了插入模式</li>
+<li><code>&lt;C-g&gt;</code>在可视模式和选择模式切换,选择模式就是<code>Windows的可视模式</code>,输入使得选中的文本被删除</li>
+</ol>
+<h2 id="奇怪场景解决办法"><a href="#奇怪场景解决办法" class="headerlink" title="奇怪场景解决办法:"></a>奇怪场景解决办法:</h2><ol>
+<li><p>(以超级用户权限保存文件)在修改权限不够的文件后无法保存,只能退出重新sudo编辑的解决办法:</p>
+<p><code>:write !sudo tee %</code></p>
+<blockquote>
+<p>原理:</p>
+<p>write将当前Buffer内容作为 !{cmd}的标准输入,tee命令将标准输入转为文件,%表示当前文件名,所以就很好理解:将当前修改的Buffer的内容重新以root写到当前文件.</p>
+</blockquote>
+</li>
+<li><p>标准语法<code>操作=操作符+动作motion</code>,可以在前缀时用可视模式替换后面的动作.</p>
+</li>
+</ol>
+<h2 id="我尝试做的vim配置"><a href="#我尝试做的vim配置" class="headerlink" title="我尝试做的vim配置"></a>我尝试做的vim配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs vimscript">&quot; normal mode下快速到达行首行尾<br>nnoremap H ^<br>nnoremap L $<br><br>&quot; jk快速进入normal mode<br>inoremap jk &lt;Esc&gt;<br><br>&quot; insert mode下快速移动光标<br>inoremap &lt;C-h&gt; &lt;Left&gt;<br>inoremap &lt;C-l&gt; &lt;Right&gt;<br>inoremap &lt;C-j&gt; &lt;Down&gt;<br>inoremap &lt;C-k&gt; &lt;Up&gt;<br></code></pre></td></tr></table></figure>
+
+<p>Surround.vim插件可以用用</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C++</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Vim/">Vim</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/21/LCD1602%E9%A9%B1%E5%8A%A8%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A/">
+                        <span class="hidden-mobile">LCD1602驱动代码</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

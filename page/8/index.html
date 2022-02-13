@@ -181,6 +181,58 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">APUE习题8.7</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">
+          
+          
+            
+          
+          
+
+exec在执行前会关闭所有打开的目录流(DIR)
+检查文件描述符状态标志,
+
+dirfd(DIR *)得到目录的文件描述符
+
+重要的fcntl()函数,得到文件描述符状态
+
+忽略了exec族函数的第一个参数的作用导致调用exec一直成功
+exec的第一个参数一般是可执行文件的文件名,    
+The  first argument,  by convention, should point t
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-08 22:09" pubdate>
+              2020-02-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/02/05/csdn/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%AE%9E%E7%8E%B0%E6%8E%92%E5%BA%8F/">编译期实现排序</a>
       </h1>
 
@@ -663,59 +715,6 @@ c++ 流 和 c 流
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/12/14/csdn/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%8E%E7%9A%84()/">lambda表达式后的()</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/12/14/csdn/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%8E%E7%9A%84()/">
-          
-          
-            
-          
-          
-
-
-一直对lambda后面的()这种离奇的语法感到奇怪,今天看到如下代码:
-
-1234567auto optimize_cpp_stdio = []() &#123;    std::ios::sync_with_stdio(false);    std::cin.tie(nullptr);    std::cout.tie(nullptr);    std::setvbuf(stdout, n
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-12-14 19:02" pubdate>
-              2019-12-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/lambda/">lambda</a>
-            
-          </div>
         
       </div>
     </article>

@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/09/11/csdn/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5!%E6%8C%87%E5%AE%9A2%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%8C%89%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C(%E4%BF%A1%E5%8F%B7%E9%87%8F)/">线程同步:指定2个线程按顺序执行(信号量)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/09/11/csdn/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5!%E6%8C%87%E5%AE%9A2%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%8C%89%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C(%E4%BF%A1%E5%8F%B7%E9%87%8F)/">
+          
+          
+            
+          
+          
+
+如何让2个线程按照先后顺序执行n次呢?如:线程A从用户输入得到值后存入全局变量num,此时线程B取走此值并且累加,总共执行n(5)次,完成后输出和
+
+&lt;很有意思的问题,在基本忘掉了所以线程同步方法(只记得mutex,和基本信号量原理)的情况下,考虑为什么2个mutex不能实现?&gt;
+
+我认为的原因:
+
+mutex不能决定进程A还是进程B谁先执行(而信号量初始化的时候可以控制状态),对
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-09-11 21:20" pubdate>
+              2020-09-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/09/09/csdn/epoll%E5%85%A5%E9%97%A8/">epoll入门</a>
       </h1>
 
@@ -625,66 +674,6 @@ TAR                = $(patsubst %.c,%, $(SRC)) #
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">Orange‘s:disp_str()字符串函数第二次调用乱码原因</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">
-          
-          
-            
-          
-          
-
-
-书上.c编译参数加上-m32,LD链接参数-m elf_i386
-
-去掉此Bug后正好Makefile也完成了
-
-第2次调用disp_str()时乱码,Google后说是ebx没有进栈被保护的原因,果然没错,但是为什么呢？
-断点打到kernel起始执行地址:0x30400
-单步调试发现call cstart后
-如果第一次ebx被破坏后,第二次调用指向的参数地址错误,并且循环了多次
-
-调试信息
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-07-14 23:08" pubdate>
-              2020-07-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E4%BA%8E%E6%B8%8A-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-Orange-S/">于渊    操作系统  Orange S</a>
-            
-          </div>
         
       </div>
     </article>

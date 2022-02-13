@@ -181,6 +181,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/16/csdn/POJ%201988(%E5%B8%A6%E6%9D%83%E5%B9%B6%E6%9F%A5%E9%9B%86)/">POJ 1988(带权并查集)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/16/csdn/POJ%201988(%E5%B8%A6%E6%9D%83%E5%B9%B6%E6%9F%A5%E9%9B%86)/">
+          
+          
+            
+          
+          
+
+POJ 1988
+
+题目问的是包括x方块的堆 下面的 所有方块的个数,而不是方块x下面所有方块的个数,
+将最下面的方块作为根节点（父亲节点设置时带方向）
+一个数组记录此堆的数量，另一个数组记该点下面方块的个数
+find(x)时，更新所有点的下面方块个数,
+询问点x的结果时，首先要find(x)，使的结果为该堆的根节点下面的方块数量
+
+123456789101112131415161718192
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-16 21:24" pubdate>
+              2019-05-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/16/csdn/POJ%201661(%E5%B8%A6%E6%9D%83%E5%B9%B6%E6%9F%A5%E9%9B%86%E6%A8%A1%E6%9D%BF)/">POJ 1661(带权并查集模板)</a>
       </h1>
 
@@ -628,58 +679,6 @@ timu题目：给定一个非空字符串 s 和一个包含非空单词列表的�
             
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/03/csdn/dfs+%E6%A0%91%E4%B8%8E%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86(%E6%B7%B1%E5%BA%A6%EF%BC%8C%E9%87%8D%E5%BF%83)/">dfs+树与图的遍历(深度，重心)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/03/csdn/dfs+%E6%A0%91%E4%B8%8E%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86(%E6%B7%B1%E5%BA%A6%EF%BC%8C%E9%87%8D%E5%BF%83)/">
-          
-          
-            
-          
-          
-
-
-邻接表存图
-123456789101112131415161718192021222324252627#include &lt;iostream&gt;using namespace std;const int maxn = 1e6;int ver[maxn],next[maxn],head[maxn],edge[maxn];int tot = 0;// 存图void add(int u,i
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-03 19:45" pubdate>
-              2019-05-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/dfs/">dfs</a>
-            
-          </div>
         
       </div>
     </article>
