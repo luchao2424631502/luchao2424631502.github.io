@@ -181,6 +181,71 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">Splay 区间翻转（文艺平衡树）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">
+          
+          
+            
+          
+          
+
+Splay树 区间翻转 操作
+将数组的下标存到树中, 题目给出逆转的区间下标,那么在树中操作下标
+
+利用子树都是存的是数组中连续的一段,(类似线段树)
+
+
+
+
+翻转区间[l,r]
+
+
+在二叉查找树中对 数组区间翻转 只需要 更改子树中每一个节点左右的左右子树
+
+如何将整个区间(搬离到根节点附近去) ?  利用$Splay$的性质: rotate后中序遍历保持不变
+
+将$l-1$节点通过$Spl
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-26 12:35" pubdate>
+              2019-11-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">区间翻转</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/24/csdn/%E7%AC%9B%E5%8D%A1%E5%B0%94%E6%A0%91/">笛卡尔树</a>
       </h1>
 
@@ -712,75 +777,6 @@ Floyd求最小环原理:
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E6%AD%BB%E9%94%81-%E9%A5%A5%E9%A5%BF/">死锁 饥饿</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">费用流 类Dinic算法</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">
-          
-          
-            
-          
-          
-
-
-费用流类Dinic算法
-因为费用有负边权所以用spfa，求单位费用之和最小的路径
-
-将bfs分层标记dep数组 换成 spfa分层标记dist[](最小费用和)
-
-dfs寻找多条增广路时, 开vis标记筛掉返回的边 ,且增广路顺着spfa标记的最小费用和路径走, 
-
-dfs维护流和费用
-
-
-
-Luogu P4016
-注意:
-环形,
-最终n个仓库存货量相同,
-只能在相邻的仓库之间搬运
-
-建图
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-11-03 15:53" pubdate>
-              2019-11-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
             
           </div>
         

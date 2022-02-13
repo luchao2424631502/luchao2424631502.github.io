@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/09/12/csdn/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E7%AE%80%E5%8D%95%E8%81%8A%E5%A4%A9%E5%AE%A4%E5%AE%9E%E7%8E%B0/">多线程并发简单聊天室实现</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/09/12/csdn/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E7%AE%80%E5%8D%95%E8%81%8A%E5%A4%A9%E5%AE%A4%E5%AE%9E%E7%8E%B0/">
+          
+          
+            
+          
+          
+
+多线程并发的简单聊天室实现
+server:每一个clnt对应一个线程,将从线程接收到的消息都转发个所有已经建立连接的clnt,
+clnt:一个线程用来发送msg给server,一个 线程用来接受msg并输出到stdout
+
+server.c
+使用了mutex建立临界区避免同时操作
+123456789101112131415161718192021222324252627282930313233
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-09-12 12:46" pubdate>
+              2020-09-12
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/09/11/csdn/%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5!%E6%8C%87%E5%AE%9A2%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%8C%89%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C(%E4%BF%A1%E5%8F%B7%E9%87%8F)/">线程同步:指定2个线程按顺序执行(信号量)</a>
       </h1>
 
@@ -626,51 +675,6 @@ TAR                = $(patsubst %.c,%, $(SRC)) #
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/Makefile/">Makefile</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">
-          
-          
-            
-          
-          
-
-从kernel.bin中根据elf文件格式执行内核加载kernel.bin步骤和加载loader.bin步骤一样,将kernel.bin加载到内存后,
-因为kernel的编译参数-Ttext 0x30400指定了程序入口(可以在/boot/include/load.inc中修改,并且修改kernel编译参数-Ttext就能加载到自己指定的内存地址处).
-因为**kernel被编译成elf格式,
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-07-19 11:12" pubdate>
-              2020-07-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
             
           </div>
         

@@ -181,6 +181,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">c++流和c流</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">
+          
+          
+            
+          
+          
+
+c++ 流 和 c 流
+标准的c++流默认与其相对应的c流同步:( 在每次输入/输出后同步 )
+
+同步的c++流 无缓冲,每次c++流上的$I/O$操作都立即应用到对应 C 流的缓冲区。这使得能自由地混合 C++ 与  C $I/O$ 。 
+
+ 若关闭同步，则允许 C++ 标准流独立地缓冲其 I/O ，可认为这在某些情况下更快。 
+
+
+12345678910#include &lt;iostr
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-12-14 22:25" pubdate>
+              2019-12-14
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/12/14/csdn/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%90%8E%E7%9A%84()/">lambda表达式后的()</a>
       </h1>
 
@@ -728,71 +779,6 @@ size[i]
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/splay%E6%93%8D%E4%BD%9C/">splay操作</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">Splay 区间翻转（文艺平衡树）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/11/26/csdn/Splay%20%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC%EF%BC%88%E6%96%87%E8%89%BA%E5%B9%B3%E8%A1%A1%E6%A0%91%EF%BC%89/">
-          
-          
-            
-          
-          
-
-Splay树 区间翻转 操作
-将数组的下标存到树中, 题目给出逆转的区间下标,那么在树中操作下标
-
-利用子树都是存的是数组中连续的一段,(类似线段树)
-
-
-
-
-翻转区间[l,r]
-
-
-在二叉查找树中对 数组区间翻转 只需要 更改子树中每一个节点左右的左右子树
-
-如何将整个区间(搬离到根节点附近去) ?  利用$Splay$的性质: rotate后中序遍历保持不变
-
-将$l-1$节点通过$Spl
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-11-26 12:35" pubdate>
-              2019-11-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8C%BA%E9%97%B4%E7%BF%BB%E8%BD%AC/">区间翻转</a>
             
           </div>
         

@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" type="image/png" href="/img/post1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="linux/windows/c++">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>NeoVim插件配置 - llc&#39;blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"luchao.online","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>llc'blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/post1.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="NeoVim插件配置">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-13 15:03" pubdate>
+        2022年2月13日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      51
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NeoVim插件配置</h1>
+            
+            <div class="markdown-body">
+              <h4 id="关于我的neovim配置的一些想法"><a href="#关于我的neovim配置的一些想法" class="headerlink" title="关于我的neovim配置的一些想法:"></a>关于我的neovim配置的一些想法:</h4><ol>
+<li><ul>
+<li><input checked disabled type="checkbox"> 首先准备一个所有插件的管理器<code>vim-plug</code></li>
+</ul>
+</li>
+<li><ul>
+<li><p><input checked disabled type="checkbox">  coc.vim(静态检查,代码补全,函数跳转,)</p>
+<blockquote>
+<p> CocList extensions:查看安装扩展的coc插件</p>
+<p> coc-snippets:片段补全</p>
+<p> coc-cmake</p>
+<p> coc-json:配置</p>
+<p> coc-marketplace</p>
+<p> coc-highlight:提供默认文件符号高亮和颜色支持(默认效果不太行)</p>
+<p> coc-sh:bash</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><input checked disabled type="checkbox"> 注释工具 <code>nerdcommenter.vim</code></li>
+</ul>
+</li>
+<li><ul>
+<li><input checked disabled type="checkbox"> 函数signature工具 <code>vista.vim</code>,提取符号配置的是<code>coc.vim</code></li>
+</ul>
+</li>
+<li><ul>
+<li><input checked disabled type="checkbox"> 文件管理器 defx</li>
+</ul>
+</li>
+<li><ul>
+<li><input checked disabled type="checkbox"> 基本颜色主题 PaperColor</li>
+</ul>
+</li>
+<li><ul>
+<li><input checked disabled type="checkbox"> 增量语法树高亮 <code>vim-lsp-cxx-highlight</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="插件管理器-vim-plug"><a href="#插件管理器-vim-plug" class="headerlink" title="[插件管理器] vim-plug"></a>[插件管理器] vim-plug</h4><p>首先安装一个vim插件管理器.</p>
+<h4 id="coc-nvim-的快捷键-大部分都是normal模式下"><a href="#coc-nvim-的快捷键-大部分都是normal模式下" class="headerlink" title="[coc.nvim]的快捷键(大部分都是normal模式下)"></a>[coc.nvim]的快捷键(大部分都是normal模式下)</h4><h5 id="1-补全-提示类"><a href="#1-补全-提示类" class="headerlink" title="1.补全/提示类"></a>1.补全/提示类</h5><ul>
+<li><code>&lt;c-space&gt;</code>触发补全提示 <code>inoremap</code>下</li>
+<li><code>K</code>显示符号/函数信息</li>
+</ul>
+<h5 id="2-符号导航类"><a href="#2-符号导航类" class="headerlink" title="2.符号导航类"></a>2.符号导航类</h5><ul>
+<li><code>[g</code>和<code>]g</code>去前一个和下一个诊断信息. </li>
+<li><code>gd</code>:跳转到类型/函数的定义处</li>
+<li><code>gy</code>跳转到变量的类型定义处</li>
+<li><code>gi</code>去()实现处(好像没有用)</li>
+<li><code>gr</code>查看符号的所有被引用到的地方</li>
+</ul>
+<h5 id="3-格式化"><a href="#3-格式化" class="headerlink" title="3.格式化"></a>3.格式化</h5><ul>
+<li><code>:Format</code>格式化当前buffer</li>
+<li><code>&lt;leader&gt;f</code>格式化选中的代码</li>
+</ul>
+<h4 id="ccls-识别c-c-项目-函数引用-静态检查"><a href="#ccls-识别c-c-项目-函数引用-静态检查" class="headerlink" title="[ccls] 识别c/c++项目,(函数引用,静态检查)"></a>[ccls] 识别c/c++项目,(函数引用,静态检查)</h4><p>如果不进行配置无法解析函数等.</p>
+<p>看手册然后我选择在project的root目录下添加<a target="_blank" rel="noopener" href="https://github.com/MaskRay/ccls/wiki/Project-Setup#ccls-file">ccls file</a>解决:</p>
+<p>仅识别c文件+头文件路径+编译options</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c">gcc<br>%c -Wall -c -m32 -fno-builtin -fno-<span class="hljs-built_in">stack</span>-protector -W -Wno-implicit-fallthrough<br>%h<br>-Ilib/<br>-Ilib/kernel/<br>-Ilib/user/<br>-Ilib/shell/<br>-Ikernel/<br>-Idevice/<br>-Ithread/<br>-Iuserprog/<br>-Ifs/<br>-Igraphics/include<br></code></pre></td></tr></table></figure>
+
+<h4 id="高亮-vim-lsp-cxx-highlight"><a href="#高亮-vim-lsp-cxx-highlight" class="headerlink" title="[高亮]vim-lsp-cxx-highlight"></a>[高亮]vim-lsp-cxx-highlight</h4><ol>
+<li>先安装ccls,</li>
+<li>在coc.nvim的json配置中配置ccls,</li>
+<li>根据vim-lsp-cxx-highlight.nvim文档在coc的ccls配置中添加highlight选项</li>
+</ol>
+<h4 id="函数标签生成-vista-vim"><a href="#函数标签生成-vista-vim" class="headerlink" title="[函数标签生成] vista.vim"></a>[函数标签生成] vista.vim</h4><blockquote>
+<p>启动映射到<F2></F2></p>
+</blockquote>
+<p>并且配置窗口大小等.</p>
+<h4 id="文件管理器-对defx按键的需求"><a href="#文件管理器-对defx按键的需求" class="headerlink" title="[文件管理器]对defx按键的需求"></a>[文件管理器]对defx按键的需求</h4><blockquote>
+<p>启动 映射到<F3></F3></p>
+</blockquote>
+<ol>
+<li><code>jk</code>下上移动,<code>h</code>去上一层目录,<code>l</code>或者<code>&lt;CR&gt;</code>打开目录或者文件</li>
+<li>剪切文件 <code>dd</code> </li>
+<li>粘贴文件<code>p</code></li>
+<li>重命名文件  <code>r</code></li>
+<li>创建新文件 <code>N</code></li>
+<li>删除文件 <code>dD</code></li>
+<li>展开文件夹<code>o</code></li>
+<li>退出窗口<code>q</code></li>
+</ol>
+<h4 id="注释工具-nerd-commenter使用-文档翻译"><a href="#注释工具-nerd-commenter使用-文档翻译" class="headerlink" title="[注释工具]nerd commenter使用(文档翻译)"></a>[注释工具]nerd commenter使用(文档翻译)</h4><p>许多nerd注释命令使用<code>\</code>键执行,在vim中,这个键致力于给用户自定义,它高效的创造了一个命名空间自定义命令并且不干涉vim内置的快捷键。</p>
+<p>the leader key能够被印射到任何用户想要的,在自定义命令leader的定义中,<leader>是一个占位符为了leader key,看当前映射<leader>的类型:echo mapleader.如果它报告一个未定义变量则意味着leader key被设置为默认的<code>\</code>键</leader></leader></p>
+<h5 id="默认的快捷键"><a href="#默认的快捷键" class="headerlink" title="默认的快捷键"></a>默认的快捷键</h5><ol>
+<li><p>注释当前行或者在可视模式下被选中的文本</p>
+<p><code>[count] \cc</code></p>
+</li>
+<li><p>和上面一样但是强制嵌套</p>
+<p><code>[count] \cn</code></p>
+</li>
+<li><p>切换被选中的行的注释状态,如果被选中的顶行已经被注释则剩下的所有被选中的行都取消注释,反之也是</p>
+<p><code>[count] \c&lt;space&gt;</code></p>
+</li>
+<li><p>使用<code>/**/</code>一组多部分的分隔符来注释</p>
+<p><code>[count] \cm</code></p>
+</li>
+<li><p>规整的注释掉选中的行</p>
+<p><code>[count] \cs</code></p>
+</li>
+<li><p>和1命令一样并且复制</p>
+<p><code>[count] \cy</code></p>
+</li>
+<li><p>从光标位置注释到当前行末尾</p>
+<p><code>[count] \c$</code></p>
+</li>
+<li><p>在行末尾添加注释分隔符</p>
+<p><code>[count] \cA</code></p>
+</li>
+<li><p>切换另一个注释分割符</p>
+<p><code>\ca</code></p>
+</li>
+<li><p>取消注释</p>
+<p><code>\cu</code></p>
+</li>
+</ol>
+<h4 id="参考的blog"><a href="#参考的blog" class="headerlink" title="参考的blog"></a>参考的blog</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lxyoucan/article/details/117549842">defx1</a></li>
+<li><a target="_blank" rel="noopener" href="https://tsarafatma.com/neovim/2020/02/08/defx-file-explorer-for-neovim">defx2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.avimitin.com/vim/neovim/">defx3</a></li>
+</ul>
+<h4 id="neovim根据上面插件的配置-config-nvim-init-vim"><a href="#neovim根据上面插件的配置-config-nvim-init-vim" class="headerlink" title="[neovim根据上面插件的配置] ~/.config/nvim/init.vim"></a>[neovim根据上面插件的配置] <code>~/.config/nvim/init.vim</code></h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-string">&quot; ------------- vim-plug管理器 -----------------</span><br><span class="hljs-string">&quot;</span> Plugins will be downloaded under the specified directory.<br>call plug<span class="hljs-meta">#begin()</span><br><br><span class="hljs-string">&quot; 1.lsp补全支持</span><br><span class="hljs-string">Plug &#x27;neoclide/coc.nvim&#x27;, &#123;&#x27;branch&#x27;: &#x27;release&#x27;&#125;</span><br><span class="hljs-string">&quot;</span> <span class="hljs-number">2.</span>配色<br><span class="hljs-string">&quot;Plug &#x27;dracula/vim&#x27;, &#123;&#x27;name&#x27;: &#x27;dracula&#x27;&#125;</span><br><span class="hljs-string">Plug &#x27;NLKNguyen/papercolor-theme&#x27;</span><br><span class="hljs-string">&quot;</span> <span class="hljs-number">3.</span>快速注释工具<br>Plug &#x27;preservim/nerdcommenter&#x27;<br><span class="hljs-string">&quot; 4.状态栏和标签栏</span><br><span class="hljs-string">Plug &#x27;vim-airline/vim-airline&#x27;       </span><br><span class="hljs-string">Plug &#x27;vim-airline/vim-airline-themes&#x27; &quot;</span>airline 的主题<br><span class="hljs-string">&quot; 5.lsp 函数符号生成</span><br><span class="hljs-string">Plug &#x27;liuchengxu/vista.vim&#x27;</span><br><span class="hljs-string">&quot;</span> <span class="hljs-number">6.</span>文件管理器<br>Plug &#x27;Shougo/defx.nvim&#x27;, &#123; &#x27;do&#x27;: &#x27;:UpdateRemotePlugins&#x27; &#125;<br><span class="hljs-string">&quot; 7.比coc更强的语法高亮 nvim版本不够安装不了</span><br>&quot;Plug &#x27;nvim-treesitter/nvim-treesitter&#x27;, &#123;&#x27;do&#x27;: &#x27;:TSUpdate&#x27;&#125;<br><span class="hljs-string">&quot; 8.上面高亮的代替插件</span><br><span class="hljs-string">Plug &#x27;jackguo380/vim-lsp-cxx-highlight&#x27;</span><br><span class="hljs-string">&quot;</span> List ends here. Plugins become visible to Vim after <span class="hljs-keyword">this</span> call.<br>call plug<span class="hljs-meta">#end()</span><br><span class="hljs-string">&quot; ------------- vim-plug管理器 -----------------</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> ------------- vim-按键基本配置-----------------<br><span class="hljs-built_in">set</span> number <span class="hljs-string">&quot; 设置行号</span><br><span class="hljs-string">set shiftwidth=2 &quot;</span> 格式化缩进<span class="hljs-number">2</span>空格<br><span class="hljs-built_in">set</span> tabstop=<span class="hljs-number">2</span> <span class="hljs-string">&quot;tab 缩进两空格</span><br><span class="hljs-string">&quot;</span> 自动补全大括号&#123;&#125;<br>inoremap &#123; &#123;&#125;&lt;C-[&gt;i<br>inoremap ( ()&lt;C-[&gt;i<br>nnoremap H ^<br>nnoremap L $<br><span class="hljs-string">&quot; inoremap jk &lt;C-[&gt;</span><br><span class="hljs-string">&quot;</span> ------------- vim-按键基本配置-----------------<br><br><span class="hljs-string">&quot; ------------- vim-插件窗口快捷键-----------------</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;buffer&gt; &lt;F2&gt; :Vista&lt;CR&gt;</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;buffer&gt; &lt;F3&gt; :Defx&lt;CR&gt; </span><br><span class="hljs-string">&quot;</span> ------------- vim-插件窗口快捷键-----------------<br><br><span class="hljs-string">&quot; ------------- vim-插件单独配置-----------------</span><br><span class="hljs-string">&quot;</span> Plug<span class="hljs-number">.2</span> 颜色设置<br><span class="hljs-built_in">set</span> t_Co=<span class="hljs-number">256</span><br><span class="hljs-built_in">set</span> background=dark<br>colorscheme PaperColor<br><span class="hljs-string">&quot;colorscheme dracula</span><br><span class="hljs-string">&quot;</span> Plug<span class="hljs-number">.3</span> nerdcommenter配置<br><span class="hljs-string">&quot; Plug.4 airline配置</span><br><span class="hljs-string">let g:airline_theme = &#x27;desertink&#x27;</span><br><span class="hljs-string">&quot;</span> Plug<span class="hljs-number">.5</span> vista配置<br><span class="hljs-string">&quot; lsp生成符号</span><br><span class="hljs-string">let g:vista_default_executive = &#x27;coc&#x27;</span><br><span class="hljs-string">let g:vista_icon_indent = [&quot;</span>╰─▸ <span class="hljs-string">&quot;, &quot;</span>├─▸ <span class="hljs-string">&quot;]</span><br><span class="hljs-string">&quot;</span> 放在左边<br>let g:vista_sidebar_position = <span class="hljs-string">&quot;vertical topleft&quot;</span><br><span class="hljs-string">&quot; 窗口宽度为</span><br><span class="hljs-string">let g:vista_sidebar_width = 25</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Plug<span class="hljs-number">.6</span> defx配置 (类似ranger操作)<br><span class="hljs-string">&quot; 窗口大小设置</span><br><span class="hljs-string">call defx#custom#option(&#x27;_&#x27;, &#123;</span><br><span class="hljs-string">			\ &#x27;winwidth&#x27;: 25,</span><br><span class="hljs-string">			\ &#x27;split&#x27;: &#x27;vertical&#x27;,</span><br><span class="hljs-string">			\ &#x27;direction&#x27;: &#x27;botright&#x27;,</span><br><span class="hljs-string">			\ &#x27;show_ignored_files&#x27;: 0,</span><br><span class="hljs-string">			\ &#x27;buffer_name&#x27;: &#x27;defxplorer&#x27;,</span><br><span class="hljs-string">			\ &#x27;toggle&#x27;: 1,</span><br><span class="hljs-string">			\ &#x27;resume&#x27;: 1</span><br><span class="hljs-string">			\ &#125;)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> 图标设置<br>call defx#custom#column(&#x27;icon&#x27;, &#123;<br>			\ &#x27;directory_icon&#x27;: &#x27;▸ &#x27;,<br>			\ &#x27;file_icon&#x27;: &#x27;  &#x27;,<br>			\ &#x27;opened_icon&#x27;: &#x27;▾ &#x27;,<br>			\ &#x27;root_icon&#x27;: &#x27;  &#x27;,<br>			\ &#125;)<br><br><br><span class="hljs-string">&quot; 快捷键设置</span><br><span class="hljs-string">autocmd FileType defx call s:defx_my_settings()</span><br><span class="hljs-string">function! s:defx_my_settings() abort</span><br><span class="hljs-string">		&quot;</span> hjkl方向移动键 <br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; h<br>		\ defx#do_action(&#x27;cd&#x27;,&#x27;..&#x27;)<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; j<br>		\ line(&#x27;.&#x27;) == line(&#x27;$&#x27;) ? &#x27;gg&#x27; : &#x27;j&#x27;<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; k<br>		\ line(<span class="hljs-string">&#x27;.&#x27;</span>) == <span class="hljs-number">1</span> ? <span class="hljs-string">&#x27;G&#x27;</span> : <span class="hljs-string">&#x27;k&#x27;</span> <br>		<span class="hljs-string">&quot; drop打开文件在新窗口打开,open只能在当前窗口打开</span><br><span class="hljs-string">		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; l</span><br><span class="hljs-string">		\ defx#do_action(&#x27;drop&#x27;)</span><br><span class="hljs-string">	  nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; &lt;CR&gt;</span><br><span class="hljs-string">	  \ defx#do_action(&#x27;drop&#x27;)</span><br><span class="hljs-string">		&quot;</span> 粘贴剪切复制<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; yy<br>		\ defx#do_action(&#x27;copy&#x27;)<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; dd <br>		\ defx#do_action(&#x27;move&#x27;)<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; p<br>		\ defx#do_action(&#x27;paste&#x27;)<br>		<span class="hljs-string">&quot; 重命名</span><br><span class="hljs-string">		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; r</span><br><span class="hljs-string">		\ defx#do_action(&#x27;rename&#x27;)</span><br><span class="hljs-string">		&quot;</span> 新建文件<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; N<br>		\ defx#do_action(&#x27;new_file&#x27;)<br>		<span class="hljs-string">&quot; 删除文件</span><br><span class="hljs-string">		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; D</span><br><span class="hljs-string">		\ defx#do_action(&#x27;remove&#x27;)</span><br><span class="hljs-string">		&quot;</span> 打开或者关闭文件夹<br>		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; o<br>		\ defx#do_action(&#x27;open_or_close_tree&#x27;)<br>		<span class="hljs-string">&quot; 退出</span><br><span class="hljs-string">		nnoremap &lt;silent&gt;&lt;buffer&gt;&lt;expr&gt; q</span><br><span class="hljs-string">		\ defx#do_action(&#x27;quit&#x27;)</span><br><span class="hljs-string">endfunction</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Plug<span class="hljs-number">.8</span> 高亮配置<br><br><span class="hljs-string">&quot; Plug.1 coc.nvim的默认配置</span><br><span class="hljs-string">&quot;</span> Set internal encoding of vim, <span class="hljs-keyword">not</span> needed on neovim, since coc.nvim <span class="hljs-keyword">using</span> some<br><span class="hljs-string">&quot; unicode characters in the file autoload/float.vim</span><br><span class="hljs-string">set encoding=utf-8</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> TextEdit might fail <span class="hljs-keyword">if</span> hidden is <span class="hljs-keyword">not</span> <span class="hljs-built_in">set</span>.<br><span class="hljs-built_in">set</span> hidden<br><br><span class="hljs-string">&quot; Some servers have issues with backup files, see #649.</span><br><span class="hljs-string">set nobackup</span><br><span class="hljs-string">set nowritebackup</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Give more space <span class="hljs-keyword">for</span> displaying messages.<br><span class="hljs-built_in">set</span> cmdheight=<span class="hljs-number">2</span><br><br><span class="hljs-string">&quot; Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable</span><br><span class="hljs-string">&quot;</span> delays <span class="hljs-keyword">and</span> poor user experience.<br><span class="hljs-built_in">set</span> updatetime=<span class="hljs-number">300</span><br><br><span class="hljs-string">&quot; Don&#x27;t pass messages to |ins-completion-menu|.</span><br><span class="hljs-string">set shortmess+=c</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Always show the signcolumn, otherwise it would shift the text each time<br><span class="hljs-string">&quot; diagnostics appear/become resolved.</span><br><span class="hljs-string">if has(&quot;</span>nvim<span class="hljs-number">-0.5</span><span class="hljs-number">.0</span><span class="hljs-string">&quot;) || has(&quot;</span>patch<span class="hljs-number">-8.1</span><span class="hljs-number">.1564</span><span class="hljs-string">&quot;)</span><br><span class="hljs-string">  &quot;</span> Recently vim can merge signcolumn <span class="hljs-keyword">and</span> number column into one<br>  <span class="hljs-built_in">set</span> signcolumn=number<br><span class="hljs-keyword">else</span><br>  <span class="hljs-built_in">set</span> signcolumn=yes<br>endif<br><br><span class="hljs-string">&quot; Use tab for trigger completion with characters ahead and navigate.</span><br>&quot; NOTE: Use command &#x27;:verbose imap &lt;tab&gt;&#x27; to make sure tab is not mapped by<br><span class="hljs-string">&quot; other plugin before putting this into your config.</span><br><span class="hljs-string">inoremap &lt;silent&gt;&lt;expr&gt; &lt;TAB&gt;</span><br><span class="hljs-string">      \ pumvisible() ? &quot;</span>\&lt;C-n&gt;<span class="hljs-string">&quot; :</span><br><span class="hljs-string">      \ &lt;SID&gt;check_back_space() ? &quot;</span>\&lt;TAB&gt;<span class="hljs-string">&quot; :</span><br><span class="hljs-string">      \ coc#refresh()</span><br><span class="hljs-string">inoremap &lt;expr&gt;&lt;S-TAB&gt; pumvisible() ? &quot;</span>\&lt;C-p&gt;<span class="hljs-string">&quot; : &quot;</span>\&lt;C-h&gt;<span class="hljs-string">&quot;</span><br><span class="hljs-string"></span><br><span class="hljs-string">function! s:check_back_space() abort</span><br><span class="hljs-string">  let col = col(&#x27;.&#x27;) - 1</span><br><span class="hljs-string">  return !col || getline(&#x27;.&#x27;)[col - 1]  =~# &#x27;\s&#x27;</span><br><span class="hljs-string">endfunction</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Use &lt;c-space&gt; to trigger completion.<br>if has(&#x27;nvim&#x27;)<br>  inoremap &lt;silent&gt;&lt;expr&gt; &lt;c-space&gt; coc<span class="hljs-meta">#refresh()</span><br><span class="hljs-keyword">else</span><br>  inoremap &lt;silent&gt;&lt;expr&gt; &lt;c-@&gt; coc<span class="hljs-meta">#refresh()</span><br>endif<br><br><span class="hljs-string">&quot; Make &lt;CR&gt; auto-select the first completion item and notify coc.nvim to</span><br><span class="hljs-string">&quot;</span> format on enter, &lt;cr&gt; could be remapped by other vim plugin<br>inoremap &lt;silent&gt;&lt;expr&gt; &lt;cr&gt; pumvisible() ? coc#_select_confirm()<br>                              \: <span class="hljs-string">&quot;\&lt;C-g&gt;u\&lt;CR&gt;\&lt;c-r&gt;=coc#on_enter()\&lt;CR&gt;&quot;</span><br><br><span class="hljs-string">&quot; Use `[g` and `]g` to navigate diagnostics</span><br><span class="hljs-string">&quot;</span> Use `:CocDiagnostics` to get all diagnostics of current buffer in location <span class="hljs-built_in">list</span>.<br>nmap &lt;silent&gt; [g &lt;Plug&gt;(coc-diagnostic-prev)<br>nmap &lt;silent&gt; ]g &lt;Plug&gt;(coc-diagnostic-next)<br><br><span class="hljs-string">&quot; GoTo code navigation.</span><br><span class="hljs-string">nmap &lt;silent&gt; gd &lt;Plug&gt;(coc-definition)</span><br><span class="hljs-string">nmap &lt;silent&gt; gy &lt;Plug&gt;(coc-type-definition)</span><br><span class="hljs-string">nmap &lt;silent&gt; gi &lt;Plug&gt;(coc-implementation)</span><br><span class="hljs-string">nmap &lt;silent&gt; gr &lt;Plug&gt;(coc-references)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Use K to show documentation in preview window.<br>nnoremap &lt;silent&gt; K :call &lt;SID&gt;show_documentation()&lt;CR&gt;<br><br>function! s:show_documentation()<br>  if (index([&#x27;vim&#x27;,&#x27;help&#x27;], &amp;filetype) &gt;= 0)<br>    execute &#x27;h &#x27;.expand(&#x27;&lt;cword&gt;&#x27;)<br>  elseif (coc<span class="hljs-meta">#rpc#ready())</span><br>    call CocActionAsync(&#x27;doHover&#x27;)<br>  <span class="hljs-keyword">else</span><br>    execute &#x27;!&#x27; . &amp;keywordprg . &quot; &quot; . expand(&#x27;&lt;cword&gt;&#x27;)<br>  endif<br>endfunction<br><br><span class="hljs-string">&quot; Highlight the symbol and its references when holding the cursor.</span><br><span class="hljs-string">autocmd CursorHold * silent call CocActionAsync(&#x27;highlight&#x27;)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Symbol renaming.<br>nmap &lt;leader&gt;rn &lt;Plug&gt;(coc-rename)<br><br><span class="hljs-string">&quot; Formatting selected code.</span><br><span class="hljs-string">xmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="hljs-string">nmap &lt;leader&gt;f  &lt;Plug&gt;(coc-format-selected)</span><br><span class="hljs-string"></span><br><span class="hljs-string">augroup mygroup</span><br><span class="hljs-string">  autocmd!</span><br>  &quot; Setup formatexpr specified filetype(s).<br>  autocmd FileType typescript,json setl formatexpr=CocAction(&#x27;formatSelected&#x27;)<br>  <span class="hljs-string">&quot; Update signature help on jump placeholder.</span><br><span class="hljs-string">  autocmd User CocJumpPlaceholder call CocActionAsync(&#x27;showSignatureHelp&#x27;)</span><br><span class="hljs-string">augroup end</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Applying codeAction to the selected region.<br><span class="hljs-string">&quot; Example: `&lt;leader&gt;aap` for current paragraph</span><br><span class="hljs-string">xmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="hljs-string">nmap &lt;leader&gt;a  &lt;Plug&gt;(coc-codeaction-selected)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Remap keys <span class="hljs-keyword">for</span> applying codeAction to the current buffer.<br>nmap &lt;leader&gt;ac  &lt;Plug&gt;(coc-codeaction)<br><span class="hljs-string">&quot; Apply AutoFix to problem on the current line.</span><br><span class="hljs-string">nmap &lt;leader&gt;qf  &lt;Plug&gt;(coc-fix-current)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Run the Code Lens action on the current line.<br>nmap &lt;leader&gt;cl  &lt;Plug&gt;(coc-codelens-action)<br><br><span class="hljs-string">&quot; Map function and class text objects</span><br>&quot; NOTE: Requires &#x27;textDocument.documentSymbol&#x27; support from the language server.<br>xmap <span class="hljs-keyword">if</span> &lt;Plug&gt;(coc-funcobj-i)<br>omap <span class="hljs-keyword">if</span> &lt;Plug&gt;(coc-funcobj-i)<br>xmap af &lt;Plug&gt;(coc-funcobj-a)<br>omap af &lt;Plug&gt;(coc-funcobj-a)<br>xmap ic &lt;Plug&gt;(coc-classobj-i)<br>omap ic &lt;Plug&gt;(coc-classobj-i)<br>xmap ac &lt;Plug&gt;(coc-classobj-a)<br>omap ac &lt;Plug&gt;(coc-classobj-a)<br><br><span class="hljs-string">&quot; Remap &lt;C-f&gt; and &lt;C-b&gt; for scroll float windows/popups.</span><br><span class="hljs-string">if has(&#x27;nvim-0.4.0&#x27;) || has(&#x27;patch-8.2.0750&#x27;)</span><br><span class="hljs-string">  nnoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-f&gt; coc#float#has_scroll() ? coc#float#scroll(1) : &quot;</span>\&lt;C-f&gt;<span class="hljs-string">&quot;</span><br><span class="hljs-string">  nnoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-b&gt; coc#float#has_scroll() ? coc#float#scroll(0) : &quot;</span>\&lt;C-b&gt;<span class="hljs-string">&quot;</span><br><span class="hljs-string">  inoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-f&gt; coc#float#has_scroll() ? &quot;</span>\&lt;c-r&gt;=coc<span class="hljs-meta">#float#scroll(1)\<span class="hljs-meta-string">&lt;cr&gt;&quot; : &quot;\&lt;Right&gt;&quot;</span></span><br>  inoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-b&gt; coc<span class="hljs-meta">#float#has_scroll() ? <span class="hljs-meta-string">&quot;\&lt;c-r&gt;=coc#float#scroll(0)\&lt;cr&gt;&quot;</span> : <span class="hljs-meta-string">&quot;\&lt;Left&gt;&quot;</span></span><br>  vnoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-f&gt; coc<span class="hljs-meta">#float#has_scroll() ? coc#float#scroll(1) : <span class="hljs-meta-string">&quot;\&lt;C-f&gt;&quot;</span></span><br>  vnoremap &lt;silent&gt;&lt;nowait&gt;&lt;expr&gt; &lt;C-b&gt; coc<span class="hljs-meta">#float#has_scroll() ? coc#float#scroll(0) : <span class="hljs-meta-string">&quot;\&lt;C-b&gt;&quot;</span></span><br>endif<br><br><span class="hljs-string">&quot; Use CTRL-S for selections ranges.</span><br>&quot; Requires &#x27;textDocument/selectionRange&#x27; support of language server.<br>nmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)<br>xmap &lt;silent&gt; &lt;C-s&gt; &lt;Plug&gt;(coc-range-select)<br><br><span class="hljs-string">&quot; Add `:Format` command to format current buffer.</span><br><span class="hljs-string">command! -nargs=0 Format :call CocActionAsync(&#x27;format&#x27;)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Add `:Fold` command to fold current buffer.<br>command! -nargs=? Fold :call     CocAction(&#x27;fold&#x27;, &lt;f-args&gt;)<br><br><span class="hljs-string">&quot; Add `:OR` command for organize imports of the current buffer.</span><br><span class="hljs-string">command! -nargs=0 OR   :call     CocActionAsync(&#x27;runCommand&#x27;, &#x27;editor.action.organizeImport&#x27;)</span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;</span> Add (Neo)Vim<span class="hljs-number">&#x27;</span>s native statusline support.<br><span class="hljs-string">&quot; NOTE: Please see `:h coc-status` for integrations with external plugins that</span><br><span class="hljs-string">&quot;</span> provide custom statusline: lightline.vim, vim-airline.<br>set statusline^=%&#123;coc#status()&#125;%&#123;get(b:,&#x27;coc_current_function&#x27;,&#x27;&#x27;)&#125;<br><br><span class="hljs-string">&quot; Mappings for CoCList</span><br><span class="hljs-string">&quot;</span> Show all diagnostics.<br>nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;a  :&lt;C-u&gt;CocList diagnostics&lt;cr&gt;<br><span class="hljs-string">&quot; Manage extensions.</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;e  :&lt;C-u&gt;CocList extensions&lt;cr&gt;</span><br><span class="hljs-string">&quot;</span> Show commands.<br>nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;c  :&lt;C-u&gt;CocList commands&lt;cr&gt;<br><span class="hljs-string">&quot; Find symbol of current document.</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;o  :&lt;C-u&gt;CocList outline&lt;cr&gt;</span><br><span class="hljs-string">&quot;</span> Search workspace symbols.<br>nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;s  :&lt;C-u&gt;CocList -I symbols&lt;cr&gt;<br><span class="hljs-string">&quot; Do default action for next item.</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;j  :&lt;C-u&gt;CocNext&lt;CR&gt;</span><br><span class="hljs-string">&quot;</span> Do <span class="hljs-keyword">default</span> action <span class="hljs-keyword">for</span> previous item.<br>nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;k  :&lt;C-u&gt;CocPrev&lt;CR&gt;<br><span class="hljs-string">&quot; Resume latest coc list.</span><br><span class="hljs-string">nnoremap &lt;silent&gt;&lt;nowait&gt; &lt;space&gt;p  :&lt;C-u&gt;CocListResume&lt;CR&gt;</span><br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/C/">C++</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/NeoVim/">NeoVim</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/31/%E6%AF%8F%E6%97%A5Vim/">
+                        <span class="hidden-mobile">Practical Vim</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -181,6 +181,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/04/24/%E5%B0%8630%E5%A4%A9%E4%B8%ADtxt%E6%96%87%E4%BB%B6%E7%9A%84ascii%E5%AD%97%E4%BD%93%E5%83%8F%E7%B4%A0%E6%95%B0%E6%8D%AE%E8%BD%AC%E4%B8%BAbinary%E6%8F%92%E5%85%A5elf%E6%A0%BC%E5%BC%8F%E7%9A%84kernel%E4%B8%AD/">将30天中txt文件的ascii字体像素数据转为binary插入elf格式的kernel中</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/24/%E5%B0%8630%E5%A4%A9%E4%B8%ADtxt%E6%96%87%E4%BB%B6%E7%9A%84ascii%E5%AD%97%E4%BD%93%E5%83%8F%E7%B4%A0%E6%95%B0%E6%8D%AE%E8%BD%AC%E4%B8%BAbinary%E6%8F%92%E5%85%A5elf%E6%A0%BC%E5%BC%8F%E7%9A%84kernel%E4%B8%AD/">
+          
+          
+            
+          
+          将30天中的txt文件ascii字体像素数据转化为(8bits*16)byte array放入elf文件中
+背景: 目前在基于elephant os上将30天的图形界面加入上来,但是30天的编译链是书作者写的,此方式是用gcc等实现,此处是处理256个ascii字体文件加入到kernel.bin中
+
+方法:通过objcopy将二进制文件制作成.o文件
+作者提供的hankaku.txt字体文件
+将开
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-24 15:42" pubdate>
+              2021-04-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9C%9F%E7%9B%B8%E8%BF%98%E5%8E%9F/">30天自制操作系统,操作系统真相还原</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/05/bochs%E4%B8%8A%E7%9A%84%E4%B8%80%E6%AC%A1%E8%B0%83%E8%AF%95/">bochs上的一次调试</a>
       </h1>
 
@@ -662,55 +715,6 @@ Meta键常被帮顶到Alt键,通常可以使用Esc键完成一个Meta按键序�
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2021-01-11 19:00" pubdate>
-              2021-01-11
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/c-17/">c++17</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/11/tuple-variant-any-string-view-Singleton%E4%BD%BF%E7%94%A8/">tuple_variant_any_string_view_Singleton使用</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/11/tuple-variant-any-string-view-Singleton%E4%BD%BF%E7%94%A8/">
-          
-          
-            
-          
-          Virutal 析构函数99%的类的析构函数都要声明成virtual,因为要继承给子类,然后子类能正确释放自己的资源
-1234567891011121314151617181920212223242526272829303132333435363738class Base&#123;public:	Base() &#123;			std::cout &lt;&lt; &quot;Base ConS
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-11 11:48" pubdate>
               2021-01-11
             </time>
           </div>

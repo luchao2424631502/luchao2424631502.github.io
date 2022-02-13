@@ -181,6 +181,75 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">费用流 类Dinic算法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/11/03/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20%E7%B1%BBDinic%E7%AE%97%E6%B3%95/">
+          
+          
+            
+          
+          
+
+
+费用流类Dinic算法
+因为费用有负边权所以用spfa，求单位费用之和最小的路径
+
+将bfs分层标记dep数组 换成 spfa分层标记dist[](最小费用和)
+
+dfs寻找多条增广路时, 开vis标记筛掉返回的边 ,且增广路顺着spfa标记的最小费用和路径走, 
+
+dfs维护流和费用
+
+
+
+Luogu P4016
+注意:
+环形,
+最终n个仓库存货量相同,
+只能在相邻的仓库之间搬运
+
+建图
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-11-03 15:53" pubdate>
+              2019-11-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/">费用流</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/11/01/csdn/%E8%B4%B9%E7%94%A8%E6%B5%81%20MCMF%E7%AE%97%E6%B3%95/">费用流 MCMF算法</a>
       </h1>
 
@@ -702,61 +771,6 @@ DP思路
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E7%95%99%E8%A8%80%E6%9D%BF/">留言板</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">EK + Dinic 最大流算法理解</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">
-          
-          
-            
-          
-          
-
-网络流常见问题 最大流:我对残留网的理解：
-原本网络中不存在流,为了求出最大流.人为的给出一条任意大小流从 源点出发经过一些边到达汇点.且流的大小最后被限制成 经过的边中 容量最小的边,但是流具有守恒性,不可能凭空产生？？？,所以又要从汇点流回去,所以形成了残留网
-
-最大流算法的图解.以及残留网的图,
-Ford-Fulkerson (方法)
-是一类计算网络流的最大流的贪心算法。 之所以称之为“
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-10-06 00:09" pubdate>
-              2019-10-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Edmonds-Karp%E7%AE%97%E6%B3%95-Dinic%E7%AE%97%E6%B3%95/">Edmonds-Karp算法 Dinic算法</a>
             
           </div>
         

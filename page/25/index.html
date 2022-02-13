@@ -181,6 +181,54 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/19/csdn/ZOJ_3261_%E9%80%86%E5%B9%B6%E6%9F%A5%E9%9B%86/">ZOJ_3261_逆并查集</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/19/csdn/ZOJ_3261_%E9%80%86%E5%B9%B6%E6%9F%A5%E9%9B%86/">
+          
+          
+            
+          
+          
+
+ZOJ 3261 逆并查集
+
+思路简单代码繁琐一直wa调了一天，真的菜
+因为并查集没有摧毁边的操作,那我们不妨先合并所有边中 不会被摧毁的边,那么就需要我们先保存所有的边,(这里太繁琐容易出错)
+开一个数组记录每个点的值,因为要找值最大 或者 值相同但点最小的点,在合并的时候根据这个来合并,值小的指向值大的,(值相同时,大点指向小点)
+这里用了一个技巧就是 map&lt;pair&lt;int
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-19 10:30" pubdate>
+              2019-05-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/19/csdn/2013_%E6%A0%BC%E5%AD%90%E5%88%B7%E6%B2%B9%E6%BC%86_(dp)/">2013_格子刷油漆_(dp)</a>
       </h1>
 
@@ -595,57 +643,6 @@ POj 2492 关系异或加权并查集
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2019-05-16 21:30" pubdate>
-              2019-05-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/16/csdn/POJ%201182_%E9%A3%9F%E7%89%A9%E9%93%BE(%E4%B8%89%E5%80%8D%E5%85%B3%E7%B3%BB)/">POJ 1182_食物链(三倍关系)</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/16/csdn/POJ%201182_%E9%A3%9F%E7%89%A9%E9%93%BE(%E4%B8%89%E5%80%8D%E5%85%B3%E7%B3%BB)/">
-          
-          
-            
-          
-          
-
-POJ 1182 食物链
-
-三维关系并查集
-数据大了不能cin
- 为什么是三维? 其实相当于映射关系，且维护在一个数组中
-首先肯定想着是并查集合并一个动物类A B C,但是怎么表示猎物和天敌的关系呢？
-我想着用另一个数组表示捕猎的关系a吃b-&gt;eat[a]=b，但是发现不知道如何维护，
-这里我们开2个数组来维护 捕猎 和 天敌的关系,仍然用并查集来维护，
-为了方便，我们将它压缩到一个数组
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-16 21:28" pubdate>
               2019-05-16
             </time>
           </div>

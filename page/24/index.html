@@ -181,6 +181,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2019/05/23/csdn/HDU_1495(BFS)/">HDU_1495(BFS)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2019/05/23/csdn/HDU_1495(BFS)/">
+          
+          
+            
+          
+          
+
+数论做法HDU 1495
+BFS:
+剪枝:奇数可乐肯定不能被平分
+枚举6种操作a-&gt;c a-&gt;b b-&gt;a b-&gt;c c-&gt;a c-&gt;b
+将每个杯子有多少可乐作为状态保存下来
+在a == b &amp;&amp; c == 0 或者a == c &amp;&amp; b == 0 或者 b == c &amp;&amp; a == 0 时则平分成功,
+或者我
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2019-05-23 08:53" pubdate>
+              2019-05-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2019/05/22/csdn/HDU_1495(%E6%95%B0%E8%AE%BA)/">HDU_1495(数论)</a>
       </h1>
 
@@ -627,54 +676,6 @@ dfs()枚举所有的点,我看长方形瓷砖是2格的就莫名不知道该怎�
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
             <time datetime="2019-05-19 12:19" pubdate>
-              2019-05-19
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/05/19/csdn/ZOJ_3261_%E9%80%86%E5%B9%B6%E6%9F%A5%E9%9B%86/">ZOJ_3261_逆并查集</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/05/19/csdn/ZOJ_3261_%E9%80%86%E5%B9%B6%E6%9F%A5%E9%9B%86/">
-          
-          
-            
-          
-          
-
-ZOJ 3261 逆并查集
-
-思路简单代码繁琐一直wa调了一天，真的菜
-因为并查集没有摧毁边的操作,那我们不妨先合并所有边中 不会被摧毁的边,那么就需要我们先保存所有的边,(这里太繁琐容易出错)
-开一个数组记录每个点的值,因为要找值最大 或者 值相同但点最小的点,在合并的时候根据这个来合并,值小的指向值大的,(值相同时,大点指向小点)
-这里用了一个技巧就是 map&lt;pair&lt;int
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-05-19 10:30" pubdate>
               2019-05-19
             </time>
           </div>

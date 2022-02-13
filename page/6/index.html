@@ -181,6 +181,51 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/19/csdn/Orange%E2%80%98s!loader-%EF%BC%9Ekernel-%EF%BC%9E%E4%B8%AD%E6%96%AD(Minix)-%EF%BC%9E%E8%BF%9B%E7%A8%8B(%E5%A4%9A)/">
+          
+          
+            
+          
+          
+
+从kernel.bin中根据elf文件格式执行内核加载kernel.bin步骤和加载loader.bin步骤一样,将kernel.bin加载到内存后,
+因为kernel的编译参数-Ttext 0x30400指定了程序入口(可以在/boot/include/load.inc中修改,并且修改kernel编译参数-Ttext就能加载到自己指定的内存地址处).
+因为**kernel被编译成elf格式,
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-19 11:12" pubdate>
+              2020-07-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%B7%AF/">编写操作系统之路</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/07/14/csdn/Orange%E2%80%98s!disp_str()%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%B0%83%E7%94%A8%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0/">Orange‘s:disp_str()字符串函数第二次调用乱码原因</a>
       </h1>
 
@@ -643,106 +688,6 @@ LDT的数量依据任务的多少/
             <i class="iconfont icon-date"></i>
             <time datetime="2020-05-07 17:50" pubdate>
               2020-05-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/X86%E5%AE%9E%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">X86实模式和保护模式</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/05/04/csdn/%E7%AC%AC11%E7%AB%A0!%E8%BF%9B%E5%85%A5%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">第11章:进入保护模式</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/05/04/csdn/%E7%AC%AC11%E7%AB%A0!%E8%BF%9B%E5%85%A5%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F/">
-          
-          
-            
-          
-          
-
-描述符格式:
-
-
-高32位
-
-
-
-
-
-
-
-
-
-
-
-
-
-31                  24
-23
-22
-21
-20
-1916
-15
-1413
-12
-11 8
-7    0
-
-
-段基地址 24-31(8bit)
-G
-D/B
-L
-AVL
-段界限(19-16 = 4bit = 1个16位)
-p
-DPL
-S
-TYPE
-段基地址 23-16(8bit)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-低32位:
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-05-04 08:21" pubdate>
-              2020-05-04
             </time>
           </div>
         

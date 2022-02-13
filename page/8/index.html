@@ -181,6 +181,62 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2020/02/28/csdn/Linux%E4%B8%8B%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95/">Linux下基本的线程同步方法</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/02/28/csdn/Linux%E4%B8%8B%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95/">
+          
+          
+            
+          
+          
+
+线程同步问题引入:
+２个线程同时修改一个变量x = 1时,如果不进行同步会怎么样?
+假设进行增加操作,增量操作通常分解为３步
+
+
+从内存将变量读入寄存器(cpu)
+在寄存器中对变量做增量操作
+写回内存
+
+
+那么在线程A对x进行增量操作时,如果不加锁,那么最终结果取决与线程B开始增量操作时获取的值,
+
+比如:
+线程A中cpu对寄存器中变量做完增量操作还没有写回内存,此时线程B获取到的值还是1,最
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-02-28 16:30" pubdate>
+              2020-02-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/02/08/csdn/APUE%E4%B9%A0%E9%A2%988.7/">APUE习题8.7</a>
       </h1>
 
@@ -661,57 +717,6 @@ $sum=(a[1]+2
             <i class="iconfont icon-category"></i>
             
               <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">c++流和c流</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2019/12/14/csdn/c++%E6%B5%81%E5%92%8Cc%E6%B5%81/">
-          
-          
-            
-          
-          
-
-c++ 流 和 c 流
-标准的c++流默认与其相对应的c流同步:( 在每次输入/输出后同步 )
-
-同步的c++流 无缓冲,每次c++流上的$I/O$操作都立即应用到对应 C 流的缓冲区。这使得能自由地混合 C++ 与  C $I/O$ 。 
-
- 若关闭同步，则允许 C++ 标准流独立地缓冲其 I/O ，可认为这在某些情况下更快。 
-
-
-12345678910#include &lt;iostr
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2019-12-14 22:25" pubdate>
-              2019-12-14
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/C-primer%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">C++primer读书笔记</a>
             
           </div>
         
