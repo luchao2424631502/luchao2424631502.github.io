@@ -1,0 +1,12 @@
+- name: Fluid Blog
+  link: https://hexo.fluid-dev.com/
+  avatar: /img/favicon.png
+  descr: 主题博客
+- name: Fluid Docs
+  link: https://hexo.fluid-dev.com/docs/
+  avatar: /img/favicon.png
+  descr: 主题使用指南
+- name: Fluid Repo
+  link: https://github.com/fluid-dev/hexo-theme-fluid
+  avatar: /img/favicon.png
+  descr: 主题 GitHub 仓库

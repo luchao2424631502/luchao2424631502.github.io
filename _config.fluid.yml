@@ -1,0 +1,63 @@
+favicon: /img/post1.png
+apple_touch_icon: /img/main.png
+
+navbar:
+  blog_title: "llc'blog"
+  menu:
+    - { key: home, link: "/", icon: "iconfont icon-home-fill" }
+    - { key: archive, link: "/archives/", icon: "iconfont icon-archive-fill" }
+    - { key: category, link: "/categories/", icon: "iconfont icon-category-fill" }
+    - { key: tag, link: "/tags/", icon: "iconfont icon-tags-fill" }
+    - { key: about, link: "/about/", icon: "iconfont icon-user-fill" }
+
+search:
+  enable: true
+  path: /local-search.xml
+  generate_path: /local-search.xml
+  field: post
+  content: true
+
+banner:
+  random_img: false
+  parallax: true
+
+index:
+  banner_img: /img/main.png
+  banner_img_height: 100
+  banner_mask_alpha: 0.2
+  slogan:
+    enable: true
+    text: 打字机
+  auto_excerpt:
+    enable: true
+
+post:
+  banner_img: /img/post1.png
+  banner_img_height: 70
+  banner_mask_alpha: 0.3
+
+archive:
+  banner_img: /img/main.png
+
+category:
+  banner_img: /img/main.png
+
+tag:
+  banner_img: /img/main.png
+
+about:
+  enable: true
+  banner_img: /img/main.png
+  avatar: /img/avatar.png
+  name: luchao
+  intro: linux/windows/c++
+  icons:
+    - { class: "iconfont icon-github-fill", link: "https://github.com/luchao2424631502", tip: "GitHub" }
+
+links:
+  enable: true
+  banner_img: /img/default.png
+  items:
+    - { title: "Fluid Blog", intro: "主题博客", link: "https://hexo.fluid-dev.com/", avatar: "/img/favicon.png" }
+    - { title: "Fluid Docs", intro: "主题使用指南", link: "https://hexo.fluid-dev.com/docs/", avatar: "/img/favicon.png" }
+    - { title: "Fluid Repo", intro: "主题 GitHub 仓库", link: "https://github.com/fluid-dev/hexo-theme-fluid", avatar: "/img/favicon.png" }
