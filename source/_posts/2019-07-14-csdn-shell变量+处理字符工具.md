@@ -3,7 +3,8 @@ title: shell变量+处理字符工具
 date: '2019-07-14 16:44:00'
 permalink: 2019/07/14/csdn/shell变量+处理字符工具/
 categories:
-- Linux学习
+- 工具与效率
+- Shell与命令行
 tags:
 - awk cut sed
 ---

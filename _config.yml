@@ -1,8 +1,8 @@
-title: llc'blog
-subtitle: 打字机
-description: linux/windows/c++
-keywords:
-author: John Doe
+title: luchao's blog
+subtitle: 系统、网络与 C++，继续记录
+description: luchao 的技术博客，记录 C/C++、Linux、操作系统、计算机网络与工程实践
+keywords: C++, Linux, 操作系统, 计算机网络, 系统编程, 算法
+author: luchao
 language: zh-CN
 timezone: Asia/Shanghai
 

@@ -3,7 +3,8 @@ title: POJ_2240_(bellmanford+floyd)/hash
 date: '2019-07-08 21:19:00'
 permalink: 2019/07/08/csdn/POJ_2240_(bellmanford+floyd)!hash/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 [POJ 2240](http://poj.org/problem?id=2240)

@@ -3,7 +3,8 @@ title: poj1456_Supermarket(最小堆)
 date: '2019-04-21 10:20:00'
 permalink: 2019/04/21/csdn/poj1456_Supermarket(最小堆)/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - 堆
 ---

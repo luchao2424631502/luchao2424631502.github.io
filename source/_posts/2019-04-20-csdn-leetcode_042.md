@@ -3,7 +3,8 @@ title: leetcode_042
 date: '2019-04-20 19:32:00'
 permalink: 2019/04/20/csdn/leetcode_042/
 categories:
-- 算法
+- 算法与数据结构
+- 基础算法
 ---
 
 [题目](https://leetcode-cn.com/problems/trapping-rain-water/comments/)  

@@ -3,7 +3,8 @@ title: poj2442Sequence(堆)
 date: '2019-04-21 15:52:00'
 permalink: 2019/04/21/csdn/poj2442Sequence(堆)/
 categories:
-- 算法
+- 算法与数据结构
+- 基础算法
 tags:
 - 堆
 ---

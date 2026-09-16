@@ -3,7 +3,8 @@ title: const限定符解析
 date: '2019-07-17 20:35:00'
 permalink: 2019/07/17/csdn/const限定符解析/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - const
 ---

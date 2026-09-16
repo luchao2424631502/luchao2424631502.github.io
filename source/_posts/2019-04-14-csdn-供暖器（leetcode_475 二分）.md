@@ -3,7 +3,8 @@ title: 供暖器（leetcode_475 二分）
 date: '2019-04-14 19:30:00'
 permalink: 2019/04/14/csdn/供暖器（leetcode_475 二分）/
 categories:
-- 算法
+- 算法与数据结构
+- 基础算法
 tags:
 - 二分
 ---

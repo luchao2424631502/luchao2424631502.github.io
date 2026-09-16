@@ -3,7 +3,8 @@ title: tuple_variant_any_string_view_Singleton使用
 date: '2021-01-11 11:48:00'
 permalink: 2021/01/11/tuple-variant-any-string-view-Singleton使用/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - c++17
 ---

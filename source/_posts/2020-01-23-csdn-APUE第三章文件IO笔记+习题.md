@@ -3,7 +3,8 @@ title: APUE第三章文件IO笔记+习题
 date: '2020-01-23 17:22:00'
 permalink: 2020/01/23/csdn/APUE第三章文件IO笔记+习题/
 categories:
-- 操作系统
+- 系统与底层
+- Unix系统编程
 ---
 
 # 3 文件IO

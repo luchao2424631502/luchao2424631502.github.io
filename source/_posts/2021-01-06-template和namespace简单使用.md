@@ -3,7 +3,8 @@ title: template和namespace简单使用
 date: '2021-01-06 17:18:00'
 permalink: 2021/01/06/template和namespace简单使用/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - c++
 ---

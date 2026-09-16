@@ -3,7 +3,8 @@ title: 最长上升子序列（dp leetcode_300）
 date: '2019-04-15 22:57:00'
 permalink: 2019/04/15/csdn/最长上升子序列（dp leetcode_300）/
 categories:
-- 算法
+- 算法与数据结构
+- 搜索与动态规划
 tags:
 - dp
 ---

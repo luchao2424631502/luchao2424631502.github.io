@@ -3,7 +3,8 @@ title: 简单shell脚本重启mysql服务
 date: '2019-10-27 13:41:00'
 permalink: 2019/10/27/csdn/简单shell脚本重启mysql服务/
 categories:
-- Linux学习
+- 工具与效率
+- Shell与命令行
 ---
 
 - shell脚本定时检测mariadb状态,实现崩溃后重启服务

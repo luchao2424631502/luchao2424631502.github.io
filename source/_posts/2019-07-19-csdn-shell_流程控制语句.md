@@ -3,7 +3,8 @@ title: shell_流程控制语句
 date: '2019-07-19 17:21:00'
 permalink: 2019/07/19/csdn/shell_流程控制语句/
 categories:
-- Linux学习
+- 工具与效率
+- Shell与命令行
 tags:
 - shell
 ---

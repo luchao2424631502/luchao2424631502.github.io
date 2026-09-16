@@ -3,7 +3,8 @@ title: 使用mutex和条件变量对比
 date: '2020-03-06 12:02:00'
 permalink: 2020/03/06/csdn/使用mutex和条件变量对比/
 categories:
-- Linux学习
+- 系统与底层
+- Unix系统编程
 tags:
 - pthread
 ---

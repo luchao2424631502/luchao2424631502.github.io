@@ -2,6 +2,9 @@
 title: Urllib库的部分使用
 date: '2019-08-03 22:38:00'
 permalink: 2019/08/03/csdn/Urllib库的部分使用/
+categories:
+- 编程语言
+- Python
 ---
 
 ### `Urllib`:`HTTP`请求库

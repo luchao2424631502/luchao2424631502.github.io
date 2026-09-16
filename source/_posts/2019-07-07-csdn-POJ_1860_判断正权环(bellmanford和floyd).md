@@ -3,7 +3,8 @@ title: POJ_1860_判断正权环(bellmanford和floyd)
 date: '2019-07-07 21:01:00'
 permalink: 2019/07/07/csdn/POJ_1860_判断正权环(bellmanford和floyd)/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 ### 5

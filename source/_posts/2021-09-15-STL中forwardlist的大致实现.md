@@ -3,7 +3,8 @@ title: STL中forwardlist的大致实现
 date: '2021-09-15 18:13:00'
 permalink: 2021/09/15/STL中forwardlist的大致实现/
 categories:
-- C++
+- 编程语言
+- C与C++
 tags:
 - C++ STL
 ---

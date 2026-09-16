@@ -3,7 +3,8 @@ title: DNS本地服务器配置+samba配置
 date: '2019-07-26 21:21:00'
 permalink: 2019/07/26/csdn/DNS本地服务器配置+samba配置/
 categories:
-- Linux学习
+- 网络与服务
+- 计算机网络
 tags:
 - DNS学习
 ---

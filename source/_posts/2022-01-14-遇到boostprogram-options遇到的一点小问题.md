@@ -3,7 +3,8 @@ title: 使用boost/program_options遇到的一点小问题
 date: '2022-01-14 07:32:00'
 permalink: 2022/01/14/遇到boostprogram-options遇到的一点小问题/
 categories:
-- C++
+- 编程语言
+- C与C++
 tags:
 - Boost
 ---

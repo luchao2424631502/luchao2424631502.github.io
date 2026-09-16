@@ -3,7 +3,8 @@ title: Tarjan 算法详解 + POJ 1236 缩点
 date: '2019-08-13 20:45:00'
 permalink: 2019/08/13/csdn/Tarjan 算法详解 + POJ 1236 缩点/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - Tarjan
 ---

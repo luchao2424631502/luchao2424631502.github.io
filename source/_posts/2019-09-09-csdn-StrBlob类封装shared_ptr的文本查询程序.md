@@ -3,7 +3,8 @@ title: StrBlob类封装shared_ptr的文本查询程序
 date: '2019-09-09 16:28:00'
 permalink: 2019/09/09/csdn/StrBlob类封装shared_ptr的文本查询程序/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 ---
 
 ## 核心: 类之间通过智能指针来共享数据

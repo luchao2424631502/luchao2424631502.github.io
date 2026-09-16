@@ -3,7 +3,8 @@ title: Orange‘s chapter10缺少的elf.h文件定义
 date: '2020-09-15 20:28:00'
 permalink: 2020/09/15/csdn/Orange‘s chapter10缺少的elf.h文件定义/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 ---
 
 #### Orange’s操作系统源码chapter 10,缺少的elf.h文件以及get\_kernel\_map()函数

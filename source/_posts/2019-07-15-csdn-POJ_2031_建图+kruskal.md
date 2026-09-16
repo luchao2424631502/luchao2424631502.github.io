@@ -3,7 +3,8 @@ title: POJ_2031_建图+kruskal
 date: '2019-07-15 17:04:00'
 permalink: 2019/07/15/csdn/POJ_2031_建图+kruskal/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - kruskal
 ---

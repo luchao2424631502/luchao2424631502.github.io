@@ -3,7 +3,8 @@ title: Tarjan求割点原理 + UVA 315
 date: '2019-08-14 13:29:00'
 permalink: 2019/08/14/csdn/Tarjan求割点原理 + UVA 315/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 割点板子
 ---

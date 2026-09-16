@@ -3,7 +3,8 @@ title: 爬楼梯（leetcode_070 dp）
 date: '2019-04-15 23:00:00'
 permalink: 2019/04/15/csdn/爬楼梯（leetcode_070 dp）/
 categories:
-- 算法
+- 算法与数据结构
+- 搜索与动态规划
 tags:
 - dp
 ---

@@ -3,7 +3,8 @@ title: string简化版allocator分配内存
 date: '2019-09-15 13:55:00'
 permalink: 2019/09/15/csdn/string简化版allocator分配内存/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 ---
 
 ## 通过allocator类来分配内存实现简化版string

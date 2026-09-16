@@ -3,7 +3,8 @@ title: recv函数MSG_PEEK|MSG_DONTWAIT|MSG_OOB选项
 date: '2020-09-05 16:10:00'
 permalink: 2020/09/05/csdn/recv函数MSG_PEEK!MSG_DONTWAIT!MSG_OOB选项/
 categories:
-- Linux学习
+- 网络与服务
+- 网络编程
 ---
 
 #### send recv函数

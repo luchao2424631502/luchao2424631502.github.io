@@ -3,7 +3,8 @@ title: BZOJ 1123 无向图割点_Tarjan
 date: '2019-08-14 17:58:00'
 permalink: 2019/08/14/csdn/BZOJ 1123 无向图割点_Tarjan/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 割点
 ---

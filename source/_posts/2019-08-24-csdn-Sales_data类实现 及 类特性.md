@@ -3,7 +3,8 @@ title: Sales_data类实现 及 类特性
 date: '2019-08-24 22:16:00'
 permalink: 2019/08/24/csdn/Sales_data类实现 及 类特性/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - 类
 ---

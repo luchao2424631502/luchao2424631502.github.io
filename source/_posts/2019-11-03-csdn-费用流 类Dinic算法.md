@@ -3,7 +3,8 @@ title: 费用流 类Dinic算法
 date: '2019-11-03 15:53:00'
 permalink: 2019/11/03/csdn/费用流 类Dinic算法/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 费用流
 ---

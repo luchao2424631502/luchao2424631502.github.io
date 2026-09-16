@@ -3,7 +3,8 @@ title: Debian下cpupower设置记录
 date: '2020-03-17 10:36:00'
 permalink: 2020/03/17/csdn/Debian下cpupower设置记录/
 categories:
-- Linux学习
+- 系统与底层
+- Linux基础
 ---
 
 - `Linux`内核调频知识 [链接](https://wiki.archlinux.org/index.php/CPU_frequency_scaling_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#cpupower)

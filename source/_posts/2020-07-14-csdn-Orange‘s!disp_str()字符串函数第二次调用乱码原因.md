@@ -3,7 +3,8 @@ title: Orange‘s:disp_str()字符串函数第二次调用乱码原因
 date: '2020-07-14 23:08:00'
 permalink: 2020/07/14/csdn/Orange‘s!disp_str()字符串函数第二次调用乱码原因/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 tags:
 - 于渊    操作系统  Orange S
 ---

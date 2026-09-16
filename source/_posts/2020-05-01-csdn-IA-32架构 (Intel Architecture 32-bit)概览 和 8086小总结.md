@@ -3,7 +3,8 @@ title: IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结
 date: '2020-05-01 17:13:00'
 permalink: 2020/05/01/csdn/IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结/
 categories:
-- X86实模式和保护模式
+- 系统与底层
+- x86与汇编
 ---
 
 ### IA-32架构 (Intel Architecture 32-bit)概览 和 8086小总结

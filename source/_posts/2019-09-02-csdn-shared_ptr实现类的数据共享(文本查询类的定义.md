@@ -3,7 +3,8 @@ title: shared_ptr实现类的数据共享(文本查询类的定义
 date: '2019-09-02 19:58:00'
 permalink: 2019/09/02/csdn/shared_ptr实现类的数据共享(文本查询类的定义/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 ---
 
 ### 面对过程

@@ -3,7 +3,8 @@ title: Linux下基本的线程同步方法
 date: '2020-02-28 16:30:00'
 permalink: 2020/02/28/csdn/Linux下基本的线程同步方法/
 categories:
-- Linux学习
+- 系统与底层
+- Unix系统编程
 ---
 
 ### 线程同步

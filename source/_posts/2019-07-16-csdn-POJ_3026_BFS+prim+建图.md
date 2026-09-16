@@ -3,7 +3,8 @@ title: POJ_3026_BFS+prim+建图
 date: '2019-07-16 18:06:00'
 permalink: 2019/07/16/csdn/POJ_3026_BFS+prim+建图/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - BFS+prim
 ---

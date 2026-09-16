@@ -3,7 +3,8 @@ title: 带有\n的printf被优化成puts
 date: '2020-09-14 10:21:00'
 permalink: 2020/09/14/csdn/带有!n的printf被优化成puts/
 categories:
-- 编译链接
+- 编程语言
+- 编译与链接
 ---
 
 #### 带有\n的printf被优化成puts

@@ -3,7 +3,8 @@ title: SPOJ HIGH Highways
 date: '2019-08-12 18:07:00'
 permalink: 2019/08/12/csdn/SPOJ HIGH Highways/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 [SPOJ HIGH Highways](https://www.spoj.com/problems/HIGH/en/)

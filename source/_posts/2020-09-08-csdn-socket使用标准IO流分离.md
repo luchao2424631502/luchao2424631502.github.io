@@ -3,7 +3,8 @@ title: socket使用标准IO流分离
 date: '2020-09-08 15:45:00'
 permalink: 2020/09/08/csdn/socket使用标准IO流分离/
 categories:
-- 计算机网络
+- 网络与服务
+- 网络编程
 ---
 
 #### fd和标准IO相互转换

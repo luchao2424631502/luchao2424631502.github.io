@@ -3,7 +3,8 @@ title: EK + Dinic 最大流算法理解
 date: '2019-10-06 00:09:00'
 permalink: 2019/10/06/csdn/EK + Dinic 最大流算法理解/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - Edmonds-Karp算法 Dinic算法
 ---

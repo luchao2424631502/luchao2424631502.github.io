@@ -2,7 +2,7 @@ favicon: /img/post1.png
 apple_touch_icon: /img/main.png
 
 navbar:
-  blog_title: "llc'blog"
+  blog_title: "luchao's blog"
   menu:
     - { key: home, link: "/", icon: "iconfont icon-home-fill" }
     - { key: archive, link: "/archives/", icon: "iconfont icon-archive-fill" }
@@ -27,7 +27,7 @@ index:
   banner_mask_alpha: 0.2
   slogan:
     enable: true
-    text: 打字机
+    text: 记录底层技术，也记录重新出发
   auto_excerpt:
     enable: true
 
@@ -50,7 +50,7 @@ about:
   banner_img: /img/main.png
   avatar: /img/avatar.png
   name: luchao
-  intro: linux/windows/c++
+  intro: C++ / Linux / 系统与网络
   icons:
     - { class: "iconfont icon-github-fill", link: "https://github.com/luchao2424631502", tip: "GitHub" }
 

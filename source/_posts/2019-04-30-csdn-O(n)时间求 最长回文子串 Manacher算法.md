@@ -3,7 +3,8 @@ title: O(n)时间求 最长回文子串 Manacher算法
 date: '2019-04-30 17:06:00'
 permalink: 2019/04/30/csdn/O(n)时间求 最长回文子串 Manacher算法/
 categories:
-- 算法
+- 算法与数据结构
+- 字符串算法
 tags:
 - 回文子串
 ---

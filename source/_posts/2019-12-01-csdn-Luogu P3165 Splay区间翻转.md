@@ -3,7 +3,8 @@ title: Luogu P3165 Splay区间翻转
 date: '2019-12-01 20:48:00'
 permalink: 2019/12/01/csdn/Luogu P3165 Splay区间翻转/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - 区间翻转
 ---

@@ -3,7 +3,8 @@ title: 基于Thinkphp开发的博客 (第一次开发,mark一下
 date: '2019-12-11 00:30:00'
 permalink: 2019/12/11/csdn/基于Thinkphp开发的博客 (第一次开发,mark一下/
 categories:
-- php
+- Web开发
+- PHP与后端
 tags:
 - blog
 ---

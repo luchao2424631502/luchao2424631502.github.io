@@ -3,7 +3,8 @@ title: 动态内存管理类StrVec的实现
 date: '2019-09-14 18:32:00'
 permalink: 2019/09/14/csdn/动态内存管理类StrVec的实现/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 ---
 
 ### 实现一个动态内存管理类

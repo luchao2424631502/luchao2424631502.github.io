@@ -3,7 +3,8 @@ title: Dinic算法 (优化)
 date: '2019-11-18 20:11:00'
 permalink: 2019/11/18/csdn/Dinic算法 (优化)/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 最大流 最小割
 ---

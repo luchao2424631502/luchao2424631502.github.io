@@ -3,7 +3,8 @@ title: epoll入门
 date: '2020-09-09 20:14:00'
 permalink: 2020/09/09/csdn/epoll入门/
 categories:
-- Linux学习
+- 网络与服务
+- 网络编程
 ---
 
 #### epoll

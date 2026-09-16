@@ -3,7 +3,8 @@ title: UVA 10462 kruskal处理次小生成树中重边问题
 date: '2019-08-11 09:32:00'
 permalink: 2019/08/11/csdn/UVA 10462 kruskal处理次小生成树中重边问题/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 次小生成树重边问题
 ---

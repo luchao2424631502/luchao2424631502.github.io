@@ -3,7 +3,8 @@ title: POJ_1251_kruskal
 date: '2019-07-15 15:11:00'
 permalink: 2019/07/15/csdn/POJ_1251_kruskal/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - kruskal
 ---

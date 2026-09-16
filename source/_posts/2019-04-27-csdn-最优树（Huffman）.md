@@ -3,7 +3,8 @@ title: 最优树（Huffman）
 date: '2019-04-27 20:58:00'
 permalink: 2019/04/27/csdn/最优树（Huffman）/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - 最优树
 ---

@@ -3,7 +3,8 @@ title: leetcode 003
 date: '2019-04-14 19:20:00'
 permalink: 2019/04/14/csdn/leetcode 003/
 categories:
-- 算法
+- 算法与数据结构
+- 基础算法
 tags:
 - 字符
 ---

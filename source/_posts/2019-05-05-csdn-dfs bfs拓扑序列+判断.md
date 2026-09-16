@@ -3,7 +3,8 @@ title: dfs bfs拓扑序列+判断
 date: '2019-05-05 15:39:00'
 permalink: 2019/05/05/csdn/dfs bfs拓扑序列+判断/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 拓扑序列
 ---

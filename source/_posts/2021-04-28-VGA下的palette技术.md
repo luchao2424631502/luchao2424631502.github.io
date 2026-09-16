@@ -3,7 +3,8 @@ title: VGA下的palette技术
 date: '2021-04-28 00:15:00'
 permalink: 2021/04/28/VGA下的palette技术/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 tags:
 - vga
 ---

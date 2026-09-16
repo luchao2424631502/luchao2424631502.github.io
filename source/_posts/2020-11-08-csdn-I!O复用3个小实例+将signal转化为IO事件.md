@@ -3,7 +3,8 @@ title: I/O复用3个小实例+将signal转化为IO事件
 date: '2020-11-08 21:59:00'
 permalink: 2020/11/08/csdn/I!O复用3个小实例+将signal转化为IO事件/
 categories:
-- 计算机网络
+- 网络与服务
+- 网络编程
 tags:
 - socket
 ---

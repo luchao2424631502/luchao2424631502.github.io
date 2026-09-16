@@ -3,7 +3,8 @@ title: Orange‘s:FAT12认识和Boot引导
 date: '2020-07-12 11:02:00'
 permalink: 2020/07/12/csdn/Orange‘s!FAT12认识和Boot引导/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 tags:
 - 于渊    操作系统  Orange S
 ---

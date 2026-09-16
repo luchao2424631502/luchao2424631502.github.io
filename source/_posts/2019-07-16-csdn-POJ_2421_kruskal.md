@@ -3,7 +3,8 @@ title: POJ_2421_kruskal
 date: '2019-07-16 00:52:00'
 permalink: 2019/07/16/csdn/POJ_2421_kruskal/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 [POJ 2421](http://poj.org/problem?id=2421)

@@ -3,7 +3,8 @@ title: Orange‘s:保护模式小总结
 date: '2020-07-10 18:21:00'
 permalink: 2020/07/10/csdn/Orange‘s!保护模式小总结/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 ---
 
 Orange’s的中断方式我看了看和linux0.1x是一样的,时钟中断实验:

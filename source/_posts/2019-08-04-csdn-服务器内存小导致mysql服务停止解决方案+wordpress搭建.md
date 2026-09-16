@@ -3,7 +3,8 @@ title: 服务器内存小导致mysql服务停止解决方案+wordpress搭建
 date: '2019-08-04 00:03:00'
 permalink: 2019/08/04/csdn/服务器内存小导致mysql服务停止解决方案+wordpress搭建/
 categories:
-- Linux学习
+- 网络与服务
+- 数据库
 tags:
 - mariadb performance_schema
 ---

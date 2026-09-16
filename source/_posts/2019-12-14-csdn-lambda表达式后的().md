@@ -3,7 +3,8 @@ title: lambda表达式后的()
 date: '2019-12-14 19:02:00'
 permalink: 2019/12/14/csdn/lambda表达式后的()/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - lambda
 ---

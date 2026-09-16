@@ -2,6 +2,9 @@
 title: Matlab_绘图1
 date: '2019-06-09 20:47:00'
 permalink: 2019/06/09/csdn/Matlab_绘图1/
+categories:
+- 编程语言
+- MATLAB
 ---
 
 `plot(x,y(x));`  

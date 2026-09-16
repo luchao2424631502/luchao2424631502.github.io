@@ -3,7 +3,8 @@ title: shell脚本学习第一章
 date: '2019-07-04 19:54:00'
 permalink: 2019/07/04/csdn/shell脚本学习第一章/
 categories:
-- Linux学习
+- 工具与效率
+- Shell与命令行
 ---
 
 shell脚本的开发周期:

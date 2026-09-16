@@ -3,7 +3,8 @@ title: pthread_mutex_t的robust属性
 date: '2020-03-09 14:56:00'
 permalink: 2020/03/09/csdn/pthread_mutex_t的robust属性/
 categories:
-- Linux学习
+- 系统与底层
+- Unix系统编程
 tags:
 - linux
 ---

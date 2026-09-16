@@ -3,7 +3,8 @@ title: POJ_1511_(dij/bellmanford)
 date: '2019-07-09 10:37:00'
 permalink: 2019/07/09/csdn/POJ_1511_(dij!bellmanford)/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 [POJ 1511](http://poj.org/problem?id=1511)

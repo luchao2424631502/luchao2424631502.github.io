@@ -3,7 +3,8 @@ title: Splay
 date: '2019-11-26 13:43:00'
 permalink: 2019/11/26/csdn/Splay/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - splay操作
 ---

@@ -3,7 +3,8 @@ title: linux下c语言编译过程及gcc/g++区别
 date: '2019-07-06 09:24:00'
 permalink: 2019/07/06/csdn/linux下c语言编译过程及gcc!g++区别/
 categories:
-- Linux学习
+- 工具与效率
+- 构建与调试
 ---
 
 gcc与g++分别是c/c++的编译器.  

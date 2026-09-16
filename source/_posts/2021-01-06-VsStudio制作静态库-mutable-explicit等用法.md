@@ -3,7 +3,8 @@ title: VsStudio制作静态库-mutable-explicit等用法
 date: '2021-01-06 17:26:00'
 permalink: 2021/01/06/VsStudio制作静态库-mutable-explicit等用法/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - mutable,explicit
 ---

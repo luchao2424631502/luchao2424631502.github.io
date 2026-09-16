@@ -3,7 +3,8 @@ title: 荷马史诗(Huffman编码)
 date: '2019-04-28 20:28:00'
 permalink: 2019/04/28/csdn/荷马史诗(Huffman编码)/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - huffman树
 ---

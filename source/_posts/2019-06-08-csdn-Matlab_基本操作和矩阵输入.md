@@ -2,6 +2,9 @@
 title: Matlab_基本操作和矩阵输入
 date: '2019-06-08 11:34:00'
 permalink: 2019/06/08/csdn/Matlab_基本操作和矩阵输入/
+categories:
+- 编程语言
+- MATLAB
 ---
 
 > 1.输出格式

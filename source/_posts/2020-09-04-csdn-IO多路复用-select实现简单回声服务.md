@@ -3,7 +3,8 @@ title: IO多路复用-select实现简单回声服务
 date: '2020-09-04 18:00:00'
 permalink: 2020/09/04/csdn/IO多路复用-select实现简单回声服务/
 categories:
-- Linux学习
+- 网络与服务
+- 网络编程
 tags:
 - socket
 ---

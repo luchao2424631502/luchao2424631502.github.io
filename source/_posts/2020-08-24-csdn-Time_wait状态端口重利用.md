@@ -3,7 +3,8 @@ title: Time_wait状态端口重利用
 date: '2020-08-24 16:44:00'
 permalink: 2020/08/24/csdn/Time_wait状态端口重利用/
 categories:
-- 计算机网络
+- 网络与服务
+- 网络编程
 tags:
 - socket
 ---

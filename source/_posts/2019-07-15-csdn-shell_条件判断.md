@@ -3,7 +3,8 @@ title: shell_条件判断
 date: '2019-07-15 17:16:00'
 permalink: 2019/07/15/csdn/shell_条件判断/
 categories:
-- Linux学习
+- 工具与效率
+- Shell与命令行
 tags:
 - shell
 ---

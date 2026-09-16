@@ -3,7 +3,8 @@ title: linux下在进程中加载执行纯2进制可执行文件bin
 date: '2020-09-19 21:04:00'
 permalink: 2020/09/19/csdn/linux下在进程中加载执行纯2进制可执行文件bin/
 categories:
-- Linux学习
+- 系统与底层
+- Unix系统编程
 ---
 
 [此博客来自他人,下面是自己的见解,因为正好用到相关内容](https://blog.csdn.net/Pedroa/article/details/53842115)

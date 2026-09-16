@@ -3,7 +3,8 @@ title: Tarjan求割边 + UVA 796
 date: '2019-08-14 15:48:00'
 permalink: 2019/08/14/csdn/Tarjan求割边 + UVA 796/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 - 割点去除后生成`>=2`的子图

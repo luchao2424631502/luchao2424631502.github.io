@@ -3,7 +3,8 @@ title: const int* 和 const int * const 和 int const * 的区别
 date: '2019-12-18 19:31:00'
 permalink: 2019/12/18/csdn/const int! 和 const int ! const 和 int const ! 的区别/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - const pointer
 ---

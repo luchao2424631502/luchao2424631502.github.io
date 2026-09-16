@@ -3,7 +3,8 @@ title: 将30天中txt文件的ascii字体像素数据转为binary插入elf格式
 date: '2021-04-24 15:42:00'
 permalink: 2021/04/24/将30天中txt文件的ascii字体像素数据转为binary插入elf格式的kernel中/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 tags:
 - 30天自制操作系统,操作系统真相还原
 ---

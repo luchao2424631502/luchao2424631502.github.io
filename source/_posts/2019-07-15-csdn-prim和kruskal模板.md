@@ -3,7 +3,8 @@ title: prim和kruskal模板
 date: '2019-07-15 15:13:00'
 permalink: 2019/07/15/csdn/prim和kruskal模板/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 模板
 ---

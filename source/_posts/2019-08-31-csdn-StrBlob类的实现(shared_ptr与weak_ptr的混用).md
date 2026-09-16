@@ -3,7 +3,8 @@ title: StrBlob类的实现(shared_ptr与weak_ptr的混用)
 date: '2019-08-31 20:57:00'
 permalink: 2019/08/31/csdn/StrBlob类的实现(shared_ptr与weak_ptr的混用)/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - 智能指针
 ---

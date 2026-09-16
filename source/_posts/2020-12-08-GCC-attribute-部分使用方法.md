@@ -3,7 +3,8 @@ title: GCC__attribute__部分使用方法
 date: '2020-12-08 16:37:00'
 permalink: 2020/12/08/GCC-attribute-部分使用方法/
 categories:
-- 编译链接
+- 编程语言
+- 编译与链接
 tags:
 - GCC
 ---

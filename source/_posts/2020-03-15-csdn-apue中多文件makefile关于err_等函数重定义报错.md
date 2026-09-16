@@ -3,7 +3,8 @@ title: apue中多文件makefile关于err_等函数重定义报错
 date: '2020-03-15 17:33:00'
 permalink: 2020/03/15/csdn/apue中多文件makefile关于err_等函数重定义报错/
 categories:
-- Linux学习
+- 系统与底层
+- Unix系统编程
 tags:
 - unix
 ---

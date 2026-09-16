@@ -3,7 +3,8 @@ title: leetcode_53 最大自序和(类似LIS,dp)
 date: '2019-04-15 22:49:00'
 permalink: 2019/04/15/csdn/leetcode_53 最大自序和(类似LIS,dp)/
 categories:
-- 算法
+- 算法与数据结构
+- 搜索与动态规划
 tags:
 - dp
 ---

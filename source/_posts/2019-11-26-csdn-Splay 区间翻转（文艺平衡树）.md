@@ -3,7 +3,8 @@ title: Splay 区间翻转（文艺平衡树）
 date: '2019-11-26 12:35:00'
 permalink: 2019/11/26/csdn/Splay 区间翻转（文艺平衡树）/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - 区间翻转
 ---

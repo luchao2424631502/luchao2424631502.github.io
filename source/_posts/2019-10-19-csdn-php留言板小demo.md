@@ -3,7 +3,8 @@ title: php留言板小demo
 date: '2019-10-19 11:46:00'
 permalink: 2019/10/19/csdn/php留言板小demo/
 categories:
-- php
+- Web开发
+- PHP与后端
 tags:
 - 留言板
 ---

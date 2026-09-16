@@ -3,7 +3,8 @@ title: allocator 类的使用方法
 date: '2019-09-01 20:42:00'
 permalink: 2019/09/01/csdn/allocator 类的使用方法/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - allocator
 ---

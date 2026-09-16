@@ -3,7 +3,8 @@ title: Floyd小结
 date: '2019-09-08 14:20:00'
 permalink: 2019/09/08/csdn/Floyd小结/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 ---
 
 ### `Floyd`:解决多源最短路径,可以判断环

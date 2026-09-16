@@ -2,6 +2,9 @@
 title: Matlab_变量数据类型及函数
 date: '2019-06-09 15:06:00'
 permalink: 2019/06/09/csdn/Matlab_变量数据类型及函数/
+categories:
+- 编程语言
+- MATLAB
 ---
 
 1. `string`可以类比c++中`string`

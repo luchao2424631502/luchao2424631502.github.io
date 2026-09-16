@@ -3,7 +3,8 @@ title: 使用UNIX域Socket传递文件描述符
 date: '2020-11-18 23:33:00'
 permalink: 2020/11/18/csdn/使用UNIX域Socket传递文件描述符/
 categories:
-- Linux学习
+- 网络与服务
+- 网络编程
 ---
 
 #### [使用UNIX域Socket传递文件描述符]

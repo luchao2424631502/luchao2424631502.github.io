@@ -3,7 +3,8 @@ title: Orange‘s:loader-＞kernel-＞中断(Minix)-＞进程(多)
 date: '2020-07-19 11:12:00'
 permalink: 2020/07/19/csdn/Orange‘s!loader-＞kernel-＞中断(Minix)-＞进程(多)/
 categories:
-- 编写操作系统之路
+- 系统与底层
+- 自制操作系统
 ---
 
 #### 从kernel.bin中根据elf文件格式执行内核

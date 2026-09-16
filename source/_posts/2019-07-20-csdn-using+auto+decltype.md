@@ -3,7 +3,8 @@ title: using+auto+decltype
 date: '2019-07-20 15:31:00'
 permalink: 2019/07/20/csdn/using+auto+decltype/
 categories:
-- C++primer读书笔记
+- 编程语言
+- C与C++
 tags:
 - c++11 auto decltype
 ---

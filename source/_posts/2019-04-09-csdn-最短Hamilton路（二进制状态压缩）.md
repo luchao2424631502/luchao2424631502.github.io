@@ -3,7 +3,8 @@ title: 最短Hamilton路（二进制状态压缩）
 date: '2019-04-09 16:08:00'
 permalink: 2019/04/09/csdn/最短Hamilton路（二进制状态压缩）/
 categories:
-- 算法
+- 算法与数据结构
+- 图论
 tags:
 - 二进制状态压缩
 ---

@@ -2,6 +2,9 @@
 title: Matlab_绘图_2
 date: '2019-06-10 15:40:00'
 permalink: 2019/06/10/csdn/Matlab_绘图_2/
+categories:
+- 编程语言
+- MATLAB
 ---
 
 1.双y轴图象

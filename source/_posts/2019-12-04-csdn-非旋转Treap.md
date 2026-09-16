@@ -3,7 +3,8 @@ title: 非旋转Treap
 date: '2019-12-04 12:00:00'
 permalink: 2019/12/04/csdn/非旋转Treap/
 categories:
-- 算法
+- 算法与数据结构
+- 数据结构
 tags:
 - 非旋转Treap
 ---
