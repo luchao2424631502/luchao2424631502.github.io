@@ -1,22 +1,18 @@
-# Recovery report
+# 恢复报告
 
-- Legacy revision: `8c6d62976b7b04e369e6323b7142b1316379e7bd`
-- Recovery date: 2026-09-15
-- Recovered Markdown posts: 298
-- Recovered fenced code blocks: 792
-- Recovered static image files: 89
-- Recovered standalone pages: About and Links
-- Hexo build: passed with Hexo 8.1.2 and Fluid 1.9.9
-- Legacy post routes regenerated exactly: 298 of 298
-- Missing local image/script sources in generated HTML: 0
-- npm audit findings: 0 vulnerabilities
+- 旧站版本：`8c6d62976b7b04e369e6323b7142b1316379e7bd`
+- 恢复日期：2026-09-15
+- 已恢复的 Markdown 文章：298 篇
+- 已恢复的围栏代码块：792 个
+- 已恢复的静态图片文件：89 个
+- 已恢复的独立页面：关于页和友链页
+- Hexo 构建结果：使用 Hexo 8.1.2 和 Fluid 1.9.9 构建通过
+- 完整复原的旧文章路径：298/298
+- 生成的 HTML 中缺失的本地图片或脚本源文件：0 个
+- npm 安全审计结果：0 个漏洞
 
-The original repository contained generated HTML rather than Hexo source.
-Published text, metadata, code, images, and routes were recovered from that
-HTML. Original Markdown whitespace, Hexo-only source syntax, unpublished
-drafts, and configuration values that were not rendered into the site cannot
-be reconstructed exactly.
+原仓库保存的是 Hexo 生成后的 HTML，而不是 Hexo 源码。本次恢复从这些 HTML 中提取并还原了已经发布的正文、元数据、代码、图片和访问路径。
 
-The legacy Git tree contains both `tags/GCC/` and `tags/gcc/`, which collide on
-the default case-insensitive macOS filesystem. The mirror backup preserves both
-Git objects. Canonical article routes do not have a case collision.
+以下内容无法精确还原：原始 Markdown 的空白格式、仅存在于 Hexo 源文件中的特殊语法、未发布的草稿，以及未被渲染到网站中的配置项。
+
+旧版 Git 目录树同时包含 `tags/GCC/` 和 `tags/gcc/`。这两个路径在 macOS 默认的不区分大小写文件系统中会发生冲突。镜像备份完整保留了这两组 Git 对象；文章的规范访问路径不存在大小写冲突。

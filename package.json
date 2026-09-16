@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "build": "hexo generate",
     "server": "hexo server",
-    "deploy": "hexo clean && hexo deploy",
+    "deploy": "hexo clean && hexo generate && hexo deploy",
     "recover": "python3 tools/recover_posts.py --repo ../repository --revision master --source-root source"
   },
   "engines": {
