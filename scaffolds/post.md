@@ -1,6 +1,7 @@
 ---
 title: {{ title }}
 date: {{ date }}
+author: emerald
 categories:
 tags:
 ---

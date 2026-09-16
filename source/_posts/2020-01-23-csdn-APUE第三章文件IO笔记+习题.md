@@ -402,7 +402,7 @@ const int maxn = 1024;
 char ReadBuf[maxn]; 
  
 int main () {
-	std::string path("/home/luchao/Documents/Apue/3/1.out");
+	std::string path("/home/emerald/Documents/Apue/3/1.out");
 	int fd = open(path.c_str(),O_APPEND|O_RDWR);
 	std::string content = "abc";
 	if (fd == -1)	

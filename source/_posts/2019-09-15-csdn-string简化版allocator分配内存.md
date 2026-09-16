@@ -181,7 +181,7 @@ void String::reallocate() {
 #include "String.h"
 std::allocator<char> String::alloc;
 int main() {
-    String temp1("luchao |");
+    String temp1("emerald |");
     String temp2 = "is a boy";
     String temp3 = temp2 + temp1;
 

@@ -195,7 +195,7 @@ CNAME : 别名记录
 2. `host www.baidu.com`
    ```excel
 -t //指定查询域名信息类型
-host -t A luchaocloud.com
+host -t A example.com
 host -t SOA tianyun.me
 ```
 3. `dig ip` //使用配置文件的`DNS`解析  

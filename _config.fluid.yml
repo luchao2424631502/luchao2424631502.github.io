@@ -2,7 +2,7 @@ favicon: /img/post1.png
 apple_touch_icon: /img/main.png
 
 navbar:
-  blog_title: "luchao's blog"
+  blog_title: "emerald's blog"
   menu:
     - { key: home, link: "/", icon: "iconfont icon-home-fill" }
     - { key: archive, link: "/archives/", icon: "iconfont icon-archive-fill" }
@@ -49,7 +49,7 @@ about:
   enable: true
   banner_img: /img/main.png
   avatar: /img/avatar.png
-  name: luchao
+  name: emerald
   intro: C++ / Linux / 系统与网络
   icons:
     - { class: "iconfont icon-github-fill", link: "https://github.com/luchao2424631502", tip: "GitHub" }
