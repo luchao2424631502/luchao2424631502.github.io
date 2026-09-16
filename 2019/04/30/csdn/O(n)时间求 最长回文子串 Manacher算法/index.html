@@ -16,28 +16,28 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="luchao">
+  <meta name="author" content="emerald">
   <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
   
     <meta name="description" content="回文字符串分为奇回文和偶回文，在字符串中间插入任意字符使得串变成奇回文串  暴力思想：肯定是找一个点往两边任意扩展,遍历一次,Manacher时间为O(n)  开一个数组p[]记录 以点i为中点 的最长回文串的半径, 假设前i-1个点的p[]都已经求出来来，现在考虑p[i]如何推导  重点：3. R是p[1]~p[i-1]中推出来的右端最远最长回文子串的右端点,且用pos记录下来，每一步更新po">
 <meta property="og:type" content="article">
 <meta property="og:title" content="O(n)时间求 最长回文子串 Manacher算法">
 <meta property="og:url" content="https://blog.989883.xyz/2019/04/30/csdn/O(n)%E6%97%B6%E9%97%B4%E6%B1%82%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%20Manacher%E7%AE%97%E6%B3%95/index.html">
-<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:site_name" content="emerald&#39;s blog">
 <meta property="og:description" content="回文字符串分为奇回文和偶回文，在字符串中间插入任意字符使得串变成奇回文串  暴力思想：肯定是找一个点往两边任意扩展,遍历一次,Manacher时间为O(n)  开一个数组p[]记录 以点i为中点 的最长回文串的半径, 假设前i-1个点的p[]都已经求出来来，现在考虑p[i]如何推导  重点：3. R是p[1]~p[i-1]中推出来的右端最远最长回文子串的右端点,且用pos记录下来，每一步更新po">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdn.net/20170521181144124?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenpra3N1bmJveQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="https://img-blog.csdn.net/20170521181152562?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenpra3N1bmJveQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="article:published_time" content="2019-04-30T09:06:00.000Z">
 <meta property="article:modified_time" content="2026-09-16T14:17:26.300Z">
-<meta property="article:author" content="luchao">
+<meta property="article:author" content="emerald">
 <meta property="article:tag" content="回文子串">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://img-blog.csdn.net/20170521181144124?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvenpra3N1bmJveQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
   
   
-  <title>O(n)时间求 最长回文子串 Manacher算法 - luchao&#39;s blog</title>
+  <title>O(n)时间求 最长回文子串 Manacher算法 - emerald&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -101,7 +101,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>luchao&#39;s blog</strong>
+      <strong>emerald&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -462,7 +462,7 @@
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>luchao</div>
+          <div>emerald</div>
         </div>
       
       

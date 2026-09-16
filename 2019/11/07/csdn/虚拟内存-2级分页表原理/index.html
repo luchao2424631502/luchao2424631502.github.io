@@ -16,27 +16,27 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="luchao">
+  <meta name="author" content="emerald">
   <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
   
     <meta name="description" content="虚拟内存中的分页 每个进程都有一个页表, 每个进程可以占据大量的虚存空间   概念：  页表项 : 页表中的每个项记录了每个页对应的页框号    不带单位默认为字节Byte  问题 假设进程的虚存空间为$2GB&#x3D;2^{31}$，若使用$2^9 &#x3D; 512$个字节的页,那么进程需要$2^{31}&#x2F;2^9 &#x3D; 2^{22}$个页表项.   导致进程加载到内存时,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚拟内存-2级分页表原理">
 <meta property="og:url" content="https://blog.989883.xyz/2019/11/07/csdn/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-2%E7%BA%A7%E5%88%86%E9%A1%B5%E8%A1%A8%E5%8E%9F%E7%90%86/index.html">
-<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:site_name" content="emerald&#39;s blog">
 <meta property="og:description" content="虚拟内存中的分页 每个进程都有一个页表, 每个进程可以占据大量的虚存空间   概念：  页表项 : 页表中的每个项记录了每个页对应的页框号    不带单位默认为字节Byte  问题 假设进程的虚存空间为$2GB&#x3D;2^{31}$，若使用$2^9 &#x3D; 512$个字节的页,那么进程需要$2^{31}&#x2F;2^9 &#x3D; 2^{22}$个页表项.   导致进程加载到内存时,">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20191107180444578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70">
 <meta property="article:published_time" content="2019-11-07T10:10:00.000Z">
 <meta property="article:modified_time" content="2026-09-16T14:17:26.330Z">
-<meta property="article:author" content="luchao">
+<meta property="article:author" content="emerald">
 <meta property="article:tag" content="虚拟内存 2级分页表 地址转换">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20191107180444578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70">
   
   
   
-  <title>虚拟内存-2级分页表原理 - luchao&#39;s blog</title>
+  <title>虚拟内存-2级分页表原理 - emerald&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -100,7 +100,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>luchao&#39;s blog</strong>
+      <strong>emerald&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -528,7 +528,7 @@
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>luchao</div>
+          <div>emerald</div>
         </div>
       
       

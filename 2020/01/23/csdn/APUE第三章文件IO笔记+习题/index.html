@@ -16,25 +16,25 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="luchao">
+  <meta name="author" content="emerald">
   <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
   
     <meta name="description" content="3 文件IO 非缓冲IO,属于POSIX,非IOS C标准  stdin stdou stderr与STDIN_FILENO STDOUT_FILENO STDERR_FILENO的关系 stdin等属于FILE *类型,在&lt;stdio.h&gt;中 STDIN_FILENO等是无符号整数，表示描述符,在&lt;unistd.h&gt;中     3.1 常用函数 open123#inclu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="APUE第三章文件IO笔记+习题">
 <meta property="og:url" content="https://blog.989883.xyz/2020/01/23/csdn/APUE%E7%AC%AC%E4%B8%89%E7%AB%A0%E6%96%87%E4%BB%B6IO%E7%AC%94%E8%AE%B0+%E4%B9%A0%E9%A2%98/index.html">
-<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:site_name" content="emerald&#39;s blog">
 <meta property="og:description" content="3 文件IO 非缓冲IO,属于POSIX,非IOS C标准  stdin stdou stderr与STDIN_FILENO STDOUT_FILENO STDERR_FILENO的关系 stdin等属于FILE *类型,在&lt;stdio.h&gt;中 STDIN_FILENO等是无符号整数，表示描述符,在&lt;unistd.h&gt;中     3.1 常用函数 open123#inclu">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-23T09:22:00.000Z">
-<meta property="article:modified_time" content="2026-09-16T14:17:26.336Z">
-<meta property="article:author" content="luchao">
+<meta property="article:modified_time" content="2026-09-16T14:26:46.051Z">
+<meta property="article:author" content="emerald">
 <meta property="article:tag" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>APUE第三章文件IO笔记+习题 - luchao&#39;s blog</title>
+  <title>APUE第三章文件IO笔记+习题 - emerald&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -98,7 +98,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>luchao&#39;s blog</strong>
+      <strong>emerald&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -502,7 +502,7 @@
 </blockquote>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include <span class="hljs-string">&quot;apue.h&quot;</span><br>#include &lt;unistd.h&gt;<br>#include &lt;fcntl.h&gt;<br><br>const <span class="hljs-type">int</span> <span class="hljs-variable">maxn</span> <span class="hljs-operator">=</span> <span class="hljs-number">1024</span>;<br><span class="hljs-type">char</span> ReadBuf[maxn]; <br> <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span> <span class="hljs-params">()</span> &#123;<br>	std::<span class="hljs-type">string</span> <span class="hljs-title function_">path</span><span class="hljs-params">(<span class="hljs-string">&quot;/home/luchao/Documents/Apue/3/1.out&quot;</span>)</span>;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">fd</span> <span class="hljs-operator">=</span> open(path.c_str(),O_APPEND|O_RDWR);<br>	std::<span class="hljs-type">string</span> <span class="hljs-variable">content</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;abc&quot;</span>;<br>	<span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>)	<br>		err_sys(<span class="hljs-string">&quot;open failed&quot;</span>);<br>	<span class="hljs-type">int</span> <span class="hljs-variable">offset</span> <span class="hljs-operator">=</span> lseek(fd,<span class="hljs-number">0</span>,SEEK_END);<br>	<span class="hljs-keyword">if</span> (offset == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;lseek error&quot;</span>);<br><br>	<span class="hljs-type">int</span> <span class="hljs-variable">ans</span> <span class="hljs-operator">=</span> read(fd,ReadBuf,maxn);<br><span class="hljs-comment">//	int ans = write(fd,content.c_str(),content.size());</span><br>	<span class="hljs-keyword">if</span> (ans == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;read error&quot;</span>);<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;\nread content\n&quot;</span> &lt;&lt; ReadBuf;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java">#include &lt;bits/stdc++.h&gt;<br>#include <span class="hljs-string">&quot;apue.h&quot;</span><br>#include &lt;unistd.h&gt;<br>#include &lt;fcntl.h&gt;<br><br>const <span class="hljs-type">int</span> <span class="hljs-variable">maxn</span> <span class="hljs-operator">=</span> <span class="hljs-number">1024</span>;<br><span class="hljs-type">char</span> ReadBuf[maxn]; <br> <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span> <span class="hljs-params">()</span> &#123;<br>	std::<span class="hljs-type">string</span> <span class="hljs-title function_">path</span><span class="hljs-params">(<span class="hljs-string">&quot;/home/emerald/Documents/Apue/3/1.out&quot;</span>)</span>;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">fd</span> <span class="hljs-operator">=</span> open(path.c_str(),O_APPEND|O_RDWR);<br>	std::<span class="hljs-type">string</span> <span class="hljs-variable">content</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;abc&quot;</span>;<br>	<span class="hljs-keyword">if</span> (fd == -<span class="hljs-number">1</span>)	<br>		err_sys(<span class="hljs-string">&quot;open failed&quot;</span>);<br>	<span class="hljs-type">int</span> <span class="hljs-variable">offset</span> <span class="hljs-operator">=</span> lseek(fd,<span class="hljs-number">0</span>,SEEK_END);<br>	<span class="hljs-keyword">if</span> (offset == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;lseek error&quot;</span>);<br><br>	<span class="hljs-type">int</span> <span class="hljs-variable">ans</span> <span class="hljs-operator">=</span> read(fd,ReadBuf,maxn);<br><span class="hljs-comment">//	int ans = write(fd,content.c_str(),content.size());</span><br>	<span class="hljs-keyword">if</span> (ans == -<span class="hljs-number">1</span>)<br>		err_sys(<span class="hljs-string">&quot;read error&quot;</span>);<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;\nread content\n&quot;</span> &lt;&lt; ReadBuf;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -555,7 +555,7 @@
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>luchao</div>
+          <div>emerald</div>
         </div>
       
       

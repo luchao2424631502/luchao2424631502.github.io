@@ -16,25 +16,25 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="luchao">
+  <meta name="author" content="emerald">
   <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
   
     <meta name="description" content="想要得到拓扑序的图一定是有向图. 拓扑序列虽然不止1个,但都满足,每个点的前驱后继点的顺序，某点的后继点在拓扑序中不可能出现在该点的前面,  基本思想： 拓扑序列满足，入度为0的点进入序列，且该点的出边点的入度-1, 如果该点出边的入度为0,则重复第1步  邻接表+bfs 开一个数组记录所有点的入度,将入度为0的点加入到队列 取出队头,加入到拓扑序. 更新出边的点的入度,判断是否为0，为0加入队">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dfs bfs拓扑序列+判断">
 <meta property="og:url" content="https://blog.989883.xyz/2019/05/05/csdn/dfs%20bfs%E6%8B%93%E6%89%91%E5%BA%8F%E5%88%97+%E5%88%A4%E6%96%AD/index.html">
-<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:site_name" content="emerald&#39;s blog">
 <meta property="og:description" content="想要得到拓扑序的图一定是有向图. 拓扑序列虽然不止1个,但都满足,每个点的前驱后继点的顺序，某点的后继点在拓扑序中不可能出现在该点的前面,  基本思想： 拓扑序列满足，入度为0的点进入序列，且该点的出边点的入度-1, 如果该点出边的入度为0,则重复第1步  邻接表+bfs 开一个数组记录所有点的入度,将入度为0的点加入到队列 取出队头,加入到拓扑序. 更新出边的点的入度,判断是否为0，为0加入队">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-05-05T07:39:00.000Z">
 <meta property="article:modified_time" content="2026-09-16T14:17:26.301Z">
-<meta property="article:author" content="luchao">
+<meta property="article:author" content="emerald">
 <meta property="article:tag" content="拓扑序列">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>dfs bfs拓扑序列+判断 - luchao&#39;s blog</title>
+  <title>dfs bfs拓扑序列+判断 - emerald&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -98,7 +98,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>luchao&#39;s blog</strong>
+      <strong>emerald&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -474,7 +474,7 @@
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>luchao</div>
+          <div>emerald</div>
         </div>
       
       

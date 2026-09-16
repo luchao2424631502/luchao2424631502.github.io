@@ -16,14 +16,14 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="luchao">
+  <meta name="author" content="emerald">
   <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
   
     <meta name="description" content="前2章实验都是借助DOS提供保护模式环境来实验(因为在引导扇区512byte限制下提供不了保护模式), 为了让OS进入保护模式而引导扇区又不能解决,通过boot把磁盘中的loader加载进内存,然后通过loader进入保护模式并且加载kernel 这样就突破了512byte的限制  boot-&gt;loader-&gt;kernel 此书将软盘做成FAT12格式  bximage制作1.44M">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Orange‘s:FAT12认识和Boot引导">
 <meta property="og:url" content="https://blog.989883.xyz/2020/07/12/csdn/Orange%E2%80%98s!FAT12%E8%AE%A4%E8%AF%86%E5%92%8CBoot%E5%BC%95%E5%AF%BC/index.html">
-<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:site_name" content="emerald&#39;s blog">
 <meta property="og:description" content="前2章实验都是借助DOS提供保护模式环境来实验(因为在引导扇区512byte限制下提供不了保护模式), 为了让OS进入保护模式而引导扇区又不能解决,通过boot把磁盘中的loader加载进内存,然后通过loader进入保护模式并且加载kernel 这样就突破了512byte的限制  boot-&gt;loader-&gt;kernel 此书将软盘做成FAT12格式  bximage制作1.44M">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200712110144463.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center">
@@ -31,14 +31,14 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200712110215233.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2020-07-12T03:02:00.000Z">
 <meta property="article:modified_time" content="2026-09-16T14:17:26.342Z">
-<meta property="article:author" content="luchao">
+<meta property="article:author" content="emerald">
 <meta property="article:tag" content="于渊    操作系统  Orange S">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200712110144463.PNG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNTgwMTUx,size_16,color_FFFFFF,t_70#pic_center">
   
   
   
-  <title>Orange‘s:FAT12认识和Boot引导 - luchao&#39;s blog</title>
+  <title>Orange‘s:FAT12认识和Boot引导 - emerald&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -102,7 +102,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>luchao&#39;s blog</strong>
+      <strong>emerald&#39;s blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -492,7 +492,7 @@
       
         <div class="license-meta-item">
           <div>作者</div>
-          <div>luchao</div>
+          <div>emerald</div>
         </div>
       
       
