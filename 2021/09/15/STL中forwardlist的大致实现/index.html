@@ -1,0 +1,843 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="STL中forward-list大致实现1.std::array&lt;_Tp,std::size_t&gt; 源代码仔细看一下就知道了:&#x2F;usr&#x2F;include&#x2F;c++&#x2F;9&#x2F;array  挑出来的大致实现:  主要的就是和traits(编译期传递类型)的配合, 可以看到std::array的内存分配就是在栈上的,没有使用分配器std::allocator, 对个数0特化  12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STL中forwardlist的大致实现">
+<meta property="og:url" content="https://blog.989883.xyz/2021/09/15/STL%E4%B8%ADforwardlist%E7%9A%84%E5%A4%A7%E8%87%B4%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="STL中forward-list大致实现1.std::array&lt;_Tp,std::size_t&gt; 源代码仔细看一下就知道了:&#x2F;usr&#x2F;include&#x2F;c++&#x2F;9&#x2F;array  挑出来的大致实现:  主要的就是和traits(编译期传递类型)的配合, 可以看到std::array的内存分配就是在栈上的,没有使用分配器std::allocator, 对个数0特化  12345678910">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.989883.xyz/images/forward4.png">
+<meta property="og:image" content="https://blog.989883.xyz/images/forward9.jpg">
+<meta property="article:published_time" content="2021-09-15T10:13:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.350Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="C++ STL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.989883.xyz/images/forward4.png">
+  
+  
+  
+  <title>STL中forwardlist的大致实现 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="STL中forwardlist的大致实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-09-15 18:13" pubdate>
+          2021年9月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">STL中forwardlist的大致实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="STL中forward-list大致实现"><a href="#STL中forward-list大致实现" class="headerlink" title="STL中forward-list大致实现"></a>STL中forward-list大致实现</h2><h3 id="1-std-array"><a href="#1-std-array" class="headerlink" title="1.std::array&lt;_Tp,std::size_t&gt;"></a>1.<code>std::array&lt;_Tp,std::size_t&gt;</code></h3><blockquote>
+<p>源代码仔细看一下就知道了:<code>/usr/include/c++/9/array</code></p>
+</blockquote>
+<p>挑出来的大致实现:</p>
+<blockquote>
+<p>主要的就是和traits(编译期传递类型)的配合,</p>
+<p>可以看到std::array的内存分配就是在栈上的,没有使用分配器std::allocator,</p>
+<p>对个数0特化</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;array&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ext/aligned_buffer.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/alloc_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/allocator.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * std::array&lt;_Tp,std::size_t&gt;的大致实现(g++9.3)</span><br><span class="hljs-comment"> * */</span><br><span class="hljs-keyword">namespace</span> llc<br>&#123;<br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp,std::<span class="hljs-type">size_t</span> _Nm&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">__array_traits</span><br>    &#123;<br>      <span class="hljs-comment">//数组类型</span><br>      <span class="hljs-keyword">typedef</span> _Tp _Type[_Nm];<br>    &#125;;<br><br>  <span class="hljs-comment">//偏特化</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">__array_traits</span>&lt;_Tp,<span class="hljs-number">0</span>&gt;<br>    &#123;<br>      <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Type</span> &#123;&#125;;<br>    &#125;;<br><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp,std::<span class="hljs-type">size_t</span> _Nm&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">array</span><br>    &#123;<br>      <span class="hljs-keyword">typedef</span> _Tp value_type;<br>      <span class="hljs-keyword">typedef</span> value_type* pointer;<br>      <span class="hljs-keyword">typedef</span> value_type&amp; reference;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type* const_pointer;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type&amp; const_reference;<br>      <span class="hljs-keyword">typedef</span> value_type* iterator;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type* const_iterator;<br>      <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">size_t</span> size_type;<br>      <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">ptrdiff_t</span> difference_type;<br>      <span class="hljs-comment">//std::reverse_iterator&lt;&gt;是已经包装好的类,将普通iterator传入就行</span><br>      <span class="hljs-keyword">typedef</span> std::reverse_iterator&lt;iterator&gt; reverse_iterator;<br>      <span class="hljs-keyword">typedef</span> std::reverse_iterator&lt;const_iterator&gt; const_reverse_iterator;<br><br>      <span class="hljs-keyword">typedef</span> __array_traits&lt;_Tp,_Nm&gt; _AT_Type;<br><br>      <span class="hljs-comment">//template-class:data</span><br>      <span class="hljs-keyword">typename</span> _AT_Type::_Type _M_elems;<br><br>      <span class="hljs-comment">//接下来是function,和迭代器操作</span><br>    &#125;;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  std::array&lt;<span class="hljs-type">int</span>,10&gt; ar1;<br>  std::cout &lt;&lt;  <span class="hljs-string">&quot;int-size: &quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>) &lt;&lt; <span class="hljs-string">&quot; std::array-size &quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(ar1) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">  llc::forward_list&lt;int&gt; f1;</span><br><span class="hljs-comment">  std::cout &lt;&lt; &quot;forward-list: &quot; &lt;&lt; sizeof(f1) &lt;&lt; &quot; pointer-size &quot; &lt;&lt; sizeof(int*) &lt;&lt;&quot;\n&quot;;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">  llc2::forward_list&lt;int&gt; f2;</span><br><span class="hljs-comment">  std::cout &lt;&lt; sizeof(f2);</span><br><span class="hljs-comment">  */</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-std-forward-list"><a href="#2-std-forward-list" class="headerlink" title="2.std::forward_list&lt;_Tp,_Alloc&gt;"></a>2.<code>std::forward_list&lt;_Tp,_Alloc&gt;</code></h3><h4 id="1-gcc4-9的实现是从视频看到的"><a href="#1-gcc4-9的实现是从视频看到的" class="headerlink" title="1. gcc4.9的实现是从视频看到的"></a>1. gcc4.9的实现是从视频看到的</h4><p><img src="/images/forward4.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<h4 id="2-gcc9-3的实现是看源代码的"><a href="#2-gcc9-3的实现是看源代码的" class="headerlink" title="2.gcc9.3的实现是看源代码的"></a>2.gcc9.3的实现是看源代码的</h4><blockquote>
+<p>看起来大致结构是一样的</p>
+</blockquote>
+<p><img src="/images/forward9.jpg" srcset="/img/loading.gif" lazyload alt="2"></p>
+<h4 id="抽出来的源代码-解释在注释部分"><a href="#抽出来的源代码-解释在注释部分" class="headerlink" title="抽出来的源代码,解释在注释部分"></a>抽出来的源代码,解释在注释部分</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;array&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ext/aligned_buffer.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/alloc_traits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/allocator.h&gt;</span></span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * forward-list的大致实现,(g++4.9 2014)</span><br><span class="hljs-comment"> * */</span><br><span class="hljs-keyword">namespace</span> llc<br>&#123;<br>  <span class="hljs-comment">//链表节点的父类:包含一个指向自己的指针</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _TP&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_node_base</span> <br>    &#123;<br>      _Fwd_list_node_base *_M_next;<br>    &#125;;<br>  <span class="hljs-comment">//链表的节点</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_node</span>:<span class="hljs-keyword">public</span> _Fwd_list_node_base&lt;_Tp&gt;<br>    &#123;<br>      _Tp M_value;<br>    &#125;;<br><br>  <span class="hljs-comment">//forward-list的代理实现类:包含了一个含指针的_Fwd_list_node_base类</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_impl</span>:<span class="hljs-keyword">public</span> std::allocator&lt;_Fwd_list_node&lt;_Tp&gt;&gt;<br>    &#123;<br>      _Fwd_list_node_base&lt;_Tp&gt; _M_head;<span class="hljs-comment">//一个指针</span><br>    &#125;;<br><br>  <span class="hljs-comment">//forward-list的基类:包含一个forward-list的代理实现类</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_base</span><br>    &#123;<br>      _Fwd_list_impl&lt;_Tp&gt; _M_impl;<br>    &#125;;<br><br>  <span class="hljs-comment">//forward-list类:以private方式继承(不继承接口,继承的是数据成员(也就是实现))</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">forward_list</span>:<span class="hljs-keyword">private</span> _Fwd_list_base&lt;_Tp&gt;<br>    &#123;<br>      <span class="hljs-comment">//一系列接口函数</span><br>    &#125;;<br>&#125;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * forward-list大致实现（g++9.3 2019)</span><br><span class="hljs-comment"> * */</span><br><span class="hljs-keyword">namespace</span> llc2<br>&#123;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_node_base</span> <br>  &#123;<br>    <span class="hljs-comment">//构造函数</span><br>    _Fwd_list_node_base *_M_next = <span class="hljs-literal">nullptr</span>;<br>  &#125;;<br><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_node</span>:<span class="hljs-keyword">public</span> _Fwd_list_node_base <br>    &#123;<br>      <span class="hljs-comment">//ext/aligned_buffer.h = __aligned_membuf&lt;_Tp&gt; = unsigned char _M_storage[sizeof(_Tp)];</span><br>      __gnu_cxx::__aligned_buffer&lt;_Tp&gt; _M_storage;<br>    &#125;;<br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_iterator</span><br>    &#123;<br>      <span class="hljs-keyword">typedef</span> _Fwd_list_iterator&lt;_Tp&gt; _Self;<br>      <span class="hljs-keyword">typedef</span> _Fwd_list_node&lt;_Tp&gt; _Node;<br><br>      <span class="hljs-keyword">typedef</span> _Tp value_type;<br>      <span class="hljs-keyword">typedef</span> _Tp* pointer;<br>      <span class="hljs-keyword">typedef</span> _Tp&amp; reference;<br>      <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">ptrdiff_t</span> difference_type;<br>      <span class="hljs-keyword">typedef</span> std::forward_iterator_tag iterator_category;<br>      <span class="hljs-comment">//一系列函数</span><br>      _Fwd_list_node_base *_M_node;<br>    &#125;;<br><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_const_iterator</span><br>    &#123;<br>      <span class="hljs-keyword">typedef</span> _Fwd_list_const_iterator&lt;_Tp&gt; _Self;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> _Fwd_list_node&lt;_Tp&gt; _Node;<br>      <span class="hljs-keyword">typedef</span> _Fwd_list_iterator&lt;_Tp&gt; iterator;<br><br>      <span class="hljs-keyword">typedef</span> _Tp value_type;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> _Tp* pointer;<br>      <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> _Tp&amp; reference;<br>      <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">ptrdiff_t</span> difference_type;<br>      <span class="hljs-keyword">typedef</span> std::forward_iterator_tag iterator_category;<br><br>      <span class="hljs-comment">//一系列函数</span><br>      <span class="hljs-type">const</span> _Fwd_list_node_base* _M_node;<br>    &#125;;<br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp,<span class="hljs-keyword">typename</span> _Alloc&gt;<br>    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_base</span> <br>    &#123;<br>      <span class="hljs-keyword">protected</span>:<br>        <span class="hljs-comment">/* bits/alloc_traits.h line 74中 __allocator_traits_base中Alloc::template rebind&lt;_Fwd_list_node&lt;_Tp&gt;&gt;::other;</span><br><span class="hljs-comment">         * bits/allocator.h line 124中std::allocator&lt;_Tp&gt;中 </span><br><span class="hljs-comment">         * template&lt;typename _Tp1&gt;</span><br><span class="hljs-comment">         * struct rebind &#123; typedef allocator&lt;_Tp1&gt; other; &#125;;</span><br><span class="hljs-comment">         * 所以_Node_alloc_type等价与std::allocator&lt;_Fwd_list_node&lt;_Tp&gt;&gt;</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">typedef</span> std::__alloc_rebind&lt;_Alloc,_Fwd_list_node&lt;_Tp&gt;&gt; _Node_alloc_type;<br>        <span class="hljs-comment">//alloc_traits</span><br>        <span class="hljs-keyword">typedef</span> __gnu_cxx::__alloc_traits&lt;_Node_alloc_type&gt; _Node_alloc_traits;<br>        <br><br>        <span class="hljs-comment">/*Alloc::other看名字像std::allocator中的一个类型,推测_Fwd_list_impl还是继承了std::allocator的接口</span><br><span class="hljs-comment">         * 和gcc4.9比起来好相似,都是继承std::allocator</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">struct</span> <span class="hljs-title class_">_Fwd_list_impl</span>:<span class="hljs-keyword">public</span> _Node_alloc_type<br>        &#123;<br>          <span class="hljs-comment">//成员变量,_M_head是一个指针</span><br>          _Fwd_list_node_base _M_head;<br>          <span class="hljs-comment">//其它的是构造函数</span><br>        &#125;; <br><br>        <span class="hljs-comment">/*_Fwd_list_base的成员变量是_Fwd_list_impl,看来forward-list的基类的实现方式</span><br><span class="hljs-comment">         * 还是通过代理给impl类实现*/</span><br>        _Fwd_list_impl _M_impl;<br>      <span class="hljs-keyword">public</span>:<br>        <span class="hljs-keyword">typedef</span> _Fwd_list_iterator&lt;_Tp&gt; iterator;<br>        <span class="hljs-keyword">typedef</span> _Fwd_list_const_iterator&lt;_Tp&gt; const_iterator;<br>        <span class="hljs-keyword">typedef</span> _Fwd_list_node&lt;_Tp&gt; _Node;<br><br>        <span class="hljs-comment">//下面是一些函数</span><br>    &#125;;<br><br>  <span class="hljs-comment">//正式的forward-list容器来了,private方式继承_Fwd_list_base,也就是包含了实现</span><br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> _Tp,<span class="hljs-keyword">typename</span> _Alloc=std::allocator&lt;_Tp&gt;&gt;<br>    <span class="hljs-keyword">class</span> forward_list:<span class="hljs-keyword">private</span> _Fwd_list_base&lt;_Tp,_Alloc&gt;<br>    &#123;<br>      <span class="hljs-keyword">private</span>:<br>        <span class="hljs-keyword">typedef</span> _Fwd_list_base&lt;_Tp,_Alloc&gt; _Base;<span class="hljs-comment">//父类类型</span><br>        <span class="hljs-keyword">typedef</span> _Fwd_list_node_base _Node_base;<span class="hljs-comment">//节点类的父类类型</span><br>        <span class="hljs-comment">//等价与= typedef _Fwd_list_node&lt;_Tp&gt; _Node;</span><br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Base::_Node _Node;<br>        <span class="hljs-comment">//等价与= typedef std::__alloc_rebind&lt;_Alloc,_Fwd_list_node&lt;_Tp&gt;&gt; _Node_alloc_type;</span><br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Base::_Node_alloc_type _Node_alloc_type;<br>        <span class="hljs-comment">//traits 和上面的一样都来自 _Fwd_list_base类</span><br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Base::_Node_alloc_traits _Node_alloc_traits;<br>        <span class="hljs-comment">//_Tp分配器的traits</span><br>        <span class="hljs-keyword">typedef</span> std::allocator_traits&lt;std::__alloc_rebind&lt;_Alloc,_Tp&gt;&gt; _Alloc_traits;<br><br>      <span class="hljs-keyword">public</span>:<br>        <span class="hljs-comment">//下面是给traits用的</span><br>        <span class="hljs-keyword">typedef</span> _Tp value_type;<br>        <span class="hljs-comment">//_Alloc_traits是_Tp的traits</span><br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Alloc_traits::pointer pointer;<br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Alloc_traits::const_pointer const_pointer; <br>        <span class="hljs-keyword">typedef</span> value_type&amp; reference;<br>        <span class="hljs-keyword">typedef</span> <span class="hljs-type">const</span> value_type&amp; const_reference;<br><br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Base::iterator iterator;<br>        <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">typename</span> _Base::const_iterator const_iterator;<br>        <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">size_t</span> size_type;<br>        <span class="hljs-keyword">typedef</span> std::<span class="hljs-type">ptrdiff_t</span> difference_type;<br>        <span class="hljs-keyword">typedef</span> _Alloc allocator_type;<br>      <span class="hljs-comment">//下面的全是forward-list的接口</span><br>    &#125;;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  llc::forward_list&lt;<span class="hljs-type">int</span>&gt; f1;<br>  std::cout &lt;&lt; <span class="hljs-string">&quot;forward-list: &quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(f1) &lt;&lt; <span class="hljs-string">&quot; pointer-size &quot;</span> &lt;&lt; <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>*) &lt;&lt;<span class="hljs-string">&quot;\n&quot;</span>;<br><br>  llc2::forward_list&lt;<span class="hljs-type">int</span>&gt; f2;<br>  std::cout &lt;&lt; <span class="hljs-keyword">sizeof</span>(f2);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="category-chain-item">编程语言</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C%E4%B8%8EC/" class="category-chain-item">C与C++</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C-STL/" class="print-no-link">#C++ STL</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>STL中forwardlist的大致实现</div>
+      <div>https://blog.989883.xyz/2021/09/15/STL中forwardlist的大致实现/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年9月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/14/%E9%81%87%E5%88%B0boostprogram-options%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E9%97%AE%E9%A2%98/" title="使用boost/program_options遇到的一点小问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用boost/program_options遇到的一点小问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/04/css301/" title="css301">
+                        <span class="hidden-mobile">css301</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

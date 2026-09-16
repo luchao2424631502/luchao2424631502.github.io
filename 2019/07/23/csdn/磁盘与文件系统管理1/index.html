@@ -1,0 +1,970 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="物理机磁盘文件名&#x2F;dev&#x2F;sd[a-p] 虚拟机&#x2F;dev&#x2F;vd[a-p](加速作用) 磁盘第一个扇区(512字节)包括: MBR(master boot record):主引导记录 446字节分区表:记录硬盘分区状态,64字节磁盘有效标志2字节    分区最小单位: 同一磁道划分信息称为:primary主要分区和extended扩展分区  扩展分区最多只能有一个 扩展分区不能格式化 扩展分区目的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="磁盘与文件系统管理1">
+<meta property="og:url" content="https://blog.989883.xyz/2019/07/23/csdn/%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%861/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="物理机磁盘文件名&#x2F;dev&#x2F;sd[a-p] 虚拟机&#x2F;dev&#x2F;vd[a-p](加速作用) 磁盘第一个扇区(512字节)包括: MBR(master boot record):主引导记录 446字节分区表:记录硬盘分区状态,64字节磁盘有效标志2字节    分区最小单位: 同一磁道划分信息称为:primary主要分区和extended扩展分区  扩展分区最多只能有一个 扩展分区不能格式化 扩展分区目的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA3LzIzL2VrQ0lEeC5wbmc">
+<meta property="article:published_time" content="2019-07-23T09:35:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.313Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA3LzIzL2VrQ0lEeC5wbmc">
+  
+  
+  
+  <title>磁盘与文件系统管理1 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="磁盘与文件系统管理1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-07-23 17:35" pubdate>
+          2019年7月23日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">磁盘与文件系统管理1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>物理机磁盘文件名<code>/dev/sd[a-p]</code></li>
+<li>虚拟机<code>/dev/vd[a-p]</code>(加速作用)</li>
+<li>磁盘第一个扇区(512字节)包括:<blockquote>
+<p><code>MBR(master boot record)</code>:主引导记录 446字节<br>分区表:记录硬盘分区状态,64字节<br>磁盘有效标志2字节</p>
+</blockquote>
+</li>
+</ol>
+<p>分区最小单位: 同一磁道<br>划分信息称为:<code>primary</code><strong>主要分区</strong>和<code>extended</code><strong>扩展分区</strong></p>
+<ul>
+<li>扩展分区最多只能有一个</li>
+<li>扩展分区不能格式化</li>
+<li>扩展分区目的是使用额外信息来记录分区,继续划分的分区称为<strong>逻辑分区</strong></li>
+<li>但是逻辑分区的设备名称从5开始<code>/dev/sda5</code>,前4个留给主要分区,主要分区和逻辑分区不能整合在一起</li>
+</ul>
+<h4 id="GPT-GUID-partition-table-磁盘分区表"><a href="#GPT-GUID-partition-table-磁盘分区表" class="headerlink" title="GPT(GUID partition table) 磁盘分区表"></a>GPT(GUID partition table) 磁盘分区表</h4><p>解决了操作系统使用磁盘的容量问题</p>
+<ul>
+<li>BIOS(basic input output system):是一个写入到主板上的固件.<strong>是操作系统启动后的第一个程序</strong></li>
+<li>固件:嵌入在硬件设备中的软件</li>
+<li>根据用户配置去读取硬盘<code>MBR</code>位置的<strong>启动引导程序(boot loader)</strong></li>
+<li>启动引导程序的目的是<strong>加载(load)内核文件</strong></li>
+<li>通过内核文件启动操作系统</li>
+</ul>
+<ol start="4">
+<li><code>boot loader</code>是<code>BIOS</code>上的一个软件（主要任务）:</li>
+</ol>
+<ul>
+<li>提供不同的启动选项(多重引导)</li>
+<li>加载内核文件</li>
+<li>转交给<strong>其他启动引导程序</strong></li>
+</ul>
+<hr>
+<ul>
+<li>转交给其他<strong>启动引导程序</strong>:硬盘不止一个<code>MBR</code>,它还可以安装在<strong>每个分区的启动扇区(boot sector)</strong>,这是多重引导功能的原因</li>
+</ul>
+<hr>
+<h4 id="BIOS总结"><a href="#BIOS总结" class="headerlink" title="BIOS总结"></a>BIOS总结</h4><ol>
+<li>每个分区都拥有自己的启动扇区(<code>boot sector</code>)</li>
+<li>实际可启动的内核文件是放在<strong>各分区中</strong></li>
+<li>启动引导程序只认识自己分区的内核文件</li>
+<li>启动引导程序可以<strong>将工作交个下一个分区的启动引导程序</strong></li>
+</ol>
+<h4 id="Linux下所有数据都是以文件的形式来展现"><a href="#Linux下所有数据都是以文件的形式来展现" class="headerlink" title="Linux下所有数据都是以文件的形式来展现"></a>Linux下所有数据都是以文件的形式来展现</h4><ul>
+<li><p>Linux系统使用:<code>directory tree</code>目录树架构,但文件数据放在磁盘分区.</p>
+</li>
+<li><p><strong>挂载</strong>就是结合了目录树的架构与磁盘内的数据</p>
+</li>
+<li><p><strong>挂载</strong>:将<strong>目录</strong>作为<strong>磁盘分区的进入点</strong>,也就是:<strong>进入该目录就能访问到磁盘数据</strong> 进入点目录称为<strong>挂载点</strong></p>
+</li>
+<li><p>目录根据自己需求挂载到不同的分区,重要数据单独挂载到别的分区</p>
+</li>
+<li><p>个人理解:挂载是目录依托在磁盘上</p>
+</li>
+<li><p>交换分区：用硬盘来模拟内存,加快速度</p>
+</li>
+</ul>
+<hr>
+<p>简单分区:</p>
+<ol>
+<li><code>/ + swap + 预留磁盘空间</code></li>
+<li><code>centos</code>中<strong>容量大且读写频繁</strong>的目录:<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">/boot</span><br>/<br><span class="hljs-string">/home</span><br><span class="hljs-string">/var</span><br>swap<br></code></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<ul>
+<li><p>分区后进行格式化,这样操作系统才能使用<strong>文件系统</strong></p>
+<h3 id="高级格式化-由用户文件系统在磁盘的特定区域写入特定数据-已达到初始化磁盘或磁盘分区的"><a href="#高级格式化-由用户文件系统在磁盘的特定区域写入特定数据-已达到初始化磁盘或磁盘分区的" class="headerlink" title="高级格式化:由用户文件系统在磁盘的特定区域写入特定数据,已达到初始化磁盘或磁盘分区的"></a>高级格式化:由用户文件系统在磁盘的特定区域写入特定数据,已达到初始化磁盘或磁盘分区的</h3></li>
+</ul>
+<ol>
+<li><code>window</code>:<code>FAT</code>文件系统</li>
+<li><code>Linux</code>:<code>ext2 (Linux second extended file system)</code></li>
+</ol>
+<ul>
+<li>文件系统将数据存放到不同的区块中</li>
+<li><code>inode</code>:记录文件属性,一个文件一个<code>inode</code>,以及记录文件数据所在区块号码</li>
+<li>数据区块:文件实际内容</li>
+<li><code>super block</code>:记录文件系统整体信息,<code>inode</code>与数据区块的总量及消耗</li>
+</ul>
+<hr>
+<h3 id="dumpe2fs-h-dev-sda1-查看ext文件系统superbolck信息"><a href="#dumpe2fs-h-dev-sda1-查看ext文件系统superbolck信息" class="headerlink" title="dumpe2fs -h /dev/sda1 &#x2F;&#x2F;查看ext文件系统superbolck信息"></a><code>dumpe2fs -h /dev/sda1</code> &#x2F;&#x2F;查看ext文件系统superbolck信息</h3><h3 id="blkid-显示被格式化的设备"><a href="#blkid-显示被格式化的设备" class="headerlink" title="blkid&#x2F;&#x2F;显示被格式化的设备"></a><code>blkid</code>&#x2F;&#x2F;显示被格式化的设备</h3><hr>
+<ul>
+<li><code>inode</code>存放所有数据区块的号码能让系统一次性读取出来</li>
+<li>而<code>FAT</code>文件系统,<strong>每个区块号码都在上一个区块</strong>,相当于<strong>链式读取数据</strong>,导致文件读取速度慢,且<strong>数据碎片多</strong></li>
+<li>碎片整理:区块过于离散,**整理碎片:**将同一个文件的所属区块都集合在一起</li>
+</ul>
+<h4 id="ext2文件系统-inode"><a href="#ext2文件系统-inode" class="headerlink" title="ext2文件系统(inode)"></a>ext2文件系统(inode)</h4><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zMi5heDF4LmNvbS8yMDE5LzA3LzIzL2VrQ0lEeC5wbmc" srcset="/img/loading.gif" lazyload alt="ekCIDx.png"></p>
+<ol>
+<li><code>Boot sector</code>:每个分区的<strong>引导程序</strong>,剩下的就是<strong>文件系统</strong></li>
+<li><code>ext2</code>格式化的时候<strong>区分为多个区块群组(block group)</strong></li>
+</ol>
+<ul>
+<li><p>每个区块只能放一个文件的数据</p>
+</li>
+<li><p><strong>一个文件一个inode</strong>,<strong>一个Inode</strong>可以指向多个<code>block</code></p>
+<h4 id="inode-Table记录了"><a href="#inode-Table记录了" class="headerlink" title="inode Table记录了:"></a><code>inode Table</code>记录了:</h4></li>
+</ul>
+<ol>
+<li><code>rwx</code></li>
+<li><code>owner</code> <code>group</code></li>
+<li>修改时间,特性标识</li>
+<li>所指向的<code>block</code></li>
+</ol>
+<ul>
+<li>当文件太大时,一个<code>inode</code>记录不下所有的<code>block</code>的号码,就会<strong>间接</strong>的将所指<code>block</code>来存储其他<code>block</code>的号码.<strong>间接指向</strong>所有<code>block</code></li>
+<li><code>inode bitmap</code>和<code>block bitmap</code>,记录已经使用的<code>inode</code>号码&#x2F;<code>block</code>的号码,以及未使用的</li>
+</ul>
+<h3 id="ls-l-lib-modules-uname-r-kernel-fs-查看linux支持的文件系统"><a href="#ls-l-lib-modules-uname-r-kernel-fs-查看linux支持的文件系统" class="headerlink" title="ls -l /lib/modules/$(uname -r)/kernel/fs 查看linux支持的文件系统"></a><code>ls -l /lib/modules/$(uname -r)/kernel/fs</code> 查看linux支持的文件系统</h3><h3 id="cat-proc-filesystems-查看系统目前加载到内存中支持的文件系统"><a href="#cat-proc-filesystems-查看系统目前加载到内存中支持的文件系统" class="headerlink" title="cat /proc/filesystems 查看系统目前加载到内存中支持的文件系统"></a><code>cat /proc/filesystems</code> 查看系统目前加载到内存中支持的文件系统</h3><h3 id="df-列出文件系统的整体磁盘使用量"><a href="#df-列出文件系统的整体磁盘使用量" class="headerlink" title="df:列出文件系统的整体磁盘使用量"></a><code>df</code>:列出文件系统的整体磁盘使用量</h3><ul>
+<li><code>df</code>读取的是<code>super block</code>中信息,速度快<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">-a 列出所有文件系统<br>-h 自动调整格式<br></code></pre></td></tr></table></figure></li>
+<li><code>/proc</code>: Linux系统加载系统需要的系统数据挂载在<strong>内存中</strong>,所以磁盘占用为0</li>
+<li><code>/dev/shm</code>:利用内存虚拟出来的磁盘空间,<strong>占物理内存的一半</strong>,访问速度快</li>
+</ul>
+<h3 id="du-到文件系统查所有的文件数据-列出所有文件的容量-但是只显示目录的容量"><a href="#du-到文件系统查所有的文件数据-列出所有文件的容量-但是只显示目录的容量" class="headerlink" title="du:到文件系统查所有的文件数据.列出所有文件的容量,但是只显示目录的容量,"></a><code>du</code>:到文件系统查所有的文件数据.<strong>列出所有文件的容量,但是只显示目录的容量</strong>,</h3><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">-a 文件和目录都显示</span><br><span class="hljs-deletion">-s 仅列出所有容量</span><br><span class="hljs-deletion">-h 自动调整格式</span><br></code></pre></td></tr></table></figure>
+
+<p>文件访问顺序: <code>ls -l /etc/passwd</code></p>
+<ol>
+<li>先访问<code>/</code>的<code>inode</code>后,通过权限了在访问其<code>block</code></li>
+<li>得到<code>/etc</code>的<code>inode</code>,通过权限后再 访问其<code>block</code></li>
+<li>得到<code>passwd</code>的<code>inode</code>,根据权限判断是否能访问</li>
+</ol>
+<h3 id="日志式文件系统的功能"><a href="#日志式文件系统的功能" class="headerlink" title="日志式文件系统的功能"></a>日志式文件系统的功能</h3><ul>
+<li><p>将<code>block</code> <code>inode</code>表称为数据存储区,超级区块\inode对照表\区块对照表称为<strong>元数据</strong></p>
+<h5 id="新增文件步骤"><a href="#新增文件步骤" class="headerlink" title="新增文件步骤:"></a>新增文件步骤:</h5></li>
+</ul>
+<ol>
+<li>判断目录权限,然后创建文件.</li>
+<li>根据<code>inode</code>对照表找到没使用的<code>inode</code>号码,并来写入文件<strong>权限</strong></li>
+<li>根据区块对照表找到未使用的<code>区块号码</code>,写入<strong>实际数据</strong>到区块中,更新<code>inode</code>指向的区块</li>
+</ol>
+<hr>
+<ol>
+<li>专门记录写入或修改文件时的步骤</li>
+<li>当断电时,系统检查日志来修复文件系统,而不是对整个文件系统进行检查</li>
+</ol>
+<h3 id="文件系统运行"><a href="#文件系统运行" class="headerlink" title="文件系统运行"></a>文件系统运行</h3><ul>
+<li>数据都要<strong>加载到内存经由CPU处理</strong>,由于磁盘与内存速度差距.不能同时处理</li>
+</ul>
+<ol>
+<li>linux中异步处理方式:</li>
+</ol>
+<ul>
+<li>内存区段中文件<strong>未修改</strong>设置为<code>clean</code>,被修改设置为<code>dirty</code>,系统定时将内存中设置为<code>dirty</code>的数据写回到<strong>磁盘</strong>中.(此时所有操作还在内存中)</li>
+</ul>
+<h3 id="VFS-virtual-filesystem-switch-虚拟文件系统交换"><a href="#VFS-virtual-filesystem-switch-虚拟文件系统交换" class="headerlink" title="VFS(virtual filesystem switch) 虚拟文件系统交换"></a>VFS(<code>virtual filesystem switch</code>) 虚拟文件系统交换</h3><ul>
+<li>每个目录都可能作为文件系统(磁盘分区)的挂载点,所以系统上运行着多种文件系统,</li>
+<li>每个文件系统都有独立的<code>inode</code>,区块,超级区块,要挂载到目录上才能使用</li>
+<li><code>Linux 内核</code>通过<code>VFS</code>管理这些文件系统</li>
+<li>当我们切换到不同目录下,可能属于不同的文件系统,此时由<code>VFS</code>帮助我们调用不同文件系统模块</li>
+</ul>
+<h3 id="XFS文件系统-日志文件系统"><a href="#XFS文件系统-日志文件系统" class="headerlink" title="XFS文件系统(日志文件系统)"></a>XFS文件系统(日志文件系统)</h3><ul>
+<li><code>centos 7</code>将此日志文件系统作为默认文件系统,被用于高容量磁盘的文件系统</li>
+<li><code>ext4</code>缺点:格式化慢，<strong>ext4 一开始就将<code>inode</code>与数据区块 给 固定好了</strong></li>
+<li><code>XFS</code>:格式化块,<code>inode</code>和数据区块都是<strong>动态分配</strong></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%BA%95%E5%B1%82/" class="category-chain-item">系统与底层</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%BA%95%E5%B1%82/Linux%E5%9F%BA%E7%A1%80/" class="category-chain-item">Linux基础</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>磁盘与文件系统管理1</div>
+      <div>https://blog.989883.xyz/2019/07/23/csdn/磁盘与文件系统管理1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年7月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/25/csdn/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="网络基础知识">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络基础知识</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/22/csdn/%E8%BF%9B%E7%A8%8B.%E5%B7%A5%E4%BD%9C.%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1./" title="进程.工作.定时任务.">
+                        <span class="hidden-mobile">进程.工作.定时任务.</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

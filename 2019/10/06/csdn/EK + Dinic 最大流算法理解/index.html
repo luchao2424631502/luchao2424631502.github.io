@@ -1,0 +1,872 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="网络流常见问题 最大流:我对残留网的理解： 原本网络中不存在流,为了求出最大流.人为的给出一条任意大小流从 源点出发经过一些边到达汇点.且流的大小最后被限制成 经过的边中 容量最小的边,但是流具有守恒性,不可能凭空产生？？？,所以又要从汇点流回去,所以形成了残留网  最大流算法的图解.以及残留网的图, Ford-Fulkerson (方法) 是一类计算网络流的最大流的贪心算法。 之所以称之为“方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EK + Dinic 最大流算法理解">
+<meta property="og:url" content="https://blog.989883.xyz/2019/10/06/csdn/EK%20+%20Dinic%20%E6%9C%80%E5%A4%A7%E6%B5%81%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="网络流常见问题 最大流:我对残留网的理解： 原本网络中不存在流,为了求出最大流.人为的给出一条任意大小流从 源点出发经过一些边到达汇点.且流的大小最后被限制成 经过的边中 容量最小的边,但是流具有守恒性,不可能凭空产生？？？,所以又要从汇点流回去,所以形成了残留网  最大流算法的图解.以及残留网的图, Ford-Fulkerson (方法) 是一类计算网络流的最大流的贪心算法。 之所以称之为“方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-05T16:09:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.328Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="Edmonds-Karp算法 Dinic算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>EK + Dinic 最大流算法理解 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="EK + Dinic 最大流算法理解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-06 00:09" pubdate>
+          2019年10月6日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">EK + Dinic 最大流算法理解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="网络流常见问题-最大流"><a href="#网络流常见问题-最大流" class="headerlink" title="网络流常见问题 最大流:"></a>网络流常见问题 最大流:</h2><h4 id="我对残留网的理解："><a href="#我对残留网的理解：" class="headerlink" title="我对残留网的理解："></a>我对残留网的理解：</h4><ul>
+<li>原本<strong>网络</strong>中不存在流,为了求出最大流.<strong>人为的给出一条任意大小流</strong>从 <strong>源点出发</strong>经过一些边<strong>到达汇点</strong>.<strong>且流的大小最后被限制成 经过的边中 容量最小的边</strong>,但是<strong>流具有守恒性,不可能凭空产生？？？</strong>,所以又要从<strong>汇点流回去,所以形成了残留网</strong></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tengweitw/article/details/17766133#commentBox">最大流算法的图解.以及残留网的图,</a></p>
+<h3 id="Ford-Fulkerson-方法"><a href="#Ford-Fulkerson-方法" class="headerlink" title="Ford-Fulkerson (方法)"></a>Ford-Fulkerson (方法)</h3><ul>
+<li>是一类计算<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E6%B5%81">网络流</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E6%B5%81%E9%97%AE%E9%A2%98">最大流</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95">贪心算法</a>。 之所以称之为“方法”而不是“算法”，是因为它寻找增广路径的方式并不是完全确定的，而是有几种不同<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a>的实现方式</li>
+</ul>
+<h3 id="Edmond-Karp-（EK）算法理解"><a href="#Edmond-Karp-（EK）算法理解" class="headerlink" title="Edmond-Karp （EK）算法理解"></a>Edmond-Karp （EK）算法理解</h3><ol>
+<li>邻接表存储的小技巧: <strong>2点之间的 来回边的下标</strong> <code>(x-&gt;y)</code>为<code>i</code>,那么<code>(x&lt;-y)</code>为<code>i^1</code>（成对变换）</li>
+<li>流程:</li>
+</ol>
+<ul>
+<li>首先通过<code>bfs</code>从<strong>源点</strong>出发 <strong>找到任意一条</strong> <strong>边的容量限制下</strong>可以到达<strong>汇点的路径 (称为增广路)</strong>,且<code>pre[]</code>记录一下.</li>
+<li>通过<code>pre[]</code>找到<strong>此次增广路径上 流的大小,</strong>,也就是<strong>路径上的容量最小的边</strong>,累加每次增广路径上的流的大小</li>
+<li>然后<strong>根据流守恒</strong>把 把图(网络) 更新为 新的图 (残留图).这样流才能守恒</li>
+<li>直到<code>bfs</code>找不到<strong>增广路</strong>了就说明找到了<strong>最大流</strong></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span> </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><br>using namespace <span class="hljs-built_in">std</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn = <span class="hljs-number">505</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> inf = <span class="hljs-number">0x3f3f3f3f</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxm = <span class="hljs-number">4e4</span>+<span class="hljs-number">10</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> &#123;</span> <span class="hljs-type">int</span> u,v,c,next;&#125; edge[maxm];<br><span class="hljs-type">int</span> head[maxn],pre[maxn];<br><span class="hljs-type">int</span> cnt,n,m,source,sink;<br><span class="hljs-type">bool</span> vis[maxn];<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v,<span class="hljs-type">int</span> c)</span> &#123;<br>    edge[cnt].u = u; edge[cnt].v = v; edge[cnt].c = c;<br>    edge[cnt].next = head[u]; head[u] = cnt++;<br><br>    edge[cnt].u = v; edge[cnt].v = u; edge[cnt].c = <span class="hljs-number">0</span>;<br>    edge[cnt].next = head[v]; head[v] = cnt++;<br>&#125;<br><br><span class="hljs-type">bool</span> <span class="hljs-title function_">bfs</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-type">int</span>&gt; que;<br>    <span class="hljs-built_in">memset</span>(pre,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> pre);<br>    <span class="hljs-built_in">memset</span>(vis, <span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span> vis);<br>    pre[source]=<span class="hljs-number">-1</span>;<br>    vis[source]=<span class="hljs-number">1</span>;<br>    que.push(source);<br>    <span class="hljs-keyword">while</span> (!que.empty()) &#123; <span class="hljs-comment">//通过bfs找到f()&gt;0的增广路</span><br>        <span class="hljs-type">int</span> cur = que.front(); que.pop();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=head[cur]; i!=<span class="hljs-number">-1</span>; i=edge[i].next) &#123;<br>            <span class="hljs-type">int</span> to = edge[i].v;<br>            <span class="hljs-keyword">if</span> (edge[i].c&gt;<span class="hljs-number">0</span> &amp;&amp; !vis[to]) &#123;<br>                pre[to]=i; <span class="hljs-comment">//记录进入该点的边</span><br>                vis[to] = <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">if</span> (to==sink) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>                que.push(to);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">Edmond_Karp</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> maxflow = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> delta;<br>    <span class="hljs-keyword">while</span> (bfs()) &#123;<br>        delta=inf;<br>        <span class="hljs-type">int</span> i = pre[sink]; <span class="hljs-comment">//i点sink点的入边</span><br>        <span class="hljs-keyword">while</span> (i!=<span class="hljs-number">-1</span>) &#123;<span class="hljs-comment">// 找到流中的最小边(流量)</span><br>            delta = min(delta,edge[i].c);<br>            i = pre[edge[i].u];<br>        &#125;<br>        i = pre[sink]; <span class="hljs-comment">//重新扫描一些</span><br>        <span class="hljs-keyword">while</span> (i!=<span class="hljs-number">-1</span>) &#123;<br>            edge[i].c -= delta;<br>            edge[i^<span class="hljs-number">1</span>].c += delta;<br>            i = pre[edge[i].u];<br>        &#125;<br>        maxflow += delta;<br>    &#125;<br>    <span class="hljs-keyword">return</span> maxflow;<br>&#125;<br><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    freopen(<span class="hljs-string">&quot;1.in&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,<span class="hljs-built_in">stdin</span>);<br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;n,&amp;m) != EOF) &#123;<br>        <span class="hljs-type">int</span> u,v,w;<br>        <span class="hljs-built_in">memset</span>(head,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> head);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;m; ++i) &#123;<br>            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>,&amp;u,&amp;v,&amp;w);<br>            add(u,v,w);<br>        &#125;<br>        source=<span class="hljs-number">1</span>;<br>        sink=n;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,Edmond_Karp());<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Dinic算法由来-bfs每次只能找到一条增广路效率太低"><a href="#Dinic算法由来-bfs每次只能找到一条增广路效率太低" class="headerlink" title="Dinic算法由来: bfs每次只能找到一条增广路效率太低"></a>Dinic算法由来: <code>bfs</code>每次只能找到一条增广路效率太低</h4><h3 id="Dinic算法"><a href="#Dinic算法" class="headerlink" title="Dinic算法"></a>Dinic算法</h3><blockquote>
+<p>背景:在一次增广的过程中想要找到 多条增广路</p>
+<ul>
+<li>仍用邻接表存储</li>
+<li>Dinic算法 将 EK算法中的 <code>bfs</code>找增广路 <strong>分为</strong> 2步.由<code>bfs</code>分层.(源点到它最少要经过的边数).<code>dfs</code>从源点开始由<strong>前一层</strong>向<strong>后一层</strong>反复寻找增广路.</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>流程:</p>
+<ol>
+<li><code>bfs</code>通过图中的边 将 网络的图 <strong>分层</strong></li>
+<li>在这次<strong>分层之后</strong>.重复调用<code>dfs</code>来找<strong>增广路</strong>.<ul>
+<li><code>dfs(int i,int delta)</code> .<code>i</code>表示当前点,<strong><code>delta</code>表示流入该点的流量</strong></li>
+<li><code>int flow</code>:表示从<strong>该点已经流出的流量</strong>.</li>
+<li><code>min(delta - flow,edge[i].c)</code>:<strong>巧妙的解决了: 出边的容量 与 剩下可以流出的流量</strong>来满足增广路的需要.</li>
+<li><code>dfs</code>回溯时 维护 残留网</li>
+<li><code>dfs</code>中 <code>!flow</code>:<strong>流出的流量&#x3D;0</strong>. 即 增广路找不到了.<code>dep[u]==-1</code>.将该点从该层移出去(<code>dfs</code>下次访问不到)</li>
+</ul>
+</li>
+<li><code>dfs</code>找不到<strong>增广路</strong>后.通过<code>bfs</code>重新分层. 直到不能<strong>分层为止</strong></li>
+</ol>
+<h3 id="总结-Dinic就是从每次找一条增广路-变为-在分层基础上由dfs去找多条增广路"><a href="#总结-Dinic就是从每次找一条增广路-变为-在分层基础上由dfs去找多条增广路" class="headerlink" title="总结: Dinic就是从每次找一条增广路 变为 在分层基础上由dfs去找多条增广路"></a>总结: Dinic就是从每次找一条增广路 变为 在分层基础上由dfs去找多条增广路</h3></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn = <span class="hljs-number">505</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> inf = <span class="hljs-number">0x3f3f3f3f</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxm = <span class="hljs-number">4e4</span><span class="hljs-number">+10</span>;<br><br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span> &#123; <span class="hljs-type">int</span> u,v,c,next; &#125; edge[maxm];<br><span class="hljs-type">int</span> n,m,cnt,source,sink;<br><span class="hljs-type">int</span> head[maxn],dep[maxn];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v,<span class="hljs-type">int</span> c)</span> </span>&#123;<br>    edge[cnt].u = u; edge[cnt].v = v; edge[cnt].c = c;<br>    edge[cnt].next = head[u]; head[u] = cnt++;<br><br>    edge[cnt].u = v; edge[cnt].v = u; edge[cnt].c = <span class="hljs-number">0</span>;<br>    edge[cnt].next = head[v]; head[v] = cnt++;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">bfs</span><span class="hljs-params">()</span> </span>&#123;<br>    queue&lt;<span class="hljs-type">int</span>&gt; que;<br>    <span class="hljs-comment">//while (!que.empty()) que.pop();</span><br>    <span class="hljs-built_in">memset</span>(dep,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> dep);<br>    dep[source]=<span class="hljs-number">0</span>;<br>    que.<span class="hljs-built_in">push</span>(source);<br>    <span class="hljs-keyword">while</span> (!que.<span class="hljs-built_in">empty</span>()) &#123;<br>        <span class="hljs-type">int</span> cur = que.<span class="hljs-built_in">front</span>(); que.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=head[cur]; i!=<span class="hljs-number">-1</span>; i=edge[i].next) &#123;<br>            <span class="hljs-type">int</span> to = edge[i].v;<br>            <span class="hljs-keyword">if</span> (edge[i].c&gt;<span class="hljs-number">0</span> &amp;&amp; dep[to] == <span class="hljs-number">-1</span>) &#123;<br>                dep[to] = dep[cur] + <span class="hljs-number">1</span>;<br>                que.<span class="hljs-built_in">push</span>(to);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> dep[sink] != <span class="hljs-number">-1</span>; <span class="hljs-comment">// 不等于-1说明分层成功</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> delta)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (u == sink)<br>        <span class="hljs-keyword">return</span> delta;<br>    <span class="hljs-type">int</span> flow=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i=head[u]; i!=<span class="hljs-number">-1</span>; i=edge[i].next) &#123;<br>        <span class="hljs-type">int</span> to = edge[i].v;<br>        <span class="hljs-keyword">if</span> (edge[i].c&gt;<span class="hljs-number">0</span> &amp;&amp; dep[to]==dep[u]<span class="hljs-number">+1</span>) &#123;<br>            <span class="hljs-type">int</span> temp = <span class="hljs-built_in">dfs</span>(to,<span class="hljs-built_in">min</span>(delta-flow,edge[i].c));<br>            edge[i].c -= temp;<br>            edge[i^<span class="hljs-number">1</span>].c += temp;<br>            flow += temp;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!flow) dep[u]=<span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">return</span> flow;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dinic</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>,temp;<br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">bfs</span>()) &#123; <span class="hljs-comment">// 分层后通过dfs一次找到多条增广路</span><br>        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>            temp = <span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,inf);<br>            <span class="hljs-keyword">if</span> (!temp) <span class="hljs-keyword">break</span>;<br>            ans += temp;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;1.in&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,stdin);<br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;m,&amp;n) != EOF) &#123;<br>        cnt = <span class="hljs-number">0</span>;<br>        <span class="hljs-built_in">memset</span>(head,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> head);<br>        <span class="hljs-type">int</span> u,v,c;<br>        <span class="hljs-keyword">while</span> (m--) &#123;<br>            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>,&amp;u,&amp;v,&amp;c);<br>            <span class="hljs-built_in">add</span>(u,v,c);<br>        &#125;<br>        source=<span class="hljs-number">1</span>;sink=n;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,<span class="hljs-built_in">dinic</span>());<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="http://poj.org/problem?id=1273">最大流例题 POJ 1273</a></li>
+<li><code>SAP</code>算法理解 先占坑待解决</li>
+<li>参考<strong>北京大学暑期课讲义-网络流</strong></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">算法与数据结构</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9B%BE%E8%AE%BA/" class="category-chain-item">图论</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Edmonds-Karp%E7%AE%97%E6%B3%95-Dinic%E7%AE%97%E6%B3%95/" class="print-no-link">#Edmonds-Karp算法 Dinic算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>EK + Dinic 最大流算法理解</div>
+      <div>https://blog.989883.xyz/2019/10/06/csdn/EK + Dinic 最大流算法理解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/19/csdn/php%E7%95%99%E8%A8%80%E6%9D%BF%E5%B0%8Fdemo/" title="php留言板小demo">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">php留言板小demo</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/04/csdn/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E4%B8%AA%E6%95%B0%E6%A8%A1%E6%9D%BF%20+%20%E6%9C%80%E5%A4%A7%E5%9B%A2%E8%AE%A1%E6%95%B0%E6%A8%A1%E6%9D%BF/" title="最大独立集个数模板 + 最大团计数模板">
+                        <span class="hidden-mobile">最大独立集个数模板 + 最大团计数模板</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

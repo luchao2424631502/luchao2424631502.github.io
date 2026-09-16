@@ -1,0 +1,964 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="man :manual 手册 命令的帮助或者配置文件的帮助  man ls man services &#x2F; 是在文件内搜索whereis passwd1是命令的帮助5是配置文件的帮助   例如:whereis passwd 一个是命令,一个是配置文件的名字,   man passwd默认打开的是命令的帮助文档 man 5 passwd 打开的是配置文件的文档(帮助信息)     whatis ls">
+<meta property="og:type" content="article">
+<meta property="og:title" content="帮助+压缩+网络常用命令">
+<meta property="og:url" content="https://blog.989883.xyz/2019/06/16/csdn/%E5%B8%AE%E5%8A%A9+%E5%8E%8B%E7%BC%A9+%E7%BD%91%E7%BB%9C%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="man :manual 手册 命令的帮助或者配置文件的帮助  man ls man services &#x2F; 是在文件内搜索whereis passwd1是命令的帮助5是配置文件的帮助   例如:whereis passwd 一个是命令,一个是配置文件的名字,   man passwd默认打开的是命令的帮助文档 man 5 passwd 打开的是配置文件的文档(帮助信息)     whatis ls">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-16T06:29:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.307Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>帮助+压缩+网络常用命令 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="帮助+压缩+网络常用命令"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-06-16 14:29" pubdate>
+          2019年6月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">帮助+压缩+网络常用命令</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ul>
+<li><code>man :manual 手册</code> <strong>命令</strong>的帮助或者<strong>配置文件</strong>的帮助<blockquote>
+<ol>
+<li><code>man ls</code></li>
+<li><code>man services</code></li>
+<li><code>/ 是在文件内搜索</code><br><code>whereis passwd</code><br><code>1</code>是<strong>命令的帮助</strong><br><code>5</code>是<strong>配置文件的帮助</strong></li>
+</ol>
+<ul>
+<li><p>例如:<br><code>whereis passwd</code> <strong>一个是命令</strong>,<strong>一个是配置文件的名字</strong>,  </p>
+<p><code>man passwd</code>默认打开的是命令的帮助文档<br> <code>man 5 passwd</code> 打开的是配置文件的文档(帮助信息)</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><code>whatis ls</code>: 显示命令的名称解释</li>
+<li><code>date</code> 日期</li>
+<li><code>help</code> <strong>查看<code>shell</code>内置命令</strong><blockquote>
+<ol>
+<li><code>help umask</code></li>
+<li><code>which umask</code>找不到<code>shell</code>内置命令的绝对路径</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><ul>
+<li><code>useradd</code></li>
+<li><code>who</code>:查询登录信息<br> <code>tty</code>: 本地终端<br> <code>pts</code>: 远程终端</li>
+<li><code>w</code>:<strong>查询详细登录信息</strong><br> <code>up time</code> 服务器持续运行时间<br><code>load average</code>服务器负载<br><code>IDLE(懒惰)</code>:未下指令持续的时间<br><code>PCUP</code>:cup占用情况<br><code>JCUP</code>:cup持续占用情况</li>
+</ul>
+<h4 id="压缩-压缩目录需要先打包在压缩"><a href="#压缩-压缩目录需要先打包在压缩" class="headerlink" title="压缩(压缩目录需要先打包在压缩)"></a>压缩(压缩目录需要先打包在压缩)</h4><ul>
+<li><p><code>gzip boduo</code>:<code>GNU zip</code><strong>文件</strong>格式(压缩文件)<code>.gz</code></p>
+</li>
+<li><p><code>gunzip boduo</code> :解压缩</p>
+</li>
+<li><p><code>tar -cvf [压缩后文件名][目录]</code><br> <code>tar :tape archive</code>(磁带档案)<br><code>-c</code>:建立压缩档案(<strong>打包</strong>)<br><code>-x</code>:解开包(<em><strong>和打包对应</strong></em>)<br><code>-v</code>:显示所有过程<br><code>-f</code>:(最后一个参数<strong>必须加</strong>):<br><code>-z</code>:压缩  </p>
+<ol>
+<li>先打包在压缩<br><code>tar -cvf Japan.tar Japan</code><br> 2.打包同时压缩<br><code>tar -zcvf Japan.tar.zip Japan</code><br>3.打包<br><code>tar -cvf Japan.tar Japan</code><br>4.解包<br><code>tar -xvf Japan.tar</code></li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">tar –xvf file<span class="hljs-selector-class">.tar</span>         <span class="hljs-comment">// 解压 tar 包 </span><br>tar -xzvf file<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.gz</span>     <span class="hljs-comment">// 解压 tar.gz </span><br>tar -xjvf file<span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.bz2</span>    <span class="hljs-comment">// 解压 tar.bz2 </span><br>-j 代替了 bz2<br></code></pre></td></tr></table></figure>
+
+<p><code>tar.gz tar.bz2</code>都可以先转成<code>tar</code>,然后在解包</p>
+</li>
+<li><p><code>zip</code>：保留原文件,<strong>文件、目录</strong>都可以压缩,<strong>所以要先压缩后的文件名</strong><br><code>zip nihao.zip nihao</code><br><code>zip -r Japan.zip Japan</code>:<code>-r</code> 递归处理文件和子目录</p>
+</li>
+<li><p><code>unzip nihao.zip</code></p>
+</li>
+<li><p><code>bzip2 boduo</code></p>
+<blockquote>
+<ol>
+<li>文件格式<code>.bz2</code></li>
+<li><code>bzip2 -k boduo</code> <code>:-k keep</code>压缩同时保留原文件</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>bunzip2 bodo.bz2</code></p>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3></li>
+<li><p>给其他(<strong>在线</strong>)用户发送信息</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-built_in">write</span> luchao<br>需要发送的内容<br>ctrl+D退出 ctrl+<span class="hljs-keyword">back</span> 退格<br></code></pre></td></tr></table></figure></li>
+<li><p><code>wall</code>:<code>write all</code>,给所有用户发信息</p>
+<blockquote>
+<ol>
+<li><code>wall hello</code></li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>ping 192.168.152.1</code>发送数据包,检测主机是否存在</p>
+<blockquote>
+<ol>
+<li><code>ping -c 100 192.168.152.1</code>:<code>-c</code>次数</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>ifconfig</code>:<code>interface(接口) configure(配置)</code></p>
+<blockquote>
+<ol>
+<li><code>ifconfig eth0 192.168.152.2</code> 临时更改</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>mail root</code> 右面接着内容</p>
+<blockquote>
+<ol>
+<li><code>mail</code>查看邮件</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>last</code> 登录系统的用户信息</p>
+</li>
+<li><p><code>lastlog</code> 所有用户最后一次登录的信息</p>
+<blockquote>
+<ol>
+<li><code>lastlog -u luchao(或者uid)</code>,</li>
+<li><code>id luchao</code>:用户的 uid</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>traceroute www.sina.com.cn</code>显示数据包到主机的路径</p>
+</li>
+<li><p><code>setup</code>配置网络地址(redhat独有)</p>
+</li>
+<li><p><code>netstat</code></p>
+<blockquote>
+<ol>
+<li><p>端口：接收的服务  </p>
+<p> tcp与udp的区别  </p>
+<p> 只有接收端口固定</p>
+</li>
+<li><p><code>netstat -tlun</code> 本机监听的端口</p>
+</li>
+<li><p><code>netstat -an</code> 所有ip地址和端口号</p>
+</li>
+<li><p><code>netstat -rn</code> 路由表<br><code>-t</code> tcp协议<br> <code>-u</code>udp协议<br><code>-l</code> 监听<br><code>-r</code>路由<br><code>-n</code>显示ip地址和端口</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>mount</code></p>
+<blockquote>
+<ol>
+<li><code>scsi + rom</code>:<code>small computer system interface</code>(小型计算机系统接口),<code>sr0</code>:<code>rom</code>接口上的第一个文件</li>
+<li><code>/dev/cdrom</code> 一个软链接<br> <code>ls -l /dev/cdrom</code><br><code>lrwxrwxrwx. 1 root root 3 6月 16 03:33 /dev/cdrom -&gt; sr0</code></li>
+<li><code>mount /dev/cdrom /mnt/cdrom</code>(写成<code>/dev/sr0</code>一样)</li>
+<li><code>umount /dev/cdrom</code>(取消挂载&lt;–&gt;拔出U盘) 因为已经连接上了<code>umount /mnt/cdrom</code>也行</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="关机等"><a href="#关机等" class="headerlink" title="关机等"></a>关机等</h3><ul>
+<li><code>shutdown</code> 关机<blockquote>
+<ol>
+<li><code>shutdown -h</code>关机后停机</li>
+<li><code>shutdown -r</code> 关机后重启</li>
+<li><code>halt</code><br><code>poweroff</code><br><code>init 0</code>等</li>
+<li><code>reboot</code></li>
+</ol>
+</blockquote>
+</li>
+<li><code>init</code>的配置文件<code>/etc/inittab</code><blockquote>
+<ul>
+<li>查看以及修改系统的<code>runlevel</code></li>
+</ul>
+<ol>
+<li><code>runlevel</code>查看系统运行级别</li>
+</ol>
+</blockquote>
+</li>
+<li><code>logout</code>退出登录</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%BA%95%E5%B1%82/" class="category-chain-item">系统与底层</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%BA%95%E5%B1%82/Linux%E5%9F%BA%E7%A1%80/" class="category-chain-item">Linux基础</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>帮助+压缩+网络常用命令</div>
+      <div>https://blog.989883.xyz/2019/06/16/csdn/帮助+压缩+网络常用命令/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年6月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/17/csdn/Vim%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Vim常用命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vim常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/15/csdn/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E5%8F%8A%E6%90%9C%E7%B4%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="文件权限及搜索常用命令">
+                        <span class="hidden-mobile">文件权限及搜索常用命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

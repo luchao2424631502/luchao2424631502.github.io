@@ -1,0 +1,931 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="css选择器基本语法 标签名字+ {}  派生选择器: 现写上一级的标签名,然后空格 再写当前标签名,则实现派生选中  id选择器 (常和派生选择器一起使用) id选择器 以 #号来选取的  给 标签加id最常见   class选择器(类选择器) 类选择器以.来选取 也可以和派生选择器一起使用  属性选择器\属性和值选择器  在标签中写出属性就可以  [属性]{} [属性&#x3D;值]{}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css301">
+<meta property="og:url" content="https://blog.989883.xyz/2021/08/04/css301/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="css选择器基本语法 标签名字+ {}  派生选择器: 现写上一级的标签名,然后空格 再写当前标签名,则实现派生选中  id选择器 (常和派生选择器一起使用) id选择器 以 #号来选取的  给 标签加id最常见   class选择器(类选择器) 类选择器以.来选取 也可以和派生选择器一起使用  属性选择器\属性和值选择器  在标签中写出属性就可以  [属性]{} [属性&#x3D;值]{}">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-04T07:48:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.350Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="css3">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>css301 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="css301"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-04 15:48" pubdate>
+          2021年8月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">css301</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="css选择器基本语法"><a href="#css选择器基本语法" class="headerlink" title="css选择器基本语法"></a>css选择器基本语法</h3><ol>
+<li><p>标签名字+ {}</p>
+</li>
+<li><p>派生选择器:</p>
+<p>现写上一级的标签名,然后空格 再写当前标签名,则实现派生选中</p>
+</li>
+<li><p>id选择器 (常和派生选择器一起使用)</p>
+<p><strong>id选择器 以 <code>#</code>号来选取的</strong></p>
+<blockquote>
+<p>给</p>
+<p>标签加<code>id</code>最常见</p>
+</blockquote>
+</li>
+<li><p>class选择器(类选择器)</p>
+<p><strong>类选择器以<code>.</code>来选取</strong></p>
+<p>也可以和派生选择器一起使用</p>
+</li>
+<li><p>属性选择器\属性和值选择器</p>
+<blockquote>
+<p>在标签中写出属性就可以</p>
+</blockquote>
+<p>[属性]{}</p>
+<p>[属性&#x3D;值]{}</p>
+</li>
+</ol>
+<h3 id="css-背景-1"><a href="#css-背景-1" class="headerlink" title="css-背景-1"></a>css-背景-1</h3><ol>
+<li>background-color: 设置元素的背景颜色</li>
+<li>background-image: 背景图片</li>
+<li>background-repeat: 设置图形不允许重复</li>
+<li>background-position: 设置背景图片的起始位置 从图片的那个地方开始显示</li>
+<li>background-attachment: 设置背景图像是否跟随页面进行滚动 fix(固定,就是页面滚动,但是背景图片固定)</li>
+<li>background-size: 设置背景图片的大小</li>
+</ol>
+<h3 id="css-文本-2"><a href="#css-文本-2" class="headerlink" title="css-文本-2"></a>css-文本-2</h3><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mel"><span class="hljs-number">1.</span> <span class="hljs-keyword">color</span>: 文本颜色<br><br><span class="hljs-number">2.</span> <span class="hljs-keyword">text</span>-<span class="hljs-keyword">align</span>: 文本对齐方式<br><br><span class="hljs-number">3.</span> <span class="hljs-keyword">text</span>-indent: 首行缩进<br><br><span class="hljs-number">4.</span> <span class="hljs-keyword">text</span>-transform: 改变文本的大小写<br><br><span class="hljs-number">5.</span> <span class="hljs-keyword">text</span>-shadow: 给文字添加模糊效果 x偏移 y偏移 范围大小 颜色<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-字体-3"><a href="#css-字体-3" class="headerlink" title="css-字体-3"></a>css-字体-3</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">1.</span> font-size: 设置字体大小<br><br><span class="hljs-bullet">2.</span> font-family: 设置字体型号<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-链接-4"><a href="#css-链接-4" class="headerlink" title="css-链接-4"></a>css-链接-4</h3><p>链接的4种状态:</p>
+<ol>
+<li>linked:普通的,未被访问的</li>
+<li>visited: 已经访问过的</li>
+<li>hover:鼠标悬停在链接上方的</li>
+<li>active: 链接被点击的时刻</li>
+<li>text-decoration: none 清除下划线</li>
+<li>background-color: 背景颜色</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:link</span> &#123;<br>    <span class="hljs-attribute">color</span>: red;<br>    <span class="hljs-attribute">text-decoration</span>: none;<br>    <span class="hljs-attribute">background-color</span>: chartreuse;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-列表-5"><a href="#css-列表-5" class="headerlink" title="css-列表-5"></a>css-列表-5</h3><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">1</span>. <span class="hljs-built_in">list-style-type:</span> ; 修改<span class="hljs-string">li</span>项的 圆圈,方框,或者数字<br><br><span class="hljs-string">2</span>. <span class="hljs-built_in">list-style-image:</span> ; 修改<span class="hljs-string">li</span>项的标签为<span class="hljs-string">icon</span>,用<span class="hljs-string">url</span>()引入<br><br><span class="hljs-string">3</span>. <span class="hljs-built_in">list-style-position:</span> ;修改<span class="hljs-string">li</span>项的左右位置<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-表格-6"><a href="#css-表格-6" class="headerlink" title="css-表格-6"></a>css-表格-6</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-number">1</span>. <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid blue; 设置外边框<br><br><span class="hljs-number">2</span>. <span class="hljs-attribute">border-collapse</span>: collapse; 折叠边框(合并边框)<br><br><span class="hljs-number">3</span>. <span class="hljs-attribute">text-align</span>: center; 让<span class="hljs-selector-tag">td</span>的内容居中<br><br><span class="hljs-number">4</span>. <span class="hljs-attribute">background-color</span>: chartreuse; 设置表格的颜色<br><br><span class="hljs-number">5</span>. <span class="hljs-attribute">width</span>: ; 表格的宽高<br><br><span class="hljs-number">6</span>. <span class="hljs-attribute">height</span>: ;<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-轮廓-7-突出元素作用"><a href="#css-轮廓-7-突出元素作用" class="headerlink" title="css-轮廓-7 (突出元素作用)"></a>css-轮廓-7 (突出元素作用)</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-number">1</span>. <span class="hljs-attribute">outline-style</span>: double; 轮廓线的样式<br><br><span class="hljs-number">2</span>. <span class="hljs-attribute">outline-color</span>: ; 轮廓线的颜色<br><br><span class="hljs-number">3</span>. <span class="hljs-attribute">outline-width</span>: ; 轮廓线的宽度<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-定位-8-1-普通流-定位"><a href="#css-定位-8-1-普通流-定位" class="headerlink" title="css-定位-8(1.普通流,定位)"></a>css-定位-8(1.普通流,定位)</h3><blockquote>
+<p>第一种 普通流</p>
+</blockquote>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-number">1</span>. position <span class="hljs-number">4</span>种情况:<br><br>    <span class="hljs-number">1</span><span class="hljs-punctuation">)</span> 相对 relative<br><br>    <span class="hljs-number">2</span><span class="hljs-punctuation">)</span> 绝对 absolute<br><br>    <span class="hljs-number">3</span><span class="hljs-punctuation">)</span> 固定 fixed <span class="hljs-punctuation">(</span>跟随翻页条<span class="hljs-punctuation">)</span><br><br>    <span class="hljs-number">4</span><span class="hljs-punctuation">)</span> 静态 static <span class="hljs-punctuation">(</span>top left等距离失效<span class="hljs-punctuation">)</span><br><br><span class="hljs-number">2</span>. z-index 上下覆盖的先后<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-定位-9-2-浮动"><a href="#css-定位-9-2-浮动" class="headerlink" title="css-定位-9(2.浮动)"></a>css-定位-9(2.浮动)</h3><blockquote>
+<p>浮动脱离的文档流,但是不会像绝对布局那样完全脱离,而是会影响旁边元素的布局</p>
+<p>并且浮动受到高度影响</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-number">1</span>. <span class="hljs-attribute">float</span>: xx; 向xx浮动<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>2021&#x2F;7&#x2F;31 15:48</p>
+</blockquote>
+<h3 id="css-盒子模型-10"><a href="#css-盒子模型-10" class="headerlink" title="css-盒子模型-10"></a>css-盒子模型-10</h3><p>想象矩形的四个部分(margin(外边距)+border(边框)+padding(内边距)+content(内容))</p>
+<h3 id="css-盒子模型-边框样式-border-style"><a href="#css-盒子模型-边框样式-border-style" class="headerlink" title="css-盒子模型-边框样式(border-style)"></a>css-盒子模型-边框样式(border-style)</h3><ol>
+<li><p>边的总样式</p>
+<p>border-style:double;</p>
+</li>
+<li><p>分别设定4条边的样式</p>
+<p>border-top-style: groove;</p>
+<p>border-bottom-style: hidden;</p>
+<p>border-left-style: outset;</p>
+<p>border-right-style: ridge;</p>
+</li>
+<li><p>边的宽度</p>
+<p>border-width: 20px;</p>
+</li>
+<li><p>单边框的宽度</p>
+<p>border-top-width: 20px;</p>
+</li>
+<li><p>边框的颜色</p>
+<p>border-color: lime;</p>
+</li>
+<li><p>单边框的颜色</p>
+<p>border-top-color: red;</p>
+<p>border-left-color: khaki;</p>
+<p>border-right-color: lawngreen;</p>
+<p>border-bottom-color: lightsalmon;</p>
+</li>
+</ol>
+<p>css3提供边框效果:</p>
+<ol>
+<li><p>圆角边框</p>
+<p>border-radius: 100px;</p>
+</li>
+<li><p>边框的阴影效果</p>
+<p>box-shadow: 10px 10px 50px lime; (x y radius color)</p>
+</li>
+</ol>
+<p><code>&lt;p&gt;</code>标签中文本对齐:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">text-align</span>: center;<br></code></pre></td></tr></table></figure>
+
+<h3 id="css-盒子模型-外边距合并"><a href="#css-盒子模型-外边距合并" class="headerlink" title="css-盒子模型-外边距合并"></a>css-盒子模型-外边距合并</h3><p>两个<code>&lt;div&gt;</code>的<code>margin</code>合并,取maring最大的这个(高度塌陷)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web%E5%BC%80%E5%8F%91/" class="category-chain-item">Web开发</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web%E5%BC%80%E5%8F%91/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/css3/" class="print-no-link">#css3</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>css301</div>
+      <div>https://blog.989883.xyz/2021/08/04/css301/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/09/15/STL%E4%B8%ADforwardlist%E7%9A%84%E5%A4%A7%E8%87%B4%E5%AE%9E%E7%8E%B0/" title="STL中forwardlist的大致实现">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">STL中forwardlist的大致实现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/04/c-oo1/" title="c++oo1">
+                        <span class="hidden-mobile">c++oo1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

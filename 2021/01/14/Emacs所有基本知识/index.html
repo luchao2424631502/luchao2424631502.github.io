@@ -1,0 +1,1093 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="一个用来调用特定命令的Emacs组合键被称为一个键绑定,可自定义,Emacs有缺省的绑定  Emacs命令分为2大类,  Ctrl Meta(Alt)   Emacs符号中Ctrl写成C-后面是第二个按键对应的字符,例如Ctrl-X组合键写成C-X  Meta按键被表示为M- Meta键常被帮顶到Alt键,通常可以使用Esc键完成一个Meta按键序列,与输入Ctrl按键序列不同,按下Esc,然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Emacs第一部分:所有基础知识">
+<meta property="og:url" content="https://blog.989883.xyz/2021/01/14/Emacs%E6%89%80%E6%9C%89%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="一个用来调用特定命令的Emacs组合键被称为一个键绑定,可自定义,Emacs有缺省的绑定  Emacs命令分为2大类,  Ctrl Meta(Alt)   Emacs符号中Ctrl写成C-后面是第二个按键对应的字符,例如Ctrl-X组合键写成C-X  Meta按键被表示为M- Meta键常被帮顶到Alt键,通常可以使用Esc键完成一个Meta按键序列,与输入Ctrl按键序列不同,按下Esc,然后">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-14T10:40:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.348Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="Emacs">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Emacs第一部分:所有基础知识 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Emacs第一部分:所有基础知识"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-14 18:40" pubdate>
+          2021年1月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Emacs第一部分:所有基础知识</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li><p>一个用来调用特定命令的Emacs组合键被称为一个键绑定,可自定义,Emacs有缺省的绑定</p>
+</li>
+<li><p>Emacs命令分为2大类,</p>
+<ol>
+<li>Ctrl</li>
+<li>Meta(Alt)</li>
+</ol>
+</li>
+<li><p>Emacs符号中<code>Ctrl</code>写成<code>C-</code>后面是第二个按键对应的字符,例如<code>Ctrl-X</code>组合键写成<code>C-X</code></p>
+</li>
+<li><p><code>Meta</code>按键被表示为<code>M-</code></p>
+<p>Meta键常被帮顶到<code>Alt</code>键,<strong>通常可以使用<code>Esc</code>键完成一个<code>Meta</code>按键序列,与输入Ctrl按键序列不同,按下Esc,然后松开,再按第2个键</strong></p>
+</li>
+<li><p>每一个Emacs命令都是一个函数,由<code>Emacs Lisp</code>定义,并有一个函数名.</p>
+<p>例如: 用上下方向键将光标向上移动一行也是一个函数<code>previous-line</code>,使用<code>M-x</code>命令,然后输入函数名,可运行任意一个函数.</p>
+<p><code>M-x previous-line</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="缓冲区和文件"><a href="#缓冲区和文件" class="headerlink" title="缓冲区和文件"></a>缓冲区和文件</h3><blockquote>
+<p>普通方式启动Emacs,默认是<code>scratch</code>(乱,挠)缓冲区,<strong>如果是Emacs自动创建的特殊缓冲区,名称两边有星号</strong></p>
+</blockquote>
+<p>缓冲区中有未保存到磁盘的文本时,模式行左侧出现两个星号,</p>
+<h4 id="创建新文件的方法"><a href="#创建新文件的方法" class="headerlink" title="创建新文件的方法"></a>创建新文件的方法</h4><blockquote>
+<p>当前的buffer没有和特定文件相关联时,Emacs将提示你指定用来保存缓冲区的文件的名字,已关联则直接写入</p>
+</blockquote>
+<p><code>C-x C-s</code>运行<code>save-buffer</code>命令,将缓冲区内容保存到某个文件</p>
+<h5 id="如果Emacs中没有打开其他的buffer-scratch缓冲区会一直存在-当它是唯一buffer时-scratch是无法被关闭的"><a href="#如果Emacs中没有打开其他的buffer-scratch缓冲区会一直存在-当它是唯一buffer时-scratch是无法被关闭的" class="headerlink" title="如果Emacs中没有打开其他的buffer,scratch缓冲区会一直存在,当它是唯一buffer时,scratch是无法被关闭的"></a>如果Emacs中没有打开其他的buffer,<code>scratch</code>缓冲区会一直存在,当它是唯一buffer时,<code>scratch</code>是无法被关闭的</h5><hr>
+<h4 id="利用文件名启动Emacs"><a href="#利用文件名启动Emacs" class="headerlink" title="利用文件名启动Emacs"></a>利用文件名启动Emacs</h4><blockquote>
+<p>Emacs启动某个特定的文件的内容放进一个新的缓冲区中以便编辑,提供多个文件则每个文件都在属于自己的缓冲区中打开.</p>
+</blockquote>
+<hr>
+<h4 id="打开一个文件"><a href="#打开一个文件" class="headerlink" title="打开一个文件"></a>打开一个文件</h4><p><code>C-x C-f</code>:<code>find-file</code>()命令,用文件的内容打开一个缓冲区</p>
+<h4 id="访问缓冲区"><a href="#访问缓冲区" class="headerlink" title="访问缓冲区"></a>访问缓冲区</h4><p><code>C-x b</code>从当前缓冲区切换到指定的缓冲区中,直接键入<code>Enter</code>(没有指定缓冲区的名称)则会切换到上一次访问的缓冲区,缺省值是<code>scratch</code>缓冲区</p>
+<h4 id="新建缓冲区"><a href="#新建缓冲区" class="headerlink" title="新建缓冲区"></a>新建缓冲区</h4><p>利用切换缓冲区<code>C-x b</code>,键入新缓冲区命名就可以,</p>
+<blockquote>
+<p><code>C-x C-s</code>保存缓冲区内容到磁盘中,指定的文件名不需要和缓冲区名称相同,Emacs会自动改变buffer的名称和使与新文件相符</p>
+</blockquote>
+<h4 id="kill-buffer"><a href="#kill-buffer" class="headerlink" title="kill buffer"></a>kill buffer</h4><p><code>C-x k</code>命令杀死某个缓冲区,键入Enter则是当前缓冲区(缺省),</p>
+<h4 id="将缓冲区保存到磁盘"><a href="#将缓冲区保存到磁盘" class="headerlink" title="将缓冲区保存到磁盘"></a>将缓冲区保存到磁盘</h4><p><code>C-x C-s</code> 命令,</p>
+<p>Emacs备份文件:<strong>当在Emacs中编辑一个已经存在的文件时,然后将编辑内容保存到文件时,Emacs会将编辑前的内容写到新文件中进行备份</strong>,此新文件的名称与原来的文件相同,<strong>只是多了一个波浪符号</strong></p>
+<hr>
+<h3 id="在Emacs中编辑文本"><a href="#在Emacs中编辑文本" class="headerlink" title="在Emacs中编辑文本"></a>在Emacs中编辑文本</h3><h4 id="在插入点插入文本"><a href="#在插入点插入文本" class="headerlink" title="在插入点插入文本"></a>在插入点插入文本</h4><h5 id="插入点"><a href="#插入点" class="headerlink" title="插入点:"></a>插入点:</h5><blockquote>
+<p>表示字符的插入位置,<strong>位于光标所在字符和前一个字符之间</strong></p>
+</blockquote>
+<p><code>C-p</code> (previous上): 光标移动到上一行</p>
+<p><code>C-n</code>(next 下): 光标移动到下一行</p>
+<p><code>C-f</code>(front 前): 光标移动到下一个字符</p>
+<p><code>C-n</code>(next 后): 光标移动到上一个字符</p>
+<p>PageDown替代:<code>C-V</code></p>
+<p>PageUp 替代:<code>M-v</code></p>
+<p><code>C-a</code> :光标转移到行的开始处</p>
+<p><code>C-e</code>:光标转移到行的结尾</p>
+<p><code>M-a</code>:转移到当前句子的开头</p>
+<p><code>M-e</code>:转移到当前句子的结尾</p>
+<p><code>M-f</code>:光标向后移动一个单词 (<strong>注意<code>C</code>是移动一个字符</strong>)</p>
+<p><code>M-b</code>:光标向前移动一个单词</p>
+<h4 id="改写模式"><a href="#改写模式" class="headerlink" title="改写模式"></a>改写模式</h4><p>[Ins]键</p>
+<h4 id="删除-撤销和重复"><a href="#删除-撤销和重复" class="headerlink" title="删除,撤销和重复"></a>删除,撤销和重复</h4><h5 id="1-删除"><a href="#1-删除" class="headerlink" title="1. 删除"></a>1. 删除</h5><p><code>Del</code>:删除当前光标的字符</p>
+<p><code>BackSpace</code>:删除插入点左边的字符</p>
+<p><code>C-d</code> &#x3D; <code>Del</code>:删除当前光标的字符</p>
+<p><code>M-d</code>:删除光标后直到单词末尾</p>
+<p><code>M-BackSpace</code>或<code>C-BackSpace</code>或者<code>M-Del</code>都可以从插入点一直删除到单词的开头</p>
+<h5 id="2-撤销和重复"><a href="#2-撤销和重复" class="headerlink" title="2.撤销和重复"></a>2.撤销和重复</h5><p>运行<code>undo()</code>函数,撤销不想执行的操作,此函数绑定到<code>C-_</code>,也就是<code>Ctrl+Shift+-</code></p>
+<p>如果对<code>undo()</code>操作感到后悔,键入<code>C-g</code>,取消所有的撤销操作,再次键入<code>C-_</code>执行<code>redo()</code>操作</p>
+<p><code>C-u 2 e</code>表示写入2个e字符,在没有数字参数下,假定数字为4,<code>C-u</code>本身作为参数则自乘4,</p>
+<p>例如:<code>C-u C-u C-u a</code>,则是64个a</p>
+<p>例:快速移动向后光标:<code>C-u 100 C-f</code></p>
+<h4 id="标记-移除"><a href="#标记-移除" class="headerlink" title="标记,移除"></a>标记,移除</h4><h5 id="标记一个区域"><a href="#标记一个区域" class="headerlink" title="标记一个区域"></a>标记一个区域</h5><p><code>C-space</code>在当前插入点处设置一个标记,<strong>插入点和设置标记之间的部分被称为区域</strong></p>
+<h5 id="删除和恢复文本"><a href="#删除和恢复文本" class="headerlink" title="删除和恢复文本"></a>删除和恢复文本</h5><p><code>C-w</code>,删除定义的区域,删除的文本保存在<strong>Emacs的kill ring</strong>中, (<strong>作用类似剪切</strong>)</p>
+<p><code>C-y</code>把它们恢复到插入点,<strong>多个删除命令连续进行删除,会叠加在一起,只返回一个移除内容</strong></p>
+<p><code>C-k</code>删除从插入点到行末的所有文本</p>
+<h5 id="复制文本"><a href="#复制文本" class="headerlink" title="复制文本"></a>复制文本</h5><p><code>M-w</code>:和<code>C-w</code>的剪切对比记忆,<code>M-w</code>是复制区域内容到<code>kill ring</code></p>
+<hr>
+<h2 id="常用快捷键-函数总结"><a href="#常用快捷键-函数总结" class="headerlink" title="常用快捷键(函数总结)"></a>常用快捷键(函数总结)</h2><h4 id="C-x-文件和缓冲区命令"><a href="#C-x-文件和缓冲区命令" class="headerlink" title="C-x 文件和缓冲区命令"></a>C-x 文件和缓冲区命令</h4><table>
+<thead>
+<tr>
+<th>C-x</th>
+<th>文件和缓冲区命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C-x C-c</td>
+<td>将所有未保存的缓冲区保存到磁盘,并退出Emacs:save-buffers-kill-emacs()</td>
+</tr>
+<tr>
+<td>C-x C-s</td>
+<td>将当前buffer写入磁盘文件:save-buffer()</td>
+</tr>
+<tr>
+<td>* C-x s</td>
+<td>将所有未保存的缓冲区保存到磁盘:save-some-buffers()</td>
+</tr>
+<tr>
+<td>C-x C-f</td>
+<td>打开一个文件:find-file()</td>
+</tr>
+<tr>
+<td>* C-x b</td>
+<td>从当前缓冲区切换到指定的另一个缓冲区</td>
+</tr>
+<tr>
+<td>C-x C-b</td>
+<td>列出所有缓冲区:list-buffers()</td>
+</tr>
+<tr>
+<td>* C-x k</td>
+<td>杀死一个缓冲区,缺省为当前:kill-buffer()</td>
+</tr>
+<tr>
+<td>C-x C-q</td>
+<td>切换当前缓冲区的可读状态:vc-toggle-read-only()</td>
+</tr>
+<tr>
+<td>* C-x i</td>
+<td>在光标处插入某个文件的内容:insert-file()</td>
+</tr>
+<tr>
+<td>C-g</td>
+<td>终止命令</td>
+</tr>
+</tbody></table>
+<h4 id="M-x-进入命令行"><a href="#M-x-进入命令行" class="headerlink" title="M-x 进入命令行"></a>M-x 进入命令行</h4><h4 id="C-键盘移动和导航"><a href="#C-键盘移动和导航" class="headerlink" title="C- 键盘移动和导航"></a>C- 键盘移动和导航</h4><table>
+<thead>
+<tr>
+<th>C-p</th>
+<th>光标移动到上一行:previous-line()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C-n</td>
+<td>光标移动到下一行:next-line()</td>
+</tr>
+<tr>
+<td>C-f</td>
+<td>光标移动到下一个字符:forward-char()</td>
+</tr>
+<tr>
+<td>C-b</td>
+<td>光标移动到上一个字符:back-char()</td>
+</tr>
+<tr>
+<td>C-a</td>
+<td>光标移动到行首:beginning-of-line()</td>
+</tr>
+<tr>
+<td>C-e</td>
+<td>光标移动到行尾:end-of-line()</td>
+</tr>
+<tr>
+<td>M-f</td>
+<td>光标移动到下一个单词:forward-word()</td>
+</tr>
+<tr>
+<td>M-b</td>
+<td>光标移动到上一个单词:backward-word()</td>
+</tr>
+<tr>
+<td>C-v [PgDn]</td>
+<td>将文本向上滚屏:scroll-up()</td>
+</tr>
+<tr>
+<td>M-v [PgUp]</td>
+<td>将文本向下滚屏:scroll-down()</td>
+</tr>
+<tr>
+<td>[Home]</td>
+<td>将光标移动到行首(可能是buffer开头):beginning-of-buffer()</td>
+</tr>
+<tr>
+<td>[End]</td>
+<td>将光标移动到行末(可能是buffer末尾):end-of-buffer()</td>
+</tr>
+<tr>
+<td>M-a</td>
+<td>将光标移动到句子的开始处:beginning-of-sentence()</td>
+</tr>
+<tr>
+<td>M-e</td>
+<td>将光标移动到句子的结尾处:end-of-sentence()</td>
+</tr>
+</tbody></table>
+<h4 id="C-Emacs编辑命令"><a href="#C-Emacs编辑命令" class="headerlink" title="C-Emacs编辑命令"></a>C-Emacs编辑命令</h4><table>
+<thead>
+<tr>
+<th>Ins</th>
+<th>切换改写模式:overwrite-mode()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BackSpace</td>
+<td>删除插入点前的字符:delete-backward-char()</td>
+</tr>
+<tr>
+<td>C-d</td>
+<td>删除插入点处的字符:delete-char()</td>
+</tr>
+<tr>
+<td>M-d</td>
+<td>从插入点开始删除直到末尾:kill-word()</td>
+</tr>
+<tr>
+<td>M-BackSpace</td>
+<td>从插入点开始删除直到单词开始:backward-kill-word()</td>
+</tr>
+<tr>
+<td>C-_</td>
+<td>撤销操作:undo()</td>
+</tr>
+<tr>
+<td>C-q</td>
+<td>在插入点插入按键本身代表的字符:quoted-insert()</td>
+</tr>
+<tr>
+<td>C-u</td>
+<td>重复指令:universal-argument()</td>
+</tr>
+</tbody></table>
+<h4 id="标记和删除文本的Emacs函数"><a href="#标记和删除文本的Emacs函数" class="headerlink" title="标记和删除文本的Emacs函数"></a>标记和删除文本的Emacs函数</h4><table>
+<thead>
+<tr>
+<th>C-space</th>
+<th>在插入点设置标记:set-mark-command()</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C-k</td>
+<td>删除从插入点到行末的所有文本:kill-line()</td>
+</tr>
+<tr>
+<td>C-w</td>
+<td>删除区域: kill-region() <strong>类似剪切</strong></td>
+</tr>
+<tr>
+<td>M-w</td>
+<td>将区域保存在kill ring中,但是不删除:kill-ring-save() <strong>类似复制</strong></td>
+</tr>
+<tr>
+<td>C-y</td>
+<td>恢复来自kill ring的文本: yank()</td>
+</tr>
+</tbody></table>
+<h4 id="Emacs的鼠标操作"><a href="#Emacs的鼠标操作" class="headerlink" title="Emacs的鼠标操作"></a>Emacs的鼠标操作</h4><blockquote>
+<p>B1表示鼠标左键,B2表示鼠标右键,B3表示鼠标中键</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>B1</th>
+<th>设置插入点位置,按住不懂拖动鼠标设置区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B1-B1</td>
+<td>标记一个单词</td>
+</tr>
+<tr>
+<td>B1-B1-B1</td>
+<td>标记一行</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>将区域插入kill ring中,并把光标移动到插入内容的末尾</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>将kill ring的内容插入到光标处</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/" class="category-chain-item">工具与效率</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/%E7%BC%96%E8%BE%91%E5%99%A8/" class="category-chain-item">编辑器</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Emacs/" class="print-no-link">#Emacs</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Emacs第一部分:所有基础知识</div>
+      <div>https://blog.989883.xyz/2021/01/14/Emacs所有基本知识/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年1月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/16/Emacs%E7%AC%AC2%E9%83%A8%E5%88%86%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%BC%96%E8%BE%91%E7%89%B9%E6%80%A7/" title="Emacs第二部分:基本模式和编辑特性">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Emacs第二部分:基本模式和编辑特性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/14/%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89/" title="移动语义">
+                        <span class="hidden-mobile">移动语义</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

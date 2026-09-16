@@ -1,0 +1,1059 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="持续更新 一、网络概述  OSI参考模型（数据通信 应用层: 所有能产生网络流量的程序  表示层: 传输之前是否进行加密or压缩处理  会话层: 区分来的数据是属于哪一个窗口的(会话),访问网站建立会话 1*   查看是否存在木马: netstat -n -b 传输层: 可靠传输 流量控制  可靠传输：在网络中丢包了,只要server没有收到client的包,则server一直发包,直到确定 流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络概述">
+<meta property="og:url" content="https://blog.989883.xyz/2020/01/16/csdn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="持续更新 一、网络概述  OSI参考模型（数据通信 应用层: 所有能产生网络流量的程序  表示层: 传输之前是否进行加密or压缩处理  会话层: 区分来的数据是属于哪一个窗口的(会话),访问网站建立会话 1*   查看是否存在木马: netstat -n -b 传输层: 可靠传输 流量控制  可靠传输：在网络中丢包了,只要server没有收到client的包,则server一直发包,直到确定 流">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-16T12:08:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:17:26.336Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>计算机网络概述 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="计算机网络概述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-16 20:08" pubdate>
+          2020年1月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">计算机网络概述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ul>
+<li><p>持续更新</p>
+<h1 id="一、网络概述"><a href="#一、网络概述" class="headerlink" title="一、网络概述"></a>一、网络概述</h1></li>
+</ul>
+<h2 id="OSI参考模型（数据通信"><a href="#OSI参考模型（数据通信" class="headerlink" title="OSI参考模型（数据通信"></a>OSI参考模型（数据通信</h2><ol>
+<li><p>应用层: 所有能产生网络流量的程序</p>
+</li>
+<li><p>表示层: 传输之前是否进行加密or压缩处理</p>
+</li>
+<li><p>会话层: 区分来的数据是属于哪一个窗口的(会话),访问网站建立会话</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">*   </span>查看是否存在木马: netstat -n -b<br></code></pre></td></tr></table></figure></li>
+<li><p>传输层: 可靠传输 流量控制</p>
+<ul>
+<li>可靠传输：在网络中丢包了,只要server没有收到client的包,则server一直发包,直到确定</li>
+<li>流量控制:</li>
+<li>不可靠传输: 一个包可以搞定的事情不需要建立会话(DNS)</li>
+</ul>
+</li>
+<li><p>网络层:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">*</span>  选择最佳路径(可以指定路径：静态路由)<br><span class="hljs-bullet">   *</span>  规划IP地址<br></code></pre></td></tr></table></figure></li>
+<li><p>数据链路层 （ 如 交换机</p>
+<ul>
+<li>帧的开始和结束</li>
+<li>透明传输</li>
+<li>差错校验</li>
+</ul>
+</li>
+<li><p>物理层</p>
+<ul>
+<li>网络设备接口标准</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="排错"><a href="#排错" class="headerlink" title="排错:"></a>排错:</h2><ol>
+<li><p>物理层: 网线2口,一口收,1口发,查看收发的字节数,判断是否是传输介质的问题</p>
+</li>
+<li><p>数据链路层:</p>
+<ol>
+<li>MAC地址冲突</li>
+<li><del>欠费</del></li>
+<li>交换机和服务器的网卡接口 传输速度 不统一</li>
+<li>计算机连接到错误的vlan(<code>virtual local area network</code>:虚拟局域网)</li>
+</ol>
+</li>
+<li><p>网络层:</p>
+<ol>
+<li>网段配置错误</li>
+<li>网关配置错误 (路由器地址),所以无法访问其他网段</li>
+<li>路由器不知道数据包要到达的地址(网段),导致丢包</li>
+</ol>
+</li>
+<li><p>上面的就是程序员的问题了…</p>
+</li>
+</ol>
+<hr>
+<h2 id="数据封装过程"><a href="#数据封装过程" class="headerlink" title="数据封装过程"></a>数据封装过程</h2><ol>
+<li>应用层 : 原始数据</li>
+<li>传输层：TCP头 + （原始数据）&#x3D; 数据段&#x2F;消息</li>
+<li>网络层： IP头 + （TCP头 + 原始数据）&#x3D; 数据包</li>
+<li>数据链路层：MAC头 + （IP 头 + TCP头 + 原始数据）+ 校验值 &#x3D; 数据帧</li>
+<li>物理层 1010100101… &#x3D; Bit</li>
+</ol>
+<ul>
+<li><code>client</code>收到数据包后解包就行了</li>
+</ul>
+<hr>
+<h2 id="网络性能"><a href="#网络性能" class="headerlink" title="网络性能"></a>网络性能</h2><ol>
+<li><p>速率</p>
+<p>连接在计算机网络上的主机在<strong>数字信道</strong>上传送**数据位数(bit)**的速率：<code>data rate / bit rate</code></p>
+<p><code>b/s kb/s Mb/s Gb/s</code></p>
+</li>
+<li><p>带宽</p>
+<p><strong>数字信道</strong>所能传送的最高数据率</p>
+<ul>
+<li>带宽影响的是<strong>数据从计算机发送到信道上的速率</strong></li>
+<li>传播速度由<strong>信道的介质决定</strong></li>
+</ul>
+</li>
+<li><p>吞吐量</p>
+<p>吞吐量</p>
+<p>单位时间内通过某网络的数据量</p>
+</li>
+<li><p>时延</p>
+<ol>
+<li>发送时延 &#x3D; 数据块长度 &#x2F; <strong>信道带宽</strong></li>
+</ol>
+</li>
+</ol>
+<h1 id="二、物理层"><a href="#二、物理层" class="headerlink" title="二、物理层"></a>二、物理层</h1><h2 id="2-1-物理层基本概念"><a href="#2-1-物理层基本概念" class="headerlink" title="2.1 物理层基本概念"></a>2.1 物理层基本概念</h2><ol>
+<li><p>主要任务:</p>
+<ul>
+<li>确定 传输媒体接口 的特性:<blockquote>
+<ol>
+<li>机械特性: 形状,大小,引线数</li>
+<li>电气: 确定电压范围</li>
+<li>功能特性：5v为1 0v为0</li>
+<li>过程特性：建立连接时各个部分的工作步骤</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-2-数据通信的基础知识"><a href="#2-2-数据通信的基础知识" class="headerlink" title="2.2 数据通信的基础知识"></a>2.2 数据通信的基础知识</h2><ol>
+<li><p>调制解调器：将<strong>数字信号（离散的01010)翻译成可沿着电话线传送的模拟信号（连续的）</strong></p>
+<figure class="highlight node-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs node-repl"><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">数据：运送消息的实体</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>信号：数据的电气或电磁上的表现</p>
+<p>模拟信号：取值连续</p>
+<p>数字信号：取值离散</p>
+<p><strong>码元</strong>： 使用<strong>波形表示数字信号时</strong>，<strong>代表不同的离散数值的基本波形</strong>称为码元</p>
+<p>例如: <code>^</code>的波形代表十进制数字<code>3</code>,那么二进制为<code>011</code>,<strong>该码元携带了3bit的信息</strong></p>
+<ul>
+<li>1码元可以携带<code>n bit</code>的信息量</li>
+</ul>
+</blockquote>
+</li>
+<li><p>信道的概念</p>
+<blockquote>
+<ol>
+<li>一般表示向一个方向传送信息的媒体<ul>
+<li>单项通信（单工通信）：只能有一个方向的通信而没有反方向的交互</li>
+<li>双向交替通信（半双工通信）双方都可以收发,但不说同时收或者同时发</li>
+<li>双向同时通信（全双工通信）：通信的双方可以同时发送和接收信息</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p>基带信号 和 带通信号</p>
+<ol>
+<li><p>基带信号（<strong>基本频带信号</strong>）</p>
+<blockquote>
+<p>计算机<strong>输出的代表各种文字或者图像文件的数据信号</strong>都属于基带信号,</p>
+<p>因为传输距离近，所以基带信号的衰减不大，信号内容不会发生变化，所以距离近传输采用基带信号</p>
+<p>计算机发出的都是基带信号：</p>
+<p>例如：计算机到显示器，打印机等外设的信号</p>
+</blockquote>
+</li>
+<li><p>带通信号</p>
+<p>把<strong>基带信号</strong>经过载波调制后,把信号的频率范围搬移到较高的频段。以便在信道中传输</p>
+<blockquote>
+<p>调制方法:</p>
+<ol>
+<li>调幅</li>
+<li>调频</li>
+<li>调相</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>奈氏准则</p>
+<blockquote>
+<p>在信道无干扰的条件下（理想条件下），<strong>为了避免码间串扰,码元的传输速率有上限值</strong></p>
+</blockquote>
+<blockquote>
+<p>理解：光纤的带宽高，则单位时间上传的数据密集比铜线密集,如果可能导致接收方无法识别码元（<code>n bit</code>）</p>
+</blockquote>
+</li>
+<li><p>信噪比</p>
+<p>信道的极限信息传输速率<code>C</code>表示为：</p>
+<p>$C&#x3D;W *log_{2}(1+S&#x2F;N)$</p>
+<blockquote>
+<ul>
+<li>$W$:信道带宽</li>
+<li>$S$:信道内所传信号的平均功率</li>
+<li>$N$: 信道内部的高斯噪声功率</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h2 id="2-3-物理层下的传输媒体"><a href="#2-3-物理层下的传输媒体" class="headerlink" title="2.3 物理层下的传输媒体"></a>2.3 物理层下的传输媒体</h2><ol>
+<li><p>导向传输媒体</p>
+<p>​ 有线传输</p>
+</li>
+<li><p>非导向传输媒体</p>
+<p>​ 无限传输</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li><p>集线器（现在都用交换机）:</p>
+<p>广播信号,只起到信号方法和重发的作用,目的是扩大网络的传输范围,和集线器连接的计算机中2台通讯会占线，</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="2-4-信道复用-复用-信道-分用-技术"><a href="#2-4-信道复用-复用-信道-分用-技术" class="headerlink" title="2.4 信道复用 (复用-&gt;信道-&gt;分用)技术"></a>2.4 信道复用 (复用-&gt;信道-&gt;分用)技术</h2><ol>
+<li><p>频分复用</p>
+<p>信道上用户的信号频率不同,接 收端通过频率来区分</p>
+<p>例如: 打电话</p>
+</li>
+<li><p>时分复用</p>
+<p><strong>按时间来将传送数据排序</strong></p>
+<p>某时刻:所有人要传送的数据的一块按顺序在信道中排列成一帧,所有数据按照顺序组成n帧,接收端按照顺序收信号,</p>
+</li>
+<li><p>(统计时分复用): 同一时间随便去数据组成一帧,,给数据帧中的每个人的数据加标记,接收端过滤</p>
+</li>
+<li><p>波分复用 (按照光的频率复用:光的频分复用)</p>
+</li>
+</ol>
+<h2 id="2-5-数字传输系统"><a href="#2-5-数字传输系统" class="headerlink" title="2.5 数字传输系统"></a>2.5 数字传输系统</h2><ol>
+<li>e1 和 t1标准</li>
+</ol>
+<h2 id="2-6-宽带接入技术（接入internet"><a href="#2-6-宽带接入技术（接入internet" class="headerlink" title="2.6 宽带接入技术（接入internet"></a>2.6 宽带接入技术（接入internet</h2><ol>
+<li><p>ADSL（<code>Asymmertric digital subscriber line</code>:非对称数字用户线路)</p>
+<blockquote>
+<ol>
+<li><p><strong>利用DMT技术</strong>，低频留给传统电话用,高频给上网用,</p>
+<p>所以在电话线接入家里之前还有 <strong>电话分离器</strong> 把 电话信号接家里电话，其他信号分给家里电脑网卡,<strong>远端同理</strong></p>
+</li>
+<li><p><strong>DMT技术</strong>:</p>
+<p>高端频谱<strong>划分为许多的子信道,25个上行,249个下行信道</strong>,（人为调制频谱,应该能实现上下信道个数相同）<strong>每个信道的频率都不相同（频分复用）</strong></p>
+<hr>
+<p><strong>多信道是怎么传串行的数据流的呢？</strong>，</p>
+<p>有转换器能实现<strong>并行和串行的数据转换，从而把数据分摊到多个信道上</strong></p>
+</li>
+<li><p>电话线能通过的频率有限,</p>
+</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h1 id="三、数据链路层"><a href="#三、数据链路层" class="headerlink" title="三、数据链路层"></a>三、数据链路层</h1><ol>
+<li><p>信道类型:</p>
+<p><strong>点对点信道</strong>： 一对一的点对点通信方式</p>
+<p><strong>广播信道</strong>：一对多的广播通信方式</p>
+</li>
+<li><p>链路与数据链路：</p>
+<p>链路: 一条点对点的物理线路段,（<strong>如交换机和电脑相连的线就是链路</strong>）</p>
+<hr>
+<p>数据链路：<strong>物理路线 + 通信协议</strong>来控制<strong>数据的传输</strong>，<strong>如果链路上有实现这些协议的硬件和软件,那么这条链路称为数据链路</strong></p>
+<p>一般使用<strong>适配器</strong>（网卡）来实现协议的（硬件和软件）,一般的适配器都包括了<strong>数据链路层和物理层</strong>这2层的功能</p>
+</li>
+<li><p><strong>帧</strong></p>
+<p>网络层将<strong>来自传输层的数据段</strong>加上IP头封装成<strong>数据包</strong>，由数据链路层加上<strong>帧头+校验值+帧尾</strong></p>
+</li>
+</ol>
+<h2 id="3-1-封装成帧"><a href="#3-1-封装成帧" class="headerlink" title="3.1 封装成帧"></a>3.1 封装成帧</h2><h2 id="3-2-透明传输"><a href="#3-2-透明传输" class="headerlink" title="3.2 透明传输"></a>3.2 透明传输</h2><ul>
+<li>例如加上转义字符解决中间出现结束标记</li>
+</ul>
+<h2 id="3-3-差错控制-差错检测"><a href="#3-3-差错控制-差错检测" class="headerlink" title="3.3 差错控制(差错检测)"></a>3.3 差错控制(差错检测)</h2>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%9C%8D%E5%8A%A1/" class="category-chain-item">网络与服务</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%9C%8D%E5%8A%A1/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>计算机网络概述</div>
+      <div>https://blog.989883.xyz/2020/01/16/csdn/计算机网络概述/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年1月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/16/csdn/KMP/" title="KMP">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">KMP</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/12/18/csdn/const%20int!%20%E5%92%8C%20const%20int%20!%20const%20%E5%92%8C%20int%20const%20!%20%E7%9A%84%E5%8C%BA%E5%88%AB/" title="const int* 和 const int * const 和 int const * 的区别">
+                        <span class="hidden-mobile">const int* 和 const int * const 和 int const * 的区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

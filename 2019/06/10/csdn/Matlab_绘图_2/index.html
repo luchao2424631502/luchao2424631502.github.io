@@ -1,0 +1,863 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.png">
+  <link rel="icon" href="/img/post1.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luchao">
+  <meta name="keywords" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+  
+    <meta name="description" content="1.双y轴图象 123456789x &#x3D; linspace(0,10); %默认有100个点y1 &#x3D; sin(3*x);yyaxis leftplot(x,y1);y2 &#x3D; sin(3*x).*exp(0.5*x);yyaxis rightplot(x,y2);ylim([-150,100])   yyaxis left 激活当前坐标中左侧的y轴,同理yyaxis right激活右侧y轴 统计图形">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matlab_绘图_2">
+<meta property="og:url" content="https://blog.989883.xyz/2019/06/10/csdn/Matlab_%E7%BB%98%E5%9B%BE_2/index.html">
+<meta property="og:site_name" content="luchao&#39;s blog">
+<meta property="og:description" content="1.双y轴图象 123456789x &#x3D; linspace(0,10); %默认有100个点y1 &#x3D; sin(3*x);yyaxis leftplot(x,y1);y2 &#x3D; sin(3*x).*exp(0.5*x);yyaxis rightplot(x,y2);ylim([-150,100])   yyaxis left 激活当前坐标中左侧的y轴,同理yyaxis right激活右侧y轴 统计图形">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-10T07:40:00.000Z">
+<meta property="article:modified_time" content="2026-09-16T14:16:49.121Z">
+<meta property="article:author" content="luchao">
+<meta property="article:tag" content="C++, Linux, 操作系统, 计算机网络, 系统编程, 算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Matlab_绘图_2 - luchao&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.989883.xyz","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>luchao&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post1.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Matlab_绘图_2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-06-10 15:40" pubdate>
+          2019年6月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Matlab_绘图_2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>1.双y轴图象</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">x</span> = linspace(<span class="hljs-number">0</span>,<span class="hljs-number">10</span>); %默认有<span class="hljs-number">100</span>个点<br><span class="hljs-attribute">y1</span> = sin(<span class="hljs-number">3</span>*x);<br><span class="hljs-attribute">yyaxis</span> left<br><span class="hljs-attribute">plot</span>(x,y1);<br><br><span class="hljs-attribute">y2</span> = sin(<span class="hljs-number">3</span>*x).*exp(<span class="hljs-number">0</span>.<span class="hljs-number">5</span>*x);<br><span class="hljs-attribute">yyaxis</span> right<br><span class="hljs-attribute">plot</span>(x,y2);<br><span class="hljs-attribute">ylim</span>([-<span class="hljs-number">150</span>,<span class="hljs-number">100</span>])<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>yyaxis left</code> 激活当前坐标中左侧的y轴,同理<code>yyaxis right</code>激活右侧y轴</p>
+<h4 id="统计图形"><a href="#统计图形" class="headerlink" title="统计图形"></a>统计图形</h4></li>
+</ul>
+<ol>
+<li>histogram (直方图)<br><code>randn(n,m)</code>返回正态分布的标量 n x m矩阵<br><code>randm(n)</code>n阶矩阵</li>
+</ol>
+<hr>
+<p><code>randi([min,max],n,m)</code>返回的是随机整数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plain">subplot(2,1,1);<br>hist(y,5);%第二个参数是多少列<br>title(&#x27;bins = 10&#x27;);<br>subplot(2,1,2);<br>hist(y,500);<br>xlim([-4,4])<br>title(&#x27;bins = 50&#x27;);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>bar chart 条形图</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">x</span> = [<span class="hljs-number">3</span> <span class="hljs-number">2</span> <span class="hljs-number">1</span> <span class="hljs-number">9</span> <span class="hljs-number">8</span>]<span class="hljs-comment">;</span><br><span class="hljs-attr">y</span> = [x<span class="hljs-comment">;5:9];</span><br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>)<span class="hljs-comment">; bar(x);</span><br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>)<span class="hljs-comment">; bar(y);</span><br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>)<span class="hljs-comment">; bar3(x);</span><br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>)<span class="hljs-comment">; bar3(y);</span><br></code></pre></td></tr></table></figure></li>
+<li><p>pie chart (圆饼图)</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gcode">a = [<span class="hljs-number">10</span> <span class="hljs-number">5</span> <span class="hljs-number">20</span> <span class="hljs-number">30</span>]<span class="hljs-comment">;</span><br>subplot<span class="hljs-comment">(1,4,1)</span><span class="hljs-comment">; pie(a);</span><br>subplot<span class="hljs-comment">(1,4,2)</span><span class="hljs-comment">; pie(a,[0 1 0 1]);%将每一小块分开,提上来</span><br>subplot<span class="hljs-comment">(1,4,3)</span><span class="hljs-comment">; pie3(a);%三维 块不分开</span><br>subplot<span class="hljs-comment">(1,4,4)</span><span class="hljs-comment">; pie3(a,[0 0 1 1]);%三维且块分开的图</span><br></code></pre></td></tr></table></figure></li>
+<li><p>shairs chart and stem chart(阶梯图和茎干图)</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">x</span> = linspace(<span class="hljs-number">0</span>,<span class="hljs-number">4</span>*pi,<span class="hljs-number">40</span>);<br><span class="hljs-attribute">y</span> = sin(x);<br><span class="hljs-attribute">subplot</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>); stairs(y);<br><span class="hljs-attribute">subplot</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>); stem(y);<br></code></pre></td></tr></table></figure>
+
+<h4 id="fill-填充图形"><a href="#fill-填充图形" class="headerlink" title="fill (填充图形)"></a>fill (填充图形)</h4></li>
+<li><p>画出一个警告牌</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">%t = (1:2:15)&#x27;* pi/8;</span><br>t = (<span class="hljs-number">0</span>:<span class="hljs-number">1</span>/<span class="hljs-number">2</span>:<span class="hljs-number">2</span>)*<span class="hljs-built_in">pi</span>;<br>x = <span class="hljs-built_in">sin</span>(t);<br>y = <span class="hljs-built_in">cos</span>(t);<br>fill(x,y,<span class="hljs-string">&#x27;g&#x27;</span>); <span class="hljs-comment">%在画出的8边型 填充颜色</span><br>axis square <span class="hljs-comment">%成矩形</span><br>axis off <span class="hljs-comment">%关闭边框</span><br><span class="hljs-comment">% 在(x,y)处键入文本</span><br>text(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-string">&#x27;Wait&#x27;</span>,<span class="hljs-string">&#x27;Color&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>,<span class="hljs-string">&#x27;FontSize&#x27;</span>,<span class="hljs-number">80</span>,...<br>    <span class="hljs-string">&#x27;FontWeight&#x27;</span>,<span class="hljs-string">&#x27;bold&#x27;</span>,<span class="hljs-string">&#x27;HorizontalAlignment&#x27;</span>,<span class="hljs-string">&#x27;center&#x27;</span>);<br>saveas(gcf,<span class="hljs-string">&#x27;wait&#x27;</span>,<span class="hljs-string">&#x27;jpg&#x27;</span>);<br></code></pre></td></tr></table></figure></li>
+<li><p>49:00 开始三维做图 (颜色先放一下)</p>
+<h4 id="3D-plots"><a href="#3D-plots" class="headerlink" title="3D plots"></a>3D plots</h4></li>
+</ol>
+<ul>
+<li><p>三维图像需要(x,y)轴上的点数目对应,因为<code>plot3</code>是 <code>line</code>类型,将 所有的<code>(x,y,z)</code>点都连接起来的图象,所以<code>x,y</code>个数对应不起来就无法作图</p>
+</li>
+<li><p>其实通过x,也就变相的确定了<code>y</code>的地位</p>
+</li>
+<li><p>example</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs matlab">x = <span class="hljs-number">0</span>:<span class="hljs-number">0.1</span>*<span class="hljs-built_in">pi</span>:<span class="hljs-number">2</span>*<span class="hljs-built_in">pi</span>;<br>y = <span class="hljs-built_in">sin</span>(x);<br>z = <span class="hljs-number">0</span>:<span class="hljs-number">0.1</span>*<span class="hljs-built_in">pi</span>:<span class="hljs-number">2</span>*<span class="hljs-built_in">pi</span>;<br><span class="hljs-built_in">plot3</span>(x,y,z);<br><span class="hljs-comment">%%</span><br>x = <span class="hljs-number">0</span>:<span class="hljs-number">0.1</span>:<span class="hljs-number">3</span>*<span class="hljs-built_in">pi</span>;<br>y1 = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(x)); <span class="hljs-comment">%size(x)=1,95,和x的维度要对应,所以相当于固定y1 = 0</span><br>y3 = <span class="hljs-built_in">ones</span>(<span class="hljs-built_in">size</span>(x)); <span class="hljs-comment">%同理</span><br>y2 = y3./<span class="hljs-number">2</span> - <span class="hljs-built_in">sin</span>(x);<span class="hljs-comment">%在x,y对应数目相同的情况下,改变每一个y的值</span><br>z1 = <span class="hljs-built_in">sin</span>(x); z2 = <span class="hljs-built_in">sin</span>(<span class="hljs-number">2</span>*x); z3 = <span class="hljs-built_in">sin</span>(<span class="hljs-number">3</span>*x);<br><span class="hljs-built_in">plot3</span>(x,y1,z1,<span class="hljs-string">&#x27;r&#x27;</span>,x,y2,z2,<span class="hljs-string">&#x27;b&#x27;</span>,x,y3,z3,<span class="hljs-string">&#x27;g&#x27;</span>)<br>grid on<br>xlabel(<span class="hljs-string">&#x27;x-axis&#x27;</span>);<br>ylabel(<span class="hljs-string">&#x27;y-axis&#x27;</span>);<br>zlabel(<span class="hljs-string">&#x27;z-axis&#x27;</span>);<br><span class="hljs-comment">%%</span><br>t = <span class="hljs-number">0</span>:<span class="hljs-built_in">pi</span>/<span class="hljs-number">50</span>:<span class="hljs-number">10</span>*<span class="hljs-built_in">pi</span>;<br><span class="hljs-built_in">plot3</span>(<span class="hljs-built_in">sin</span>(t),<span class="hljs-built_in">cos</span>(t),t);<br>saveas(gcf,<span class="hljs-string">&#x27;圆圈&#x27;</span>,<span class="hljs-string">&#x27;pdf&#x27;</span>)<br><span class="hljs-comment">%%</span><br>turns = <span class="hljs-number">40</span> * <span class="hljs-built_in">pi</span>;<br>t = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">0</span>,turns,<span class="hljs-number">4e3</span>);<br>x = <span class="hljs-built_in">cos</span>(t) .* (turns - t);<br>y = <span class="hljs-built_in">sin</span>(t) .* (turns - t);<br>z = t ./ <span class="hljs-built_in">sec</span>(x);<br><span class="hljs-built_in">plot3</span>(x,y,z);<br>grid on<br>axis tight<br>saveas(gcf,<span class="hljs-string">&#x27;立体蚊香&#x27;</span>,<span class="hljs-string">&#x27;pdf&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="3D-surface-plots"><a href="#3D-surface-plots" class="headerlink" title="3D surface plots"></a>3D surface plots</h3></li>
+<li><p><code>meshgrid(x,y)</code> 相当于求出x,y给出所有线的交点,每一个参数都返回一个交点矩阵,对应位置是该点的坐标</p>
+</li>
+<li><p><code>mesh(x,y,z) 啮合nie</code> 画的是三维grid图,但是 小格子 没有上色</p>
+</li>
+<li><p><code>surf(x,y,z)</code>,画的三维上色的grid图</p>
+</li>
+<li><p><code>contour(x,y,z)轮廓</code> 相当于 <code>projection 投影 矩阵的等高线图</code></p>
+</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs matlab">x = <span class="hljs-number">1</span>:<span class="hljs-number">0.1</span>:<span class="hljs-number">3</span>;<br>y = <span class="hljs-number">-2</span>:<span class="hljs-number">0.1</span>:<span class="hljs-number">2</span>;<br>[x y] = <span class="hljs-built_in">meshgrid</span>(x,y);<br><span class="hljs-comment">%每一个x线与y线相交,</span><br><span class="hljs-comment">%得到的交点的集合,x,y,每一个对应位置都是一个点</span><br>z = x .* <span class="hljs-built_in">exp</span>(-x .^ <span class="hljs-number">2</span> - y .^ <span class="hljs-number">2</span>);<br><span class="hljs-built_in">figure</span> <br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>); mesh(x,y,z); <br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>); surf(x,y,z);<br><span class="hljs-comment">%%</span><br>x = <span class="hljs-number">-3.5</span> : <span class="hljs-number">0.2</span> : <span class="hljs-number">3.5</span>;<br>y = <span class="hljs-number">-3.5</span> : <span class="hljs-number">0.2</span> : <span class="hljs-number">3.5</span>;<br>[x y] = <span class="hljs-built_in">meshgrid</span>(x,y);<span class="hljs-comment">%每一个参数返回的都是矩阵</span><br>z = x .* <span class="hljs-built_in">exp</span>(-x.^<span class="hljs-number">2</span>-y.^<span class="hljs-number">2</span>);<br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>); mesh(x,y,z); axis square; <br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>); surf(x,y,z); axis square;<br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>); contour(x,y,z); axis square<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" class="category-chain-item">编程语言</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/MATLAB/" class="category-chain-item">MATLAB</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Matlab_绘图_2</div>
+      <div>https://blog.989883.xyz/2019/06/10/csdn/Matlab_绘图_2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luchao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年6月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/06/12/csdn/%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/" title="文件处理命令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文件处理命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/06/09/csdn/Matlab_%E7%BB%98%E5%9B%BE1/" title="Matlab_绘图1">
+                        <span class="hidden-mobile">Matlab_绘图1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
